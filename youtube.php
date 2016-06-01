@@ -10,7 +10,7 @@ use \FeedWriter\RSS2;
 class youtube{
 	private $csvFilePath = 'feed.csv';
 	private $downloadPath = 'temp';
-	private $localUrl = "http://ytpod.mikedombrowski.com/"; // Change to your hostname
+	private $localUrl = "http://example.com/"; // Change to your hostname
 	private $googleAPIServerKey = "**********************"; // Add server key here
 	private $rssFilePath = "rss.xml";
 	
