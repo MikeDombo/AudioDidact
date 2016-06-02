@@ -11,7 +11,7 @@ class youtube{
 	private $csvFilePath = 'feed.csv';
 	private $downloadPath = 'temp';
 	private $localUrl = "http://example.com/"; // Change to your hostname
-	private $googleAPIServerKey = "**********************"; // Add server key here
+	private $googleAPIServerKey = "****************"; // Add server key here
 	private $rssFilePath = "rss.xml";
 	
 	private $thumbnailFilePath = "";
@@ -190,13 +190,13 @@ class youtube{
 		$data = curl_exec($ch);
 		curl_close($ch);
 		if ($data === false) {
-		  echo 'cURL failed';
-		  exit;
+			echo 'cURL failed';
+			exit;
 		}
 
 		$contentLength = 'unknown';
-		if (preg_match('/Content-Length: (\d+)/', $data, $matches)) {
-		  $contentLength = (int)$matches[1];
+		if (preg_match_all('/Content-Length: (\d+)/', $data, $matches)) {
+			$contentLength = (int)$matches[count($matches)-1][count($matches[count($matches)-1])-1];
 		}
 		
 		if(intval($contentLength)>0){
@@ -216,6 +216,8 @@ class youtube{
 			fclose($remote);
 			fclose($local);
 		}
+		
+		return true;
 	}
 	
 	private function get_download_url(){
