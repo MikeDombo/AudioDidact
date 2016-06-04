@@ -11,7 +11,7 @@ class youtube{
 	private $csvFilePath = 'feed.csv';
 	private $downloadPath = 'temp';
 	private $localUrl = "http://example.com/"; // Change to your hostname
-	private $googleAPIServerKey = "****************"; // Add server key here
+	private $googleAPIServerKey = "***********"; // Add server key here
 	private $rssFilePath = "rss.xml";
 	
 	private $thumbnailFilePath = "";
@@ -25,7 +25,6 @@ class youtube{
 	
 	public function __construct($str=NULL, $instant=FALSE){		
 		$this->YT_BASE_URL = "http://www.youtube.com/";
-		$this->YT_INFO_URL = $this->YT_BASE_URL . "get_video_info?video_id=%s&el=embedded&ps=default&eurl=&hl=en_US";
 
 		$this->CURL_UA = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:11.0) Gecko Firefox/11.0";
 		
@@ -167,7 +166,10 @@ class youtube{
 		$videoFilename = "$id.mp4";
 		$video = $path . $videoFilename;
 		
-		$downloaded = $this->downloadWithPercentage($this->get_download_url(), $video);
+		$url = exec("python getYTDownloadURL.py $id");
+		echo $url;
+		echo "<br/>";
+		$downloaded = $this->downloadWithPercentage($url, $video);
 		@chmod($video, 0775);
 		
 		return;
@@ -187,6 +189,7 @@ class youtube{
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HEADER, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		$data = curl_exec($ch);
 		curl_close($ch);
 		if ($data === false) {
@@ -218,49 +221,6 @@ class youtube{
 		}
 		
 		return true;
-	}
-	
-	private function get_download_url(){
-		$id = $this->videoID;
-		$url = sprintf($this->YT_INFO_URL, $id);
-		$v_info = file_get_contents($url);
-		$downloadURL = "";
-		preg_match('/stream_map=(.[^&]*?)&/i', $v_info, $match);
-		while(!isset($match[1]) || $downloadURL == ""){
-			$url = sprintf($this->YT_INFO_URL, $id);
-			$v_info = file_get_contents($url);
-			preg_match('/stream_map=(.[^&]*?)&/i', $v_info, $match);
-			$fmt_url =  urldecode($match[1]);
-			if(preg_match('/^(.*?)\\\\u0026/',$fmt_url,$match2)){
-				$fmt_url = $match2[1];
-			}
-			$urls = explode(',',$fmt_url);
-			$tmp = array();
-			foreach($urls as $url){
-				if(preg_match('/itag=([0-9]+)&url=(.*?)&.*?/si',$url,$um))
-				{
-					$u = urldecode($um[2]);
-					$tmp[$um[1]] = $u;
-				}
-			}
-
-			$formats = array(
-				'18' => array('mp4', '360p'),
-				'22' => array('mp4', '720p'),
-				'37' => array('mp4', '1080p')
-			);
-			
-			$min = 1081;
-			foreach ($formats as $format => $meta){
-				if (isset($tmp[$format])){
-					if($meta[0] == "mp4" && intval(substr($meta[1],0,-1)) < $min){
-						$downloadURL = $tmp[$format];
-						$min = intval(substr($meta[1],0,-1));
-					}
-				}
-			}
-		}
-		return $downloadURL;
 	}
 	
 	private function curl_httpstatus($url){

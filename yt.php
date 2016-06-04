@@ -3,7 +3,7 @@ spl_autoload_register(function($class){
 	require_once 'youtube.php';
 });
 
-ignore_user_abort(true);
+//ignore_user_abort(true);
 ini_set('max_execution_time', 0);
 ob_implicit_flush(true);
 
