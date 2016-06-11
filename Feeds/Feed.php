@@ -251,7 +251,7 @@ abstract class Feed
             $contentType = $this->getMIMEType();
         }
 
-        header("Content-Type: " . $contentType . "; charset=" . $this->encoding);
+        //header("Content-Type: " . $contentType . "; charset=" . $this->encoding);
         echo $this->generateFeed();
     }
 

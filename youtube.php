@@ -1,8 +1,8 @@
 <?php
-spl_autoload_register(function($class){
-	require_once 'Item.php';
-	require_once 'Feed.php';
-	require_once 'RSS2.php';
+spl_autoload_register(function(){
+	require_once 'Feeds/Item.php';
+	require_once 'Feeds/Feed.php';
+	require_once 'Feeds/RSS2.php';
 });
 date_default_timezone_set('UTC');
 use \FeedWriter\RSS2;
@@ -10,13 +10,10 @@ use \FeedWriter\RSS2;
 class youtube{
 	private $csvFilePath = 'feed.csv';
 	private $downloadPath = 'temp';
-	private $localUrl = "http://example.com/"; // Change to your hostname
+	private $localUrl = "http://example.com"; // Change to your hostname
 	private $googleAPIServerKey = "***********"; // Add server key here
 	private $rssFilePath = "rss.xml";
-	
-	private $thumbnailFilePath = "";
-	private $videoFilePath = "";
-	private $audioFilePath = "";
+
 	private $descr = "";
 	private $videoID = "";
 	private $videoTitle = "";
@@ -39,7 +36,7 @@ class youtube{
 				$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=".$this->videoID."&fields=items/snippet/description,items/snippet/title,items/snippet/channelTitle&key=".$this->googleAPIServerKey), true);
 				if(!isset($info['items'][0]['snippet'])){
 					echo json_encode(['stage'=>-1, 'error'=>"ID Inaccessible", 'progress'=>0]);
-					exit(1);
+					throw new RuntimeException();
 				}
 				$info = $info['items'][0]['snippet'];
 				$this->videoTitle = utf8_decode($info["title"]);
@@ -47,7 +44,7 @@ class youtube{
 				$this->descr = utf8_decode($info["description"]);
 			}
 			
-			if($instant === TRUE){
+			if($instant === true){
 				$this->downloadThumbnail();
 				$this->downloadVideo();
 				$this->convert();
@@ -57,6 +54,10 @@ class youtube{
 	
 	public function getVideoID(){
 		return $this->videoID;
+	}
+
+	public function getDownloadPath(){
+		return $this->downloadPath;
 	}
 	
 	public function getCSVFilePath(){
@@ -77,6 +78,10 @@ class youtube{
 	
 	public function getDescr(){
 		return $this->descr;
+	}
+
+	public function getRssPath(){
+		return $this->rssFilePath;
 	}
 	
 	public function addToCSV(){
@@ -158,8 +163,10 @@ class youtube{
 		}
 		@unlink($this->videoID.".txt");
 		clearstatcache();
+
+		return;
 	}
-	
+
 	public function downloadVideo(){
 		$id = $this->videoID;
 		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
@@ -167,9 +174,7 @@ class youtube{
 		$video = $path . $videoFilename;
 		
 		$url = exec("python getYTDownloadURL.py $id");
-		echo $url;
-		echo "<br/>";
-		$downloaded = $this->downloadWithPercentage($url, $video);
+		$this->downloadWithPercentage($url, $video);
 		@chmod($video, 0775);
 		
 		return;
@@ -179,11 +184,11 @@ class youtube{
 		$thumbFilename = $this->videoID.".jpg";
 		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
 		$thumbnail = $path . $thumbFilename;
-		$download = file_put_contents($thumbnail, fopen("http://img.youtube.com/vi/".$this->videoID."/mqdefault.jpg", "r"));
+		file_put_contents($thumbnail, fopen("http://img.youtube.com/vi/".$this->videoID."/mqdefault.jpg", "r"));
 		@chmod($thumbnail, 0775);
 	}
 	
-	private function downloadWithPercentage($url, $localfile){
+	private function downloadWithPercentage($url, $localFile){
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_NOBODY, true);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -193,8 +198,9 @@ class youtube{
 		$data = curl_exec($ch);
 		curl_close($ch);
 		if ($data === false) {
-			echo 'cURL failed';
-			exit;
+			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "Download failed, URL tried was ".$url);
+			echo json_encode($response);
+			throw new RuntimeException();
 		}
 
 		$contentLength = 'unknown';
@@ -204,7 +210,7 @@ class youtube{
 		
 		if(intval($contentLength)>0){
 			$remote = fopen($url, 'r');
-			$local = fopen($localfile, 'w');
+			$local = fopen($localFile, 'w');
 
 			$read_bytes = 0;
 			while(!feof($remote)) {
@@ -230,7 +236,7 @@ class youtube{
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_NOBODY, 1);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-		$str = curl_exec($ch);
+		curl_exec($ch);
 		$int = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 		return intval($int);
@@ -240,9 +246,9 @@ class youtube{
 		$tmp_id = self::parse_yturl($str);
 		$vid_id = ($tmp_id !== FALSE) ? $tmp_id : $str;
 		$url = sprintf($this->YT_BASE_URL . "watch?v=%s", $vid_id);
-		if(self::curl_httpstatus($url) !== 200 && self::curl_httpstatus($url) !== 301){
+		if(self::curl_httpstatus($url) !== 200 && self::curl_httpstatus($url) !== 301 && self::curl_httpstatus($url)
+			!== 302){
 			throw new Exception("Invalid Youtube video ID: $vid_id");
-			exit();
 		}
 		return $vid_id;
 	}
@@ -271,11 +277,11 @@ class youtube{
 		return $fe;
 	}
 
-	private function deleteLast($file){
+	public function deleteLast($file){
 		$downloadPath = $this->downloadPath;
-		$id = $this->videoID;
 		if(file_exists($file)){
 			$csv = array_map('str_getcsv', file($file));
+			$csv = array_reverse($csv, false);
 			foreach($csv as $k=>$v){
 				$v = json_decode($v[0], true);
 				$author = $v[2];
@@ -283,7 +289,7 @@ class youtube{
 				$id = $v[0];
 				$time = $v[3];
 				$descr = $v[4];
-				if($k == 0){
+				if($k >= 50){
 					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".mp3");
 					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".mp4");
 					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".jpg");
@@ -357,6 +363,9 @@ class youtube{
 			return false;
 		}
 		preg_match("/Duration: (.{2}):(.{2}):(.{2})/", $dur, $duration);
+		if(!isset($duration[1])){
+			return false;
+		}
 		$duration = $duration[1].":".$duration[2].":".$duration[3];
 		return $duration;
 	}
