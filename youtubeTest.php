@@ -28,18 +28,18 @@ class youtubeTest extends TestCase{
 	}
 
 	public function testInitID(){
-		$yt = new youtube("iaMkvBr69z8");
-		$this->assertEquals("iaMkvBr69z8", $yt->getVideoID());
+		$yt = new youtube("fA4TIG6qcUM");
+		$this->assertEquals("fA4TIG6qcUM", $yt->getVideoID());
 		$this->assertEquals("The Amazing Atheist", $yt->getVideoAuthor());
 		$this->assertTrue($yt->getVideoTime() > 100);
-		$this->assertEquals("Stupid Red Pill \"Objective Morality\" Comic", $yt->getVideoTitle());
+		$this->assertEquals("It Will be Gone Forever!", $yt->getVideoTitle());
 		$this->assertTrue(strlen($yt->getDescr())>5);
 		return 1;
 	}
 
 	public function testInitURL(){
-		$yt = new youtube("https://www.youtube.com/watch?v=iaMkvBr69z8");
-		$this->assertEquals("iaMkvBr69z8", $yt->getVideoID());
+		$yt = new youtube("https://www.youtube.com/watch?v=fA4TIG6qcUM");
+		$this->assertEquals("fA4TIG6qcUM", $yt->getVideoID());
 		return 1;
 	}
 
@@ -51,15 +51,15 @@ class youtubeTest extends TestCase{
 	}
 
 	public function testInitBe(){
-		$yt = new youtube("https://youtu.be/iaMkvBr69z8");
-		$this->assertEquals("iaMkvBr69z8", $yt->getVideoID());
+		$yt = new youtube("https://youtu.be/fA4TIG6qcUM");
+		$this->assertEquals("fA4TIG6qcUM", $yt->getVideoID());
 		return 1;
 	}
 	/**
 	 * @depends testInitURL
 	 */
 	public function testDownloadThumb(){
-		$yt = new youtube("https://www.youtube.com/watch?v=iaMkvBr69z8");
+		$yt = new youtube("https://www.youtube.com/watch?v=fA4TIG6qcUM");
 		$this->assertFalse($yt->allDownloaded(), "Nothing should be downloaded to begin with");
 		$this->assertFileExists($yt->getDownloadPath().DIRECTORY_SEPARATOR.$yt->getVideoID().".jpg", "Thumbnail 
 		wasn't downloaded");
@@ -73,7 +73,7 @@ class youtubeTest extends TestCase{
 	 * @depends testInitURL
 	 */
 	public function testInCSV(){
-		$yt = new youtube("https://www.youtube.com/watch?v=iaMkvBr69z8");
+		$yt = new youtube("https://www.youtube.com/watch?v=fA4TIG6qcUM");
 		$this->assertFalse($yt->isInCSV());
 		@unlink($yt->getCSVFilePath());
 		return 1;
@@ -83,7 +83,7 @@ class youtubeTest extends TestCase{
 	 * @depends testInCSV
 	 */
 	public function testAddToCSV(){
-		$yt = new youtube("https://www.youtube.com/watch?v=iaMkvBr69z8");
+		$yt = new youtube("https://www.youtube.com/watch?v=fA4TIG6qcUM");
 		$this->assertFalse($yt->isInCSV());
 		$yt->addToCSV();
 		$this->assertTrue($yt->isInCSV());
@@ -96,7 +96,7 @@ class youtubeTest extends TestCase{
 	 * @depends testDownloadThumb
 	 */
 	public function testDownloadVideo(){
-		$yt = new youtube("https://www.youtube.com/watch?v=iaMkvBr69z8");
+		$yt = new youtube("https://www.youtube.com/watch?v=fA4TIG6qcUM");
 		$this->assertNull($yt->downloadVideo());
 		$this->assertFileExists($yt->getDownloadPath().DIRECTORY_SEPARATOR.$yt->getVideoID().".mp4", "Video wasn't 
 		downloaded");
@@ -110,7 +110,7 @@ class youtubeTest extends TestCase{
 	 * @depends testDownloadVideo
 	 */
 	public function testConvertVideo(){
-		$yt = new youtube("https://www.youtube.com/watch?v=iaMkvBr69z8");
+		$yt = new youtube("https://www.youtube.com/watch?v=fA4TIG6qcUM");
 		$yt->downloadVideo();
 		$this->assertTrue($yt->allDownloaded());
 		$this->assertFileExists($yt->getDownloadPath().DIRECTORY_SEPARATOR.$yt->getVideoID().".mp3", "Conversion 
@@ -126,7 +126,7 @@ class youtubeTest extends TestCase{
 	 * @depends testConvertVideo
 	 */
 	public function testInitInstant(){
-		$yt = new youtube("iaMkvBr69z8", true);
+		$yt = new youtube("fA4TIG6qcUM", true);
 		$this->assertFileExists($yt->getDownloadPath().DIRECTORY_SEPARATOR.$yt->getVideoID().".jpg", "Thumbnail 
 		wasn't downloaded");
 		$this->assertTrue(filesize($yt->getDownloadPath().DIRECTORY_SEPARATOR.$yt->getVideoID().".jpg")>10,
@@ -146,7 +146,7 @@ class youtubeTest extends TestCase{
 	 * @depends testInitInstant
 	 */
 	public function testMakeFeed(){
-		$yt = new youtube("iaMkvBr69z8");
+		$yt = new youtube("fA4TIG6qcUM");
 		$yt->addToCSV();
 		$yt->deleteLast($yt->getCSVFilePath());
 		$this->assertNotNull($yt->makeFullFeed());
