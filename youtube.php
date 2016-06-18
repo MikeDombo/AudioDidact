@@ -6,6 +6,7 @@ spl_autoload_register(function(){
 	require_once 'Feeds/RSS2.php';
 });
 date_default_timezone_set('UTC');
+mb_internal_encoding("UTF-8");
 use \FeedWriter\RSS2;
 
 class youtube{
@@ -46,9 +47,9 @@ class youtube{
 					throw new RuntimeException();
 				}
 				$info = $info['items'][0]['snippet'];
-				$this->videoTitle = utf8_decode($info["title"]);
-				$this->videoAuthor = utf8_decode($info["channelTitle"]);
-				$this->descr = utf8_decode($info["description"]);
+				$this->videoTitle = $info["title"];
+				$this->videoAuthor = $info["channelTitle"];
+				$this->descr = $info["description"];
 			}
 			
 			// If we are supposed to download the video immediately, then get the thumbnail, video, and mp3
@@ -110,11 +111,11 @@ class youtube{
 				$v = json_decode($v[0], true);
 				// If the video ID is in the CSV, then set all the other local settings from the CSV and return true
 				if($v[0] == $this->videoID){
-					$this->videoAuthor = $v[2];
-					$this->videoTitle = $v[1];
+					$this->videoAuthor = utf8_decode($v[2]);
+					$this->videoTitle = utf8_decode($v[1]);
 					$this->videoID = $v[0];
 					$this->time = $v[3];
-					$this->descr = $v[4];
+					$this->descr = utf8_decode($v[4]);
 					return true;
 				}
 			}
@@ -311,11 +312,11 @@ class youtube{
 			$csv = array_reverse($csv);
 			foreach($csv as $k=>$v){
 				$v = json_decode($v[0], true);
-				$author = $v[2];
-				$title = $v[1];
+				$author = utf8_decode($v[2]);
+				$title = utf8_decode($v[1]);
 				$id = $v[0];
 				$time = $v[3];
-				$descr = $v[4];
+				$descr = utf8_decode($v[4]);
 				$fe = $this->addFeedItem($fe, $title, $id, $author, $time, $descr);
 			}
 		}
@@ -333,11 +334,11 @@ class youtube{
 			$csv = array_reverse($csv, false);
 			foreach($csv as $k=>$v){
 				$v = json_decode($v[0], true);
-				$author = $v[2];
-				$title = $v[1];
+				$author = utf8_decode($v[2]);
+				$title = utf8_decode($v[1]);
 				$id = $v[0];
 				$time = $v[3];
-				$descr = $v[4];
+				$descr = utf8_decode($v[4]);
 				if($k >= 50){
 					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".mp3");
 					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".mp4");
@@ -345,7 +346,7 @@ class youtube{
 					continue;
 				}
 				$handle = fopen($file.".tmp", "a");
-				fputcsv($handle, [json_encode([$id, $title, $author, $time, $descr])]);
+				fputcsv($handle, [json_encode([$id, utf8_encode($title), utf8_encode($author), $time, utf8_encode($descr)])]);
 				fclose($handle);
 			}
 			@unlink($file); // Delete the existing CSV
@@ -384,6 +385,7 @@ class youtube{
 		
 		// Make description links clickable
 		$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
+		$descr = nl2br($descr);
 		// Get the duration of the video and use it for the itunes:duration tag
 		$duration = $this->getDuration($this->downloadPath.DIRECTORY_SEPARATOR.$id.".mp3");
 		
