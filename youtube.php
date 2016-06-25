@@ -372,6 +372,7 @@ class youtube{
 		$feed->addNamespace("sy", "http://purl.org/rss/1.0/modules/syndication/");
 		
 		$feed->setChannelElement('itunes:explicit', "yes");
+		$feed->setChannelElement('itunes:author', "Michael Dombrowski");
 		$feed->setChannelElement('itunes:category', "",array('text'=>'Technology'));
 		$feed->setChannelElement('sy:updatePeriod', "Hourly");
 		$feed->setChannelElement('sy:updateFrequency', "1");
