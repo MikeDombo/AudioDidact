@@ -5,6 +5,7 @@ spl_autoload_register(function(){
 	require_once 'Feeds/Feed.php';
 	require_once 'Feeds/RSS2.php';
 });
+include 'ytDownload.php';
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
 use \FeedWriter\RSS2;
@@ -200,7 +201,10 @@ class youtube{
 		$videoFilename = "$id.mp4";
 		$video = $path . $videoFilename;
 		
-		$url = exec("python getYTDownloadURL.py $id");
+		$url = getDownloadURL($id);
+		if(strpos($url, "Error:")>-1){
+			echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$url]);
+		}
 		$this->downloadWithPercentage($url, $video);
 		@chmod($video, 0775); // Set the video file as publicly accessible
 		
