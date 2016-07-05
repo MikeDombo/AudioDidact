@@ -9,15 +9,16 @@ ini_set('max_execution_time', 0);
 ob_implicit_flush(true);
 
 
-$googleAPIServerKey = "**************"; // Add server key here
+$myURL = "http://example.com/"; // Change to your hostname
+$googleAPIServerKey = "*********"; // Add server key here
+
 $downloadPath = "temp";
-$localURL = "http://example.com/"; // Add your hostname here
 $csvFile = "feed.csv";
 $rssFile = "rss.xml";
 
 
 if(isset($_GET["yt"])){
-	$podtube = new PodTube($rssFile, $csvFile, $localURL, $downloadPath);
+	$podtube = new PodTube($rssFile, $csvFile, $myURL, $downloadPath);
 	$download = new YouTube($_GET["yt"], $podtube, $googleAPIServerKey, $downloadPath);
 
 	// If the video is not yet in the CSV file, add it
@@ -37,7 +38,7 @@ if(isset($_GET["yt"])){
 	$podtube->makeFullFeed();
 } // If there is no URL set, then just recreate a feed from the existing items in the CSV
 else{
-	$podtube = new PodTube();
+	$podtube = new PodTube($rssFile, $csvFile, $myURL, $downloadPath);
 	$podtube->makeFullFeed()->printFeed();
 }
 ?>

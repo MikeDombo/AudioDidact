@@ -39,6 +39,7 @@ class PodTube{
 		if(file_exists($file)){
 			$csv = array_map('str_getcsv', file($file));
 			$csv = array_reverse($csv, false);
+			$newCSV = [];
 			foreach($csv as $k=>$v){
 				$v = json_decode($v[0], true);
 				$author = utf8_decode($v[2]);
@@ -46,16 +47,28 @@ class PodTube{
 				$id = $v[0];
 				$time = $v[3];
 				$descr = utf8_decode($v[4]);
-				if($k >= 50){
+				if($k<50){
+					$newCSV[$k] = $v;
+				}
+				else{
 					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".mp3");
 					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".mp4");
 					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".jpg");
 					continue;
 				}
-				$handle = fopen($file.".tmp", "a");
-				fputcsv($handle, [json_encode([$id, utf8_encode($title), utf8_encode($author), $time, utf8_encode($descr)])]);
-				fclose($handle);
+				
 			}
+			$newCSV = array_reverse($newCSV);
+			$handle = fopen($file.".tmp", "a");
+			foreach($newCSV as $v){
+				$author = utf8_decode($v[2]);
+				$title = utf8_decode($v[1]);
+				$id = $v[0];
+				$time = $v[3];
+				$descr = utf8_decode($v[4]);
+				fputcsv($handle, [json_encode([$id, utf8_encode($title), utf8_encode($author), $time, utf8_encode($descr)])]);
+			}
+			fclose($handle);
 			@unlink($file); // Delete the existing CSV
 			@rename($file.".tmp", $file); // Rename the temporary CSV to the same name as the real CSV
 		}
