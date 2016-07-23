@@ -25,7 +25,6 @@ class YouTube{
 		if(!file_exists($this->downloadPath)){
 			mkdir($this->downloadPath);
 		}
-
 		// If there is a URL/ID, continue
 		if($str != NULL){
 			// Set video ID from setYoutubeID and time to current time
@@ -281,9 +280,16 @@ class YouTube{
 		$ffmpeg_outfile = $path . $this->videoID .".mp3";
 
 		// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
-		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 0 -map a \"$ffmpeg_outfile\" 1> ".$this->videoID.".txt 2>&1";
-		// Start the command in the background
-		pclose(popen("start /B ".$cmd, "r"));
+		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 4 -map a \"$ffmpeg_outfile\" 1> ".$this->videoID.".txt 2>&1";
+		
+		// Check if we're on Windows or *nix
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			// Start the command in the background
+			pclose(popen("start /B ".$cmd, "r"));
+		} else {
+			pclose(popen($cmd." &", "r"));
+		}
+		
 		$progress = 0;
 		// Get the conversion progress and output the progress to the UI using a JSON array
 		while($progress != 100){
