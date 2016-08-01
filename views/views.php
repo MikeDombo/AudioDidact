@@ -11,10 +11,11 @@ if (session_status() == PHP_SESSION_NONE) {
 
 	function makeHeader($title){
 		echo '<head>
-			<title>YouTube to Podcast';
-			if($title != ""){
-				echo " | ".$title;
-			}
+				<meta name="viewport" content="width=device-width, initial-scale=1">
+				<title>YouTube to Podcast';
+				if($title != ""){
+					echo " | ".$title;
+				}
 		echo '</title>
 			<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -121,6 +122,6 @@ if (session_status() == PHP_SESSION_NONE) {
 function makeAddVideo(){
 	echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."addVideoView.html");
 	$feedURL = LOCAL_URL."user/".$_SESSION["user"]->getWebID()."/feed/";
-	echo "<h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2>";
+	echo "<div class='col-sm-12'><h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2></div>";
 }
 ?>

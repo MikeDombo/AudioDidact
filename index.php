@@ -8,6 +8,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 require_once("views".DIRECTORY_SEPARATOR."views.php");
 ?>
+<!DOCTYPE html>
 <html>
 	<?php if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){makeHeader("Add a Video");}
 	else{
