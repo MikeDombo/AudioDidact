@@ -11,10 +11,13 @@ abstract class DAL {
 	abstract public function getUserByUsername($username);
 	abstract public function getUserByEmail($email);
 	abstract public function getUserByID($id);
+	abstract public function getUserByWebID($webID);
 	abstract public function getFeed(User $user);
+	abstract public function getFeedText(User $user);
 	abstract public function getVideoByID(User $user, $id);
 	abstract public function addUser(User $user);
 	abstract public function addVideo(Video $vid, User $user);
+	abstract public function setFeedText(User $user, $feed);
 
 	// Default slow way to check if a video is in the feed. Override for faster lookup
 	public function inFeed(Video $vid, User $user){
@@ -27,11 +30,13 @@ abstract class DAL {
 		return false;
 	}
 	public function usernameExists($username){
+		$username = strtolower($username);
 		if($this->getUserByUsername($username) != null){
 			return true;
 		}
 	}
 	public function emailExists($email){
+		$email = strtolower($email);
 		if($this->getUserByEmail($email) != null){
 			return true;
 		}

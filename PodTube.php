@@ -18,17 +18,15 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 class PodTube{
-	private $rssFilePath = "";
 	private $localUrl = "";
 	private $downloadPath = "";
 	private $dal;
 	private $user;
 
-	public function __construct($dal, $rssFilePath="rss.xml", $localURL=NULL,
+	public function __construct($dal, $localURL=NULL,
 	                            $downloadPath="temp"){
 		$this->dal = $dal;
 		$this->downloadPath = $downloadPath;
-		$this->rssFilePath = $rssFilePath;
 		$this->localUrl = $localURL;
 		$this->user = $_SESSION["user"];
 	}
@@ -60,8 +58,8 @@ class PodTube{
 			$fe = $this->addFeedItem($fe, $i->getTitle(), $i->getId(), $i->getAuthor(), $i->getTime(), $i->getDesc());
 		}
 
-		// Save the generated feed to the rssFilePath
-		file_put_contents($this->rssFilePath, $fe->generateFeed());
+		// Save the generated feed to the db
+		$this->dal->setFeedText($this->user, $fe->generateFeed());
 		return $fe;
 	}
 
@@ -77,7 +75,7 @@ class PodTube{
 		$feed->setChannelElement('language', 'en-US');
 		$feed->setDate(date(DATE_RSS, time()));
 		$feed->setChannelElement('pubDate', date(\DATE_RSS, time()));
-		$feed->setSelfLink($this->localUrl.$this->rssFilePath);
+		$feed->setSelfLink($this->localUrl."user/".$this->user->getWebID()."/feed/");
 		$feed->addNamespace("media", "http://search.yahoo.com/mrss/");
 		$feed->addNamespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");
 		$feed->addNamespace("content", "http://purl.org/rss/1.0/modules/content/");
@@ -123,13 +121,5 @@ class PodTube{
 
 	public function getDownloadPath(){
 		return $this->downloadPath;
-	}
-
-	public function getCSVFilePath(){
-		return $this->csvFilePath;
-	}
-
-	public function getRssPath(){
-		return $this->rssFilePath;
 	}
 }

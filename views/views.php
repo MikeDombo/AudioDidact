@@ -16,16 +16,6 @@ if (session_status() == PHP_SESSION_NONE) {
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 			<script>
-				function validateEmail(email) {
-				    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-				    console.log(re.test(email));
-				    return re.test(email);
-				}
-				validateEmail("mikepi3.14@gmail.com");
-				validateEmail("michael+h12@mikedombrowski.com");
-				validateEmail("me");
-				validateEmail("me@my");
-				validateEmail("me@my.");
 				function validateLogin(){
 					if($.trim($("#uname").val()) != "" && $.trim($("#passwd").val()) != ""){
 						return true;

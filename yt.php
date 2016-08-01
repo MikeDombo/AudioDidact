@@ -18,14 +18,13 @@ if (session_status() == PHP_SESSION_NONE) {
 
 
 $myURL = "http://example.com/"; // Change to your hostname
-$googleAPIServerKey = "**********"; // Add server key here
+$googleAPIServerKey = "*******"; // Add server key here
 $db = "podtube";
 $dbUser = "podtube";
 $dbPass = "podtube";
 
 
 $downloadPath = "temp";
-$rssFile = "rss.xml";
 
 $dal = new MySQLDAL("localhost", $db, $dbUser, $dbPass);
 if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
@@ -40,7 +39,7 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	if(isset($argv) && isset($argv[2])){
 		$_GET["yt"] = $argv[2];
 	}
-	$podtube = new PodTube($dal, $rssFile, $myURL, $downloadPath);
+	$podtube = new PodTube($dal, $myURL, $downloadPath);
 	$download = new YouTube($_GET["yt"], $podtube, $googleAPIServerKey, $downloadPath);
 
 	$video = new Video();
@@ -78,7 +77,7 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	$podtube->makeFullFeed();
 } // If there is no URL set, then just recreate a feed from the existing items in the CSV
 else{
-	$podtube = new PodTube($dal, $rssFile, $myURL, $downloadPath);
+	$podtube = new PodTube($dal, $myURL, $downloadPath);
 	// Before we make the feed, check that every file is downloaded
 	$items = $dal->getFeed($user);
 	for($x=0;$x<50 && isset($items[$x]);$x++){

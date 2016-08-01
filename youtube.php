@@ -30,7 +30,8 @@ class YouTube{
 			// Set video ID from setYoutubeID and time to current time
 			$this->videoID = $this->setYoutubeID($str);
 			$this->time = time();
-			// Check if the video already exists in the CSV. If it does, then we do not need to get the information from the YouTube API again
+			// Check if the video already exists in the DB. If it does, then we do not need to get the information
+			// from the YouTube API again
 			if(!$this->podtube->inFeed($this->videoID)){
 				// Get video author, title, and description from YouTube API
 				$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=".$this->videoID."&fields=items/snippet/description,items/snippet/title,items/snippet/channelTitle&key=".$this->googleAPIServerKey), true);

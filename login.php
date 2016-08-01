@@ -21,8 +21,14 @@ if(isset($_POST["uname"]) && isset($_POST["passwd"])){
 	$dbPass = "podtube";
 	$dal = new MySQLDAL("localhost", $db, $dbUser, $dbPass);
 	$possibleUser = $dal->getUserByUsername($_POST["uname"]);
+	$possibleUserEmail = $dal->getUserByEmail($_POST["uname"]);
 	if($possibleUser != null && $possibleUser->passwdCorrect($_POST["passwd"])){
 		$_SESSION["user"] = $possibleUser;
+		$_SESSION["loggedIn"] = true;
+		echo "Login Success!";
+	}
+	else if($possibleUserEmail != null && $possibleUserEmail->passwdCorrect($_POST["passwd"])){
+		$_SESSION["user"] = $possibleUserEmail;
 		$_SESSION["loggedIn"] = true;
 		echo "Login Success!";
 	}

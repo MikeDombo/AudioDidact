@@ -10,6 +10,7 @@ class User{
 	private $webID;
 	private $passwd;
 	private $userID;
+	private $feedText;
 
 	public function __construct(){
 	}
@@ -56,13 +57,14 @@ class User{
 	 * @return mixed
 	 */
 	public function getEmail(){
-		return $this->email;
+		return strtolower($this->email);
 	}
 
 	/**
 	 * @param mixed $email
 	 */
 	public function setEmail($email){
+		$email = strtolower($email);
 		$this->email = $email;
 	}
 
@@ -145,6 +147,20 @@ class User{
 
 	public function setPasswdDB($passwd){
 		$this->passwd = $passwd;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getFeedText(){
+		return $this->feedText;
+	}
+
+	/**
+	 * @param mixed $feedText
+	 */
+	public function setFeedText($feedText){
+		$this->feedText = $feedText;
 	}
 
 }

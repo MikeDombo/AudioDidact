@@ -1,20 +1,51 @@
 <?php
+spl_autoload_register(function($class){
+	require_once __DIR__.'/classes/MySQLDAL.php';
+	require_once __DIR__.'/classes/User.php';
+});
+
 if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
-if($_SERVER['REQUEST_METHOD'] == "PUT"){
-	if(isset($_POST["uname"]) && isset($_POST["passwd"]) && isset($_POST["email"])){
-		$_SESSION["username"] = $_POST["uname"];
-		$_SESSION["email"] = $_POST["email"];
-		
-		// Check login info, set loggedIn to true if the information is correct
-		$_SESSION["loggedIn"] = true;
-		echo "Login Success!";
+if($_SERVER['REQUEST_METHOD'] == "POST"){
+	if(isset($_POST["uname"]) && isset($_POST["passwd"]) && isset($_POST["email"])
+	&& trim($_POST["uname"]) != "" && trim($_POST["passwd"]) != "" && trim($_POST["email"] != "")){
+		$db = "podtube";
+		$dbUser = "podtube";
+		$dbPass = "podtube";
+		$dal = new MySQLDAL("localhost", $db, $dbUser, $dbPass);
+		if(!$dal->emailExists($_POST["email"]) && !$dal->usernameExists($_POST["uname"])){
+			$user = new User();
+			error_log($_POST["uname"]);
+			error_log($_POST["passwd"]);
+			error_log($_POST["email"]);
+			$user->setUsername($_POST["uname"]);
+			$user->setEmail($_POST["email"]);
+			$user->setPasswd($_POST["passwd"]);
+			$user->setWebID($user->getUsername());
+
+			try{
+				$dal->addUser($user);
+
+				$_SESSION["loggedIn"] = true;
+				echo "Login Success!";
+			}
+			catch(Exception $e){
+				error_log($e);
+				$_SESSION["loggedIn"] = false;
+				echo "Login Failed!";
+			}
+		}
+		else{
+			$_SESSION["loggedIn"] = false;
+			echo "Sign Up Failed, username or email already in use!";
+		}
 	}
 	else{
 		$_SESSION["loggedIn"] = false;
 		echo "Login Failed!";
 	}
+	exit(0);
 }
 require_once("views".DIRECTORY_SEPARATOR."views.php");
 ?>
@@ -23,11 +54,19 @@ require_once("views".DIRECTORY_SEPARATOR."views.php");
 	<?php makeHeader("Sign Up");?>
 	<body>
 		<script>
+			function validateEmail(email) {
+				var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				return re.test(email);
+			}
 			function signup(){
-				$.post("/podtube/signup.php", {uname:$("#uname").val(), passwd:$("#passwd").val(), email:$("#email").val()}, function(data){
+				$.post("/podtube/signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup").val(), email:$
+				("#email").val()}, function(data){
 					console.log(data);
 					if(data.indexOf("Success")>-1){
-						location.reload();
+						location.assign("/podtube/");
+					}
+					else{
+						alert(data);
 					}
 				});
 			}
@@ -38,8 +77,8 @@ require_once("views".DIRECTORY_SEPARATOR."views.php");
 				<form class="navbar-form navbar-left">
 					<div class="form-group">
 						<input id="email" type="text" class="form-control" placeholder="Email Address">
-						<input id="uname" type="text" class="form-control" placeholder="Username">
-						<input id="passwd" type="password" class="form-control" placeholder="Password">
+						<input id="unameSignup" type="text" class="form-control" placeholder="Username">
+						<input id="passwdSignup" type="password" class="form-control" placeholder="Password">
 						<a class="btn btn-success" style="color:#FFFFFF" href="#" onclick="signup();">Sign Up</a>
 					</div>
 				</form>

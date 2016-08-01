@@ -62,6 +62,7 @@ class MySQLDAL extends DAL{
 			$user->setLname($rows["lastname"]);
 			$user->setGender($rows["gender"]);
 			$user->setWebID($rows["webID"]);
+			$user->setFeedText($rows["feedText"]);
 
 			return $user;
 		}
@@ -71,10 +72,10 @@ class MySQLDAL extends DAL{
 		}
 	}
 
-	public function getUserByUsername($username){
+	public function getUserByWebID($webID){
 		try{
-			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE username=:username");
-			$p->bindValue(":username", strtolower($username), PDO::PARAM_STR);
+			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE webID=:id");
+			$p->bindValue(":id", $webID, PDO::PARAM_STR);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
@@ -95,6 +96,42 @@ class MySQLDAL extends DAL{
 			$user->setLname($rows["lastname"]);
 			$user->setGender($rows["gender"]);
 			$user->setWebID($rows["webID"]);
+			$user->setFeedText($rows["feedText"]);
+
+			return $user;
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	public function getUserByUsername($username){
+		$username = strtolower($username);
+		try{
+			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE username=:username");
+			$p->bindValue(":username", $username, PDO::PARAM_STR);
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			if(count($rows) > 1){
+				return null;
+				throw new Exception("More than one result returned!");
+			}
+			if(count($rows) == 0){
+				return null;
+			}
+			$rows = $rows[0];
+
+			$user = new User();
+			$user->setUserID($rows["ID"]);
+			$user->setUsername($rows["username"]);
+			$user->setPasswdDB($rows["password"]);
+			$user->setEmail($rows["email"]);
+			$user->setFname($rows["firstname"]);
+			$user->setLname($rows["lastname"]);
+			$user->setGender($rows["gender"]);
+			$user->setWebID($rows["webID"]);
+			$user->setFeedText($rows["feedText"]);
 
 			return $user;
 		}
@@ -105,6 +142,7 @@ class MySQLDAL extends DAL{
 	}
 
 	public function getUserByEmail($email){
+		$email = strtolower($email);
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE email=:email");
 			$p->bindValue(":email", $email, PDO::PARAM_STR);
@@ -128,6 +166,7 @@ class MySQLDAL extends DAL{
 			$user->setLname($rows["lastname"]);
 			$user->setGender($rows["gender"]);
 			$user->setWebID($rows["webID"]);
+			$user->setFeedText($rows["feedText"]);
 
 			return $user;
 		}
@@ -224,11 +263,25 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	public function getFeedText(User $user){
+		try{
+			$p = parent::$PDO->prepare("SELECT feedText FROM $this->usertable WHERE id=:userid");
+			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
+			$p->execute();
+			return $p->fetchAll(PDO::FETCH_ASSOC)[0]["feedText"];
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+
 	public function getFeed(User $user){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT 
 			50");
-			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_STR);
+			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) < 1){
@@ -253,6 +306,21 @@ class MySQLDAL extends DAL{
 			throw $e;
 		}
 	}
+
+	public function setFeedText(User $user, $feed){
+		try{
+			$p = parent::$PDO->prepare("UPDATE $this->usertable set feedText=:feedText WHERE id=:userid");
+			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":feedText", $feed, PDO::PARAM_STR);
+			$p->execute();
+			return true;
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
 
 	public function inFeed(Video $vid, User $user){
 		try{

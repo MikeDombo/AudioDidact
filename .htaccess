@@ -1,0 +1,7 @@
+# Redirect non-existing files or folders to index
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule .* route.php [L]
+</IfModule>
