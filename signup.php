@@ -22,8 +22,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
 			try{
 				$dal->addUser($user);
-
 				$_SESSION["loggedIn"] = true;
+				$_SESSION["user"] = $user;
 				echo "Login Success!";
 			}
 			catch(Exception $e){
