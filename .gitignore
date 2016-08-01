@@ -1,7 +1,9 @@
 .idea/
+.idea/*
 error_log
 rss.xml
 temp/
+temp/*
 
 # Windows image file caches
 Thumbs.db
