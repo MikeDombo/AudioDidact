@@ -5,15 +5,15 @@ if (session_status() == PHP_SESSION_NONE) {
 require_once("views".DIRECTORY_SEPARATOR."views.php");
 ?>
 <html>
-	
-	<?php makeHeader("Sign Up");?>
-
+	<?php if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){makeHeader("Add a Video");}
+	else{
+		makeHeader("Home");
+	}
+	?>
 	<body>
 		<?php makeNav();?>
 		<div class="container-fluid">
-			<div class="col-sm-12">
-				
-			</div>
+			<?php if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){makeAddVideo();}?>
 		</div>
 	</body>
 </html>

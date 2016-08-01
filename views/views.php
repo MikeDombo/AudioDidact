@@ -1,4 +1,10 @@
 <?php
+date_default_timezone_set('UTC');
+mb_internal_encoding("UTF-8");
+if (session_status() == PHP_SESSION_NONE) {
+	session_start();
+}
+
 	function makeHeader($title){
 		echo '<head>
 			<title>YouTube to Podcast';
@@ -10,8 +16,42 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 			<script>
+				function validateEmail(email) {
+				    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				    console.log(re.test(email));
+				    return re.test(email);
+				}
+				validateEmail("mikepi3.14@gmail.com");
+				validateEmail("michael+h12@mikedombrowski.com");
+				validateEmail("me");
+				validateEmail("me@my");
+				validateEmail("me@my.");
+				function validateLogin(){
+					if($.trim($("#uname").val()) != "" && $.trim($("#passwd").val()) != ""){
+						return true;
+					}
+					return false;
+				}
 				function login(){
-					$.post("/podtube/login.php", {uname:$("#uname").val(), passwd:$("#passwd").val()}, function(data){
+					if(validateLogin()){
+						$.post("/podtube/login.php", {uname:$("#uname").val(), passwd:$("#passwd").val(), action:"login"}, 
+						function
+						(data){
+							console.log(data);
+							if(data.indexOf("Success")>-1){
+								location.reload();
+							}
+							else{
+								alert("Could not login with those credentials. Please make sure they are correct.");
+							}
+						});
+					}
+					else{
+						alert("Could not validate login information, please check username and password");
+					}
+				}
+				function logout(){
+					$.post("/podtube/login.php", {action:"logout"}, function(data){
 						console.log(data);
 						if(data.indexOf("Success")>-1){
 							location.reload();
@@ -38,11 +78,27 @@
 				  <ul class="nav navbar-nav">
 					<li class="active"><a href="index.php">Home</a></li>
 				  </ul>
-				  <ul class="nav navbar-nav navbar-right">
+				  <ul class="nav navbar-nav navbar-right">';
+		if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"]){
+			echo '
 					<li class="dropdown">
 					  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
 					  <ul class="dropdown-menu">
 						<form class="navbar-form navbar-left">
+							<script>
+								$(function() {
+									$("#uname").keypress(function(e) {
+										if(e.which == 10 || e.which == 13) {
+											login();
+										}
+									});
+									$("#passwd").keypress(function(e) {
+										if(e.which == 10 || e.which == 13) {
+											login();
+										}
+									});
+								});
+							</script>
 							<div class="form-group">
 								<input id="uname" type="text" class="form-control" placeholder="Username">
 								<input id="passwd" type="password" class="form-control" placeholder="Password">
@@ -52,10 +108,23 @@
 						<li><a class="btn btn-success" style="color:#FFFFFF" href="#" onclick="login();">Login</a></li>
 					  </ul>
 					</li>
-					<li><a class="btn btn-success" href="signup.php" style="color:#FFFFFF;">Sign Up!</a></li>
-				  </ul>
+					<li><a class="btn btn-success" href="signup.php" style="color:#FFFFFF;">Sign Up!</a></li>';
+		}
+		else{
+			echo '
+				<li>
+				  <a href="#" onclick="logout()">Logout</a>
+				</li>
+				<li><a class="btn btn-success" href="#" style="color:#FFFFFF;">Account</a></li>	
+			';
+		}
+		echo '		</ul>
 				</div>
 			</div>
 		</nav>';
-	}
+}
+
+function makeAddVideo(){
+	echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."addVideoView.html");
+}
 ?>
