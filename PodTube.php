@@ -4,102 +4,46 @@ spl_autoload_register(function(){
 	require_once 'Feeds/Item.php';
 	require_once 'Feeds/Feed.php';
 	require_once 'Feeds/RSS2.php';
+	require_once 'classes/DAL.php';
+	require_once 'classes/MySQLDAL.php';
+	require_once 'classes/Video.php';
+	require_once 'classes/User.php';
 });
+
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
 use \FeedWriter\RSS2;
+if (session_status() == PHP_SESSION_NONE) {
+	session_start();
+}
 
 class PodTube{
 	private $rssFilePath = "";
-	private $csvFilePath = "";
 	private $localUrl = "";
 	private $downloadPath = "";
+	private $dal;
+	private $user;
 
-	public function __construct($rssFilePath="rss.xml", $csvFilePath="feed.csv", $localURL=NULL, $downloadPath="temp"){
+	public function __construct($dal, $rssFilePath="rss.xml", $localURL=NULL,
+	                            $downloadPath="temp"){
+		$this->dal = $dal;
 		$this->downloadPath = $downloadPath;
 		$this->rssFilePath = $rssFilePath;
-		$this->csvFilePath = $csvFilePath;
 		$this->localUrl = $localURL;
+		$this->user = $_SESSION["user"];
 	}
 
-	// Adds the current video to the CSV file
-	public function addToCSV($videoID, $videoTitle, $videoAuthor, $time, $descr){
-		if($this->isInCSV($videoID)){
-			return;
-		}
-		$list = [$videoID, utf8_encode($videoTitle), utf8_encode($videoAuthor), $time, utf8_encode($descr)];
-		$handle = fopen($this->csvFilePath, "a");
-		fputcsv($handle, [json_encode($list)]);
-		fclose($handle);
+	public function inFeed($id){
+		$video = new Video();
+		$video->setId($id);
+		return $this->dal->inFeed($video, $this->user);
 	}
 
-	// Delete any videos in the CSV over 50 videos in reverse-chronological order
-	public function deleteLast($file){
-		$downloadPath = $this->downloadPath;
-		if(file_exists($file)){
-			$csv = array_map('str_getcsv', file($file));
-			$csv = array_reverse($csv, false);
-			$newCSV = [];
-			foreach($csv as $k=>$v){
-				$v = json_decode($v[0], true);
-				$author = utf8_decode($v[2]);
-				$title = utf8_decode($v[1]);
-				$id = $v[0];
-				$time = $v[3];
-				$descr = utf8_decode($v[4]);
-				if($k<50){
-					$newCSV[$k] = $v;
-				}
-				else{
-					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".mp3");
-					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".mp4");
-					@unlink($downloadPath.DIRECTORY_SEPARATOR.$id.".jpg");
-					continue;
-				}
-				
-			}
-			$newCSV = array_reverse($newCSV);
-			$handle = fopen($file.".tmp", "a");
-			foreach($newCSV as $v){
-				$author = utf8_decode($v[2]);
-				$title = utf8_decode($v[1]);
-				$id = $v[0];
-				$time = $v[3];
-				$descr = utf8_decode($v[4]);
-				fputcsv($handle, [json_encode([$id, utf8_encode($title), utf8_encode($author), $time, utf8_encode($descr)])]);
-			}
-			fclose($handle);
-			@unlink($file); // Delete the existing CSV
-			@rename($file.".tmp", $file); // Rename the temporary CSV to the same name as the real CSV
-		}
-	}
-
-	// Checks if the current video is in the CSV file
-	public function isInCSV($videoID){
-		if(file_exists($this->csvFilePath)){
-			$csv = array_map('str_getcsv', file($this->csvFilePath));
-			$csv = array_reverse($csv);
-			foreach($csv as $k=>$v){
-				$v = json_decode($v[0], true);
-				// If the video ID is in the CSV, then return true
-				if($v[0] == $videoID){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public function getDataFromCSV($videoID){
-		if(file_exists($this->csvFilePath)){
-			$csv = array_map('str_getcsv', file($this->csvFilePath));
-			$csv = array_reverse($csv);
-			foreach($csv as $k=>$v){
-				$v = json_decode($v[0], true);
-				// If the video ID is in the CSV, then return true
-				if($v[0] == $videoID){
-					return ["id"=>$v[0], "title"=>$v[1], "author"=>$v[2], "time"=>$v[3], "description"=>$v[4]];
-				}
+	public function getDataFromFeed($id){
+		$items = $this->dal->getFeed($this->user);
+		foreach($items as $i){
+			if($i->getId() == $id){
+				return $i;
 			}
 		}
 		return false;
@@ -109,24 +53,11 @@ class PodTube{
 	public function makeFullFeed(){
 		// Setup global feed values
 		$fe = $this->makeFeed();
-		// Prune the CSV if there are more than 50 items
-		if(file_exists($this->csvFilePath) && count(file($this->csvFilePath))>50){
-			$this->deleteLast($this->csvFilePath);
-		}
 
-		// Use the CSV to add each video to the feed in reverse-chronological order
-		if(file_exists($this->csvFilePath)){
-			$csv = array_map('str_getcsv', file($this->csvFilePath));
-			$csv = array_reverse($csv);
-			foreach($csv as $k=>$v){
-				$v = json_decode($v[0], true);
-				$author = utf8_decode($v[2]);
-				$title = utf8_decode($v[1]);
-				$id = $v[0];
-				$time = $v[3];
-				$descr = utf8_decode($v[4]);
-				$fe = $this->addFeedItem($fe, $title, $id, $author, $time, $descr);
-			}
+		$items = $this->dal->getFeed($this->user);
+		for($x=0;$x<50 && isset($items[$x]);$x++){
+			$i = $items[$x];
+			$fe = $this->addFeedItem($fe, $i->getTitle(), $i->getId(), $i->getAuthor(), $i->getTime(), $i->getDesc());
 		}
 
 		// Save the generated feed to the rssFilePath
@@ -168,6 +99,7 @@ class PodTube{
 		// Make description links clickable
 		$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
 		$descr = nl2br($descr);
+
 		// Get the duration of the video and use it for the itunes:duration tag
 		$duration = YouTube::getDuration($this->downloadPath.DIRECTORY_SEPARATOR.$id.".mp3");
 

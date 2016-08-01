@@ -1,0 +1,285 @@
+<?php
+spl_autoload_register(function($class){
+	require_once __DIR__.'/DAL.php';
+});
+date_default_timezone_set('UTC');
+mb_internal_encoding("UTF-8");
+
+class MySQLDAL extends DAL{
+	private $usertable = "users";
+	private $feedTable = "feed";
+	private $host;
+	private $db;
+	private $username;
+	private $password;
+
+	public function __construct($host, $db, $username, $password){
+		$this->host = $host;
+		$this->db = $db;
+		$this->username = $username;
+		$this->password = $password;
+
+		if(parent::$PDO == null){
+			try{
+				parent::$PDO = new PDO('mysql:host='.$host.';dbname='.$db.';charset=utf8', $username, $password);
+				parent::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			}catch(PDOException $e){
+				echo 'ERROR: '.$e->getMessage();
+				throw $e;
+			}
+		}
+	}
+
+	public function usernameExists($username){
+		return parent::usernameExists(strtolower($username));
+	}
+
+	public function emailExists($email){
+		return parent::emailExists($email);
+	}
+
+	public function getUserByID($id){
+		try{
+			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE ID=:id");
+			$p->bindValue(":id", $id, PDO::PARAM_INT);
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			if(count($rows) > 1){
+				return null;
+				throw new Exception("More than one result returned!");
+			}
+			if(count($rows) == 0){
+				return null;
+			}
+			$rows = $rows[0];
+
+			$user = new User();
+			$user->setUserID($rows["ID"]);
+			$user->setUsername($rows["username"]);
+			$user->setPasswdDB($rows["password"]);
+			$user->setEmail($rows["email"]);
+			$user->setFname($rows["firstname"]);
+			$user->setLname($rows["lastname"]);
+			$user->setGender($rows["gender"]);
+			$user->setWebID($rows["webID"]);
+
+			return $user;
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	public function getUserByUsername($username){
+		try{
+			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE username=:username");
+			$p->bindValue(":username", strtolower($username), PDO::PARAM_STR);
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			if(count($rows) > 1){
+				return null;
+				throw new Exception("More than one result returned!");
+			}
+			if(count($rows) == 0){
+				return null;
+			}
+			$rows = $rows[0];
+
+			$user = new User();
+			$user->setUserID($rows["ID"]);
+			$user->setUsername($rows["username"]);
+			$user->setPasswdDB($rows["password"]);
+			$user->setEmail($rows["email"]);
+			$user->setFname($rows["firstname"]);
+			$user->setLname($rows["lastname"]);
+			$user->setGender($rows["gender"]);
+			$user->setWebID($rows["webID"]);
+
+			return $user;
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	public function getUserByEmail($email){
+		try{
+			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE email=:email");
+			$p->bindValue(":email", $email, PDO::PARAM_STR);
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			if(count($rows) > 1){
+				return null;
+				throw new Exception("More than one result returned!");
+			}
+			if(count($rows) == 0){
+				return null;
+			}
+			$rows = $rows[0];
+
+			$user = new User();
+			$user->setUserID($rows["ID"]);
+			$user->setUsername($rows["username"]);
+			$user->setPasswdDB($rows["password"]);
+			$user->setEmail($rows["email"]);
+			$user->setFname($rows["firstname"]);
+			$user->setLname($rows["lastname"]);
+			$user->setGender($rows["gender"]);
+			$user->setWebID($rows["webID"]);
+
+			return $user;
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	public function getVideoByID(User $user, $id){
+		try{
+			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid AND videoID=:videoID");
+			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":videoID", $id, PDO::PARAM_STR);
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			if(count($rows) < 1){
+				return null;
+				throw new Exception("No results returned!");
+			}
+			$row = $rows[0];
+
+			$vid = new Video();
+			$vid->setAuthor($row["videoAuthor"]);
+			$vid->setDesc($row["description"]);
+			$vid->setId($row["videoID"]);
+			$vid->setTime(strtotime($row["timeAdded"]));
+			$vid->setTitle($row["videoTitle"]);
+			$vid->setOrder($row["orderID"]);
+			return $vid;
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	public function addUser(User $user){
+		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
+			try{
+				$p = parent::$PDO->prepare("INSERT INTO $this->usertable (username, password, email, firstname, 
+				lastname, 
+			gender, webID) VALUES (:username,:password,:email,:fname,:lname,:gender,:webID)");
+				$p->bindValue(':username', $user->getUsername(), PDO::PARAM_STR);
+				$p->bindValue(':password', $user->getPasswd(), PDO::PARAM_STR);
+				$p->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
+				$p->bindValue(':fname', $user->getFname(), PDO::PARAM_STR);
+				$p->bindValue(':lname', $user->getLname(), PDO::PARAM_STR);
+				$p->bindValue(':gender', $user->getGender(), PDO::PARAM_STR);
+				$p->bindValue(':webID', $user->getWebID(), PDO::PARAM_STR);
+				$p->execute();
+			}
+			catch(PDOException $e){
+				echo 'ERROR: '.$e->getMessage();
+				throw $e;
+			}
+		}
+		else{
+			throw new Exception("Username or Email Address Already Exists!");
+		}
+	}
+
+	public function addVideo(Video $vid, User $user){
+		try{
+			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT 
+			1");
+			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			if(count($rows) == 0){
+				$order = 1;
+			}
+			else{
+				$order = intval($rows[0]["orderID"]) + 1;
+			}
+
+			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, videoID, videoAuthor, description, 
+			videoTitle, 
+		duration, orderID) VALUES (:userID,:videoID,:videoAuthor,:description,:videoTitle,:duration,:orderID)");
+			$p->bindValue(":userID", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
+			$p->bindValue(":videoAuthor", $vid->getAuthor(), PDO::PARAM_STR);
+			$p->bindValue(":description", $vid->getDesc(), PDO::PARAM_STR);
+			$p->bindValue(":videoTitle", $vid->getTitle(), PDO::PARAM_STR);
+			$p->bindValue(":duration", $vid->getDuration(), PDO::PARAM_STR);
+			$p->bindValue(":orderID", $order, PDO::PARAM_INT);
+			$p->execute();
+
+			return true;
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	public function getFeed(User $user){
+		try{
+			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT 
+			50");
+			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_STR);
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			if(count($rows) < 1){
+				return null;
+				throw new Exception("No results returned!");
+			}
+			$returner = [];
+			foreach($rows as $row){
+				$vid = new Video();
+				$vid->setAuthor($row["videoAuthor"]);
+				$vid->setDesc($row["description"]);
+				$vid->setId($row["videoID"]);
+				$vid->setTime(strtotime($row["timeAdded"]));
+				$vid->setTitle($row["videoTitle"]);
+				$vid->setOrder($row["orderID"]);
+				$returner[] = $vid;
+			}
+			return $returner;
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	public function inFeed(Video $vid, User $user){
+		try{
+			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid AND videoID=:videoID");
+			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_STR);
+			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			if(count($rows)>0){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	protected function makeDB(){
+		// TODO: Implement makeDB() method.
+	}
+
+	protected function verifyDB(){
+		// TODO: Implement verifyDB() method.
+	}
+}
+?>

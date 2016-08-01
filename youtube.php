@@ -31,7 +31,7 @@ class YouTube{
 			$this->videoID = $this->setYoutubeID($str);
 			$this->time = time();
 			// Check if the video already exists in the CSV. If it does, then we do not need to get the information from the YouTube API again
-			if(!$this->podtube->isInCSV($this->videoID)){
+			if(!$this->podtube->inFeed($this->videoID)){
 				// Get video author, title, and description from YouTube API
 				$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=".$this->videoID."&fields=items/snippet/description,items/snippet/title,items/snippet/channelTitle&key=".$this->googleAPIServerKey), true);
 				// If the lookup fails, send this error to the UI as a JSON array
@@ -45,11 +45,11 @@ class YouTube{
 				$this->descr = $info["description"];
 			}
 			else{
-				$vidData = $this->podtube->getDataFromCSV($this->videoID);
-				$this->videoTitle = $vidData["title"];
-				$this->videoAuthor = $vidData["author"];
-				$this->time = $vidData["time"];
-				$this->descr = $vidData["description"];
+				$vidData = $this->podtube->getDataFromFeed($this->videoID);
+				$this->videoTitle = $vidData->getTitle();
+				$this->videoAuthor = $vidData->getAuthor();
+				$this->time = $vidData->getTime();
+				$this->descr = $vidData->getDesc();
 			}
 		}
 	}
