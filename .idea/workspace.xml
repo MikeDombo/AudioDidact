@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="704a9251-c224-4fe3-b6d9-635189be7fd7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/index.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PodTube.php" afterPath="$PROJECT_DIR$/PodTube.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtube.php" afterPath="$PROJECT_DIR$/youtube.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yt.php" afterPath="$PROJECT_DIR$/yt.php" />
     </list>
     <ignored path="PodTube.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
+    <ignored path=".idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -88,8 +86,8 @@
       <file leaf-file-name="yt.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/yt.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+            <state relative-caret-position="418">
+              <caret line="19" column="64" selection-start-line="19" selection-start-column="64" selection-end-line="19" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -263,8 +261,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/phpunit.xml" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Ignored.Files" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.idea" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="js.buildTools.grunt.grunt-cli.package" value="" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
@@ -401,7 +399,7 @@
       <workItem from="1467244398341" duration="6179000" />
       <workItem from="1469762010794" duration="47000" />
       <workItem from="1469762121599" duration="3344000" />
-      <workItem from="1469914358464" duration="16262000" />
+      <workItem from="1469914358464" duration="16766000" />
     </task>
     <servers />
   </component>
@@ -438,7 +436,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36443000" />
+    <option name="totallyTimeSpent" value="36947000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -777,8 +775,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/yt.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+        <state relative-caret-position="418">
+          <caret line="19" column="64" selection-start-line="19" selection-start-column="64" selection-end-line="19" selection-end-column="64" />
           <folding />
         </state>
       </provider>
