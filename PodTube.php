@@ -23,7 +23,7 @@ class PodTube{
 	private $dal;
 	private $user;
 
-	public function __construct($dal, $localURL=NULL,
+	public function __construct(DAL $dal, $localURL=NULL,
 	                            $downloadPath="temp"){
 		$this->dal = $dal;
 		$this->downloadPath = $downloadPath;
@@ -53,7 +53,7 @@ class PodTube{
 		$fe = $this->makeFeed();
 
 		$items = $this->dal->getFeed($this->user);
-		for($x=0;$x<50 && isset($items[$x]);$x++){
+		for($x=0;$x<$this->user->getFeedLength() && isset($items[$x]);$x++){
 			$i = $items[$x];
 			$fe = $this->addFeedItem($fe, $i->getTitle(), $i->getId(), $i->getAuthor(), $i->getTime(), $i->getDesc());
 		}

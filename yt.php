@@ -61,7 +61,7 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 
 	// Before we make the feed, check that every file is downloaded
 	$items = $dal->getFeed($user);
-	for($x=0;$x<50 && isset($items[$x]);$x++){
+	for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
 		if(!file_exists($downloadPath.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists($downloadPath
 				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
 			$download = new YouTube($items[$x]->getId(), $podtube, $googleAPIServerKey, $downloadPath);
@@ -80,7 +80,7 @@ else{
 	$podtube = new PodTube($dal, $myURL, $downloadPath);
 	// Before we make the feed, check that every file is downloaded
 	$items = $dal->getFeed($user);
-	for($x=0;$x<50 && isset($items[$x]);$x++){
+	for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
 		if(!file_exists($downloadPath.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists($downloadPath
 				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
 			$download = new YouTube($items[$x]->getId(), $podtube, $googleAPIServerKey, $downloadPath);

@@ -11,6 +11,7 @@ class User{
 	private $passwd;
 	private $userID;
 	private $feedText;
+	private $feedLength;
 
 	public function __construct(){
 	}
@@ -163,5 +164,18 @@ class User{
 		$this->feedText = $feedText;
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getFeedLength(){
+		return $this->feedLength;
+	}
+
+	/**
+	 * @param mixed $feedLength
+	 */
+	public function setFeedLength($feedLength){
+		$this->feedLength = $feedLength;
+	}
 }
 ?>

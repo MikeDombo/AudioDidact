@@ -11,7 +11,7 @@ foreach($url as $k=>$u){
 		$webID = $url[$k+1];
 		if(isset($url[$k+2]) && $url[$k+2] == "feed"){
 			returnUserFeed($webID);
-			exit();
+			exit(0);
 		}
 	}
 }
@@ -24,11 +24,11 @@ function make404(){
 }
 
 function returnUserFeed($webID){
+	header('Content-Type: application/rss+xml; charset=utf-8');
 	$db = "podtube";
 	$dbUser = "podtube";
 	$dbPass = "podtube";
 	$dal = new MySQLDAL("localhost", $db, $dbUser, $dbPass);
-	$user = $dal->getUserByWebID($webID);
-	echo $dal->getFeedText($user);
+	echo $dal->getFeedText($dal->getUserByWebID($webID));
 }
 ?>

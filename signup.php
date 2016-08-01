@@ -16,13 +16,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 		$dal = new MySQLDAL("localhost", $db, $dbUser, $dbPass);
 		if(!$dal->emailExists($_POST["email"]) && !$dal->usernameExists($_POST["uname"])){
 			$user = new User();
-			error_log($_POST["uname"]);
-			error_log($_POST["passwd"]);
-			error_log($_POST["email"]);
 			$user->setUsername($_POST["uname"]);
 			$user->setEmail($_POST["email"]);
 			$user->setPasswd($_POST["passwd"]);
 			$user->setWebID($user->getUsername());
+			$user->setFeedLength(50);
 
 			try{
 				$dal->addUser($user);

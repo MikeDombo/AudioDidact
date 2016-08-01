@@ -63,6 +63,7 @@ class MySQLDAL extends DAL{
 			$user->setGender($rows["gender"]);
 			$user->setWebID($rows["webID"]);
 			$user->setFeedText($rows["feedText"]);
+			$user->setFeedLength($rows["feedLength"]);
 
 			return $user;
 		}
@@ -97,6 +98,7 @@ class MySQLDAL extends DAL{
 			$user->setGender($rows["gender"]);
 			$user->setWebID($rows["webID"]);
 			$user->setFeedText($rows["feedText"]);
+			$user->setFeedLength($rows["feedLength"]);
 
 			return $user;
 		}
@@ -132,6 +134,7 @@ class MySQLDAL extends DAL{
 			$user->setGender($rows["gender"]);
 			$user->setWebID($rows["webID"]);
 			$user->setFeedText($rows["feedText"]);
+			$user->setFeedLength($rows["feedLength"]);
 
 			return $user;
 		}
@@ -167,6 +170,7 @@ class MySQLDAL extends DAL{
 			$user->setGender($rows["gender"]);
 			$user->setWebID($rows["webID"]);
 			$user->setFeedText($rows["feedText"]);
+			$user->setFeedLength($rows["feedLength"]);
 
 			return $user;
 		}
@@ -209,7 +213,7 @@ class MySQLDAL extends DAL{
 			try{
 				$p = parent::$PDO->prepare("INSERT INTO $this->usertable (username, password, email, firstname, 
 				lastname, 
-			gender, webID) VALUES (:username,:password,:email,:fname,:lname,:gender,:webID)");
+			gender, webID,feedLength) VALUES (:username,:password,:email,:fname,:lname,:gender,:webID,:feedLength)");
 				$p->bindValue(':username', $user->getUsername(), PDO::PARAM_STR);
 				$p->bindValue(':password', $user->getPasswd(), PDO::PARAM_STR);
 				$p->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
@@ -217,6 +221,7 @@ class MySQLDAL extends DAL{
 				$p->bindValue(':lname', $user->getLname(), PDO::PARAM_STR);
 				$p->bindValue(':gender', $user->getGender(), PDO::PARAM_STR);
 				$p->bindValue(':webID', $user->getWebID(), PDO::PARAM_STR);
+				$p->bindValue(':feedLength', $user->getFeedLength(), PDO::PARAM_INT);
 				$p->execute();
 			}
 			catch(PDOException $e){
@@ -279,8 +284,8 @@ class MySQLDAL extends DAL{
 
 	public function getFeed(User $user){
 		try{
-			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT 
-			50");
+			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC 
+			LIMIT ".$user->getFeedLength());
 			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
