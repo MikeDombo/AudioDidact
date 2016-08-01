@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="704a9251-c224-4fe3-b6d9-635189be7fd7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/MySQLDAL.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/User.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/classes/Video.php" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/index.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PodTube.php" afterPath="$PROJECT_DIR$/PodTube.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/youtube.php" afterPath="$PROJECT_DIR$/youtube.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yt.php" afterPath="$PROJECT_DIR$/yt.php" />
     </list>
     <ignored path="PodTube.iws" />
@@ -45,7 +42,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MySQLDAL.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MySQLDAL.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/classes/MySQLDAL.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="616">
@@ -88,11 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="yt.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="yt.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/yt.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+            <state relative-caret-position="440">
+              <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -139,11 +136,11 @@
         <option value="$PROJECT_DIR$/classes/User.php" />
         <option value="$PROJECT_DIR$/classes/MySQLDAL.php" />
         <option value="$PROJECT_DIR$/PodTube.php" />
-        <option value="$PROJECT_DIR$/yt.php" />
         <option value="$PROJECT_DIR$/login.php" />
         <option value="$PROJECT_DIR$/pod.php" />
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/signup.php" />
+        <option value="$PROJECT_DIR$/yt.php" />
       </list>
     </option>
   </component>
@@ -404,7 +401,7 @@
       <workItem from="1467244398341" duration="6179000" />
       <workItem from="1469762010794" duration="47000" />
       <workItem from="1469762121599" duration="3344000" />
-      <workItem from="1469914358464" duration="15756000" />
+      <workItem from="1469914358464" duration="16262000" />
     </task>
     <servers />
   </component>
@@ -441,7 +438,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35937000" />
+    <option name="totallyTimeSpent" value="36443000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -699,14 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/yt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/classes/User.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="704">
@@ -783,6 +772,14 @@
             <marker date="1470019347742" expanded="true" signature="6653:6739" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
             <marker date="1470019347742" expanded="true" signature="7501:7573" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/yt.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
