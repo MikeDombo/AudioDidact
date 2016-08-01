@@ -56,3 +56,6 @@ Temporary Items
 .idea/copyright/profiles_settings.xml
 .idea/php.xml
 .idea/PodTube.iml
+.idea/**
+.idea/**/*
+.idea/workspace.xml
