@@ -1,4 +1,7 @@
 <?php
+spl_autoload_register(function($class){
+	require_once __DIR__.'/../classes/User.php';
+});
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
 if (session_status() == PHP_SESSION_NONE) {
@@ -116,5 +119,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 function makeAddVideo(){
 	echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."addVideoView.html");
+	$feedURL = "http://localhost/podtube/user/".$_SESSION["user"]->getWebID()."/feed/";
+	echo "<h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2>";
 }
 ?>

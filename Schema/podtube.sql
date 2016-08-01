@@ -6,8 +6,6 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE IF NOT EXISTS `podtube` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
-USE `podtube`;
 
 CREATE TABLE `feed` (
   `ID` int(11) NOT NULL,
@@ -29,7 +27,9 @@ CREATE TABLE `users` (
   `firstname` mediumtext COLLATE utf8mb4_bin,
   `lastname` mediumtext COLLATE utf8mb4_bin,
   `gender` mediumtext COLLATE utf8mb4_bin,
-  `webID` mediumtext COLLATE utf8mb4_bin NOT NULL
+  `webID` mediumtext COLLATE utf8mb4_bin NOT NULL,
+  `feedText` longtext COLLATE utf8mb4_bin NOT NULL,
+  `feedLength` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
