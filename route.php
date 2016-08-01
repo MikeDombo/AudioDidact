@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/config.php';
 spl_autoload_register(function($class){
 	require_once __DIR__.'/classes/MySQLDAL.php';
 	require_once __DIR__.'/classes/User.php';
@@ -25,10 +26,7 @@ function make404(){
 
 function returnUserFeed($webID){
 	header('Content-Type: application/rss+xml; charset=utf-8');
-	$db = "podtube";
-	$dbUser = "podtube";
-	$dbPass = "podtube";
-	$dal = new MySQLDAL("localhost", $db, $dbUser, $dbPass);
+	$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	echo $dal->getFeedText($dal->getUserByWebID($webID));
 }
 ?>

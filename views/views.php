@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/../config.php';
 spl_autoload_register(function($class){
 	require_once __DIR__.'/../classes/User.php';
 });
@@ -119,7 +120,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 function makeAddVideo(){
 	echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."addVideoView.html");
-	$feedURL = "http://localhost/podtube/user/".$_SESSION["user"]->getWebID()."/feed/";
+	$feedURL = LOCAL_URL."user/".$_SESSION["user"]->getWebID()."/feed/";
 	echo "<h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2>";
 }
 ?>

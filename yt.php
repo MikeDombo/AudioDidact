@@ -1,5 +1,6 @@
 <?php
 spl_autoload_register(function($class){
+	require_once __DIR__.'/config.php';
 	require_once __DIR__.'/YouTube.php';
 	require_once __DIR__.'/PodTube.php';
 	require_once __DIR__.'/classes/MySQLDAL.php';
@@ -16,17 +17,7 @@ if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
-
-$myURL = "http://example.com/"; // Change to your hostname
-$googleAPIServerKey = "*******"; // Add server key here
-$db = "podtube";
-$dbUser = "podtube";
-$dbPass = "podtube";
-
-
-$downloadPath = "temp";
-
-$dal = new MySQLDAL("localhost", $db, $dbUser, $dbPass);
+$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
 	$user = $_SESSION["user"];
 }
@@ -39,8 +30,8 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	if(isset($argv) && isset($argv[2])){
 		$_GET["yt"] = $argv[2];
 	}
-	$podtube = new PodTube($dal, $myURL, $downloadPath);
-	$download = new YouTube($_GET["yt"], $podtube, $googleAPIServerKey, $downloadPath);
+	$podtube = new PodTube($dal, LOCAL_URL, DOWNLOAD_PATH);
+	$download = new YouTube($_GET["yt"], $podtube, GOOGLE_API_KEY, DOWNLOAD_PATH);
 
 	$video = new Video();
 	$video->setDesc($download->getDescr());
@@ -62,9 +53,9 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	// Before we make the feed, check that every file is downloaded
 	$items = $dal->getFeed($user);
 	for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
-		if(!file_exists($downloadPath.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists($downloadPath
+		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists(DOWNLOAD_PATH
 				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
-			$download = new YouTube($items[$x]->getId(), $podtube, $googleAPIServerKey, $downloadPath);
+			$download = new YouTube($items[$x]->getId(), $podtube, GOOGLE_API_KEY, DOWNLOAD_PATH);
 			if(!$download->allDownloaded()){
 				$download->downloadThumbnail();
 				$download->downloadVideo();
@@ -77,13 +68,13 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	$podtube->makeFullFeed();
 } // If there is no URL set, then just recreate a feed from the existing items in the CSV
 else{
-	$podtube = new PodTube($dal, $myURL, $downloadPath);
+	$podtube = new PodTube($dal, LOCAL_URL, DOWNLOAD_PATH);
 	// Before we make the feed, check that every file is downloaded
 	$items = $dal->getFeed($user);
 	for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
-		if(!file_exists($downloadPath.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists($downloadPath
+		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists(DOWNLOAD_PATH
 				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
-			$download = new YouTube($items[$x]->getId(), $podtube, $googleAPIServerKey, $downloadPath);
+			$download = new YouTube($items[$x]->getId(), $podtube, GOOGLE_API_KEY, DOWNLOAD_PATH);
 			if(!$download->allDownloaded()){
 				$download->downloadThumbnail();
 				$download->downloadVideo();

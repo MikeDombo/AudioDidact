@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/config.php';
 spl_autoload_register(function($class){
 	require_once __DIR__.'/classes/MySQLDAL.php';
 	require_once __DIR__.'/classes/User.php';
@@ -10,10 +11,7 @@ if (session_status() == PHP_SESSION_NONE) {
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 	if(isset($_POST["uname"]) && isset($_POST["passwd"]) && isset($_POST["email"])
 	&& trim($_POST["uname"]) != "" && trim($_POST["passwd"]) != "" && trim($_POST["email"] != "")){
-		$db = "podtube";
-		$dbUser = "podtube";
-		$dbPass = "podtube";
-		$dal = new MySQLDAL("localhost", $db, $dbUser, $dbPass);
+		$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 		if(!$dal->emailExists($_POST["email"]) && !$dal->usernameExists($_POST["uname"])){
 			$user = new User();
 			$user->setUsername($_POST["uname"]);

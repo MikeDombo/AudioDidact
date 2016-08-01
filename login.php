@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/config.php';
 spl_autoload_register(function($class){
 	require_once __DIR__.'/classes/MySQLDAL.php';
 	require_once __DIR__.'/classes/User.php';
@@ -16,10 +17,7 @@ if(isset($_POST["action"])){
 }
 if(isset($_POST["uname"]) && isset($_POST["passwd"])){
 	// Check login info, set loggedIn to true if the information is correct
-	$db = "podtube";
-	$dbUser = "podtube";
-	$dbPass = "podtube";
-	$dal = new MySQLDAL("localhost", $db, $dbUser, $dbPass);
+	$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	$possibleUser = $dal->getUserByUsername($_POST["uname"]);
 	$possibleUserEmail = $dal->getUserByEmail($_POST["uname"]);
 	if($possibleUser != null && $possibleUser->passwdCorrect($_POST["passwd"])){

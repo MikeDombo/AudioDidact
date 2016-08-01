@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/config.php';
 // Include RSS feed generation library
 spl_autoload_register(function(){
 	require_once 'Feeds/Item.php';
@@ -23,8 +24,7 @@ class PodTube{
 	private $dal;
 	private $user;
 
-	public function __construct(DAL $dal, $localURL=NULL,
-	                            $downloadPath="temp"){
+	public function __construct(DAL $dal, $localURL=NULL, $downloadPath="temp"){
 		$this->dal = $dal;
 		$this->downloadPath = $downloadPath;
 		$this->localUrl = $localURL;
