@@ -1,6 +1,10 @@
 <?php
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
+
+/**
+ * Class Video
+ */
 class Video{
 	private $id;
 	private $title;

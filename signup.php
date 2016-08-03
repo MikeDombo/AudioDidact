@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__.'/config.php';
 spl_autoload_register(function($class){
+	require_once __DIR__.'/config.php';
 	require_once __DIR__.'/classes/MySQLDAL.php';
 	require_once __DIR__.'/classes/User.php';
 });
@@ -55,11 +55,13 @@ require_once("views".DIRECTORY_SEPARATOR."views.php");
 				return re.test(email);
 			}
 			function signup(){
-				$.post("/podtube/signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup").val(), email:$
+				$.post("/<?php echo SUBDIR;?>signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup")
+					.val(),
+					email:$
 				("#email").val()}, function(data){
 					console.log(data);
 					if(data.indexOf("Success")>-1){
-						location.assign("/podtube/");
+						location.assign("/<?php echo SUBDIR;?>");
 					}
 					else{
 						alert(data);

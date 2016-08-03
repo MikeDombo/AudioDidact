@@ -8,11 +8,13 @@ spl_autoload_register(function($class){
 	require_once __DIR__.'/classes/Video.php';
 });
 
+// Set some important constants/ini
 ignore_user_abort(true);
 ini_set('max_execution_time', 0);
 ob_implicit_flush(true);
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
+
 if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }

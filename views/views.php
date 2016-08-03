@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__.'/../config.php';
 spl_autoload_register(function($class){
+	require_once __DIR__.'/../config.php';
 	require_once __DIR__.'/../classes/User.php';
 });
 date_default_timezone_set('UTC');
@@ -9,7 +9,10 @@ if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
-	function makeHeader($title){
+/**
+ * @param $title
+ */
+function makeHeader($title){
 		echo '<head>
 				<meta name="viewport" content="width=device-width, initial-scale=1">
 				<title>YouTube to Podcast';
@@ -29,7 +32,8 @@ if (session_status() == PHP_SESSION_NONE) {
 				}
 				function login(){
 					if(validateLogin()){
-						$.post("/podtube/login.php", {uname:$("#uname").val(), passwd:$("#passwd").val(), action:"login"}, 
+						$.post("/'.SUBDIR;
+						echo 'login.php", {uname:$("#uname").val(), passwd:$("#passwd").val(),action:"login"}, 
 						function
 						(data){
 							console.log(data);
@@ -46,7 +50,8 @@ if (session_status() == PHP_SESSION_NONE) {
 					}
 				}
 				function logout(){
-					$.post("/podtube/login.php", {action:"logout"}, function(data){
+					$.post("/'.SUBDIR;
+					echo 'login.php", {action:"logout"}, function(data){
 						console.log(data);
 						if(data.indexOf("Success")>-1){
 							location.reload();
@@ -56,8 +61,11 @@ if (session_status() == PHP_SESSION_NONE) {
 			</script>
 		</head>';
 	}
-	
-	function makeNav(){
+
+/**
+ *
+ */
+function makeNav(){
 		echo '<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -67,11 +75,11 @@ if (session_status() == PHP_SESSION_NONE) {
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				  </button>
-				  <a class="navbar-brand" href="index.php">PodTube</a>
+				  <a class="navbar-brand" href="'.SUBDIR;echo '">PodTube</a>
 				</div>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				  <ul class="nav navbar-nav">
-					<li class="active"><a href="index.php">Home</a></li>
+					<li class="active"><a href="\'.SUBDIR;echo \'">Home</a></li>
 				  </ul>
 				  <ul class="nav navbar-nav navbar-right">';
 		if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"]){
@@ -119,6 +127,9 @@ if (session_status() == PHP_SESSION_NONE) {
 		</nav>';
 }
 
+/**
+ *
+ */
 function makeAddVideo(){
 	echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."addVideoView.html");
 	$feedURL = LOCAL_URL."user/".$_SESSION["user"]->getWebID()."/feed/";

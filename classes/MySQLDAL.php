@@ -5,6 +5,10 @@ spl_autoload_register(function($class){
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
 
+/**
+ * Class MySQLDAL
+ *
+ */
 class MySQLDAL extends DAL{
 	private $usertable = "users";
 	private $feedTable = "feed";
@@ -13,6 +17,14 @@ class MySQLDAL extends DAL{
 	private $username;
 	private $password;
 
+	/**
+	 * MySQLDAL constructor.
+	 *
+	 * @param $host
+	 * @param $db
+	 * @param $username
+	 * @param $password
+	 */
 	public function __construct($host, $db, $username, $password){
 		$this->host = $host;
 		$this->db = $db;
@@ -30,14 +42,27 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * @param $username
+	 * @return bool
+	 */
 	public function usernameExists($username){
 		return parent::usernameExists(strtolower($username));
 	}
 
+	/**
+	 * @param $email
+	 * @return bool
+	 */
 	public function emailExists($email){
 		return parent::emailExists($email);
 	}
 
+	/**
+	 * @param $id
+	 * @return null|\User
+	 * @throws \Exception
+	 */
 	public function getUserByID($id){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE ID=:id");
@@ -73,6 +98,11 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * @param $webID
+	 * @return null|\User
+	 * @throws \Exception
+	 */
 	public function getUserByWebID($webID){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE webID=:id");
@@ -108,6 +138,11 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * @param $username
+	 * @return \User
+	 * @throws \Exception
+	 */
 	public function getUserByUsername($username){
 		$username = strtolower($username);
 		try{
@@ -144,6 +179,11 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * @param $email
+	 * @return \User
+	 * @throws \Exception
+	 */
 	public function getUserByEmail($email){
 		$email = strtolower($email);
 		try{
@@ -180,6 +220,12 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * @param \User $user
+	 * @param $id
+	 * @return null|\Video
+	 * @throws \Exception
+	 */
 	public function getVideoByID(User $user, $id){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid AND videoID=:videoID");
@@ -208,6 +254,10 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * @param \User $user
+	 * @throws \Exception
+	 */
 	public function addUser(User $user){
 		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
 			try{
@@ -234,6 +284,11 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * @param \Video $vid
+	 * @param \User $user
+	 * @return bool
+	 */
 	public function addVideo(Video $vid, User $user){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT 
@@ -250,7 +305,8 @@ class MySQLDAL extends DAL{
 
 			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, videoID, videoAuthor, description, 
 			videoTitle, 
-		duration, orderID) VALUES (:userID,:videoID,:videoAuthor,:description,:videoTitle,:duration,:orderID)");
+		duration, orderID, timeAdded) VALUES (:userID,:videoID,:videoAuthor,:description,:videoTitle,:duration,
+		:orderID,:time)");
 			$p->bindValue(":userID", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
 			$p->bindValue(":videoAuthor", $vid->getAuthor(), PDO::PARAM_STR);
@@ -258,6 +314,7 @@ class MySQLDAL extends DAL{
 			$p->bindValue(":videoTitle", $vid->getTitle(), PDO::PARAM_STR);
 			$p->bindValue(":duration", $vid->getDuration(), PDO::PARAM_STR);
 			$p->bindValue(":orderID", $order, PDO::PARAM_INT);
+			$p->bindValue(":time", date("Y-m-d H:i:s", time()), PDO::PARAM_STR);
 			$p->execute();
 
 			return true;
@@ -268,6 +325,10 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * @param \User $user
+	 * @return mixed
+	 */
 	public function getFeedText(User $user){
 		try{
 			$p = parent::$PDO->prepare("SELECT feedText FROM $this->usertable WHERE id=:userid");
@@ -282,6 +343,11 @@ class MySQLDAL extends DAL{
 	}
 
 
+	/**
+	 * @param \User $user
+	 * @return array|null
+	 * @throws \Exception
+	 */
 	public function getFeed(User $user){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC 
@@ -312,6 +378,11 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * @param \User $user
+	 * @param $feed
+	 * @return bool
+	 */
 	public function setFeedText(User $user, $feed){
 		try{
 			$p = parent::$PDO->prepare("UPDATE $this->usertable set feedText=:feedText WHERE id=:userid");
@@ -327,6 +398,11 @@ class MySQLDAL extends DAL{
 	}
 
 
+	/**
+	 * @param \Video $vid
+	 * @param \User $user
+	 * @return bool
+	 */
 	public function inFeed(Video $vid, User $user){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid AND videoID=:videoID");
@@ -347,10 +423,16 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 *
+	 */
 	protected function makeDB(){
 		// TODO: Implement makeDB() method.
 	}
 
+	/**
+	 *
+	 */
 	protected function verifyDB(){
 		// TODO: Implement verifyDB() method.
 	}

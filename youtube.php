@@ -2,6 +2,9 @@
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
 
+/**
+ * Class YouTube
+ */
 class YouTube{
 	// Setup global variables
 	private $downloadPath = "";
@@ -16,6 +19,14 @@ class YouTube{
 	private $videoAuthor = "";
 	private $time;
 
+	/**
+	 * YouTube constructor.
+	 *
+	 * @param null $str
+	 * @param $podtube
+	 * @param $googleAPIServerKey
+	 * @param string $downloadPath
+	 */
 	public function __construct($str=NULL, $podtube, $googleAPIServerKey, $downloadPath="temp"){
 		$this->downloadPath = $downloadPath;
 		$this->podtube = $podtube;
@@ -56,6 +67,11 @@ class YouTube{
 	}
 
 	// Set YouTube ID from a given string using parseYoutubeURL
+	/**
+	 * @param $str
+	 * @return bool
+	 * @throws \Exception
+	 */
 	private function setYoutubeID($str){
 		$tmp_id = $this->parseYoutubeURL($str);  // Try and parse the string into a usable ID
 		$vid_id = ($tmp_id !== FALSE) ? $tmp_id : $str;
@@ -72,6 +88,9 @@ class YouTube{
 	}
 
 	// Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)
+	/**
+	 * @return bool
+	 */
 	public function allDownloaded(){
 		$downloadFilePath = $this->downloadPath.DIRECTORY_SEPARATOR.$this->videoID;
 		// If the thumbnail has not been downloaded, go ahead and download it
@@ -94,6 +113,9 @@ class YouTube{
 	}
 
 	// Download thumbnail using videoID from YouTube's image server
+	/**
+	 *
+	 */
 	public function downloadThumbnail(){
 		$thumbFilename = $this->videoID.".jpg";
 		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
@@ -103,6 +125,9 @@ class YouTube{
 	}
 
 	// Download video using download URL from Python script and then call downloadWithPercentage to actually download the video
+	/**
+	 *
+	 */
 	public function downloadVideo(){
 		$id = $this->videoID;
 		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
@@ -119,6 +144,10 @@ class YouTube{
 		return;
 	}
 
+	/**
+	 * @param $id
+	 * @return string
+	 */
 	private function getDownloadURL($id){
 		$url = $this->YouTubeBaseURL."watch?v=".$id;
 		$html = file_get_contents($url);
@@ -188,6 +217,10 @@ class YouTube{
 		return $downloadURL;
 	}
 
+	/**
+	 * @param $url
+	 * @return bool|mixed
+	 */
 	private function getQualityProfilesFromURL($url){
 		$qp = [];
 		$qp[5] = ["flv", "240p", "Sorenson H.263", "N/A", "0.25", "MP3", "64"];
@@ -225,6 +258,11 @@ class YouTube{
 
 	// Download the video to $localFile with a given $url
 	// While downloading output progress to UI as JSON array
+	/**
+	 * @param $url
+	 * @param $localFile
+	 * @return bool
+	 */
 	private function downloadWithPercentage($url, $localFile){
 		// Use CURL to get the download content length in order to print the progress
 		$ch = curl_init($url);
@@ -275,6 +313,9 @@ class YouTube{
 	}
 
 	// Converts mp4 video to mp3 audio
+	/**
+	 *
+	 */
 	public function convert(){
 		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
 		$ffmpeg_infile = $path . $this->videoID .".mp4";
@@ -329,6 +370,10 @@ class YouTube{
 	}
 
 	// Use cURL to get the HTTP status of a given URL
+	/**
+	 * @param $url
+	 * @return int
+	 */
 	private function curl_httpstatus($url){
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:11.0) Gecko Firefox/11.0");
@@ -343,6 +388,10 @@ class YouTube{
 	}
 
 	// Get duration of media file from ffmpeg
+	/**
+	 * @param $file
+	 * @return bool|string
+	 */
 	public static function getDuration($file){
 		$dur = shell_exec("ffmpeg.exe -i ".$file." 2>&1");
 		if(preg_match("/: Invalid /", $dur)){
@@ -357,6 +406,10 @@ class YouTube{
 	}
 
 	// Parse a YouTube URL to get the video ID
+	/**
+	 * @param $url
+	 * @return bool
+	 */
 	private function parseYoutubeURL($url){
 		$pattern = '#^(?:https?://)?';    # Optional URL scheme. Either http or https.
 		$pattern .= '(?:www\.)?';         #  Optional www subdomain.
@@ -377,26 +430,44 @@ class YouTube{
 	}
 
 	// Accessor methods
+	/**
+	 * @return bool|string
+	 */
 	public function getVideoID(){
 		return $this->videoID;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getDownloadPath(){
 		return $this->downloadPath;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getVideoTitle(){
 		return $this->videoTitle;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getVideoAuthor(){
 		return $this->videoAuthor;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function getVideoTime(){
 		return $this->time;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getDescr(){
 		return $this->descr;
 	}

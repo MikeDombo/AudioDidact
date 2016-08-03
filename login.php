@@ -1,12 +1,19 @@
 <?php
-require_once __DIR__.'/config.php';
+/**
+ * This file handles the login and logout procedures. It checks the username and password of the user and sets session
+ * variables if the information is correct.
+ */
+
 spl_autoload_register(function($class){
+	require_once __DIR__.'/config.php';
 	require_once __DIR__.'/classes/MySQLDAL.php';
 	require_once __DIR__.'/classes/User.php';
 });
+
 if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
+
 if(isset($_POST["action"])){
 	if($_POST["action"] == "logout"){
 		$_SESSION["user"] = null;

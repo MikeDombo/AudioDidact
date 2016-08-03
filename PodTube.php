@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__.'/config.php';
 // Include RSS feed generation library
-spl_autoload_register(function(){
+spl_autoload_register(function($class){
+	require_once '/config.php';
 	require_once 'Feeds/Item.php';
 	require_once 'Feeds/Feed.php';
 	require_once 'Feeds/RSS2.php';
@@ -18,12 +18,22 @@ if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
+/**
+ * Class PodTube
+ */
 class PodTube{
 	private $localUrl = "";
 	private $downloadPath = "";
 	private $dal;
 	private $user;
 
+	/**
+	 * PodTube constructor.
+	 *
+	 * @param \DAL $dal
+	 * @param null $localURL
+	 * @param string $downloadPath
+	 */
 	public function __construct(DAL $dal, $localURL=NULL, $downloadPath="temp"){
 		$this->dal = $dal;
 		$this->downloadPath = $downloadPath;
@@ -31,12 +41,20 @@ class PodTube{
 		$this->user = $_SESSION["user"];
 	}
 
+	/**
+	 * @param $id
+	 * @return bool
+	 */
 	public function inFeed($id){
 		$video = new Video();
 		$video->setId($id);
 		return $this->dal->inFeed($video, $this->user);
 	}
 
+	/**
+	 * @param $id
+	 * @return bool
+	 */
 	public function getDataFromFeed($id){
 		$items = $this->dal->getFeed($this->user);
 		foreach($items as $i){
@@ -48,6 +66,9 @@ class PodTube{
 	}
 
 	// Make the RSS feed from the CSV file
+	/**
+	 * @return \FeedWriter\RSS2|mixed
+	 */
 	public function makeFullFeed(){
 		// Setup global feed values
 		$fe = $this->makeFeed();
@@ -65,6 +86,9 @@ class PodTube{
 
 
 	// Generate the global feed header variables
+	/**
+	 * @return \FeedWriter\RSS2
+	 */
 	private function makeFeed(){
 		$feed = new RSS2;
 		$feed->setTitle('YouTube to Podcast');
@@ -91,6 +115,15 @@ class PodTube{
 	}
 
 	// Add an item to the RSS feed
+	/**
+	 * @param $feed
+	 * @param $title
+	 * @param $id
+	 * @param $author
+	 * @param $time
+	 * @param $descr
+	 * @return mixed
+	 */
 	private function addFeedItem($feed, $title, $id, $author, $time, $descr){
 		$newItem = $feed->createNewItem();
 
@@ -119,6 +152,9 @@ class PodTube{
 		return $feed;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getDownloadPath(){
 		return $this->downloadPath;
 	}

@@ -1,6 +1,10 @@
 <?php
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
+
+/**
+ * Class User
+ */
 class User{
 	private $username;
 	private $email;
@@ -13,9 +17,16 @@ class User{
 	private $feedText;
 	private $feedLength;
 
+	/**
+	 * User constructor.
+	 */
 	public function __construct(){
 	}
 
+	/**
+	 * @param $passwd
+	 * @return bool
+	 */
 	public function passwdCorrect($passwd){
 		if(hash("SHA512", $passwd.$this->username) == $this->getPasswd()){
 			return true;
@@ -146,6 +157,9 @@ class User{
 		}
 	}
 
+	/**
+	 * @param $passwd
+	 */
 	public function setPasswdDB($passwd){
 		$this->passwd = $passwd;
 	}
