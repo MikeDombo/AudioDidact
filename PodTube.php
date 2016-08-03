@@ -38,10 +38,14 @@ class PodTube{
 		$this->dal = $dal;
 		$this->downloadPath = $downloadPath;
 		$this->localUrl = $localURL;
+
+		// This may need to change in future because it is a bit dangerous. PodTube class should only be called when
+		// there is a valid user.
 		$this->user = $_SESSION["user"];
 	}
 
 	/**
+	 * Public function exposing database inFeed function.
 	 * @param $id
 	 * @return bool
 	 */
@@ -52,6 +56,7 @@ class PodTube{
 	}
 
 	/**
+	 * Returns a Video object from the feed based on the video's id.
 	 * @param $id
 	 * @return bool
 	 */
@@ -65,8 +70,8 @@ class PodTube{
 		return false;
 	}
 
-	// Make the RSS feed from the CSV file
 	/**
+	 * Make the RSS feed from the database
 	 * @return \FeedWriter\RSS2|mixed
 	 */
 	public function makeFullFeed(){
@@ -84,12 +89,13 @@ class PodTube{
 		return $fe;
 	}
 
-
-	// Generate the global feed header variables
 	/**
+	 * Generate the global feed header variables
 	 * @return \FeedWriter\RSS2
 	 */
 	private function makeFeed(){
+		// In future Title, Description, Image, and Author should be customizable.
+
 		$feed = new RSS2;
 		$feed->setTitle('YouTube to Podcast');
 		$feed->setLink($this->localUrl);
@@ -114,8 +120,8 @@ class PodTube{
 		return $feed;
 	}
 
-	// Add an item to the RSS feed
 	/**
+	 * Add an item to the RSS feed
 	 * @param $feed
 	 * @param $title
 	 * @param $id

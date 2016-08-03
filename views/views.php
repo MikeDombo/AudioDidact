@@ -10,6 +10,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 /**
+ * Makes the global header with a given title.
  * @param $title
  */
 function makeHeader($title){
@@ -63,7 +64,7 @@ function makeHeader($title){
 	}
 
 /**
- *
+ * Makes the navbar dynamically depending on the state of the current user
  */
 function makeNav(){
 		echo '<nav class="navbar navbar-default">
@@ -128,7 +129,7 @@ function makeNav(){
 }
 
 /**
- *
+ * Prints the add video webpage to the page along with the feed subscription url
  */
 function makeAddVideo(){
 	echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."addVideoView.html");
