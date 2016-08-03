@@ -20,7 +20,7 @@ class YouTube{
 	private $time;
 
 	/**
-	 * YouTube constructor.
+	 * YouTube constructor. Gets the video information, checks for it in the user's feed.
 	 *
 	 * @param null $str
 	 * @param $podtube
@@ -66,8 +66,8 @@ class YouTube{
 		}
 	}
 
-	// Set YouTube ID from a given string using parseYoutubeURL
 	/**
+	 * Set YouTube ID from a given string using parseYoutubeURL
 	 * @param $str
 	 * @return bool
 	 * @throws \Exception
@@ -87,8 +87,8 @@ class YouTube{
 		return $vid_id;
 	}
 
-	// Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)
 	/**
+	 * Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)
 	 * @return bool
 	 */
 	public function allDownloaded(){
@@ -112,9 +112,8 @@ class YouTube{
 		return false; // If all else fails, return false
 	}
 
-	// Download thumbnail using videoID from YouTube's image server
 	/**
-	 *
+	 * Download thumbnail using videoID from YouTube's image server
 	 */
 	public function downloadThumbnail(){
 		$thumbFilename = $this->videoID.".jpg";
@@ -124,9 +123,8 @@ class YouTube{
 		@chmod($thumbnail, 0775); // Set the thumbnail file as publicly accessible
 	}
 
-	// Download video using download URL from Python script and then call downloadWithPercentage to actually download the video
 	/**
-	 *
+	 * Download video using download URL from Python script and then call downloadWithPercentage to actually download the video
 	 */
 	public function downloadVideo(){
 		$id = $this->videoID;
@@ -138,13 +136,15 @@ class YouTube{
 		if(strpos($url, "Error:")>-1){
 			echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$url]);
 		}
-		$this->downloadWithPercentage($url, $video);
+		$this->downloadWithPercentage($url, $video); // Actually download the video from the url and print the
+		// percentage to the screen with JSON
 		@chmod($video, 0775); // Set the video file as publicly accessible
 
 		return;
 	}
 
 	/**
+	 * Gets lowest quality mp4 download url based on a given id.
 	 * @param $id
 	 * @return string
 	 */
@@ -207,6 +207,7 @@ class YouTube{
 		}
 		$downloadURL = "";
 		$resolution = 999999;
+		// Find lowest quality mp4
 		foreach($downloads as $v){
 			if($v["ext"] == "mp4" && intval(substr($v["res"], 0, -1)) < $resolution){
 				$resolution = intval(substr($v["res"], 0, -1));
@@ -218,6 +219,7 @@ class YouTube{
 	}
 
 	/**
+	 * Returns a quality profile or false based on a url.
 	 * @param $url
 	 * @return bool|mixed
 	 */
@@ -256,9 +258,9 @@ class YouTube{
 		return false;
 	}
 
-	// Download the video to $localFile with a given $url
-	// While downloading output progress to UI as JSON array
 	/**
+	 * Download the video to $localFile with a given $url
+	 * While downloading output progress to UI as JSON array
 	 * @param $url
 	 * @param $localFile
 	 * @return bool
@@ -312,9 +314,8 @@ class YouTube{
 		return true;
 	}
 
-	// Converts mp4 video to mp3 audio
 	/**
-	 *
+	 * Converts mp4 video to mp3 audio using ffmpeg
 	 */
 	public function convert(){
 		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
@@ -322,7 +323,7 @@ class YouTube{
 		$ffmpeg_outfile = $path . $this->videoID .".mp3";
 
 		// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
-		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 4 -map a \"$ffmpeg_outfile\" 1> ".$this->videoID.".txt 2>&1";
+		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->videoID.".txt 2>&1";
 		
 		// Check if we're on Windows or *nix
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -369,8 +370,8 @@ class YouTube{
 		return;
 	}
 
-	// Use cURL to get the HTTP status of a given URL
 	/**
+	 * Use cURL to get the HTTP status of a given URL
 	 * @param $url
 	 * @return int
 	 */
@@ -387,8 +388,8 @@ class YouTube{
 		return intval($int);
 	}
 
-	// Get duration of media file from ffmpeg
 	/**
+	 * Get duration of media file from ffmpeg
 	 * @param $file
 	 * @return bool|string
 	 */
@@ -405,8 +406,8 @@ class YouTube{
 		return $duration;
 	}
 
-	// Parse a YouTube URL to get the video ID
 	/**
+	 * Parse a YouTube URL to get the video ID
 	 * @param $url
 	 * @return bool
 	 */
@@ -430,6 +431,7 @@ class YouTube{
 	}
 
 	// Accessor methods
+
 	/**
 	 * @return bool|string
 	 */
