@@ -19,8 +19,11 @@ if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
-$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
+/*
+ * Make sure user is logged in, set user variable to the session user.
+ */
+if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && isset($_SESSION["user"]) && $_SESSION["user"] instanceof
+	User){
 	$user = $_SESSION["user"];
 }
 else{
@@ -28,6 +31,9 @@ else{
 	exit(1);
 }
 
+$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+
+// If a video is being requested, then add the video, otherwise just show the current feed
 if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	if(isset($argv) && isset($argv[2])){
 		$_GET["yt"] = $argv[2];
