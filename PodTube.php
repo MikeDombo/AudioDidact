@@ -1,7 +1,7 @@
 <?php
-// Include RSS feed generation library
+// Include RSS feed generation library and other classes that are used.
 spl_autoload_register(function($class){
-	require_once '/config.php';
+	require_once 'config.php';
 	require_once 'Feeds/Item.php';
 	require_once 'Feeds/Feed.php';
 	require_once 'Feeds/RSS2.php';

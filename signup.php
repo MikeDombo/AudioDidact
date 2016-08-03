@@ -8,10 +8,15 @@ spl_autoload_register(function($class){
 if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
+
+// Check if a user is signing up or nees the sign up webpage
 if($_SERVER['REQUEST_METHOD'] == "POST"){
+	// Check that required variables are present and are not empty.
+	// More validation should be completed after this step, ie. check that email is legit.
 	if(isset($_POST["uname"]) && isset($_POST["passwd"]) && isset($_POST["email"])
 	&& trim($_POST["uname"]) != "" && trim($_POST["passwd"]) != "" && trim($_POST["email"] != "")){
 		$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+		// Make sure the username and email address are not taken.
 		if(!$dal->emailExists($_POST["email"]) && !$dal->usernameExists($_POST["uname"])){
 			$user = new User();
 			$user->setUsername($_POST["uname"]);
@@ -19,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 			$user->setPasswd($_POST["passwd"]);
 			$user->setWebID($user->getUsername());
 			$user->setFeedLength(50);
-
+			// Add user to db and set session variables if it is a success.
 			try{
 				$dal->addUser($user);
 				$_SESSION["loggedIn"] = true;
@@ -41,12 +46,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 		$_SESSION["loggedIn"] = false;
 		echo "Login Failed!";
 	}
-	exit(0);
+	exit(0); // Stop execution so that the sign up webpage is not shown.
 }
 require_once("views".DIRECTORY_SEPARATOR."views.php");
 ?>
 <html>
-	
 	<?php makeHeader("Sign Up");?>
 	<body>
 		<script>
