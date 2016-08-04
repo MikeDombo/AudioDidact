@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="704a9251-c224-4fe3-b6d9-635189be7fd7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/MySQLDAL.php" afterPath="$PROJECT_DIR$/classes/MySQLDAL.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.php" afterPath="$PROJECT_DIR$/config.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/views.php" afterPath="$PROJECT_DIR$/views/views.php" />
     </list>
     <ignored path="PodTube.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,18 +25,67 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="DatabaseView">
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="PodTube" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="14" column="2" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
+            <state relative-caret-position="286">
+              <caret line="13" column="33" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MySQLDAL.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/classes/MySQLDAL.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="19" column="7" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+              <folding>
+                <marker date="1470274943013" expanded="true" signature="1421:1464" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1470274943013" expanded="true" signature="2605:2651" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1470274943013" expanded="true" signature="3269:3324" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1470274943013" expanded="true" signature="3936:3972" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1470274943013" expanded="true" signature="3936:3985" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1470274943013" expanded="true" signature="3949:3967" ph="INSERT INTO ${$this-&gt;usertable}... " />
+                <marker date="1470274943013" expanded="true" signature="4593:4665" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="5559:5571" ph="INSERT INTO ${$this-&gt;usertable}... " />
+                <marker date="1470274943013" expanded="true" signature="5559:5578" ph="INSERT INTO ${$this}... " />
+                <marker date="1470274943013" expanded="true" signature="5559:5748" ph="INSERT INTO ${$this-&gt;usertable}... " />
+                <marker date="1470274943013" expanded="true" signature="6733:6818" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="7130:7159" ph="INSERT INTO *... " />
+                <marker date="1470274943013" expanded="true" signature="7130:7251" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+                <marker date="1470274943013" expanded="true" signature="7130:7343" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+                <marker date="1470274943013" expanded="true" signature="7142:7159" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="8123:8177" ph="SELECT feedT... ${$this-&gt;usertable}" />
+                <marker date="1470274943013" expanded="true" signature="8143:8177" ph="UPDATE ${$th... " />
+                <marker date="1470274943013" expanded="true" signature="8683:8697" ph="SELECT * FRO... ${$this-&gt;Fee}" />
+                <marker date="1470274943013" expanded="true" signature="8683:8698" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1470274943013" expanded="true" signature="8683:8704" ph="SELECT * FRO... ${$this}" />
+                <marker date="1470274943013" expanded="true" signature="8683:8728" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="8683:8734" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="8683:8752" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="8683:8766" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="8683:8767" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="8683:8782" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="8683:8798" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="9610:9673" ph="UPDATE ${$th... " />
+                <marker date="1470274943013" expanded="true" signature="9617:9673" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1470274943013" expanded="true" signature="10078:10150" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -69,9 +116,9 @@
         <option value="$PROJECT_DIR$/login.php" />
         <option value="$PROJECT_DIR$/classes/Video.php" />
         <option value="$PROJECT_DIR$/classes/User.php" />
-        <option value="$PROJECT_DIR$/classes/MySQLDAL.php" />
         <option value="$PROJECT_DIR$/config.php" />
         <option value="$PROJECT_DIR$/views/views.php" />
+        <option value="$PROJECT_DIR$/classes/MySQLDAL.php" />
       </list>
     </option>
   </component>
@@ -127,6 +174,21 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="PodTube">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -179,21 +241,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="PodTube">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -203,6 +250,7 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="js.buildTools.grunt.grunt-cli.package" value="" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
+    <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -345,6 +393,7 @@
       <workItem from="1470061969183" duration="11211000" />
       <workItem from="1470144590195" duration="1426000" />
       <workItem from="1470172600583" duration="8387000" />
+      <workItem from="1470274502734" duration="465000" />
     </task>
     <servers />
   </component>
@@ -381,30 +430,30 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58115000" />
+    <option name="totallyTimeSpent" value="58580000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1796875" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1609375" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39934355" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32932165" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296875" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39934355" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -429,7 +478,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -438,36 +486,36 @@
         <state relative-caret-position="5896">
           <caret line="268" column="21" selection-start-line="268" selection-start-column="21" selection-end-line="268" selection-end-column="21" />
           <folding>
-            <marker date="1470273306124" expanded="true" signature="1421:1464" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="2622:2668" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3303:3358" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3987:4023" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3987:4036" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="4000:4018" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="4661:4733" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="5621:5633" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="5621:5640" ph="INSERT INTO ${$this}... " />
-            <marker date="1470273306124" expanded="true" signature="5621:5810" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="6795:6880" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="7192:7221" ph="INSERT INTO *... " />
-            <marker date="1470273306124" expanded="true" signature="7192:7313" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-            <marker date="1470273306124" expanded="true" signature="7192:7405" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-            <marker date="1470273306124" expanded="true" signature="7204:7221" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8185:8239" ph="SELECT feedT... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="8205:8239" ph="UPDATE ${$th... " />
-            <marker date="1470273306124" expanded="true" signature="8745:8759" ph="SELECT * FRO... ${$this-&gt;Fee}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8760" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8766" ph="SELECT * FRO... ${$this}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8790" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8796" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8814" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8828" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8829" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8844" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8860" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="9689:9752" ph="UPDATE ${$th... " />
-            <marker date="1470273306124" expanded="true" signature="9696:9752" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="10157:10229" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="1421:1464" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="2605:2651" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3269:3324" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3936:3972" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3936:3985" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3949:3967" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="4593:4665" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="5559:5571" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="5559:5578" ph="INSERT INTO ${$this}... " />
+            <marker date="1470274943013" expanded="true" signature="5559:5748" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="6733:6818" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="7130:7159" ph="INSERT INTO *... " />
+            <marker date="1470274943013" expanded="true" signature="7130:7251" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+            <marker date="1470274943013" expanded="true" signature="7130:7343" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+            <marker date="1470274943013" expanded="true" signature="7142:7159" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8123:8177" ph="SELECT feedT... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="8143:8177" ph="UPDATE ${$th... " />
+            <marker date="1470274943013" expanded="true" signature="8683:8697" ph="SELECT * FRO... ${$this-&gt;Fee}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8698" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8704" ph="SELECT * FRO... ${$this}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8728" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8734" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8752" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8766" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8767" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8782" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8798" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="9610:9673" ph="UPDATE ${$th... " />
+            <marker date="1470274943013" expanded="true" signature="9617:9673" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="10078:10150" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
           </folding>
         </state>
       </provider>
@@ -476,7 +524,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
           <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -484,7 +531,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="10" column="15" selection-start-line="10" selection-start-column="15" selection-end-line="10" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -492,10 +538,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1470262397887" expanded="true" signature="1722:1741" ph="..." />
-            <marker date="1470262397887" expanded="true" signature="1808:1846" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -503,7 +545,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2420">
           <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -512,36 +553,36 @@
         <state relative-caret-position="3476">
           <caret line="158" column="26" selection-start-line="158" selection-start-column="18" selection-end-line="158" selection-end-column="26" />
           <folding>
-            <marker date="1470273306124" expanded="true" signature="1421:1464" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="2622:2668" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3303:3358" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3987:4023" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3987:4036" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="4000:4018" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="4661:4733" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="5621:5633" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="5621:5640" ph="INSERT INTO ${$this}... " />
-            <marker date="1470273306124" expanded="true" signature="5621:5810" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="6795:6880" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="7192:7221" ph="INSERT INTO *... " />
-            <marker date="1470273306124" expanded="true" signature="7192:7313" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-            <marker date="1470273306124" expanded="true" signature="7192:7405" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-            <marker date="1470273306124" expanded="true" signature="7204:7221" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8185:8239" ph="SELECT feedT... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="8205:8239" ph="UPDATE ${$th... " />
-            <marker date="1470273306124" expanded="true" signature="8745:8759" ph="SELECT * FRO... ${$this-&gt;Fee}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8760" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8766" ph="SELECT * FRO... ${$this}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8790" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8796" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8814" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8828" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8829" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8844" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8860" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="9689:9752" ph="UPDATE ${$th... " />
-            <marker date="1470273306124" expanded="true" signature="9696:9752" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="10157:10229" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="1421:1464" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="2605:2651" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3269:3324" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3936:3972" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3936:3985" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3949:3967" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="4593:4665" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="5559:5571" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="5559:5578" ph="INSERT INTO ${$this}... " />
+            <marker date="1470274943013" expanded="true" signature="5559:5748" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="6733:6818" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="7130:7159" ph="INSERT INTO *... " />
+            <marker date="1470274943013" expanded="true" signature="7130:7251" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+            <marker date="1470274943013" expanded="true" signature="7130:7343" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+            <marker date="1470274943013" expanded="true" signature="7142:7159" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8123:8177" ph="SELECT feedT... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="8143:8177" ph="UPDATE ${$th... " />
+            <marker date="1470274943013" expanded="true" signature="8683:8697" ph="SELECT * FRO... ${$this-&gt;Fee}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8698" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8704" ph="SELECT * FRO... ${$this}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8728" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8734" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8752" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8766" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8767" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8782" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8798" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="9610:9673" ph="UPDATE ${$th... " />
+            <marker date="1470274943013" expanded="true" signature="9617:9673" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="10078:10150" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
           </folding>
         </state>
       </provider>
@@ -550,7 +591,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="704">
           <caret line="32" column="7" selection-start-line="32" selection-start-column="7" selection-end-line="32" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -558,7 +598,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -580,7 +619,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="352">
           <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -588,7 +626,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="17" column="9" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -597,36 +634,36 @@
         <state relative-caret-position="1826">
           <caret line="83" column="13" selection-start-line="83" selection-start-column="13" selection-end-line="83" selection-end-column="13" />
           <folding>
-            <marker date="1470273306124" expanded="true" signature="1421:1464" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="2622:2668" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3303:3358" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3987:4023" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3987:4036" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="4000:4018" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="4661:4733" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="5621:5633" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="5621:5640" ph="INSERT INTO ${$this}... " />
-            <marker date="1470273306124" expanded="true" signature="5621:5810" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="6795:6880" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="7192:7221" ph="INSERT INTO *... " />
-            <marker date="1470273306124" expanded="true" signature="7192:7313" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-            <marker date="1470273306124" expanded="true" signature="7192:7405" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-            <marker date="1470273306124" expanded="true" signature="7204:7221" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8185:8239" ph="SELECT feedT... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="8205:8239" ph="UPDATE ${$th... " />
-            <marker date="1470273306124" expanded="true" signature="8745:8759" ph="SELECT * FRO... ${$this-&gt;Fee}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8760" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8766" ph="SELECT * FRO... ${$this}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8790" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8796" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8814" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8828" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8829" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8844" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8860" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="9689:9752" ph="UPDATE ${$th... " />
-            <marker date="1470273306124" expanded="true" signature="9696:9752" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="10157:10229" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="1421:1464" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="2605:2651" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3269:3324" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3936:3972" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3936:3985" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3949:3967" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="4593:4665" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="5559:5571" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="5559:5578" ph="INSERT INTO ${$this}... " />
+            <marker date="1470274943013" expanded="true" signature="5559:5748" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="6733:6818" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="7130:7159" ph="INSERT INTO *... " />
+            <marker date="1470274943013" expanded="true" signature="7130:7251" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+            <marker date="1470274943013" expanded="true" signature="7130:7343" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+            <marker date="1470274943013" expanded="true" signature="7142:7159" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8123:8177" ph="SELECT feedT... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="8143:8177" ph="UPDATE ${$th... " />
+            <marker date="1470274943013" expanded="true" signature="8683:8697" ph="SELECT * FRO... ${$this-&gt;Fee}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8698" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8704" ph="SELECT * FRO... ${$this}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8728" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8734" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8752" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8766" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8767" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8782" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8798" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="9610:9673" ph="UPDATE ${$th... " />
+            <marker date="1470274943013" expanded="true" signature="9617:9673" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="10078:10150" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
           </folding>
         </state>
       </provider>
@@ -635,10 +672,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1470262397887" expanded="true" signature="1722:1741" ph="..." />
-            <marker date="1470262397887" expanded="true" signature="1808:1846" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -646,44 +679,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="396">
           <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
-          <folding>
-            <marker date="1470273586737" expanded="true" signature="380:483" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="1238:2169" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="1268:1398" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1346:1373" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1419:1940" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1445:1462" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1445:1827" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1593:1818" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1658:1695" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1707:1810" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1837:1934" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1962:2157" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="2044:2149" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="2107:2142" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="2332:3035" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2365:3035" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2397:2760" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2397:2761" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2397:2799" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2547:2723" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2876:3035" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2910:2988" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3137:4124" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3332:4113" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3377:3949" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3393:3718" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3416:3700" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3460:3551" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3507:3540" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3597:3688" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3644:3677" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3750:3935" ph="..." />
-            <marker date="1470273586737" expanded="false" signature="4044:4057" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="4187:4201" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="4252:4310" ph="..." />
-            <marker date="1470273586737" expanded="false" signature="4363:4377" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -691,7 +686,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -713,7 +707,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -736,7 +729,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
           <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -775,7 +767,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="9" column="2" selection-start-line="9" selection-start-column="2" selection-end-line="9" selection-end-column="2" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -783,7 +774,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="594">
           <caret line="36" column="47" selection-start-line="36" selection-start-column="47" selection-end-line="36" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -791,7 +781,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-583">
           <caret line="35" column="90" selection-start-line="35" selection-start-column="90" selection-end-line="35" selection-end-column="90" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -799,7 +788,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-249">
           <caret line="433" column="4" selection-start-line="433" selection-start-column="4" selection-end-line="433" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -807,10 +795,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1122">
           <caret line="51" column="2" selection-start-line="51" selection-start-column="2" selection-end-line="51" selection-end-column="2" />
-          <folding>
-            <marker date="1470262397887" expanded="true" signature="1722:1741" ph="..." />
-            <marker date="1470262397887" expanded="true" signature="1808:1846" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -818,7 +802,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-308">
           <caret line="121" column="4" selection-start-line="121" selection-start-column="4" selection-end-line="121" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -826,9 +809,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="671">
           <caret line="53" column="25" selection-start-line="53" selection-start-column="25" selection-end-line="53" selection-end-column="25" />
-          <folding>
-            <element signature="e#6#176#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -836,7 +816,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -844,46 +823,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="572">
           <caret line="26" column="96" selection-start-line="26" selection-start-column="96" selection-end-line="26" selection-end-column="96" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/classes/MySQLDAL.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="404" column="6" selection-start-line="404" selection-start-column="6" selection-end-line="404" selection-end-column="6" />
-          <folding>
-            <marker date="1470273306124" expanded="true" signature="1421:1464" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="2622:2668" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3303:3358" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3987:4023" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="3987:4036" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="4000:4018" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="4661:4733" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="5621:5633" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="5621:5640" ph="INSERT INTO ${$this}... " />
-            <marker date="1470273306124" expanded="true" signature="5621:5810" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1470273306124" expanded="true" signature="6795:6880" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="7192:7221" ph="INSERT INTO *... " />
-            <marker date="1470273306124" expanded="true" signature="7192:7313" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-            <marker date="1470273306124" expanded="true" signature="7192:7405" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-            <marker date="1470273306124" expanded="true" signature="7204:7221" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8185:8239" ph="SELECT feedT... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="8205:8239" ph="UPDATE ${$th... " />
-            <marker date="1470273306124" expanded="true" signature="8745:8759" ph="SELECT * FRO... ${$this-&gt;Fee}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8760" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8766" ph="SELECT * FRO... ${$this}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8790" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8796" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8814" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8828" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8829" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8844" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="8745:8860" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="9689:9752" ph="UPDATE ${$th... " />
-            <marker date="1470273306124" expanded="true" signature="9696:9752" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1470273306124" expanded="true" signature="10157:10229" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -891,7 +830,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -899,52 +837,61 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="550">
           <caret line="25" column="44" selection-start-line="25" selection-start-column="44" selection-end-line="25" selection-end-column="44" />
-          <folding>
-            <marker date="1470273586737" expanded="true" signature="380:483" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="1238:2169" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="1268:1398" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1346:1373" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1419:1940" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1445:1462" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1445:1827" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1593:1818" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1658:1695" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1707:1810" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1837:1934" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="1962:2157" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="2044:2149" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="2107:2142" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="2332:3035" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2365:3035" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2397:2760" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2397:2761" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2397:2799" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2547:2723" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2876:3035" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="2910:2988" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3137:4124" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3332:4113" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3377:3949" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3393:3718" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="3416:3700" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3460:3551" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3507:3540" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3597:3688" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3644:3677" ph="{...}" />
-            <marker date="1470273586737" expanded="true" signature="3750:3935" ph="..." />
-            <marker date="1470273586737" expanded="false" signature="4044:4057" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="4187:4201" ph="..." />
-            <marker date="1470273586737" expanded="true" signature="4252:4310" ph="..." />
-            <marker date="1470273586737" expanded="false" signature="4363:4377" ph="..." />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/9ed57eaa-5573-4212-a73f-439c0e23ac60/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="2" selection-start-line="14" selection-start-column="2" selection-end-line="14" selection-end-column="2" />
+        <state relative-caret-position="286">
+          <caret line="13" column="33" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/classes/MySQLDAL.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="19" column="7" selection-start-line="19" selection-start-column="7" selection-end-line="19" selection-end-column="7" />
+          <folding>
+            <marker date="1470274943013" expanded="true" signature="1421:1464" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="2605:2651" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3269:3324" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3936:3972" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3936:3985" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="3949:3967" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="4593:4665" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="5559:5571" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="5559:5578" ph="INSERT INTO ${$this}... " />
+            <marker date="1470274943013" expanded="true" signature="5559:5748" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1470274943013" expanded="true" signature="6733:6818" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="7130:7159" ph="INSERT INTO *... " />
+            <marker date="1470274943013" expanded="true" signature="7130:7251" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+            <marker date="1470274943013" expanded="true" signature="7130:7343" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+            <marker date="1470274943013" expanded="true" signature="7142:7159" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8123:8177" ph="SELECT feedT... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="8143:8177" ph="UPDATE ${$th... " />
+            <marker date="1470274943013" expanded="true" signature="8683:8697" ph="SELECT * FRO... ${$this-&gt;Fee}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8698" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8704" ph="SELECT * FRO... ${$this}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8728" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8734" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8752" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8766" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8767" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8782" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="8683:8798" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="9610:9673" ph="UPDATE ${$th... " />
+            <marker date="1470274943013" expanded="true" signature="9617:9673" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1470274943013" expanded="true" signature="10078:10150" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+          </folding>
         </state>
       </provider>
     </entry>
