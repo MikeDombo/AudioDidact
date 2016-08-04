@@ -2,10 +2,19 @@
 Makes an RSS podcast feed from given YouTube URLs
 
 ## Configuration
-Download this repository and then edit `youtube.php` to add your [Google API server key.](https://console.developers.google.com/apis/credentials)
+Download this repository and then edit `config.php` to add your [Google API server key.](https://console.developers.google.com/apis/credentials)
 Set hostname to your public ip or domain and subdirectory.
 In your `php.ini` you must set `output_buffering=Off` for the progress bar to work. (Everything else works fine even without this change)
 
+Set database configuration also in `config.php`. Execute the SQL script in the Schema directory or manually replicate the same structure. In future versions the software will be able to make its own database schema, but for now you must do it.
+
 ## Usage
-Open your web browser and simply enter in a YouTube link or ID into the textbox at the top of the page. Click 'Add Video To Feed'.
-In any podcatcher, simply add the url for the generated `rss.xml` file.
+Open your web browser to the server that you have set up. Make a new account using the sign up link on the home page. Copy in a YouTube video's URL on the Add a Video page and click Add Video to Feed.
+
+Subscribe to the generated feed using the URL shown on the Add a Video page to receive updates as they come.
+
+## Future
+- Account management needs to be added
+- Better session remembering using database
+- Create and verify databases
+- Customize feed options including Title, Author, image, etc.
