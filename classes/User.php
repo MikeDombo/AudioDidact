@@ -24,6 +24,7 @@ class User{
 	}
 
 	/**
+	 * Checks if plaintext password when hashed, matches the hashed password stored in this User
 	 * @param $passwd
 	 * @return bool
 	 */
@@ -144,6 +145,7 @@ class User{
 	}
 
 	/**
+	 * Sets hashed password using plaintext password and username
 	 * @param mixed $passwd
 	 * @throws \Exception
 	 */
@@ -158,6 +160,7 @@ class User{
 	}
 
 	/**
+	 * Used to set the hashed password from the database.
 	 * @param $passwd
 	 */
 	public function setPasswdDB($passwd){

@@ -4,6 +4,7 @@ mb_internal_encoding("UTF-8");
 
 /**
  * Class Video
+ * Stores YouTube video specific data
  */
 class Video{
 	private $id;

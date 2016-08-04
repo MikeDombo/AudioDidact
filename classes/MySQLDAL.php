@@ -19,6 +19,7 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * MySQLDAL constructor.
+	 * Sets up parent's PDO object using the parameters that are passed in.
 	 *
 	 * @param $host
 	 * @param $db
@@ -74,28 +75,37 @@ class MySQLDAL extends DAL{
 				throw new Exception("More than one result returned!");
 			}
 			if(count($rows) == 0){
-				return null;
+				throw new Exception("user was not found!");
 			}
 			$rows = $rows[0];
 
-			$user = new User();
-			$user->setUserID($rows["ID"]);
-			$user->setUsername($rows["username"]);
-			$user->setPasswdDB($rows["password"]);
-			$user->setEmail($rows["email"]);
-			$user->setFname($rows["firstname"]);
-			$user->setLname($rows["lastname"]);
-			$user->setGender($rows["gender"]);
-			$user->setWebID($rows["webID"]);
-			$user->setFeedText($rows["feedText"]);
-			$user->setFeedLength($rows["feedLength"]);
-
-			return $user;
+			return $this->setUser($rows);
 		}
 		catch(PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
+	}
+
+	/**
+	 * Makes a new user object from a database select command.
+	 * @param $rows
+	 * @return \User
+	 */
+	private function setUser($rows){
+		$user = new User();
+		$user->setUserID($rows["ID"]);
+		$user->setUsername($rows["username"]);
+		$user->setPasswdDB($rows["password"]);
+		$user->setEmail($rows["email"]);
+		$user->setFname($rows["firstname"]);
+		$user->setLname($rows["lastname"]);
+		$user->setGender($rows["gender"]);
+		$user->setWebID($rows["webID"]);
+		$user->setFeedText($rows["feedText"]);
+		$user->setFeedLength($rows["feedLength"]);
+
+		return $user;
 	}
 
 	/**
@@ -114,23 +124,11 @@ class MySQLDAL extends DAL{
 				throw new Exception("More than one result returned!");
 			}
 			if(count($rows) == 0){
-				return null;
+				throw new Exception("user was not found!");
 			}
 			$rows = $rows[0];
 
-			$user = new User();
-			$user->setUserID($rows["ID"]);
-			$user->setUsername($rows["username"]);
-			$user->setPasswdDB($rows["password"]);
-			$user->setEmail($rows["email"]);
-			$user->setFname($rows["firstname"]);
-			$user->setLname($rows["lastname"]);
-			$user->setGender($rows["gender"]);
-			$user->setWebID($rows["webID"]);
-			$user->setFeedText($rows["feedText"]);
-			$user->setFeedLength($rows["feedLength"]);
-
-			return $user;
+			return $this->setUser($rows);
 		}
 		catch(PDOException $e){
 			echo "ERROR: ".$e->getMessage();
@@ -155,23 +153,11 @@ class MySQLDAL extends DAL{
 				throw new Exception("More than one result returned!");
 			}
 			if(count($rows) == 0){
-				return null;
+				throw new Exception("user was not found!");
 			}
 			$rows = $rows[0];
 
-			$user = new User();
-			$user->setUserID($rows["ID"]);
-			$user->setUsername($rows["username"]);
-			$user->setPasswdDB($rows["password"]);
-			$user->setEmail($rows["email"]);
-			$user->setFname($rows["firstname"]);
-			$user->setLname($rows["lastname"]);
-			$user->setGender($rows["gender"]);
-			$user->setWebID($rows["webID"]);
-			$user->setFeedText($rows["feedText"]);
-			$user->setFeedLength($rows["feedLength"]);
-
-			return $user;
+			return $this->setUser($rows);
 		}
 		catch(PDOException $e){
 			echo "ERROR: ".$e->getMessage();
@@ -196,23 +182,11 @@ class MySQLDAL extends DAL{
 				throw new Exception("More than one result returned!");
 			}
 			if(count($rows) == 0){
-				return null;
+				throw new Exception("user was not found!");
 			}
 			$rows = $rows[0];
 
-			$user = new User();
-			$user->setUserID($rows["ID"]);
-			$user->setUsername($rows["username"]);
-			$user->setPasswdDB($rows["password"]);
-			$user->setEmail($rows["email"]);
-			$user->setFname($rows["firstname"]);
-			$user->setLname($rows["lastname"]);
-			$user->setGender($rows["gender"]);
-			$user->setWebID($rows["webID"]);
-			$user->setFeedText($rows["feedText"]);
-			$user->setFeedLength($rows["feedLength"]);
-
-			return $user;
+			return $this->setUser($rows);
 		}
 		catch(PDOException $e){
 			echo "ERROR: ".$e->getMessage();
@@ -291,6 +265,7 @@ class MySQLDAL extends DAL{
 	 */
 	public function addVideo(Video $vid, User $user){
 		try{
+			// Find the largest orderID and add 1 to it to use as the orderID of the newest video
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT 
 			1");
 			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
@@ -303,6 +278,7 @@ class MySQLDAL extends DAL{
 				$order = intval($rows[0]["orderID"]) + 1;
 			}
 
+			// Add the new Video to the user's feed
 			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, videoID, videoAuthor, description, 
 			videoTitle, 
 		duration, orderID, timeAdded) VALUES (:userID,:videoID,:videoAuthor,:description,:videoTitle,:duration,
@@ -350,8 +326,10 @@ class MySQLDAL extends DAL{
 	 */
 	public function getFeed(User $user){
 		try{
+			// Limit is not able to be a bound parameter, so I take the intval just to make sure nothing can get
+			// injected
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC 
-			LIMIT ".$user->getFeedLength());
+			LIMIT ".intval($user->getFeedLength()));
 			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
