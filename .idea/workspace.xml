@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="704a9251-c224-4fe3-b6d9-635189be7fd7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/classes/MySQLDAL.php" afterPath="$PROJECT_DIR$/classes/MySQLDAL.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.php" afterPath="$PROJECT_DIR$/config.php" />
     </list>
     <ignored path="PodTube.iws" />
@@ -396,7 +394,7 @@
       <workItem from="1470144590195" duration="1426000" />
       <workItem from="1470172600583" duration="8387000" />
       <workItem from="1470274502734" duration="1209000" />
-      <workItem from="1470362798332" duration="175000" />
+      <workItem from="1470362798332" duration="215000" />
     </task>
     <servers />
   </component>
@@ -433,7 +431,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59499000" />
+    <option name="totallyTimeSpent" value="59539000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />

@@ -134,7 +134,7 @@ class PodTube{
 		$newItem = $feed->createNewItem();
 
 		// Make description links clickable
-		$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
+		$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
 		$descr = nl2br($descr);
 
 		// Get the duration of the video and use it for the itunes:duration tag
