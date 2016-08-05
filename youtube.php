@@ -394,7 +394,7 @@ class YouTube{
 	 * @return bool|string
 	 */
 	public static function getDuration($file){
-		$dur = shell_exec("ffmpeg.exe -i ".$file." 2>&1");
+		$dur = shell_exec("ffmpeg -i ".$file." 2>&1");
 		if(preg_match("/: Invalid /", $dur)){
 			return false;
 		}

@@ -1,13 +1,22 @@
 <?php
+require_once __DIR__.'/../config.php';
 spl_autoload_register(function($class){
-	require_once __DIR__.'/../config.php';
 	require_once __DIR__.'/../classes/User.php';
 });
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
+
 if (session_status() == PHP_SESSION_NONE) {
+	session_set_cookie_params(
+		2678400,
+		"/",
+		parse_url(LOCAL_URL)["host"],
+		false, //HTTPS only
+		true
+	);
 	session_start();
 }
+setcookie(session_name(),session_id(),time()+2678400, "/", session_get_cookie_params()["domain"], false, true);
 
 /**
  * Makes the global header with a given title.

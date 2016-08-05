@@ -3,16 +3,23 @@
  * This file handles the login and logout procedures. It checks the username and password of the user and sets session
  * variables if the information is correct.
  */
-
+require_once __DIR__.'/config.php';
 spl_autoload_register(function($class){
-	require_once __DIR__.'/config.php';
 	require_once __DIR__.'/classes/MySQLDAL.php';
 	require_once __DIR__.'/classes/User.php';
 });
 
 if (session_status() == PHP_SESSION_NONE) {
+	session_set_cookie_params(
+		2678400,
+		"/",
+		parse_url(LOCAL_URL)["host"],
+		false, //HTTPS only
+		true
+	);
 	session_start();
 }
+setcookie(session_name(),session_id(),time()+2678400, "/", session_get_cookie_params()["domain"], false, true);
 
 // Check if the user is requesting a logout
 if(isset($_POST["action"])){
