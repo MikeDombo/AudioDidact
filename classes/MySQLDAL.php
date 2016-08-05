@@ -71,10 +71,10 @@ class MySQLDAL extends DAL{
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
-				throw new Exception("More than one result returned!");
+				return null;
 			}
 			if(count($rows) == 0){
-				throw new Exception("user was not found!");
+				return null;
 			}
 			$rows = $rows[0];
 
@@ -119,10 +119,10 @@ class MySQLDAL extends DAL{
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
-				throw new Exception("More than one result returned!");
+				return null;
 			}
 			if(count($rows) == 0){
-				throw new Exception("user was not found!");
+				return null;
 			}
 			$rows = $rows[0];
 
@@ -147,10 +147,10 @@ class MySQLDAL extends DAL{
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
-				throw new Exception("More than one result returned!");
+				return null;
 			}
 			if(count($rows) == 0){
-				throw new Exception("user was not found!");
+				return null;
 			}
 			$rows = $rows[0];
 
@@ -175,10 +175,10 @@ class MySQLDAL extends DAL{
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
-				throw new Exception("More than one result returned!");
+				return null;
 			}
 			if(count($rows) == 0){
-				throw new Exception("user was not found!");
+				return null;
 			}
 			$rows = $rows[0];
 
@@ -204,7 +204,7 @@ class MySQLDAL extends DAL{
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) < 1){
-				throw new Exception("No results returned!");
+				return null;
 			}
 			$row = $rows[0];
 
@@ -330,7 +330,7 @@ class MySQLDAL extends DAL{
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) < 1){
-				throw new Exception("No results returned!");
+				return null;
 			}
 			$returner = [];
 			foreach($rows as $row){
