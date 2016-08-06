@@ -99,9 +99,9 @@ class PodTube{
 		$feed->setChannelElement('itunes:explicit', "yes");
 		$feed->setChannelElement('itunes:author', "Michael Dombrowski");
 		$feed->setChannelElement('itunes:category', "",array('text'=>'Technology'));
-		$feed->setChannelElement('sy:updatePeriod', "Hourly");
+		$feed->setChannelElement('sy:updatePeriod', "hourly");
 		$feed->setChannelElement('sy:updateFrequency', "1");
-		$feed->setChannelElement('ttl', "1");
+		$feed->setChannelElement('ttl', "15");
 		return $feed;
 	}
 
