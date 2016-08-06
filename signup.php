@@ -1,21 +1,5 @@
 <?php
-require_once __DIR__.'/config.php';
-spl_autoload_register(function($class){
-	require_once __DIR__.'/classes/MySQLDAL.php';
-	require_once __DIR__.'/classes/User.php';
-});
-
-if (session_status() == PHP_SESSION_NONE) {
-	session_set_cookie_params(
-		2678400,
-		"/",
-		parse_url(LOCAL_URL)["host"],
-		false, //HTTPS only
-		true
-	);
-	session_start();
-}
-setcookie(session_name(),session_id(),time()+2678400, "/", session_get_cookie_params()["domain"], false, true);
+include __DIR__."/header.php";
 
 // Check if a user is signing up or nees the sign up webpage
 if($_SERVER['REQUEST_METHOD'] == "POST"){
@@ -54,7 +38,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 		$_SESSION["loggedIn"] = false;
 		echo "Login Failed!";
 	}
-	exit(0); // Stop execution so that the sign up webpage is not shown.
+	// Stop execution so that the sign up webpage is not shown.
+	exit(0);
 }
 require_once("views".DIRECTORY_SEPARATOR."views.php");
 ?>
@@ -67,10 +52,8 @@ require_once("views".DIRECTORY_SEPARATOR."views.php");
 				return re.test(email);
 			}
 			function signup(){
-				$.post("/<?php echo SUBDIR;?>signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup")
-					.val(),
-					email:$
-				("#email").val()}, function(data){
+				$.post("/<?php echo SUBDIR;?>signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup").val(),
+					email:$("#email").val()}, function(data){
 					console.log(data);
 					if(data.indexOf("Success")>-1){
 						location.assign("/<?php echo SUBDIR;?>");

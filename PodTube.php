@@ -1,22 +1,7 @@
 <?php
 // Include RSS feed generation library and other classes that are used.
-spl_autoload_register(function($class){
-	require_once 'config.php';
-	require_once 'Feeds/Item.php';
-	require_once 'Feeds/Feed.php';
-	require_once 'Feeds/RSS2.php';
-	require_once 'classes/DAL.php';
-	require_once 'classes/MySQLDAL.php';
-	require_once 'classes/Video.php';
-	require_once 'classes/User.php';
-});
-
-date_default_timezone_set('UTC');
-mb_internal_encoding("UTF-8");
+include __DIR__."/header.php";
 use \FeedWriter\RSS2;
-if (session_status() == PHP_SESSION_NONE) {
-	session_start();
-}
 
 /**
  * Class PodTube
@@ -34,7 +19,7 @@ class PodTube{
 	 * @param null $localURL
 	 * @param string $downloadPath
 	 */
-	public function __construct(DAL $dal, $localURL=NULL, $downloadPath="temp"){
+	public function __construct(DAL $dal, $localURL=null, $downloadPath="temp"){
 		$this->dal = $dal;
 		$this->downloadPath = $downloadPath;
 		$this->localUrl = $localURL;
@@ -152,9 +137,11 @@ class PodTube{
 
 		$newItem->setDate(date(DATE_RSS,$time));
 		$newItem->setAuthor($author, 'me@me.com');
-		$newItem->setId($this->localUrl.$this->downloadPath."/".$id.".mp3", true); // Set GUID, this is absolutely necessary
+		// Set GUID, this is absolutely necessary
+		$newItem->setId($this->localUrl.$this->downloadPath."/".$id.".mp3", true);
 
-		$feed->addItem($newItem); // Add the item generated to the global feed
+		// Add the item generated to the global feed
+		$feed->addItem($newItem);
 		return $feed;
 	}
 

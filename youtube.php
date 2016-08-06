@@ -1,6 +1,5 @@
 <?php
-date_default_timezone_set('UTC');
-mb_internal_encoding("UTF-8");
+include __DIR__."/header.php";
 
 /**
  * Class YouTube
@@ -27,7 +26,7 @@ class YouTube{
 	 * @param $googleAPIServerKey
 	 * @param string $downloadPath
 	 */
-	public function __construct($str=NULL, $podtube, $googleAPIServerKey, $downloadPath="temp"){
+	public function __construct($str, $podtube, $googleAPIServerKey, $downloadPath="temp"){
 		$this->downloadPath = $downloadPath;
 		$this->podtube = $podtube;
 		$this->googleAPIServerKey = $googleAPIServerKey;
@@ -37,7 +36,7 @@ class YouTube{
 			mkdir($this->downloadPath);
 		}
 		// If there is a URL/ID, continue
-		if($str != NULL){
+		if($str != null){
 			// Set video ID from setYoutubeID and time to current time
 			$this->videoID = $this->setYoutubeID($str);
 			$this->time = time();
@@ -73,8 +72,9 @@ class YouTube{
 	 * @throws \Exception
 	 */
 	private function setYoutubeID($str){
-		$tmp_id = $this->parseYoutubeURL($str);  // Try and parse the string into a usable ID
-		$vid_id = ($tmp_id !== FALSE) ? $tmp_id : $str;
+		// Try and parse the string into a usable ID
+		$tmp_id = $this->parseYoutubeURL($str);
+		$vid_id = ($tmp_id !== false) ? $tmp_id : $str;
 		$url = sprintf($this->YouTubeBaseURL . "watch?v=%s", $vid_id);
 		// Get HTTP status of the video url and make sure that it is
 		// 200 = OK
@@ -99,17 +99,17 @@ class YouTube{
 		}
 		// If the mp3 and mp4 files exist, check if the mp3 has a duration that is not null
 		if(file_exists($downloadFilePath.".mp3") && file_exists($downloadFilePath.".mp4") &&
-			$this->getDuration($downloadFilePath.".mp4") == $this->getDuration($downloadFilePath.".mp3")){
-			if($this->getDuration($downloadFilePath.".mp3")){
+			$this->getDuration($downloadFilePath.".mp4") == $this->getDuration($downloadFilePath.".mp3")
+			&& $this->getDuration($downloadFilePath.".mp3")){
 				return true;
-			}
 		}
 		// If only the mp4 is downloaded (and has a duration) or the mp3 duration is null, then convert the mp4 to mp3
 		if(file_exists($downloadFilePath.".mp4") && $this->getDuration($downloadFilePath.".mp4")){
 			$this->convert();
 			return true;
 		}
-		return false; // If all else fails, return false
+		// If all else fails, return false
+		return false;
 	}
 
 	/**
@@ -120,7 +120,8 @@ class YouTube{
 		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
 		$thumbnail = $path . $thumbFilename;
 		file_put_contents($thumbnail, fopen("http://img.youtube.com/vi/".$this->videoID."/mqdefault.jpg", "r"));
-		@chmod($thumbnail, 0775); // Set the thumbnail file as publicly accessible
+		// Set the thumbnail file as publicly accessible
+		@chmod($thumbnail, 0775);
 	}
 
 	/**
@@ -136,10 +137,12 @@ class YouTube{
 		if(strpos($url, "Error:")>-1){
 			echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$url]);
 		}
-		$this->downloadWithPercentage($url, $video); // Actually download the video from the url and print the
-		// percentage to the screen with JSON
-		@chmod($video, 0775); // Set the video file as publicly accessible
-
+		/* Actually download the video from the url and print the
+		 * percentage to the screen with JSON
+		 */
+		$this->downloadWithPercentage($url, $video);
+		// Set the video file as publicly accessible
+		@chmod($video, 0775);
 		return;
 	}
 
@@ -320,19 +323,22 @@ class YouTube{
 	public function convert(){
 		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
 		$ffmpeg_infile = $path . $this->videoID .".mp4";
+		$ffmpeg_albumArt = $path.$this->videoID.".jpg";
 		$ffmpeg_outfile = $path . $this->videoID .".mp3";
+		$ffmpeg_tempFile = $path . $this->videoID ."-art.mp3";
 
 		// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
 		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->videoID.".txt 2>&1";
-		
+
 		// Check if we're on Windows or *nix
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			// Start the command in the background
 			pclose(popen("start /B ".$cmd, "r"));
-		} else {
+		}
+		else {
 			pclose(popen($cmd." &", "r"));
 		}
-		
+
 		$progress = 0;
 		// Get the conversion progress and output the progress to the UI using a JSON array
 		while($progress != 100){
@@ -347,17 +353,27 @@ class YouTube{
 			$rawDuration = $matches[1];
 			$ar = array_reverse(explode(":", $rawDuration));
 			$duration = floatval($ar[0]);
-			if (!empty($ar[1])) $duration += intval($ar[1]) * 60;
-			if (!empty($ar[2])) $duration += intval($ar[2]) * 60 * 60;
+			if (!empty($ar[1])){
+				$duration += intval($ar[1]) * 60;
+			}
+			if (!empty($ar[2])){
+				$duration += intval($ar[2]) * 60 * 60;
+			}
 			preg_match_all("/time=(.*?) bitrate/", $content, $matches);
 
 			// Matches time of the converted file and gets the percentage complete
 			$rawTime = array_pop($matches);
-			if (is_array($rawTime)){$rawTime = array_pop($rawTime);}
+			if (is_array($rawTime)){
+				$rawTime = array_pop($rawTime);
+			}
 			$ar = array_reverse(explode(":", $rawTime));
 			$time = floatval($ar[0]);
-			if (!empty($ar[1])) $time += intval($ar[1]) * 60;
-			if (!empty($ar[2])) $time += intval($ar[2]) * 60 * 60;
+			if (!empty($ar[1])){
+				$time += intval($ar[1]) * 60;
+			}
+			if (!empty($ar[2])){
+				$time += intval($ar[2]) * 60 * 60;
+			}
 			$progress = round(($time/$duration) * 100);
 
 			// Send progress to UI
@@ -367,6 +383,8 @@ class YouTube{
 		}
 		// Delete the temporary file that contained the ffmpeg output
 		@unlink($this->videoID.".txt");
+		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 \"$ffmpeg_tempFile\"");
+		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 		return;
 	}
 
@@ -402,8 +420,7 @@ class YouTube{
 		if(!isset($duration[1])){
 			return false;
 		}
-		$duration = $duration[1].":".$duration[2].":".$duration[3];
-		return $duration;
+		return $duration[1].":".$duration[2].":".$duration[3];
 	}
 
 	/**
@@ -412,20 +429,20 @@ class YouTube{
 	 * @return bool
 	 */
 	private function parseYoutubeURL($url){
-		$pattern = '#^(?:https?://)?';    # Optional URL scheme. Either http or https.
-		$pattern .= '(?:www\.)?';         #  Optional www subdomain.
-		$pattern .= '(?:';                #  Group host alternatives:
-		$pattern .=   'youtu\.be/';       #    Either youtu.be,
-		$pattern .=   '|youtube\.com';    #    or youtube.com
-		$pattern .=   '(?:';              #    Group path alternatives:
-		$pattern .=     '/embed/';        #      Either /embed/,
-		$pattern .=     '|/v/';           #      or /v/,
-		$pattern .=     '|/watch\?v=';    #      or /watch?v=,
-		$pattern .=     '|/watch\?.+&v='; #      or /watch?other_param&v=
-		$pattern .=   ')';                #    End path alternatives.
-		$pattern .= ')';                  #  End host alternatives.
-		$pattern .= '([\w-]{11})';        # 11 characters (Length of Youtube video ids).
-		$pattern .= '(?:.+)?$#x';         # Optional other ending URL parameters.
+		$pattern = '#^(?:https?://)?';
+		$pattern .= '(?:www\.)?';
+		$pattern .= '(?:';
+		$pattern .=   'youtu\.be/';
+		$pattern .=   '|youtube\.com';
+		$pattern .=   '(?:';
+		$pattern .=     '/embed/';
+		$pattern .=     '|/v/';
+		$pattern .=     '|/watch\?v=';
+		$pattern .=     '|/watch\?.+&v=';
+		$pattern .=   ')';
+		$pattern .= ')';
+		$pattern .= '([\w-]{11})';
+		$pattern .= '(?:.+)?$#x';
 		preg_match($pattern, $url, $matches);
 		return (isset($matches[1])) ? $matches[1] : false;
 	}
@@ -474,4 +491,3 @@ class YouTube{
 		return $this->descr;
 	}
 }
-?>

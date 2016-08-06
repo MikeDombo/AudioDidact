@@ -1,6 +1,5 @@
 <?php
-date_default_timezone_set('UTC');
-mb_internal_encoding("UTF-8");
+include __DIR__."/../header.php";
 
 /**
  * Class Video
@@ -112,7 +111,4 @@ class Video{
 	public function setOrder($order){
 		$this->order = $order;
 	}
-
-
 }
-?>

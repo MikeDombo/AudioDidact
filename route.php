@@ -1,9 +1,5 @@
 <?php
-require_once __DIR__.'/config.php';
-spl_autoload_register(function($class){
-	require_once __DIR__.'/classes/MySQLDAL.php';
-	require_once __DIR__.'/classes/User.php';
-});
+include __DIR__."/header.php";
 
 /**
  * Read request url path and split it into subdirectories. If one of the subdirectories is "User" and there is a
@@ -41,4 +37,3 @@ function returnUserFeed($webID){
 	$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	echo $dal->getFeedText($dal->getUserByWebID($webID));
 }
-?>

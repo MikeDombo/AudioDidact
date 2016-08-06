@@ -1,9 +1,5 @@
 <?php
-spl_autoload_register(function($class){
-	require_once __DIR__.'/DAL.php';
-});
-date_default_timezone_set('UTC');
-mb_internal_encoding("UTF-8");
+include __DIR__."/../header.php";
 
 /**
  * Class MySQLDAL
@@ -41,22 +37,6 @@ class MySQLDAL extends DAL{
 				throw $e;
 			}
 		}
-	}
-
-	/**
-	 * @param $username
-	 * @return bool
-	 */
-	public function usernameExists($username){
-		return parent::usernameExists(strtolower($username));
-	}
-
-	/**
-	 * @param $email
-	 * @return bool
-	 */
-	public function emailExists($email){
-		return parent::emailExists($email);
 	}
 
 	/**
@@ -231,9 +211,9 @@ class MySQLDAL extends DAL{
 	public function addUser(User $user){
 		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
 			try{
-				$p = parent::$PDO->prepare("INSERT INTO $this->usertable (username, password, email, firstname, 
-				lastname, 
-			gender, webID,feedLength) VALUES (:username,:password,:email,:fname,:lname,:gender,:webID,:feedLength)");
+				$p = parent::$PDO->prepare("INSERT INTO $this->usertable (username, password, email, firstname,
+				lastname, gender, webID, feedLength) VALUES (:username,:password,:email,:fname,:lname,:gender,:webID,
+				:feedLength)");
 				$p->bindValue(':username', $user->getUsername(), PDO::PARAM_STR);
 				$p->bindValue(':password', $user->getPasswd(), PDO::PARAM_STR);
 				$p->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
@@ -262,8 +242,7 @@ class MySQLDAL extends DAL{
 	public function addVideo(Video $vid, User $user){
 		try{
 			// Find the largest orderID and add 1 to it to use as the orderID of the newest video
-			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT 
-			1");
+			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT 1");
 			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
@@ -275,10 +254,9 @@ class MySQLDAL extends DAL{
 			}
 
 			// Add the new Video to the user's feed
-			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, videoID, videoAuthor, description, 
-			videoTitle, 
-		duration, orderID, timeAdded) VALUES (:userID,:videoID,:videoAuthor,:description,:videoTitle,:duration,
-		:orderID,:time)");
+			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, videoID, videoAuthor, description,
+			videoTitle, duration, orderID, timeAdded) VALUES (:userID,:videoID,:videoAuthor,:description,:videoTitle,
+			:duration, :orderID,:time)");
 			$p->bindValue(":userID", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
 			$p->bindValue(":videoAuthor", $vid->getAuthor(), PDO::PARAM_STR);
@@ -324,8 +302,8 @@ class MySQLDAL extends DAL{
 		try{
 			// Limit is not able to be a bound parameter, so I take the intval just to make sure nothing can get
 			// injected
-			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC 
-			LIMIT ".intval($user->getFeedLength()));
+			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT "
+			.intval($user->getFeedLength()));
 			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
@@ -383,12 +361,7 @@ class MySQLDAL extends DAL{
 			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
-			if(count($rows)>0){
-				return true;
-			}
-			else{
-				return false;
-			}
+			return count($rows)>0;
 		}
 		catch(PDOException $e){
 			echo "ERROR: ".$e->getMessage();
@@ -410,4 +383,3 @@ class MySQLDAL extends DAL{
 		// TODO: Implement verifyDB() method.
 	}
 }
-?>

@@ -1,4 +1,6 @@
 .idea/
+.sonar/
+.sonar/*
 .idea/*
 error_log
 rss.xml
@@ -62,3 +64,4 @@ Temporary Items
 .idea/modules.xml
 .idea/codeStyleSettings.xml
 .idea/PodTube.iml
+sonar-project.properties

@@ -1,6 +1,5 @@
 <?php
-date_default_timezone_set('UTC');
-mb_internal_encoding("UTF-8");
+include __DIR__."/../header.php";
 
 /**
  * Class User
@@ -25,16 +24,12 @@ class User{
 
 	/**
 	 * Checks if plaintext password when hashed, matches the hashed password stored in this User
+	 *
 	 * @param $passwd
 	 * @return bool
 	 */
 	public function passwdCorrect($passwd){
-		if(hash("SHA512", $passwd.$this->username) == $this->getPasswd()){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return hash("SHA512", $passwd.$this->username) == $this->getPasswd();
 	}
 
 	/**
@@ -146,6 +141,7 @@ class User{
 
 	/**
 	 * Sets hashed password using plaintext password and username
+	 *
 	 * @param mixed $passwd
 	 * @throws \Exception
 	 */
@@ -153,14 +149,14 @@ class User{
 		if($this->username != ""){
 			$passwd = hash("SHA512", $passwd.$this->username);
 			$this->passwd = $passwd;
-		}
-		else{
+		}else{
 			throw new Exception("Username needs to be set before setting password!");
 		}
 	}
 
 	/**
 	 * Used to set the hashed password from the database.
+	 *
 	 * @param $passwd
 	 */
 	public function setPasswdDB($passwd){
@@ -195,4 +191,3 @@ class User{
 		$this->feedLength = $feedLength;
 	}
 }
-?>

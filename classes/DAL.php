@@ -1,16 +1,11 @@
 <?php
-spl_autoload_register(function($class){
-	require_once __DIR__.'/Video.php';
-	require_once __DIR__.'/User.php';
-});
-date_default_timezone_set('UTC');
-mb_internal_encoding("UTF-8");
+include __DIR__."/../header.php";
 
 /**
  * Class DAL
  */
 abstract class DAL {
-	static protected $PDO;
+	protected static $PDO;
 
 	/**
 	 *
@@ -126,4 +121,3 @@ abstract class DAL {
 	 */
 	abstract protected function verifyDB();
 }
-?>
