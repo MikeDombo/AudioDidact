@@ -148,6 +148,6 @@ function makeNav(){
 function makeAddVideo(){
 	echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."addVideoView.html");
 	$feedURL = LOCAL_URL."user/".$_SESSION["user"]->getWebID()."/feed/";
-	echo "<div class='col-sm-12'><h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2></div>";
+	echo "<div class='col-sm-12' style='word-wrap:break-word;'><h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2></div>";
 }
 ?>
