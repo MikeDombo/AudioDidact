@@ -119,7 +119,7 @@ class YouTube{
 		$thumbFilename = $this->videoID.".jpg";
 		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
 		$thumbnail = $path . $thumbFilename;
-		file_put_contents($thumbnail, fopen("http://img.youtube.com/vi/".$this->videoID."/mqdefault.jpg", "r"));
+		file_put_contents($thumbnail, fopen("https://i.ytimg.com/vi/".$this->videoID."/mqdefault.jpg", "r"));
 		// Set the thumbnail file as publicly accessible
 		@chmod($thumbnail, 0775);
 	}
@@ -186,6 +186,11 @@ class YouTube{
 		$offset = $index+$i;
 
 		$json_object = json_decode(substr($html, 0, $offset), true);
+		if(isset($json_object["args"]["livestream"]) && $json_object["args"]["livestream"] && (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
+			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "Download failed\nThis URL is a livestream, try again when the stream has ended");
+			echo json_encode($response);
+			exit();
+		}
 		$encoded_stream_map = $json_object["args"]["url_encoded_fmt_stream_map"];
 
 		$dct = array();
