@@ -13,8 +13,10 @@ Open your web browser to the server that you have set up. Make a new account usi
 
 Subscribe to the generated feed using the URL shown on the Add a Video page to receive updates as they come.
 
-## Future
+## Future Tasks
 - Account management needs to be added
-- Better session remembering using database
 - Create and verify databases
 - Customize feed options including Title, Author, image, etc.
+
+## Completed Tasks
+- Better session handling (session cookie is now stored for a long time and refreshed often)
