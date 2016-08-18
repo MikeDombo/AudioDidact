@@ -1,7 +1,11 @@
 <?php
 require_once __DIR__.'/config.php';
 ini_set('max_execution_time', 1200);
-ini_set('output_buffering', "off");
+// Disable output buffering
+if (ob_get_level()){
+   ob_end_clean();
+}
+
 spl_autoload_register(function($class){
 	$class = end(explode("\\", $class));
 	if(file_exists(__DIR__.'/'.$class.".php")){
