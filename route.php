@@ -34,6 +34,7 @@ function make404(){
  */
 function returnUserFeed($webID){
 	header('Content-Type: application/rss+xml; charset=utf-8');
-	$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$myDalClass = ChosenDAL;
+	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	echo $dal->getFeedText($dal->getUserByWebID($webID));
 }

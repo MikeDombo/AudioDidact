@@ -16,7 +16,8 @@ else{
 	exit(1);
 }
 
-$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+$myDalClass = ChosenDAL;
+$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 
 // If a video is being requested, then add the video, otherwise just show the current feed
 if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){

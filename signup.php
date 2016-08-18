@@ -7,7 +7,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 	// More validation should be completed after this step, ie. check that email is legit.
 	if(isset($_POST["uname"]) && isset($_POST["passwd"]) && isset($_POST["email"])
 	&& trim($_POST["uname"]) != "" && trim($_POST["passwd"]) != "" && trim($_POST["email"] != "")){
-		$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+		$myDalClass = ChosenDAL;
+		$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 		// Make sure the username and email address are not taken.
 		if(!$dal->emailExists($_POST["email"]) && !$dal->usernameExists($_POST["uname"])){
 			$user = new User();

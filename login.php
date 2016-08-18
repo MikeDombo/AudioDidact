@@ -16,7 +16,8 @@ if(isset($_POST["action"]) && $_POST["action"] == "logout"){
 // Make sure necessary variables are given
 if(isset($_POST["uname"]) && isset($_POST["passwd"])){
 	// Check login info, set loggedIn to true if the information is correct
-	$dal = new MySQLDAL(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$myDalClass = ChosenDAL;
+	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	$possibleUser = $dal->getUserByUsername($_POST["uname"]);
 	$possibleUserEmail = $dal->getUserByEmail($_POST["uname"]);
 	// Check user based on username

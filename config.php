@@ -6,10 +6,11 @@
 // Change to your hostname. End with trailing slash
 define("LOCAL_URL", "http://example.com/");
 // Change to subdirectory if any. End with trailing slash. If no subdirectory, enter ""
-define("SUBDIR", "podtube/");
+define("SUBDIR", "");
 // Add server key here
-define("GOOGLE_API_KEY", "*******");
+define("GOOGLE_API_KEY", "****");
 define("DOWNLOAD_PATH", "temp");
+define("ChosenDAL", "MySQLDAL");
 
 // Database constants
 define("DB_HOST", "localhost");
