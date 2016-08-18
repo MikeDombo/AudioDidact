@@ -1,6 +1,6 @@
 <?php
 // Include RSS feed generation library and other classes that are used.
-include __DIR__."/header.php";
+require_once __DIR__."/header.php";
 use \FeedWriter\RSS2;
 
 /**
@@ -130,6 +130,8 @@ class PodTube{
 		// Set description to be the title, author, thumbnail, and then the original video description
 		$newItem->setDescription("<h1>$title</h1><h2>$author</h2><p><img class=\"alignleft size-medium\" src='".$this->localUrl.$this->downloadPath."/".$id.".jpg' alt=\"".$title." -- ".$author."\" width=\"300\" height=\"170\" /></p><p>$descr</p>");
 		$newItem->addElement('media:content', array('media:title'=>$title), array('fileSize'=>filesize($this->downloadPath.DIRECTORY_SEPARATOR.$id.".mp3"), 'type'=> 'audio/mp3', 'medium'=>'audio', 'url'=>$this->localUrl.$this->downloadPath."/".$id.'.mp3'));
+		$newItem->addElement('media:content', array('media:title'=>$title), array('medium'=>'image',
+			'url'=>$this->localUrl.$this->downloadPath."/".$id.'.jpg'), false, true);
 		$newItem->setEnclosure($this->localUrl.$this->downloadPath."/".$id.".mp3", filesize($this->downloadPath.DIRECTORY_SEPARATOR.$id.".mp3"), 'audio/mp3');
 		$newItem->addElement('itunes:image', "", array('href'=>$this->localUrl.$this->downloadPath."/".$id.'.jpg'));
 		$newItem->addElement('itunes:author', $author);

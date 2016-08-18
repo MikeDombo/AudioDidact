@@ -1,5 +1,5 @@
 <?php
-include __DIR__."/header.php";
+require_once __DIR__."/header.php";
 
 require_once("views".DIRECTORY_SEPARATOR."views.php");
 ?>

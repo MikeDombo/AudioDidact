@@ -1,5 +1,5 @@
 <?php
-include __DIR__."/header.php";
+require_once __DIR__."/header.php";
 // Set some important constants/ini
 ignore_user_abort(true);
 ob_implicit_flush(true);

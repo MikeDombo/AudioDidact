@@ -1,5 +1,5 @@
 <?php
-include __DIR__."/../header.php";
+
 
 /**
  * Class DAL
@@ -114,10 +114,10 @@ abstract class DAL {
 	/**
 	 * @return mixed
 	 */
-	abstract protected function makeDB();
+	abstract public function makeDB();
 
 	/**
 	 * @return mixed
 	 */
-	abstract protected function verifyDB();
+	abstract public function verifyDB();
 }

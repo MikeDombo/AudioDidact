@@ -1,5 +1,5 @@
 <?php
-include __DIR__."/../header.php";
+
 
 /**
  * Class MySQLDAL
@@ -23,6 +23,9 @@ class MySQLDAL extends DAL{
 	 * @param $password
 	 */
 	public function __construct($host, $db, $username, $password){
+		if(!CHECK_REQUIRED){
+			require_once __DIR__."/../header.php";
+		}
 		$this->host = $host;
 		$this->db = $db;
 		$this->username = $username;
@@ -372,14 +375,75 @@ class MySQLDAL extends DAL{
 	/**
 	 *
 	 */
-	protected function makeDB(){
+	public function makeDB(){
 		// TODO: Implement makeDB() method.
 	}
 
 	/**
 	 *
 	 */
-	protected function verifyDB(){
-		// TODO: Implement verifyDB() method.
+	public function verifyDB(){
+		try{
+			$p = parent::$PDO->prepare("SHOW TABLES");
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$tables = [];
+			foreach($rows as $r){
+				$tables[] = array_values($r)[0];
+			}
+			if(!in_array($this->usertable, $tables, true) || !in_array($this->feedTable, $tables, true)){
+				return 1;
+			}
+
+			$p = parent::$PDO->prepare("DESCRIBE $this->usertable");
+			$p->execute();
+			$userTableSchema = $p->fetchAll(PDO::FETCH_ASSOC);
+			$p = parent::$PDO->prepare("DESCRIBE $this->feedTable");
+			$p->execute();
+			$feedTableSchema = $p->fetchAll(PDO::FETCH_ASSOC);
+
+			$userCorrect = [
+				["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment",],
+				["Field"=>"username", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
+				["Field"=>"password", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
+				["Field"=>"email", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
+				["Field"=>"firstname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>"",],
+				["Field"=>"lastname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>"",],
+				["Field"=>"gender", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>"",],
+				["Field"=>"webID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
+				["Field"=>"feedText", "Type"=>"longtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
+				["Field"=>"feedLength", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",]
+			];
+
+			$feedCorrect = [
+				["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
+				["Field"=>"userID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"orderID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"videoID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"videoAuthor", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"description", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"videoTitle", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"duration", "Type"=>"int(11)", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"timeAdded", "Type"=>"timestamp", "Null"=>"NO", "Key"=>"", "Default"=>"CURRENT_TIMESTAMP", "Extra"=>""]
+			];
+
+			if($this->verifySchema($userCorrect, $userTableSchema) && $this->verifySchema($feedCorrect,
+					$feedTableSchema)){
+				return 0;
+			}
+			else{
+				return 2;
+			}
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			return $e;
+		}
+	}
+
+	private function verifySchema($correct, $existing){
+		sort($correct);
+		sort($existing);
+		return $correct == $existing;
 	}
 }

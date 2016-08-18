@@ -19,3 +19,11 @@ define("DB_HOST", "localhost");
 define("DB_DATABASE", "podtube");
 define("DB_USER", "podtube");
 define("DB_PASSWORD", "podtube");
+
+
+//
+//
+// Do not manually modify below this line
+//
+//
+define("CHECK_REQUIRED", false);

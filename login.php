@@ -3,7 +3,7 @@
  * This file handles the login and logout procedures. It checks the username and password of the user and sets session
  * variables if the information is correct.
  */
-include __DIR__."/header.php";
+require_once __DIR__."/header.php";
 
 // Check if the user is requesting a logout
 if(isset($_POST["action"]) && $_POST["action"] == "logout"){

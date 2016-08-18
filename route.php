@@ -1,5 +1,5 @@
 <?php
-include __DIR__."/header.php";
+require_once __DIR__."/header.php";
 
 /**
  * Read request url path and split it into subdirectories. If one of the subdirectories is "User" and there is a
