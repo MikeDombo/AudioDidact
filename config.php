@@ -11,6 +11,8 @@ define("SUBDIR", "");
 define("GOOGLE_API_KEY", "****");
 define("DOWNLOAD_PATH", "temp");
 define("ChosenDAL", "MySQLDAL");
+// Set to true if your server is setup for HTTPS (highly recommended);
+define("SessionCookieSecure", true);
 
 // Database constants
 define("DB_HOST", "localhost");

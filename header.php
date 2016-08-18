@@ -24,14 +24,12 @@ spl_autoload_register(function($class){
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
 
-
-$sessionCookieIsHTTPS = true;
 if (session_status() == PHP_SESSION_NONE) {
 	session_set_cookie_params(
 		2678400,
 		"/",
 		parse_url(LOCAL_URL)["host"],
-		$sessionCookieIsHTTPS, //HTTPS only
+		SessionCookieSecure, //HTTPS only
 		true
 	);
 	session_start();
