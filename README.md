@@ -4,6 +4,7 @@ Makes an RSS podcast feed from given YouTube URLs
 ## Configuration
 Download this repository and then edit `config.php` to add your [Google API server key.](https://console.developers.google.com/apis/credentials)
 Set hostname to your public ip or domain and subdirectory.
+
 ![config.php](https://raw.githubusercontent.com/md100play/PodTube/master/README-images/config-php.PNG)
 
 In your `php.ini` you must set `output_buffering=Off` for the progress bar to work. (Everything else works fine even without this change)
