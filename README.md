@@ -7,8 +7,6 @@ Set hostname to your public ip or domain and subdirectory.
 
 ![config.php](https://raw.githubusercontent.com/md100play/PodTube/master/README-images/config-php.PNG)
 
-In your `php.ini` you must set `output_buffering=Off` for the progress bar to work. (Everything else works fine even without this change)
-
 Set database configuration also in `config.php`. Execute the SQL script in the Schema directory or manually replicate the same structure. In future versions the software will be able to make its own database schema, but for now you must do it.
 
 ## Usage
