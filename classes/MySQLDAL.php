@@ -388,7 +388,7 @@ class MySQLDAL extends DAL{
 							/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 							/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;";
 
-		$userTableSQL = "CREATE TABLE `users` (
+		$userTableSQL = "CREATE TABLE `".$this->usertable."` (
 						  `ID` int(11) NOT NULL,
 						  `username` mediumtext COLLATE utf8mb4_bin NOT NULL,
 						  `password` mediumtext COLLATE utf8mb4_bin NOT NULL,
@@ -401,12 +401,12 @@ class MySQLDAL extends DAL{
 						  `feedLength` int(11) NOT NULL
 						) 
 						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-						ALTER TABLE `users`
+						ALTER TABLE `".$this->usertable."`
 							ADD PRIMARY KEY (`ID`);
-						ALTER TABLE `users`
+						ALTER TABLE `".$this->usertable."`
 							MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
 
-		$feedTableSQL = "CREATE TABLE `feed` (
+		$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (
 						  `ID` int(11) NOT NULL,
 						  `userID` int(11) NOT NULL,
 						  `orderID` int(11) NOT NULL,
@@ -418,9 +418,9 @@ class MySQLDAL extends DAL{
 						  `timeAdded` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 						) 
 						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-						ALTER TABLE `feed`
+						ALTER TABLE `".$this->feedTable."`
 						  ADD PRIMARY KEY (`ID`);
-						ALTER TABLE `feed`
+						ALTER TABLE `".$this->feedTable."`
 						  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
 
 		// Execute all the statements
