@@ -47,7 +47,6 @@ if(!function_exists("setCheckRequired")){
 
 if(CHECK_REQUIRED){
 	$myDalClass = ChosenDAL;
-	require_once __DIR__.'/classes/MySQLDAL.php';
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	$nextStep = $dal->verifyDB();
 	if($nextStep == 0){
