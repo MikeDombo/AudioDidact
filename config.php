@@ -26,4 +26,4 @@ define("DB_PASSWORD", "podtube");
 // Do not manually modify below this line
 //
 //
-define("CHECK_REQUIRED", false);
+define("CHECK_REQUIRED", true);

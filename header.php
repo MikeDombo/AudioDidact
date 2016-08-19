@@ -57,13 +57,24 @@ if(CHECK_REQUIRED){
 		echo "<h1>The database needs to be created, this will be completed automatically...</h1>";
 		error_log("Database needs to be created");
 		$dal->makeDB();
-		setCheckRequired("false");
+		if($dal->verifyDB() == 0){
+			setCheckRequired("false");
+		}
+		else{
+			error_log("Database creation error, verifyDB output: ".$dal->verifyDB());
+		}
 	}
 	else if($nextStep == 2){
 		echo "<h1>The database needs to be updated, this will be completed automatically...</h1>";
 		error_log("Database needs to be updated");
 		$dal->makeDB();
-		setCheckRequired("false");
+		$dal->verifyDB();
+		if($dal->verifyDB() == 0){
+			setCheckRequired("false");
+		}
+		else{
+			error_log("Database updating error, verifyDB output: ".$dal->verifyDB());
+		}
 	}
 	else{
 		error_log("Unknown database error: ".$nextStep);
