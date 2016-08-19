@@ -72,27 +72,27 @@
       <file leaf-file-name="MySQLDAL.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/classes/MySQLDAL.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-583">
-              <caret line="390" column="59" selection-start-line="390" selection-start-column="59" selection-end-line="390" selection-end-column="59" />
+            <state relative-caret-position="1375">
+              <caret line="431" column="6" selection-start-line="431" selection-start-column="6" selection-end-line="431" selection-end-column="6" />
               <folding>
-                <marker date="1471569520563" expanded="true" signature="1071:1114" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-                <marker date="1471569520563" expanded="true" signature="2182:2228" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-                <marker date="1471569520563" expanded="true" signature="2773:2828" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-                <marker date="1471569520563" expanded="true" signature="3367:3416" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-                <marker date="1471569520563" expanded="true" signature="3951:4023" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-                <marker date="1471569520563" expanded="true" signature="4885:5075" ph="INSERT INTO ${$this-&gt;usertable}... " />
-                <marker date="1471569520563" expanded="true" signature="6060:6141" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-                <marker date="1471569520563" expanded="true" signature="6453:6664" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-                <marker date="1471569520563" expanded="true" signature="7444:7498" ph="SELECT feedT... ${$this-&gt;usertable}" />
-                <marker date="1471569520563" expanded="true" signature="8004:8084" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-                <marker date="1471569520563" expanded="true" signature="8899:8962" ph="UPDATE ${$th... " />
-                <marker date="1471569520563" expanded="true" signature="9367:9439" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-                <marker date="1471569520563" expanded="true" signature="10409:11032" ph="CREATE TABLE... users" />
-                <marker date="1471569520563" expanded="true" signature="11040:11104" ph="ALTER TABLE `users`... " />
-                <marker date="1471569520563" expanded="true" signature="11112:11215" ph="ALTER TABLE `users`... " />
-                <marker date="1471569520563" expanded="true" signature="11239:11777" ph="CREATE TABLE... feed" />
-                <marker date="1471569520563" expanded="true" signature="11785:11850" ph="ALTER TABLE `feed`... " />
-                <marker date="1471569520563" expanded="true" signature="11858:11962" ph="ALTER TABLE `feed`... " />
+                <marker date="1471569614532" expanded="true" signature="1071:1114" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1471569614532" expanded="true" signature="2182:2228" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1471569614532" expanded="true" signature="2773:2828" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1471569614532" expanded="true" signature="3367:3416" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+                <marker date="1471569614532" expanded="true" signature="3951:4023" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1471569614532" expanded="true" signature="4885:5075" ph="INSERT INTO ${$this-&gt;usertable}... " />
+                <marker date="1471569614532" expanded="true" signature="6060:6141" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1471569614532" expanded="true" signature="6453:6664" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+                <marker date="1471569614532" expanded="true" signature="7444:7498" ph="SELECT feedT... ${$this-&gt;usertable}" />
+                <marker date="1471569614532" expanded="true" signature="8004:8084" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1471569614532" expanded="true" signature="8899:8962" ph="UPDATE ${$th... " />
+                <marker date="1471569614532" expanded="true" signature="9367:9439" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+                <marker date="1471569614532" expanded="true" signature="10419:11042" ph="CREATE TABLE... users" />
+                <marker date="1471569614532" expanded="true" signature="11050:11114" ph="ALTER TABLE `users`... " />
+                <marker date="1471569614532" expanded="true" signature="11122:11225" ph="ALTER TABLE `users`... " />
+                <marker date="1471569614532" expanded="true" signature="11249:11787" ph="CREATE TABLE... feed" />
+                <marker date="1471569614532" expanded="true" signature="11795:11860" ph="ALTER TABLE `feed`... " />
+                <marker date="1471569614532" expanded="true" signature="11868:11972" ph="ALTER TABLE `feed`... " />
               </folding>
             </state>
           </provider>
@@ -410,7 +410,7 @@
       <workItem from="1470447361128" duration="5737000" />
       <workItem from="1470453538050" duration="4450000" />
       <workItem from="1471553836735" duration="5343000" />
-      <workItem from="1471568517432" duration="1009000" />
+      <workItem from="1471568517432" duration="1115000" />
     </task>
     <servers />
   </component>
@@ -447,7 +447,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78678000" />
+    <option name="totallyTimeSpent" value="78784000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -784,27 +784,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/classes/MySQLDAL.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-583">
-          <caret line="390" column="59" selection-start-line="390" selection-start-column="59" selection-end-line="390" selection-end-column="59" />
+        <state relative-caret-position="1375">
+          <caret line="431" column="6" selection-start-line="431" selection-start-column="6" selection-end-line="431" selection-end-column="6" />
           <folding>
-            <marker date="1471569520563" expanded="true" signature="1071:1114" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1471569520563" expanded="true" signature="2182:2228" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1471569520563" expanded="true" signature="2773:2828" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1471569520563" expanded="true" signature="3367:3416" ph="SELECT * FRO... ${$this-&gt;usertable}" />
-            <marker date="1471569520563" expanded="true" signature="3951:4023" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1471569520563" expanded="true" signature="4885:5075" ph="INSERT INTO ${$this-&gt;usertable}... " />
-            <marker date="1471569520563" expanded="true" signature="6060:6141" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1471569520563" expanded="true" signature="6453:6664" ph="INSERT INTO ${$this-&gt;feedTable}... " />
-            <marker date="1471569520563" expanded="true" signature="7444:7498" ph="SELECT feedT... ${$this-&gt;usertable}" />
-            <marker date="1471569520563" expanded="true" signature="8004:8084" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1471569520563" expanded="true" signature="8899:8962" ph="UPDATE ${$th... " />
-            <marker date="1471569520563" expanded="true" signature="9367:9439" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
-            <marker date="1471569520563" expanded="true" signature="10409:11032" ph="CREATE TABLE... users" />
-            <marker date="1471569520563" expanded="true" signature="11040:11104" ph="ALTER TABLE `users`... " />
-            <marker date="1471569520563" expanded="true" signature="11112:11215" ph="ALTER TABLE `users`... " />
-            <marker date="1471569520563" expanded="true" signature="11239:11777" ph="CREATE TABLE... feed" />
-            <marker date="1471569520563" expanded="true" signature="11785:11850" ph="ALTER TABLE `feed`... " />
-            <marker date="1471569520563" expanded="true" signature="11858:11962" ph="ALTER TABLE `feed`... " />
+            <marker date="1471569614532" expanded="true" signature="1071:1114" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1471569614532" expanded="true" signature="2182:2228" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1471569614532" expanded="true" signature="2773:2828" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1471569614532" expanded="true" signature="3367:3416" ph="SELECT * FRO... ${$this-&gt;usertable}" />
+            <marker date="1471569614532" expanded="true" signature="3951:4023" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1471569614532" expanded="true" signature="4885:5075" ph="INSERT INTO ${$this-&gt;usertable}... " />
+            <marker date="1471569614532" expanded="true" signature="6060:6141" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1471569614532" expanded="true" signature="6453:6664" ph="INSERT INTO ${$this-&gt;feedTable}... " />
+            <marker date="1471569614532" expanded="true" signature="7444:7498" ph="SELECT feedT... ${$this-&gt;usertable}" />
+            <marker date="1471569614532" expanded="true" signature="8004:8084" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1471569614532" expanded="true" signature="8899:8962" ph="UPDATE ${$th... " />
+            <marker date="1471569614532" expanded="true" signature="9367:9439" ph="SELECT * FRO... ${$this-&gt;feedTable}" />
+            <marker date="1471569614532" expanded="true" signature="10419:11042" ph="CREATE TABLE... users" />
+            <marker date="1471569614532" expanded="true" signature="11050:11114" ph="ALTER TABLE `users`... " />
+            <marker date="1471569614532" expanded="true" signature="11122:11225" ph="ALTER TABLE `users`... " />
+            <marker date="1471569614532" expanded="true" signature="11249:11787" ph="CREATE TABLE... feed" />
+            <marker date="1471569614532" expanded="true" signature="11795:11860" ph="ALTER TABLE `feed`... " />
+            <marker date="1471569614532" expanded="true" signature="11868:11972" ph="ALTER TABLE `feed`... " />
           </folding>
         </state>
       </provider>
