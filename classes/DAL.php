@@ -120,4 +120,6 @@ abstract class DAL {
 	 * @return mixed
 	 */
 	abstract public function verifyDB();
+	
+	abstract public function getPrunableVideos();
 }

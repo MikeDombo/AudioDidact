@@ -47,6 +47,7 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 		}
 	}
 	catch(Exception $e){
+		error_log($e->getMessage());
 		exit();
 	}
 
