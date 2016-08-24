@@ -2,7 +2,7 @@
 
 
 /**
- * Class MySQLDAL
+ * Class MySQLDAL contains methods for communicating with a SQL database
  *
  */
 class MySQLDAL extends DAL{
@@ -17,10 +17,11 @@ class MySQLDAL extends DAL{
 	 * MySQLDAL constructor.
 	 * Sets up parent's PDO object using the parameters that are passed in.
 	 *
-	 * @param $host
-	 * @param $db
-	 * @param $username
-	 * @param $password
+	 * @param $host The hostname/ip and port of the database
+	 * @param $db The database name
+	 * @param $username The username used to connect to the database
+	 * @param $password The password used to connect to the database
+	 * @throws \PDOException Rethrows any PDO exceptions encountered when connecting to the database
 	 */
 	public function __construct($host, $db, $username, $password){
 		if(!CHECK_REQUIRED){
@@ -45,7 +46,7 @@ class MySQLDAL extends DAL{
 	/**
 	 * @param $id
 	 * @return null|\User
-	 * @throws \Exception
+	 * @throws \PDOException
 	 */
 	public function getUserByID($id){
 		try{
@@ -71,7 +72,7 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * Makes a new user object from a database select command.
-	 * @param $rows
+	 * @param $rows Database rows retrieved from another method
 	 * @return \User
 	 */
 	private function setUser($rows){
@@ -93,7 +94,7 @@ class MySQLDAL extends DAL{
 	/**
 	 * @param $webID
 	 * @return null|\User
-	 * @throws \Exception
+	 * @throws \PDOException
 	 */
 	public function getUserByWebID($webID){
 		try{
@@ -120,7 +121,7 @@ class MySQLDAL extends DAL{
 	/**
 	 * @param $username
 	 * @return \User
-	 * @throws \Exception
+	 * @throws \PDOException
 	 */
 	public function getUserByUsername($username){
 		$username = strtolower($username);
@@ -148,7 +149,7 @@ class MySQLDAL extends DAL{
 	/**
 	 * @param $email
 	 * @return \User
-	 * @throws \Exception
+	 * @throws \PDOException
 	 */
 	public function getUserByEmail($email){
 		$email = strtolower($email);
@@ -177,7 +178,7 @@ class MySQLDAL extends DAL{
 	 * @param \User $user
 	 * @param $id
 	 * @return null|\Video
-	 * @throws \Exception
+	 * @throws \PDOException
 	 */
 	public function getVideoByID(User $user, $id){
 		try{
@@ -209,7 +210,7 @@ class MySQLDAL extends DAL{
 	/**
 	 * @param \User $user
 	 * @return mixed|void
-	 * @throws \Exception
+	 * @throws \PDOException
 	 */
 	public function addUser(User $user){
 		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
@@ -241,6 +242,7 @@ class MySQLDAL extends DAL{
 	 * @param \Video $vid
 	 * @param \User $user
 	 * @return bool
+	 * @throws \PDOException
 	 */
 	public function addVideo(Video $vid, User $user){
 		try{
@@ -281,6 +283,7 @@ class MySQLDAL extends DAL{
 	/**
 	 * @param \User $user
 	 * @return mixed
+	 * @throws \PDOException
 	 */
 	public function getFeedText(User $user){
 		try{
@@ -299,7 +302,7 @@ class MySQLDAL extends DAL{
 	/**
 	 * @param \User $user
 	 * @return array|null
-	 * @throws \Exception
+	 * @throws \PDOException
 	 */
 	public function getFeed(User $user){
 		try{
@@ -336,6 +339,7 @@ class MySQLDAL extends DAL{
 	 * @param \User $user
 	 * @param $feed
 	 * @return bool
+	 * @throws \PDOException
 	 */
 	public function setFeedText(User $user, $feed){
 		try{
@@ -356,6 +360,7 @@ class MySQLDAL extends DAL{
 	 * @param \Video $vid
 	 * @param \User $user
 	 * @return bool
+	 * @throws \PDOException
 	 */
 	public function inFeed(Video $vid, User $user){
 		try{
@@ -373,7 +378,8 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
-	 *
+	 * Generate the tables in the current database
+	 * @throws \PDOException
 	 */
 	public function makeDB(){
 		$generalSetupSQL = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";
@@ -423,13 +429,22 @@ class MySQLDAL extends DAL{
 						ALTER TABLE `".$this->feedTable."`
 						  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
 
-		// Execute all the statements
-		$p = parent::$PDO->prepare($generalSetupSQL.$preProcessSQL.$userTableSQL.$feedTableSQL.$postProcessSQL);
-		$p->execute();
+		try{
+			// Execute all the statements
+			$p = parent::$PDO->prepare($generalSetupSQL.$preProcessSQL.$userTableSQL.$feedTableSQL.$postProcessSQL);
+			$p->execute();
+		}
+		catch(PDOException $e){
+			echo "Database creation failed! ".$e->getMessage;
+			error_log("Database creation failed! ".$e->getMessage);
+			throw $e;
+		}
 	}
 
 	/**
-	 *
+	 * Verifies the currently connected database against the current schema
+	 * @return int Returns 0 if all is well, 1 if the user table or feed table do not exist, and 2 if the tables exist but the schema inside is wrong
+	 * @throws \PDOException
 	 */
 	public function verifyDB(){
 		try{

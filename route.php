@@ -30,10 +30,10 @@ function make404(){
 
 /**
  * Make the user feed by reading it from the database.
- * @param $webID the WebID of the requeste feed
+ * @param $webID The WebID of the requested feed
  */
 function returnUserFeed($webID){
-	header('Content-Type: application/rss+xml; charset=utf-8');
+	header('Content-Type: application/xml; charset=utf-8');
 	$myDalClass = ChosenDAL;
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	echo $dal->getFeedText($dal->getUserByWebID($webID));

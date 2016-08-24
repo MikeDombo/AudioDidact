@@ -33,15 +33,21 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	$video->setTitle($download->getVideoTitle());
 	$video->setId($download->getVideoID());
 
-	if(!$dal->inFeed($video, $user)){
-		$dal->addVideo($video, $user);
+	// Try to download all the files, but if an error occurs, do not add the video to the feed
+	try{
+		// If not all thumbnail, video, and audio are downloaded, then download them in that order
+		if(!$download->allDownloaded()){
+			$download->downloadThumbnail();
+			$download->downloadVideo();
+			$download->convert();
+		}
+		
+		if(!$dal->inFeed($video, $user)){
+			$dal->addVideo($video, $user);
+		}
 	}
-
-	// If not all thumbnail, video, and audio are downloaded, then download them in that order
-	if(!$download->allDownloaded()){
-		$download->downloadThumbnail();
-		$download->downloadVideo();
-		$download->convert();
+	catch(Exception $e){
+		exit();
 	}
 
 	// Before we make the feed, check that every file is downloaded

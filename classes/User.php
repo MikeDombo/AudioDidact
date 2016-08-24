@@ -2,7 +2,7 @@
 include __DIR__."/../header.php";
 
 /**
- * Class User
+ * Class User stores user specific information
  */
 class User{
 	private $username;
@@ -25,7 +25,7 @@ class User{
 	/**
 	 * Checks if plaintext password when hashed, matches the hashed password stored in this User
 	 *
-	 * @param $passwd
+	 * @param $passwd The password to check against the password stored in the database
 	 * @return bool
 	 */
 	public function passwdCorrect($passwd){
@@ -143,7 +143,7 @@ class User{
 	 * Sets hashed password using plaintext password and username
 	 *
 	 * @param mixed $passwd
-	 * @throws \Exception
+	 * @throws \Exception Username must be set before setting the password because the password is stored as a hash of the plaintext password and the username
 	 */
 	public function setPasswd($passwd){
 		if($this->username != ""){
@@ -157,7 +157,7 @@ class User{
 	/**
 	 * Used to set the hashed password from the database.
 	 *
-	 * @param $passwd
+	 * @param $passwd Hashed password from database
 	 */
 	public function setPasswdDB($passwd){
 		$this->passwd = $passwd;

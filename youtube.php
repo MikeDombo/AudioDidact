@@ -48,7 +48,7 @@ class YouTube{
 				// If the lookup fails, send this error to the UI as a JSON array
 				if(!isset($info['items'][0]['snippet'])){
 					echo json_encode(['stage'=>-1, 'error'=>"ID Inaccessible", 'progress'=>0]);
-					throw new RuntimeException();
+					throw new Exception("Download Failed!");
 				}
 				$info = $info['items'][0]['snippet'];
 				$this->videoTitle = $info["title"];
@@ -133,17 +133,23 @@ class YouTube{
 		$videoFilename = "$id.mp4";
 		$video = $path . $videoFilename;
 
-		$url = $this->getDownloadURL($id);
-		if(strpos($url, "Error:")>-1){
-			echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$url]);
+		try{
+			$url = $this->getDownloadURL($id);
+			if(strpos($url, "Error:")>-1){
+				echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$url]);
+				throw new Exception("Download Failed!");
+			}
+			/* Actually download the video from the url and print the
+			 * percentage to the screen with JSON
+			 */
+			$this->downloadWithPercentage($url, $video);
+			// Set the video file as publicly accessible
+			@chmod($video, 0775);
+			return;
 		}
-		/* Actually download the video from the url and print the
-		 * percentage to the screen with JSON
-		 */
-		$this->downloadWithPercentage($url, $video);
-		// Set the video file as publicly accessible
-		@chmod($video, 0775);
-		return;
+		catch(Exception $e){
+			throw $e;
+		}
 	}
 
 	/**
@@ -186,13 +192,19 @@ class YouTube{
 		$offset = $index+$i;
 
 		$json_object = json_decode(substr($html, 0, $offset), true);
+		
 		if(isset($json_object["args"]["livestream"]) && $json_object["args"]["livestream"] && (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
 			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "Download failed\nThis URL is a livestream, try again when the stream has ended");
 			echo json_encode($response);
-			exit();
+			throw new Exception("Download Failed!");
+		}
+		if(isset($json_object["args"]["live_default_broadcast"]) && $json_object["args"]["live_default_broadcast"] == 1 || (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
+			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "Download failed\nTry again later");
+			echo json_encode($response);
+			throw new Exception("Download Failed!");
 		}
 		$encoded_stream_map = $json_object["args"]["url_encoded_fmt_stream_map"];
-
+		error_log(json_encode($json_object));
 		$dct = array();
 		$videos = explode(",", $encoded_stream_map);
 		foreach($videos as $i=>$video){
@@ -213,6 +225,7 @@ class YouTube{
 			$quality_profile = $this->getQualityProfilesFromURL($vurl);
 			$downloads[] = ["url"=>$vurl, "ext"=>$quality_profile["extension"], "res"=>$quality_profile["resolution"]];
 		}
+		error_log(json_encode($downloads));
 		$downloadURL = "";
 		$resolution = 999999;
 		// Find lowest quality mp4
@@ -286,7 +299,7 @@ class YouTube{
 		if ($data === false) {
 			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "Download failed, URL tried was ".$url);
 			echo json_encode($response);
-			throw new RuntimeException();
+			throw new Exception("Download Failed!");
 		}
 
 		// Get content length in bytes
@@ -317,6 +330,9 @@ class YouTube{
 			// Close the handles of both files
 			fclose($remote);
 			fclose($local);
+		}
+		else{
+			error_log("Content length was 0 for URL: ".$url);
 		}
 
 		return true;
