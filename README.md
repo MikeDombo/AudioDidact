@@ -16,8 +16,8 @@ Subscribe to the generated feed using the URL shown on the Add a Video page to r
 
 ## Future Tasks
 - Account management needs to be added
-- Create and verify databases
 - Customize feed options including Title, Author, image, etc.
 
 ## Completed Tasks
 - Better session handling (session cookie is now stored for a long time and refreshed often)
+- Create and verify databases
