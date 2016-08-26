@@ -25,16 +25,17 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 		$_GET["yt"] = $argv[2];
 	}
 	$podtube = new PodTube($dal, LOCAL_URL, DOWNLOAD_PATH);
-	$download = new YouTube($_GET["yt"], $podtube, GOOGLE_API_KEY, DOWNLOAD_PATH);
-
-	$video = new Video();
-	$video->setDesc($download->getDescr());
-	$video->setAuthor($download->getVideoAuthor());
-	$video->setTitle($download->getVideoTitle());
-	$video->setId($download->getVideoID());
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
+		$download = new YouTube($_GET["yt"], $podtube, GOOGLE_API_KEY, DOWNLOAD_PATH);
+
+		$video = new Video();
+		$video->setDesc($download->getDescr());
+		$video->setAuthor($download->getVideoAuthor());
+		$video->setTitle($download->getVideoTitle());
+		$video->setId($download->getVideoID());
+		
 		// If not all thumbnail, video, and audio are downloaded, then download them in that order
 		if(!$download->allDownloaded()){
 			$download->downloadThumbnail();
@@ -47,7 +48,6 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 		}
 	}
 	catch(Exception $e){
-		error_log($e->getMessage());
 		exit();
 	}
 

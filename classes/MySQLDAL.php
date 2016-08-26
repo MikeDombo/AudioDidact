@@ -517,15 +517,18 @@ class MySQLDAL extends DAL{
 		$feedTable = $this->feedTable;
 		$userTable = $this->usertable;
 		try{
-			$pruneSQL = "SELECT `videoID`, ((MaxOrderID-orderID)>=feedLength) AS `isUnNeeded` FROM (SELECT
-						    `".$feedTable."`.`userID`,
-						    `".$userTable."`.`feedLength`,
-						    videoID,
-						    orderID
-						  FROM
-						    `".$feedTable."`
-						  INNER JOIN
-						    `".$userTable."` ON `".$feedTable."`.`userID` = `".$userTable."`.`ID`) Y
+			$pruneSQL = "SELECT `videoID`, 
+							MIN((MaxOrderID-orderID)>=feedLength) AS `isUnNeeded` 
+							FROM 
+								(SELECT
+								`".$feedTable."`.`userID`,
+								`".$userTable."`.`feedLength`,
+								videoID,
+								orderID
+							  FROM
+								`".$feedTable."`
+							  INNER JOIN
+								`".$userTable."` ON `".$feedTable."`.`userID` = `".$userTable."`.`ID`) Y
 						    INNER JOIN (SELECT `userID`, MAX(`orderID`) AS MaxOrderID FROM `".$feedTable."` GROUP BY `userID`) AS X 
 						        ON X.userID=Y.`userID`
 						    GROUP BY `videoID`

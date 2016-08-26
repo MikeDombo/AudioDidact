@@ -56,7 +56,10 @@
 
 						if(result.stage == -1){
 							error = result.error;
-							alert(result.error);
+							$('#Error-Modal-Text').text(error);
+							$('#Error-Modal').modal({
+								show: true
+							});
 						}
 
 						var totalProg = ((100/(numberOfStages))*result.stage) + (result.progress/numberOfStages);
@@ -78,4 +81,15 @@
 		}
 	}
 	</script>
+	<div id="Error-Modal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h2 class="modal-title">PodTube Error</h2>
+				<div class="modal-body">
+					<h3 id="Error-Modal-Text"></h3>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
