@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - FeedWriter\Feed</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.xhtml">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.xhtml">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.xhtml">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.xhtml">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.xhtml">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.xhtml">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.xhtml#FeedWriter">FeedWriter</a>
+          </li>
+          <li class="separator">Feed</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#constants">Constants</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="../source/Feeds/Feed.php.xhtml#line39">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>FeedWriter\</small>Feed</h1>
+        <h4>Universal Feed Writer class</h4>
+        <p>Generate RSS 1.0, RSS2.0 and ATOM Feeds</p>
+        <ul>
+          <li>Author: Anis uddin Ahmad &lt;anisniit@gmail.com&gt;</li>
+        </ul>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class Feed
+            {<br/><ul class="none"><li>// constants</li><li>const RSS1 = 'RSS 1.0';</li><li>const RSS2 = 'RSS 2.0';</li><li>const ATOM = 'ATOM';</li></ul><ul class="none"><li>// members</li><li>private array <a href="#members">$channels</a> =
+                        ;
+                    </li><li>private array <a href="#members">$items</a> =
+                        ;
+                    </li><li>private array <a href="#members">$data</a> =
+                        ;
+                    </li><li>private array <a href="#members">$CDATAEncoding</a> =
+                        ;
+                    </li><li>private array <a href="#members">$namespaces</a> =
+                        ;
+                    </li><li>private <a href="#members">$version</a> =
+                        null;
+                    </li></ul><ul class="none"><li>// methods</li><li>protected void <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/__construct.xhtml">__construct</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setPagination.xhtml">setPagination</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/addGenerator.xhtml">addGenerator</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/addNamespace.xhtml">addNamespace</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setChannelElement.xhtml">setChannelElement</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setChannelElementsFromArray.xhtml">setChannelElementsFromArray</a>()
+                    </li><li>public string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/getMIMEType.xhtml">getMIMEType</a>()
+                    </li><li>public void <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/printFeed.xhtml">printFeed</a>()
+                    </li><li>public string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/generateFeed.xhtml">generateFeed</a>()
+                    </li><li>public Item <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/createNewItem.xhtml">createNewItem</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/addCDATAEncoding.xhtml">addCDATAEncoding</a>()
+                    </li><li>public array <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/getCDATAEncoding.xhtml">getCDATAEncoding</a>()
+                    </li><li>public void <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/removeCDATAEncoding.xhtml">removeCDATAEncoding</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/addItem.xhtml">addItem</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setEncoding.xhtml">setEncoding</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setTitle.xhtml">setTitle</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setDate.xhtml">setDate</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setDescription.xhtml">setDescription</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setLink.xhtml">setLink</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setAtomLink.xhtml">setAtomLink</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setSelfLink.xhtml">setSelfLink</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setImage.xhtml">setImage</a>()
+                    </li><li>public Feed <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setChannelAbout.xhtml">setChannelAbout</a>()
+                    </li><li>public static string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/uuid.xhtml">uuid</a>()
+                    </li><li>public static string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/filterInvalidXMLChars.xhtml">filterInvalidXMLChars</a>()
+                    </li><li>private array <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/getNamespacePrefixes.xhtml">getNamespacePrefixes</a>()
+                    </li><li>private string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeHeader.xhtml">makeHeader</a>()
+                    </li><li>private string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeFooter.xhtml">makeFooter</a>()
+                    </li><li>private string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeNode.xhtml">makeNode</a>()
+                    </li><li>private string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeChannels.xhtml">makeChannels</a>()
+                    </li><li>private string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeItems.xhtml">makeItems</a>()
+                    </li><li>private string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/startItem.xhtml">startItem</a>()
+                    </li><li>private string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/endItem.xhtml">endItem</a>()
+                    </li><li>private string <a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/sanitizeCDATA.xhtml">sanitizeCDATA</a>()
+                    </li></ul>
+
+            }<br/></div>
+        <h2 id="constants">Constants</h2>
+        <table class="styled">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="RSS1">RSS1</td>
+              <td>'RSS 1.0'</td>
+            </tr>
+            <tr>
+              <td id="RSS2">RSS2</td>
+              <td>'RSS 2.0'</td>
+            </tr>
+            <tr>
+              <td id="ATOM">ATOM</td>
+              <td>'ATOM'</td>
+            </tr>
+          </tbody>
+        </table>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="CDATAEncoding">
+              <strong>$CDATAEncoding</strong>
+              <br/>
+              <span class="indent">The tag names which have to encoded as CDATA</span>
+            </li>
+            <li id="channels">
+              <strong>$channels</strong>
+              <br/>
+              <span class="indent">Collection of all channel elements</span>
+            </li>
+            <li id="data">
+              <strong>$data</strong>
+              <br/>
+              <span class="indent">Store some other version wise data</span>
+            </li>
+            <li id="items">
+              <strong>$items</strong>
+              <br/>
+              <span class="indent">Collection of items as object of \FeedWriter\Item class.</span>
+            </li>
+            <li id="namespaces">
+              <strong>$namespaces</strong>
+              <br/>
+              <span class="indent">Collection of XML namespaces</span>
+            </li>
+            <li id="version">
+              <strong>$version</strong>
+              <br/>
+              <span class="indent">Contains the format of this feed.</span>
+            </li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>private</h4>
+          <ul>
+            <li id="endItem"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/endItem.xhtml">endItem()</a>
+                — Closes feed item tag</li>
+            <li id="getNamespacePrefixes"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/getNamespacePrefixes.xhtml">getNamespacePrefixes()</a>
+                — Returns all used XML namespace prefixes in this instance.</li>
+            <li id="makeChannels"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeChannels.xhtml">makeChannels()</a>
+                — Make the channels.</li>
+            <li id="makeFooter"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeFooter.xhtml">makeFooter()</a>
+                — Closes the open tags at the end of file</li>
+            <li id="makeHeader"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeHeader.xhtml">makeHeader()</a>
+                — Returns the XML header and root element, depending on the feed type.</li>
+            <li id="makeItems"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeItems.xhtml">makeItems()</a>
+                — Prints formatted feed items</li>
+            <li id="makeNode"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/makeNode.xhtml">makeNode()</a>
+                — Creates a single node in XML format</li>
+            <li id="sanitizeCDATA"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/sanitizeCDATA.xhtml">sanitizeCDATA()</a>
+                — Sanitizes data which will be later on returned as CDATA in the feed.</li>
+            <li id="startItem"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/startItem.xhtml">startItem()</a>
+                — Make the starting tag of channels</li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="addCDATAEncoding"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/addCDATAEncoding.xhtml">addCDATAEncoding()</a>
+                — Add one or more tags to the list of CDATA encoded tags</li>
+            <li id="addGenerator"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/addGenerator.xhtml">addGenerator()</a>
+                — Add a channel element indicating the program used to generate the feed.</li>
+            <li id="addItem"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/addItem.xhtml">addItem()</a>
+                — Add a FeedItem to the main class</li>
+            <li id="addNamespace"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/addNamespace.xhtml">addNamespace()</a>
+                — Add a XML namespace to the internal list of namespaces. After that, custom channel elements can be used properly to generate a valid feed.</li>
+            <li id="createNewItem"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/createNewItem.xhtml">createNewItem()</a>
+                — Create a new Item.</li>
+            <li id="filterInvalidXMLChars"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/filterInvalidXMLChars.xhtml">filterInvalidXMLChars()</a>
+                — Replace invalid XML characters.</li>
+            <li id="generateFeed"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/generateFeed.xhtml">generateFeed()</a>
+                — Generate the feed.</li>
+            <li id="getCDATAEncoding"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/getCDATAEncoding.xhtml">getCDATAEncoding()</a>
+                — Get list of CDATA encoded properties</li>
+            <li id="getMIMEType"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/getMIMEType.xhtml">getMIMEType()</a>
+                — Get the appropriate MIME type string for the current feed.</li>
+            <li id="printFeed"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/printFeed.xhtml">printFeed()</a>
+                — Print the actual RSS/ATOM file</li>
+            <li id="removeCDATAEncoding"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/removeCDATAEncoding.xhtml">removeCDATAEncoding()</a>
+                — Remove tags from the list of CDATA encoded tags</li>
+            <li id="setAtomLink"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setAtomLink.xhtml">setAtomLink()</a>
+                — Set custom 'link' channel elements.</li>
+            <li id="setChannelAbout"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setChannelAbout.xhtml">setChannelAbout()</a>
+                — Set the 'about' channel element. Only for RSS 1.0</li>
+            <li id="setChannelElement"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setChannelElement.xhtml">setChannelElement()</a>
+                — Add a channel element to the feed.</li>
+            <li id="setChannelElementsFromArray"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setChannelElementsFromArray.xhtml">setChannelElementsFromArray()</a>
+                — Set multiple channel elements from an array. Array elements should be 'channelName' =&gt; 'channelContent' format.</li>
+            <li id="setDate"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setDate.xhtml">setDate()</a>
+                — Set the date when the ATOM feed was lastly updated.</li>
+            <li id="setDescription"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setDescription.xhtml">setDescription()</a>
+                — Set the 'description' channel element</li>
+            <li id="setEncoding"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setEncoding.xhtml">setEncoding()</a>
+                — Set the 'encoding' attribute in the XML prolog.</li>
+            <li id="setImage"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setImage.xhtml">setImage()</a>
+                — Set the 'image' channel element</li>
+            <li id="setLink"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setLink.xhtml">setLink()</a>
+                — Set the 'link' channel element</li>
+            <li id="setPagination"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setPagination.xhtml">setPagination()</a>
+                — Set the URLs for feed pagination.</li>
+            <li id="setSelfLink"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setSelfLink.xhtml">setSelfLink()</a>
+                — Set an 'atom:link' channel element with relation=self attribute.</li>
+            <li id="setTitle"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/setTitle.xhtml">setTitle()</a>
+                — Set the 'title' channel element</li>
+            <li id="uuid"><a title="FeedWriter\Feed" href="../classes/FeedWriter_Feed/uuid.xhtml">uuid()</a>
+                — Generate an UUID.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.9.0 - Copyright (C) 2010 - 2016 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>

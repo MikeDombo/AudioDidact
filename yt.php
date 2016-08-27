@@ -24,17 +24,12 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	if(isset($argv) && isset($argv[2])){
 		$_GET["yt"] = $argv[2];
 	}
-	$podtube = new PodTube($dal, LOCAL_URL, DOWNLOAD_PATH);
+	$podtube = new PodTube($dal);
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
-		$download = new YouTube($_GET["yt"], $podtube, GOOGLE_API_KEY, DOWNLOAD_PATH);
-
-		$video = new Video();
-		$video->setDesc($download->getDescr());
-		$video->setAuthor($download->getVideoAuthor());
-		$video->setTitle($download->getVideoTitle());
-		$video->setId($download->getVideoID());
+		$download = new YouTube($_GET["yt"], $podtube);
+		$video = $download->getVideo();
 		
 		// If not all thumbnail, video, and audio are downloaded, then download them in that order
 		if(!$download->allDownloaded()){
@@ -58,7 +53,7 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	$podtube->makeFullFeed();
 } // If there is no URL set, then just recreate a feed from the existing items in the CSV
 else{
-	$podtube = new PodTube($dal, LOCAL_URL, DOWNLOAD_PATH);
+	$podtube = new PodTube($dal);
 	// Before we make the feed, check that every file is downloaded
 	checkFilesExist($dal, $podtube, $user);
 	$podtube->makeFullFeed()->printFeed();
@@ -66,8 +61,9 @@ else{
 
 /**
  * Gets the list of all feed items and makes sure that all of them are downloaded and available
+ *
  * @param \DAL $dal
- * @param \PodTube $podtube
+ * @param \PodTube $podTube
  * @param \User $user
  */
 function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
@@ -75,7 +71,7 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 	for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
 		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists(DOWNLOAD_PATH
 				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
-			$download = new YouTube($items[$x]->getId(), $podtube, GOOGLE_API_KEY, DOWNLOAD_PATH);
+			$download = new YouTube($items[$x]->getId(), $podTube);
 			if(!$download->allDownloaded()){
 				$download->downloadThumbnail();
 				$download->downloadVideo();
