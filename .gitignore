@@ -6,8 +6,8 @@ error_log
 rss.xml
 temp/
 temp/*
-docs/
-docs/*
+build/
+build/*
 
 # Windows image file caches
 Thumbs.db

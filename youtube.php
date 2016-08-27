@@ -6,72 +6,54 @@ require_once __DIR__."/header.php";
  */
 class YouTube{
 	// Setup global variables
-	/** @var string the subdirectory where downloads are stored */
-	private $downloadPath = "";
-	/** @var string the Google API key required to get the video details */
-	private $googleAPIServerKey = "";
 	/** @var \PodTube PodTube object */
 	private $podtube;
 	/** @var string YouTube URL */
 	private $YouTubeBaseURL = "http://www.youtube.com/";
-
-	// Setup video variables
-	// TODO: Replace with a Video object soon
-	/** @var string Video description */
-	private $descr = "";
-	/** @var string YouTube video ID*/
-	private $videoID = "";
-	/** @var string YouTube video title */
-	private $videoTitle = "";
-	/** @var string YouTube video author */
-	private $videoAuthor = "";
-	/** @var int time the video was added to the feed */
-	private $time;
+	/** @var \Video Video object to store the current video information */
+	private $video;
 
 	/**
 	 * YouTube constructor. Gets the video information, checks for it in the user's feed.
 	 *
-	 * @param null $str
+	 * @param string $str
 	 * @param $podtube
-	 * @param $googleAPIServerKey
-	 * @param string $downloadPath
 	 * @throws \Exception
 	 */
-	public function __construct($str, $podtube, $googleAPIServerKey, $downloadPath="temp"){
-		$this->downloadPath = $downloadPath;
+	public function __construct($str, $podtube){
 		$this->podtube = $podtube;
-		$this->googleAPIServerKey = $googleAPIServerKey;
+		$this->video = new Video();
 
 		// Make download folder if it does not exist
-		if(!file_exists($this->downloadPath)){
-			mkdir($this->downloadPath);
+		if(!file_exists(DOWNLOAD_PATH)){
+			mkdir(DOWNLOAD_PATH);
 		}
 		// If there is a URL/ID, continue
 		if($str != null){
 			// Set video ID from setYoutubeID and time to current time
-			$this->videoID = $this->setYoutubeID($str);
-			$this->time = time();
+			$this->video->setId($this->setYoutubeID($str));
+			$this->video->setTime(time());
+
 			// Check if the video already exists in the DB. If it does, then we do not need to get the information
 			// from the YouTube API again
-			if(!$this->podtube->inFeed($this->videoID)){
+			if(!$this->podtube->inFeed($this->video->getId())){
 				// Get video author, title, and description from YouTube API
-				$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=".$this->videoID."&fields=items/snippet/description,items/snippet/title,items/snippet/channelTitle&key=".$this->googleAPIServerKey), true);
+				$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id="
+					.$this->video->getId().
+					"&fields=items/snippet/description,items/snippet/title,items/snippet/channelTitle&key=".
+					GOOGLE_API_KEY), true);
 				// If the lookup fails, send this error to the UI as a JSON array
 				if(!isset($info['items'][0]['snippet'])){
 					echo json_encode(['stage'=>-1, 'error'=>"ID Inaccessible", 'progress'=>0]);
 					throw new Exception("Download Failed!");
 				}
 				$info = $info['items'][0]['snippet'];
-				$this->videoTitle = $info["title"];
-				$this->videoAuthor = $info["channelTitle"];
-				$this->descr = $info["description"];
+				$this->video->setTitle($info["title"]);
+				$this->video->setAuthor($info["channelTitle"]);
+				$this->video->setDesc($info["description"]);
 			}
 			else{
-				$vidData = $this->podtube->getDataFromFeed($this->videoID);
-				$this->videoTitle = $vidData->getTitle();
-				$this->videoAuthor = $vidData->getAuthor();
-				$this->time = $vidData->getTime();
-				$this->descr = $vidData->getDesc();
+				$this->video = $this->podtube->getDataFromFeed($this->video->getId());
 			}
 		}
 	}
@@ -103,7 +85,7 @@ class YouTube{
 	 * @return bool
 	 */
 	public function allDownloaded(){
-		$downloadFilePath = $this->downloadPath.DIRECTORY_SEPARATOR.$this->videoID;
+		$downloadFilePath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$this->video->getID();
 		// If the thumbnail has not been downloaded, go ahead and download it
 		if(!file_exists($downloadFilePath.".jpg")){
 			$this->downloadThumbnail();
@@ -127,10 +109,10 @@ class YouTube{
 	 * Download thumbnail using videoID from YouTube's image server
 	 */
 	public function downloadThumbnail(){
-		$thumbFilename = $this->videoID.".jpg";
-		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
+		$thumbFilename = $this->video->getID().".jpg";
+		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
 		$thumbnail = $path . $thumbFilename;
-		file_put_contents($thumbnail, fopen("https://i.ytimg.com/vi/".$this->videoID."/mqdefault.jpg", "r"));
+		file_put_contents($thumbnail, fopen("https://i.ytimg.com/vi/".$this->video->getID()."/mqdefault.jpg", "r"));
 		// Set the thumbnail file as publicly accessible
 		@chmod($thumbnail, 0775);
 	}
@@ -139,8 +121,8 @@ class YouTube{
 	 * Download video using download URL from Python script and then call downloadWithPercentage to actually download the video
 	 */
 	public function downloadVideo(){
-		$id = $this->videoID;
-		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
+		$id = $this->video->getID();
+		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
 		$videoFilename = "$id.mp4";
 		$video = $path . $videoFilename;
 
@@ -232,7 +214,7 @@ class YouTube{
 		unset($dct, $videos, $html, $htmlArr, $json_object);
 
 		$video_urls = $stream_map["url"];
-		$downloads = array();
+		$downloads = [];
 		foreach($video_urls as $i=>$vurl){
 			$quality_profile = $this->getQualityProfilesFromURL($vurl);
 			$downloads[] = ["url"=>$vurl, "ext"=>$quality_profile["extension"], "res"=>$quality_profile["resolution"]];
@@ -355,14 +337,14 @@ class YouTube{
 	 * Converts mp4 video to mp3 audio using ffmpeg
 	 */
 	public function convert(){
-		$path = getcwd().DIRECTORY_SEPARATOR.$this->downloadPath.DIRECTORY_SEPARATOR;
-		$ffmpeg_infile = $path . $this->videoID .".mp4";
-		$ffmpeg_albumArt = $path.$this->videoID.".jpg";
-		$ffmpeg_outfile = $path . $this->videoID .".mp3";
-		$ffmpeg_tempFile = $path . $this->videoID ."-art.mp3";
+		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
+		$ffmpeg_infile = $path . $this->video->getID() .".mp4";
+		$ffmpeg_albumArt = $path.$this->video->getID().".jpg";
+		$ffmpeg_outfile = $path . $this->video->getID() .".mp3";
+		$ffmpeg_tempFile = $path . $this->video->getID() ."-art.mp3";
 
 		// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
-		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->videoID.".txt 2>&1";
+		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->video->getID().".txt 2>&1";
 
 		// Check if we're on Windows or *nix
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
@@ -376,7 +358,7 @@ class YouTube{
 		$progress = 0;
 		// Get the conversion progress and output the progress to the UI using a JSON array
 		while($progress != 100){
-			$content = @file_get_contents($this->videoID.'.txt');
+			$content = @file_get_contents($this->video->getID().'.txt');
 			// Get the total duration of the file
 			preg_match("/Duration: (.*?), start:/", $content, $matches);
 			// If there is no match, then wait and continue
@@ -416,7 +398,7 @@ class YouTube{
 			usleep(500000);
 		}
 		// Delete the temporary file that contained the ffmpeg output
-		@unlink($this->videoID.".txt");
+		@unlink($this->video->getID().".txt");
 		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
 		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 		return;
@@ -481,53 +463,13 @@ class YouTube{
 		return (isset($matches[1])) ? $matches[1] : false;
 	}
 
-	// Accessor methods
+	// Accessor method
 
 	/**
-	 * Gets the YouTube video ID
-	 * @return string
+	 * Returns the current video object
+	 * @return bool|\Video
 	 */
-	public function getVideoID(){
-		return $this->videoID;
-	}
-
-	/**
-	 * Gets the download path
-	 * @return string
-	 */
-	public function getDownloadPath(){
-		return $this->downloadPath;
-	}
-
-	/**
-	 * Gets the YouTube video title
-	 * @return string
-	 */
-	public function getVideoTitle(){
-		return $this->videoTitle;
-	}
-
-	/**
-	 * Gets the YouTube video author
-	 * @return string
-	 */
-	public function getVideoAuthor(){
-		return $this->videoAuthor;
-	}
-
-	/**
-	 * Gets the time the video was added to the feed
-	 * @return mixed
-	 */
-	public function getVideoTime(){
-		return $this->time;
-	}
-
-	/**
-	 * Gets the YouTube video description
-	 * @return string
-	 */
-	public function getDescr(){
-		return $this->descr;
+	public function getVideo(){
+		return $this->video;
 	}
 }
