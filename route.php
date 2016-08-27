@@ -15,6 +15,10 @@ foreach($url as $k=>$u){
 			returnUserFeed($webID);
 			exit(0);
 		}
+		else if(!isset($url[$k+2]) || $url[$k+2] == ""){
+			printUserPage($webID);
+			exit(0);
+		}
 	}
 }
 make404();
@@ -38,3 +42,11 @@ function returnUserFeed($webID){
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	echo $dal->getFeedText($dal->getUserByWebID($webID));
 }
+
+/**
+ *  Make the user profile page
+ */
+ function printUserPage($webID){
+	require_once __DIR__."/viewUser.php";
+	userPage($webID);
+ }

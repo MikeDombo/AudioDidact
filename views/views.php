@@ -116,7 +116,7 @@ function makeNav(){
 				<li>
 				  <a href="#" onclick="logout()">Logout</a>
 				</li>
-				<li><a class="btn btn-success" href="#" style="color:#FFFFFF;">Account</a></li>	
+				<li><a class="btn btn-success" href="'.LOCAL_URL."user/".$_SESSION["user"]->getWebID().'" style="color:#FFFFFF;">Account</a></li>	
 			';
 		}
 		echo '		</ul>
@@ -133,3 +133,107 @@ function makeAddVideo(){
 	$feedURL = LOCAL_URL."user/".$_SESSION["user"]->getWebID()."/feed/";
 	echo "<div class='col-sm-12' style='word-wrap:break-word;'><h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2></div>";
 }
+
+function makeViewProfile(User $user){
+	//echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."userProfile.html");
+}
+
+function makeEditProfile(User $user){
+	?>
+		<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+		<div class="col-sm-12">
+		<h1><?php echo $user->getUsername();?>'s Profile</h1>
+		<hr/>
+
+		<div class="form-group">
+			<label for="webID">Custom URL:</label>
+			<a href="#" id="webID" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php"
+			   data-title="Enter Custom URL"><?php echo $user->getWebID();?></a>
+		</div>
+		<div class="form-group">
+			<label for="fname">Firstname:</label>
+			<a href="#" id="fname" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter Firstname"><?php echo $user->getFname();?></a>
+			<label for="lname">Lastname:</label>
+			<a href="#" id="lname" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter Lastname"><?php echo $user->getLname();?></a>
+		</div>
+		<div class="form-group">
+			<label for="gender">Gender:</label>
+			<a href="#" id="gender" data-type="select" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Select Gender"></a>
+		</div>
+		<div class="form-group">
+			<label for="email">Email:</label>
+			<a href="#" id="email" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter Email"><?php echo $user->getEmail();?></a>
+		</div>
+		<div class="form-group">
+			<label for="feedLen">Number of Items in Feed:</label>
+			<a href="#" id="feedLen" data-type="number" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter # of Items in Feed (Max 50)" data-min="1" data-max="50"><?php echo $user->getFeedLength();?></a>
+		</div>
+		
+		
+		<script>
+			function processSuccess(response, newValue){
+				var message = JSON.parse(response);
+				if(!message.success){
+					return message.error;
+				}
+
+			}
+			function processError(response){
+				$('#Error-Modal-Text').text(response);
+				$('#Error-Modal').modal({
+					show: true
+				});
+			}
+			$.fn.editable.defaults.mode = 'inline';
+			$(document).ready(function() {
+				var basicOptions = {
+					success: function(response, newValue){console.log(response);console.log(newValue);
+						return processSuccess(response,newValue);},
+					error: function(response, newValue){console.log(response);return processError(response);}
+				};
+				$('#webID').editable({
+					success: function(response, newValue){
+						var message = JSON.parse(response);
+						if(!message.success){
+							return message.error;
+						}
+						else{
+							window.location = "<?php echo "/".SUBDIR;?>"+"user/"+newValue;
+						}
+					},
+					error: function(response, newValue){console.log(response);return processError(response);}
+				});
+				$('#fname').editable(basicOptions);
+				$('#lname').editable(basicOptions);
+				$('#email').editable(basicOptions);
+				$('#feedLen').editable(basicOptions);
+				$('#gender').editable({
+					value: <?php echo $user->getGender();?>,
+					source: [
+						{value: 1, text: 'Male'},
+						{value: 2, text: 'Female'},
+						{value: 3, text: 'Other'}
+					],
+					success: function(response){console.log(response);return processSuccess(response);},
+					error: function(response, newValue){console.log(response);return processError(response);}
+				});
+			});
+		</script>
+		
+		<div id="Error-Modal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h2 class="modal-title">PodTube Error</h2>
+					<div class="modal-body">
+						<h3 id="Error-Modal-Text"></h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<?php
+}
+?>

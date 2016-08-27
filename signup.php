@@ -11,6 +11,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 		$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 		// Make sure the username and email address are not taken.
 		if(!$dal->emailExists($_POST["email"]) && !$dal->usernameExists($_POST["uname"])){
+			if(!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
+				echo "Sign up failed! Bad email format!";
+			}
 			$user = new User();
 			$user->setUsername($_POST["uname"]);
 			$user->setEmail($_POST["email"]);

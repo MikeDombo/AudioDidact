@@ -365,7 +365,7 @@ class MySQLDAL extends DAL{
 	public function inFeed(Video $vid, User $user){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid AND videoID=:videoID");
-			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_STR);
+			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
@@ -376,6 +376,28 @@ class MySQLDAL extends DAL{
 			throw $e;
 		}
 	}
+
+	public function updateUser(User $user){
+		try{
+			$p = parent::$PDO->prepare("UPDATE $this->usertable SET email=:email, firstname=:fname,
+ 			lastname=:lname, gender=:gender, feedLength=:feedLen, username=:uname, webID=:webID
+ 			WHERE ID=:id");
+			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":email", $user->getEmail(), PDO::PARAM_STR);
+			$p->bindValue(":fname", $user->getFname(), PDO::PARAM_STR);
+			$p->bindValue(":lname", $user->getLname(), PDO::PARAM_STR);
+			$p->bindValue(":gender", $user->getGender(), PDO::PARAM_STR);
+			$p->bindValue(":feedLen", $user->getFeedLength(), PDO::PARAM_INT);
+			$p->bindValue(":uname", $user->getUsername(), PDO::PARAM_STR);
+			$p->bindValue(":webID", $user->getWebID(), PDO::PARAM_STR);
+			$p->execute();
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
 
 	/**
 	 * Generate the tables in the current database

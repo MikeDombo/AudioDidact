@@ -71,6 +71,12 @@ abstract class DAL {
 	 */
 	abstract public function setFeedText(User $user, $feed);
 
+	/**
+	 * @param \User $user
+	 * @return mixed
+	 */
+	abstract public function updateUser(User $user);
+
 
 	/** Default slow way to check if a video is in the feed. Override for faster lookup
 	 * @param \Video $vid
@@ -94,6 +100,17 @@ abstract class DAL {
 	public function usernameExists($username){
 		$username = strtolower($username);
 		if($this->getUserByUsername($username) != null){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param $webID
+	 * @return bool
+	 */
+	public function webIDExists($webID){
+		if($this->getUserByWebID($webID) != null){
 			return true;
 		}
 		return false;

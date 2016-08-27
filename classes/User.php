@@ -1,5 +1,5 @@
 <?php
-include __DIR__."/../header.php";
+require_once __DIR__."/../header.php";
 
 /**
  * Class User stores user specific information
@@ -108,6 +108,9 @@ class User{
 	 * @return mixed
 	 */
 	public function getGender(){
+		if($this->gender == ""){
+			return 1;
+		}
 		return $this->gender;
 	}
 
