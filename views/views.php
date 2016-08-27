@@ -134,8 +134,68 @@ function makeAddVideo(){
 	echo "<div class='col-sm-12' style='word-wrap:break-word;'><h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2></div>";
 }
 
+function showFeed(User $user){
+	?>
+	<hr/>
+	<div class="col-md-6">
+		<h2>Feed Items</h2>
+		<?php
+		$myDalClass = ChosenDAL;
+		$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+
+		$items = $dal->getFeed($user);
+		for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
+			$i = $items[$x];
+			echo '<div class="panel panel-default">';
+			echo '<div class="panel-heading">'.$i->getTitle().' -- '.$i->getAuthor().'</div>';
+			$descr = $i->getDesc();
+
+			$words = explode("\n", $descr, 4);
+			if(count($words)>3){
+				$words[3] = "<p id='".$i->getId()."' class='hide'>".trim($words[3])."</p></p>";
+				$words[4] = "<a onclick='$(\"#".$i->getId()."\").removeClass(\"hide\");'>Continue Reading...</a>";
+			}
+			$descr = implode("\n", $words);
+
+			$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
+			$descr = nl2br($descr);
+			echo '<div class="panel-body"><h3>'.$i->getAuthor().'</h3>
+			<p><img class="alignleft size-medium" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" width="300" 
+			height="170" /></p>
+			<p>'.$descr.'</p></div>';
+			echo '</div>';
+		}
+		?>
+	</div>
+	<?php
+}
+
 function makeViewProfile(User $user){
-	//echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."userProfile.html");
+	?>
+	<div class="col-sm-12">
+	<h1><?php echo $user->getWebID();?>'s Profile</h1>
+	<hr/>
+
+	<div>
+		<label for="profileURL">Profile URL:</label><a id="profileURL" href="<?php echo LOCAL_URL."user/".$user->getWebID();?>">
+		<?php echo LOCAL_URL."user/".$user->getWebID()?>
+		</a>
+	</div>
+	<div>
+		<label for="feedURL">Feed URL:</label><a id="feedURL" href="<?php echo LOCAL_URL."user/".$user->getWebID()."/feed";?>">
+		<?php echo LOCAL_URL."user/".$user->getWebID()."/feed";?>
+		</a>
+	</div>
+	<div>
+		<label for="name">Full Name:</label><span id="name"></span><?php echo $user->getFname()." ".$user->getLname();?></span>
+	</div>
+	<div>
+		<label for="gender">Gender:</label>
+		<span id="gender"><?php $g=$user->getGender(); if($g == 1){echo "Male";}else if($g == 2){echo "Female";}else if($g == 3){echo "Other";}?>
+		</span>
+	</div>
+	<?php
+	showFeed($user);
 }
 
 function makeEditProfile(User $user){
@@ -148,8 +208,8 @@ function makeEditProfile(User $user){
 
 		<div class="form-group">
 			<label for="webID">Custom URL:</label>
-			<a href="#" id="webID" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php"
-			   data-title="Enter Custom URL"><?php echo $user->getWebID();?></a>
+			<span><?php echo LOCAL_URL?>user/</span><a href="#" id="webID" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>
+			updateUser.php" data-title="Enter Custom URL"><?php echo $user->getWebID();?></a><span>/</span>
 		</div>
 		<div class="form-group">
 			<label for="fname">Firstname:</label>
@@ -169,7 +229,8 @@ function makeEditProfile(User $user){
 			<label for="feedLen">Number of Items in Feed:</label>
 			<a href="#" id="feedLen" data-type="number" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter # of Items in Feed (Max 50)" data-min="1" data-max="50"><?php echo $user->getFeedLength();?></a>
 		</div>
-		
+
+		<?php showFeed($user);?>
 		
 		<script>
 			function processSuccess(response, newValue){
