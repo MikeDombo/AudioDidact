@@ -25,6 +25,7 @@ class YouTube{
 	 * @param $podtube
 	 * @param $googleAPIServerKey
 	 * @param string $downloadPath
+	 * @throws \Exception
 	 */
 	public function __construct($str, $podtube, $googleAPIServerKey, $downloadPath="temp"){
 		$this->downloadPath = $downloadPath;
@@ -156,6 +157,7 @@ class YouTube{
 	 * Gets lowest quality mp4 download url based on a given id.
 	 * @param $id
 	 * @return string
+	 * @throws \Exception
 	 */
 	private function getDownloadURL($id){
 		$url = $this->YouTubeBaseURL."watch?v=".$id;
@@ -285,6 +287,7 @@ class YouTube{
 	 * @param $url
 	 * @param $localFile
 	 * @return bool
+	 * @throws \Exception
 	 */
 	private function downloadWithPercentage($url, $localFile){
 		// Use CURL to get the download content length in order to print the progress

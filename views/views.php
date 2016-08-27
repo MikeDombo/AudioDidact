@@ -22,10 +22,7 @@ function makeHeader($title){
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 			<script>
 				function validateLogin(){
-					if($.trim($("#uname").val()) != "" && $.trim($("#passwd").val()) != ""){
-						return true;
-					}
-					return false;
+					return $.trim($("#uname").val()) != "" && $.trim($("#passwd").val()) != "";
 				}
 				function login(){
 					if(validateLogin()){
@@ -233,7 +230,7 @@ function makeEditProfile(User $user){
 		<?php showFeed($user);?>
 		
 		<script>
-			function processSuccess(response, newValue){
+			function processSuccess(response){
 				var message = JSON.parse(response);
 				if(!message.success){
 					return message.error;
@@ -250,8 +247,8 @@ function makeEditProfile(User $user){
 			$(document).ready(function() {
 				var basicOptions = {
 					success: function(response, newValue){console.log(response);console.log(newValue);
-						return processSuccess(response,newValue);},
-					error: function(response, newValue){console.log(response);return processError(response);}
+						return processSuccess(response);},
+					error: function(response){console.log(response);return processError(response);}
 				};
 				$('#webID').editable({
 					success: function(response, newValue){
@@ -263,7 +260,7 @@ function makeEditProfile(User $user){
 							window.location = "<?php echo "/".SUBDIR;?>"+"user/"+newValue;
 						}
 					},
-					error: function(response, newValue){console.log(response);return processError(response);}
+					error: function(response){console.log(response);return processError(response);}
 				});
 				$('#fname').editable(basicOptions);
 				$('#lname').editable(basicOptions);
@@ -277,7 +274,7 @@ function makeEditProfile(User $user){
 						{value: 3, text: 'Other'}
 					],
 					success: function(response){console.log(response);return processSuccess(response);},
-					error: function(response, newValue){console.log(response);return processError(response);}
+					error: function(response){console.log(response);return processError(response);}
 				});
 			});
 		</script>

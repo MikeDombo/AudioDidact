@@ -53,7 +53,7 @@ abstract class DAL {
 
 	/**
 	 * @param \User $user
-	 * @return mixed
+	 * @return void
 	 */
 	abstract public function addUser(User $user);
 

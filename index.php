@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__."/header.php";
 
-require_once("views".DIRECTORY_SEPARATOR."views.php");
+require_once(__DIR__."/views/views.php");
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +14,7 @@ require_once("views".DIRECTORY_SEPARATOR."views.php");
 	<body>
 		<?php makeNav();?>
 		<div class="container-fluid">
-			<?php if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){makeAddVideo($_SESSION["user"]);}?>
+			<?php if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){makeAddVideo();}?>
 		</div>
 	</body>
 </html>

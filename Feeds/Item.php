@@ -49,11 +49,12 @@ class Item
     **/
     private $_cpt = 0;
 
-    /**
-    * Constructor
-    *
-    * @param    constant  (RSS1/RSS2/ATOM) RSS2 is default.
-    */
+	/**
+	 * Constructor
+	 *
+	 * @param string $version
+	 * @internal param string $RSS2 is default.
+	 */
     public function __construct($version = Feed::RSS2)
     {
         $this->version = $version;
@@ -89,7 +90,7 @@ class Item
         // & if multiple elements are not allowed.
         if (isset($this->elements[$elementName]) && !$overwrite) {
             if (!$allowMultiple)
-                return;
+                return null;
 
             $key .= '-' . $this->cpt();
         }
@@ -228,7 +229,7 @@ class Item
     *
     * @access   public
     * @param    string  The content of 'link' element
-    * @return   void
+    * @return   \FeedWriter\Item
     */
     public function setLink($link)
     {

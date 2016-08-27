@@ -25,7 +25,7 @@ class User{
 	/**
 	 * Checks if plaintext password when hashed, matches the hashed password stored in this User
 	 *
-	 * @param $passwd The password to check against the password stored in the database
+	 * @param string $passwd The password to check against the password stored in the database
 	 * @return bool
 	 */
 	public function passwdCorrect($passwd){

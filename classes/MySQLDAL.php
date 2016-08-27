@@ -17,10 +17,10 @@ class MySQLDAL extends DAL{
 	 * MySQLDAL constructor.
 	 * Sets up parent's PDO object using the parameters that are passed in.
 	 *
-	 * @param $host The hostname/ip and port of the database
-	 * @param $db The database name
-	 * @param $username The username used to connect to the database
-	 * @param $password The password used to connect to the database
+	 * @param string The hostname/ip and port of the database
+	 * @param string $db The database name
+	 * @param string $username The username used to connect to the database
+	 * @param string $password The password used to connect to the database
 	 * @throws \PDOException Rethrows any PDO exceptions encountered when connecting to the database
 	 */
 	public function __construct($host, $db, $username, $password){
@@ -209,8 +209,9 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * @param \User $user
-	 * @return mixed|void
+	 * @return void
 	 * @throws \PDOException
+	 * @throws \Exception
 	 */
 	public function addUser(User $user){
 		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
@@ -457,8 +458,8 @@ class MySQLDAL extends DAL{
 			$p->execute();
 		}
 		catch(PDOException $e){
-			echo "Database creation failed! ".$e->getMessage;
-			error_log("Database creation failed! ".$e->getMessage);
+			echo "Database creation failed! ".$e->getMessage();
+			error_log("Database creation failed! ".$e->getMessage());
 			throw $e;
 		}
 	}
@@ -522,7 +523,7 @@ class MySQLDAL extends DAL{
 		}
 		catch(PDOException $e){
 			echo "ERROR: ".$e->getMessage();
-			return $e;
+			throw $e;
 		}
 	}
 

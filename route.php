@@ -45,6 +45,7 @@ function returnUserFeed($webID){
 
 /**
  *  Make the user profile page
+ * @param string User's webID
  */
  function printUserPage($webID){
 	require_once __DIR__."/viewUser.php";

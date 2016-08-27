@@ -71,4 +71,3 @@ function outputSuccess(User $user){
 function outputGenericError(){
 	echo json_encode(["success"=>false, "error"=>"Invalid Data Received!"]);
 }
-?>

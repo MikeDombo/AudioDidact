@@ -45,7 +45,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 	// Stop execution so that the sign up webpage is not shown.
 	exit(0);
 }
-require_once("views".DIRECTORY_SEPARATOR."views.php");
+require_once(__DIR__."/views/views.php");
 ?>
 <html>
 	<?php makeHeader("Sign Up");?>

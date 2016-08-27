@@ -77,7 +77,7 @@ abstract class Feed
     *
     * If no version is given, a feed in RSS 2.0 format will be generated.
     *
-    * @param    constant  the version constant (RSS1/RSS2/ATOM).
+    * @param string  the version constant (RSS1/RSS2/ATOM).
     */
     protected function __construct($version = Feed::RSS2)
     {
@@ -245,13 +245,6 @@ abstract class Feed
     */
     public function printFeed($useGenericContentType = false)
     {
-        $contentType = "application/rss+xml";
-
-        if (!$useGenericContentType) {
-            $contentType = $this->getMIMEType();
-        }
-
-        //header("Content-Type: " . $contentType . "; charset=" . $this->encoding);
         echo $this->generateFeed();
     }
 
@@ -704,6 +697,7 @@ abstract class Feed
         } elseif ($this->version == Feed::ATOM) {
             return '</feed>';
         }
+        return "";
     }
 
     /**
@@ -713,7 +707,7 @@ abstract class Feed
     * @param    string  name of the tag
     * @param    mixed   tag value as string or array of nested tags in 'tagName' => 'tagValue' format
     * @param    array   Attributes (if any) in 'attrName' => 'attrValue' format
-    * @param    string  True if the end tag should be omitted. Defaults to false.
+    * @param    boolean  True if the end tag should be omitted. Defaults to false.
     * @return   string  formatted xml tag
     */
     private function makeNode($tagName, $tagContent, array $attributes = null, $omitEndTag = false)
@@ -856,8 +850,9 @@ abstract class Feed
     * Make the starting tag of channels
     *
     * @access   private
-    * @param    string  The vale of about tag which is used for RSS 1.0 only.
+    * @param    boolean  The vale of about tag which is used for RSS 1.0 only.
     * @return   string  The starting XML tag of an feed item.
+    * @throws \Exception
     */
     private function startItem($about = false)
     {
@@ -891,6 +886,7 @@ abstract class Feed
         } elseif ($this->version == Feed::ATOM) {
             return '</entry>' . PHP_EOL;
         }
+        return "";
     }
 
     /**
