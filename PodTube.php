@@ -75,28 +75,35 @@ class PodTube{
 	 */
 	private function makeFeed(){
 		// In future Title, Description, Image, and Author should be customizable.
+		$imageURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Rss-feed.svg/256px-Rss-feed.svg.png";
+		$itunesAuthor = "Michael Dombrowski";
+		$feedTitle = "YouTube to Podcast";
+		$feedDescription = "Converts YouTube videos into a podcast feed.";
 
 		$feed = new RSS2;
-		$feed->setTitle('YouTube to Podcast');
+		$feed->setTitle($feedTitle);
 		$feed->setLink(LOCAL_URL);
-		$feed->setDescription('Converts YouTube videos into a podcast feed.');
-		$feed->setImage('YouTube to Podcast', LOCAL_URL, 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Rss-feed.svg/256px-Rss-feed.svg.png');
-		$feed->setChannelElement('itunes:image', "", array('href'=>'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Rss-feed.svg/256px-Rss-feed.svg.png'));
-		$feed->setChannelElement('language', 'en-US');
+		$feed->setDescription($feedDescription);
+		$feed->setImage($feedTitle, LOCAL_URL, $imageURL);
+
 		$feed->setDate(date(DATE_RSS, time()));
 		$feed->setChannelElement('pubDate', date(\DATE_RSS, time()));
 		$feed->setSelfLink(LOCAL_URL."user/".$this->user->getWebID()."/feed/");
+
 		$feed->addNamespace("media", "http://search.yahoo.com/mrss/");
 		$feed->addNamespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");
 		$feed->addNamespace("content", "http://purl.org/rss/1.0/modules/content/");
 		$feed->addNamespace("sy", "http://purl.org/rss/1.0/modules/syndication/");
 
-		$feed->setChannelElement('itunes:explicit', "yes");
-		$feed->setChannelElement('itunes:author', "Michael Dombrowski");
+		$feed->setChannelElement('itunes:image', "", array('href'=>$imageURL));
+		$feed->setChannelElement('itunes:author', $itunesAuthor);
 		$feed->setChannelElement('itunes:category', "",array('text'=>'Technology'));
+		$feed->setChannelElement('language', 'en-US');
+		$feed->setChannelElement('itunes:explicit', "yes");
 		$feed->setChannelElement('sy:updatePeriod', "hourly");
 		$feed->setChannelElement('sy:updateFrequency', "1");
 		$feed->setChannelElement('ttl', "15");
+
 		return $feed;
 	}
 
@@ -112,30 +119,38 @@ class PodTube{
 	 */
 	private function addFeedItem($feed, $title, $id, $author, $time, $descr){
 		$newItem = $feed->createNewItem();
+		
+		$webPath = LOCAL_URL.DOWNLOAD_PATH."/".$id;
+		$filePath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$id;
 
 		// Make description links clickable
 		$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
 		$descr = nl2br($descr);
 
 		// Get the duration of the video and use it for the itunes:duration tag
-		$duration = YouTube::getDuration(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$id.".mp3");
+		$duration = YouTube::getDuration($filePath.".mp3");
 
 		$newItem->setTitle($title);
 		$newItem->setLink("http://youtube.com/watch?v=".$id);
 		// Set description to be the title, author, thumbnail, and then the original video description
-		$newItem->setDescription("<h1>$title</h1><h2>$author</h2><p><img class=\"alignleft size-medium\" src='".LOCAL_URL.DOWNLOAD_PATH."/".$id.".jpg' alt=\"".$title." -- ".$author."\" width=\"300\" height=\"170\" /></p><p>$descr</p>");
-		$newItem->addElement('media:content', array('media:title'=>$title), array('fileSize'=>filesize(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$id.".mp3"), 'type'=> 'audio/mp3', 'medium'=>'audio', 'url'=>LOCAL_URL.DOWNLOAD_PATH."/".$id.'.mp3'));
+		$newItem->setDescription("<h1>$title</h1>
+			<h2>$author</h2>
+			<p><img class=\"alignleft size-medium\" src=\"$webPath.jpg\" alt=\"$title -- $author\" 
+			width=\"300\" height=\"170\"/></p>
+			<p>$descr</p>");
+		$newItem->addElement('media:content', array('media:title'=>$title), array('fileSize'=>filesize($filePath.".mp3"),
+			'type'=> 'audio/mp3', 'medium'=>'audio', 'url'=>$webPath.'.mp3'));
 		$newItem->addElement('media:content', array('media:title'=>$title), array('medium'=>'image',
-			'url'=>LOCAL_URL.DOWNLOAD_PATH."/".$id.'.jpg'), false, true);
-		$newItem->setEnclosure(LOCAL_URL.DOWNLOAD_PATH."/".$id.".mp3", filesize(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$id.".mp3"), 'audio/mp3');
-		$newItem->addElement('itunes:image', "", array('href'=>LOCAL_URL.DOWNLOAD_PATH."/".$id.'.jpg'));
+			'url'=>$webPath.'.jpg'), false, true);
+		$newItem->setEnclosure($webPath.".mp3", filesize($filePath.".mp3"), 'audio/mp3');
+		$newItem->addElement('itunes:image', "", array('href'=>$webPath.'.jpg'));
 		$newItem->addElement('itunes:author', $author);
 		$newItem->addElement('itunes:duration', $duration);
 
 		$newItem->setDate(date(DATE_RSS,$time));
 		$newItem->setAuthor($author, 'me@me.com');
 		// Set GUID, this is absolutely necessary
-		$newItem->setId(LOCAL_URL.DOWNLOAD_PATH."/".$id.".mp3", true);
+		$newItem->setId($webPath.".mp3", true);
 
 		// Add the item generated to the global feed
 		$feed->addItem($newItem);
