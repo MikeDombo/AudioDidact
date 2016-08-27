@@ -99,7 +99,7 @@ class MySQLDAL extends DAL{
 	public function getUserByWebID($webID){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE webID=:id");
-			$p->bindValue(":id", $webID, PDO::PARAM_STR);
+			$p->bindValue(":id", $webID, PDO::PARAM_INT);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
@@ -223,7 +223,7 @@ class MySQLDAL extends DAL{
 				$p->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
 				$p->bindValue(':fname', $user->getFname(), PDO::PARAM_STR);
 				$p->bindValue(':lname', $user->getLname(), PDO::PARAM_STR);
-				$p->bindValue(':gender', $user->getGender(), PDO::PARAM_STR);
+				$p->bindValue(':gender', $user->getGender(), PDO::PARAM_INT);
 				$p->bindValue(':webID', $user->getWebID(), PDO::PARAM_STR);
 				$p->bindValue(':feedLength', $user->getFeedLength(), PDO::PARAM_INT);
 				$p->execute();
@@ -386,7 +386,7 @@ class MySQLDAL extends DAL{
 			$p->bindValue(":email", $user->getEmail(), PDO::PARAM_STR);
 			$p->bindValue(":fname", $user->getFname(), PDO::PARAM_STR);
 			$p->bindValue(":lname", $user->getLname(), PDO::PARAM_STR);
-			$p->bindValue(":gender", $user->getGender(), PDO::PARAM_STR);
+			$p->bindValue(":gender", $user->getGender(), PDO::PARAM_INT);
 			$p->bindValue(":feedLen", $user->getFeedLength(), PDO::PARAM_INT);
 			$p->bindValue(":uname", $user->getUsername(), PDO::PARAM_STR);
 			$p->bindValue(":webID", $user->getWebID(), PDO::PARAM_STR);
