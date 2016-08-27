@@ -5,59 +5,68 @@
  * Class DAL
  */
 abstract class DAL {
+	/** @var  \PDO static \PDO object */
 	protected static $PDO;
 
 	/**
-	 *
-	 * @param $username
-	 * @return mixed
+	 * Returns \User class built from the database
+	 * @param string $username
+	 * @return \User
 	 */
 	abstract public function getUserByUsername($username);
 
 	/**
-	 * @param $email
-	 * @return mixed
+	 * Returns \User class built from the database
+	 * @param string $email
+	 * @return \User
 	 */
 	abstract public function getUserByEmail($email);
 
 	/**
-	 * @param $id
-	 * @return mixed
+	 * Returns \User class built from the database
+	 * @param int $id
+	 * @return \User
 	 */
 	abstract public function getUserByID($id);
 
 	/**
-	 * @param $webID
-	 * @return mixed
+	 * Returns \User class built from the database
+	 * @param string $webID
+	 * @return \User
 	 */
 	abstract public function getUserByWebID($webID);
 
 	/**
+	 * Gets all the videos from the database
 	 * @param \User $user
 	 * @return mixed
 	 */
 	abstract public function getFeed(User $user);
 
 	/**
+	 * Gets the full text of the feed from the database
 	 * @param \User $user
-	 * @return mixed
+	 * @return string
 	 */
 	abstract public function getFeedText(User $user);
 
 	/**
+	 * Returns a \Video class based on a user and an ID
 	 * @param \User $user
 	 * @param $id
-	 * @return mixed
+	 * @return \Video
 	 */
 	abstract public function getVideoByID(User $user, $id);
 
 	/**
+	 * Puts user into the database
 	 * @param \User $user
 	 * @return void
 	 */
 	abstract public function addUser(User $user);
 
 	/**
+	 * Adds video into the video database for a specific user
 	 * @param \Video $vid
 	 * @param \User $user
 	 * @return mixed
@@ -65,6 +74,7 @@ abstract class DAL {
 	abstract public function addVideo(Video $vid, User $user);
 
 	/**
+	 * Sets feed xml text for a user
 	 * @param \User $user
 	 * @param $feed
 	 * @return mixed
@@ -72,13 +82,14 @@ abstract class DAL {
 	abstract public function setFeedText(User $user, $feed);
 
 	/**
+	 * Updates user entry in the database
 	 * @param \User $user
-	 * @return mixed
 	 */
 	abstract public function updateUser(User $user);
 
 
-	/** Default slow way to check if a video is in the feed. Override for faster lookup
+	/**
+	 * Default slow way to check if a video is in the feed. Override for faster lookup
 	 * @param \Video $vid
 	 * @param \User $user
 	 * @return bool
@@ -94,7 +105,8 @@ abstract class DAL {
 	}
 
 	/**
-	 * @param $username
+	 * Checks if a username is taken in the database
+	 * @param string $username
 	 * @return bool
 	 */
 	public function usernameExists($username){
@@ -106,7 +118,8 @@ abstract class DAL {
 	}
 
 	/**
-	 * @param $webID
+	 * Checks if a webID is taken in the database
+	 * @param string $webID
 	 * @return bool
 	 */
 	public function webIDExists($webID){
@@ -117,7 +130,8 @@ abstract class DAL {
 	}
 
 	/**
-	 * @param $email
+	 * Checks if an email is already in the database
+	 * @param string $email
 	 * @return bool
 	 */
 	public function emailExists($email){
@@ -129,14 +143,20 @@ abstract class DAL {
 	}
 
 	/**
+	 * Sets up any database necessary
 	 * @return mixed
 	 */
 	abstract public function makeDB();
 
 	/**
+	 * Verifies the database
 	 * @return mixed
 	 */
 	abstract public function verifyDB();
-	
+
+	/**
+	 * Returns an array of video IDs that can be safely deleted
+	 * @return mixed
+	 */
 	abstract public function getPrunableVideos();
 }

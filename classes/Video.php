@@ -6,15 +6,23 @@ require_once __DIR__."/../header.php";
  * Stores YouTube video specific data
  */
 class Video{
+	/** @var string YouTube video ID */
 	private $id;
+	/** @var string video title */
 	private $title;
+	/** @var string video description (UTF-8) */
 	private $desc;
+	/** @var string date and time video was added to the feed */
 	private $time;
+	/** @var int the duration in seconds of the video */
 	private $duration;
+	/** @var string video author or channel */
 	private $author;
+	/** @var int order of this video in the feed */
 	private $order;
 
 	/**
+	 * Gets the YouTube video ID
 	 * @return mixed
 	 */
 	public function getId(){
@@ -22,6 +30,7 @@ class Video{
 	}
 
 	/**
+	 * Sets the YouTube video ID
 	 * @param mixed $id
 	 */
 	public function setId($id){
@@ -29,6 +38,7 @@ class Video{
 	}
 
 	/**
+	 * Gets the video title
 	 * @return mixed
 	 */
 	public function getTitle(){
@@ -36,6 +46,7 @@ class Video{
 	}
 
 	/**
+	 * Sets the video title
 	 * @param mixed $title
 	 */
 	public function setTitle($title){
@@ -43,6 +54,7 @@ class Video{
 	}
 
 	/**
+	 * Gets the video description
 	 * @return mixed
 	 */
 	public function getDesc(){
@@ -50,6 +62,7 @@ class Video{
 	}
 
 	/**
+	 * Sets the video description
 	 * @param mixed $desc
 	 */
 	public function setDesc($desc){
@@ -57,6 +70,7 @@ class Video{
 	}
 
 	/**
+	 * Gets the time the video was added
 	 * @return mixed
 	 */
 	public function getTime(){
@@ -64,6 +78,7 @@ class Video{
 	}
 
 	/**
+	 * Sets the time the video was added
 	 * @param mixed $time
 	 */
 	public function setTime($time){
@@ -71,6 +86,7 @@ class Video{
 	}
 
 	/**
+	 * Gets the duration of the video in seconds
 	 * @return mixed
 	 */
 	public function getDuration(){
@@ -78,6 +94,7 @@ class Video{
 	}
 
 	/**
+	 * Sets the duration of the video in seconds
 	 * @param mixed $duration
 	 */
 	public function setDuration($duration){
@@ -85,6 +102,7 @@ class Video{
 	}
 
 	/**
+	 * Gets the video author
 	 * @return mixed
 	 */
 	public function getAuthor(){
@@ -92,6 +110,7 @@ class Video{
 	}
 
 	/**
+	 * Sets the video author
 	 * @param mixed $author
 	 */
 	public function setAuthor($author){
@@ -99,14 +118,16 @@ class Video{
 	}
 
 	/**
-	 * @return mixed
+	 * Gets the order of the video in the feed
+	 * @return int
 	 */
 	public function getOrder(){
 		return $this->order;
 	}
 
 	/**
-	 * @param mixed $order
+	 * Sets the order of the video in the feed
+	 * @param int $order
 	 */
 	public function setOrder($order){
 		$this->order = $order;

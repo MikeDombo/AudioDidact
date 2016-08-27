@@ -7,9 +7,13 @@ use \FeedWriter\RSS2;
  * Class PodTube
  */
 class PodTube{
+	/** @var string The local URL of the server */
 	private $localUrl = "";
+	/** @var string The subdirectory of the local URL where downloaded files are saved */
 	private $downloadPath = "";
+	/** @var \DAL the DAL */
 	private $dal;
+	/** @var \User the user */
 	private $user;
 
 	/**
@@ -19,7 +23,7 @@ class PodTube{
 	 * @param null $localURL
 	 * @param string $downloadPath
 	 */
-	public function __construct(DAL $dal, $localURL=null, $downloadPath="temp"){
+	public function __construct(DAL $dal, $localURL, $downloadPath="temp"){
 		$this->dal = $dal;
 		$this->downloadPath = $downloadPath;
 		$this->localUrl = $localURL;
@@ -145,12 +149,5 @@ class PodTube{
 		// Add the item generated to the global feed
 		$feed->addItem($newItem);
 		return $feed;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getDownloadPath(){
-		return $this->downloadPath;
 	}
 }

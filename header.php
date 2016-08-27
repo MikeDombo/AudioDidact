@@ -38,6 +38,10 @@ setcookie(session_name(),session_id(),time()+2678400, "/", session_get_cookie_pa
 
 
 if(!function_exists("setCheckRequired")){
+	/**
+	 * Sets the CHECK_REQUIRED flag in the config file
+	 * @param bool $checkRequired
+	 */
 	function setCheckRequired($checkRequired){
 		$currentConfig = file_get_contents("config.php");
 		$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+.*\)/", "define(\"CHECK_REQUIRED\", $checkRequired)", $currentConfig);

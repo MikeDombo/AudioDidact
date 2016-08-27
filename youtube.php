@@ -6,16 +6,26 @@ require_once __DIR__."/header.php";
  */
 class YouTube{
 	// Setup global variables
+	/** @var string the subdirectory where downloads are stored */
 	private $downloadPath = "";
+	/** @var string the Google API key required to get the video details */
 	private $googleAPIServerKey = "";
+	/** @var \PodTube PodTube object */
 	private $podtube;
+	/** @var string YouTube URL */
 	private $YouTubeBaseURL = "http://www.youtube.com/";
 
 	// Setup video variables
+	// TODO: Replace with a Video object soon
+	/** @var string Video description */
 	private $descr = "";
+	/** @var string YouTube video ID*/
 	private $videoID = "";
+	/** @var string YouTube video title */
 	private $videoTitle = "";
+	/** @var string YouTube video author */
 	private $videoAuthor = "";
+	/** @var int time the video was added to the feed */
 	private $time;
 
 	/**
@@ -474,13 +484,15 @@ class YouTube{
 	// Accessor methods
 
 	/**
-	 * @return bool|string
+	 * Gets the YouTube video ID
+	 * @return string
 	 */
 	public function getVideoID(){
 		return $this->videoID;
 	}
 
 	/**
+	 * Gets the download path
 	 * @return string
 	 */
 	public function getDownloadPath(){
@@ -488,6 +500,7 @@ class YouTube{
 	}
 
 	/**
+	 * Gets the YouTube video title
 	 * @return string
 	 */
 	public function getVideoTitle(){
@@ -495,6 +508,7 @@ class YouTube{
 	}
 
 	/**
+	 * Gets the YouTube video author
 	 * @return string
 	 */
 	public function getVideoAuthor(){
@@ -502,6 +516,7 @@ class YouTube{
 	}
 
 	/**
+	 * Gets the time the video was added to the feed
 	 * @return mixed
 	 */
 	public function getVideoTime(){
@@ -509,6 +524,7 @@ class YouTube{
 	}
 
 	/**
+	 * Gets the YouTube video description
 	 * @return string
 	 */
 	public function getDescr(){

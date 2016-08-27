@@ -131,6 +131,10 @@ function makeAddVideo(){
 	echo "<div class='col-sm-12' style='word-wrap:break-word;'><h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2></div>";
 }
 
+/**
+ * Prints all feed items as HTML
+ * @param \User $user
+ */
 function showFeed(User $user){
 	?>
 	<hr/>
@@ -167,6 +171,10 @@ function showFeed(User $user){
 	<?php
 }
 
+/**
+ * Makes the user profile view for the general public
+ * @param \User $user
+ */
 function makeViewProfile(User $user){
 	?>
 	<div class="col-sm-12">
@@ -195,6 +203,10 @@ function makeViewProfile(User $user){
 	showFeed($user);
 }
 
+/**
+ * Makes the editable user profile page
+ * @param \User $user
+ */
 function makeEditProfile(User $user){
 	?>
 		<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>

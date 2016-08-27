@@ -1,7 +1,11 @@
 <?php
 	require_once __DIR__."/header.php";
 	require_once __DIR__."/views/views.php";
-	
+
+	/**
+	 * Generates the account management page
+	 * @param string $webID
+	 */
 	function userPage($webID){
 		$myDalClass = ChosenDAL;
 		$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);

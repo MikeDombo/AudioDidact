@@ -6,11 +6,17 @@
  *
  */
 class MySQLDAL extends DAL{
+	/** @var string Database table for storing user information */
 	private $usertable = "users";
+	/** @var string Database table for storing feed/video information */
 	private $feedTable = "feed";
+	/** @var string SQL host */
 	private $host;
+	/** @var string SQL database name */
 	private $db;
+	/** @var string SQL database username */
 	private $username;
+	/** @var string SQL database password */
 	private $password;
 
 	/**
@@ -44,7 +50,8 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
-	 * @param $id
+	 * Gets the user by the database user id
+	 * @param int $id
 	 * @return null|\User
 	 * @throws \PDOException
 	 */
@@ -92,7 +99,8 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
-	 * @param $webID
+	 * Gets a \User object from a webID
+	 * @param string $webID
 	 * @return null|\User
 	 * @throws \PDOException
 	 */
@@ -119,8 +127,9 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
-	 * @param $username
-	 * @return \User
+	 * Gets a \User from the database based on a username
+	 * @param string $username
+	 * @return null|\User
 	 * @throws \PDOException
 	 */
 	public function getUserByUsername($username){
@@ -147,8 +156,9 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
-	 * @param $email
-	 * @return \User
+	 * Gets \User from an email
+	 * @param string $email
+	 * @return null|\User
 	 * @throws \PDOException
 	 */
 	public function getUserByEmail($email){
@@ -175,6 +185,7 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
+	 * Gets \Video for a User by the YouTube ID
 	 * @param \User $user
 	 * @param $id
 	 * @return null|\Video
@@ -208,10 +219,9 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
+	 * Adds a \User object to the database
 	 * @param \User $user
-	 * @return void
-	 * @throws \PDOException
-	 * @throws \Exception
+	 * @throws \Exception|\PDOException
 	 */
 	public function addUser(User $user){
 		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
@@ -240,6 +250,7 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
+	 * Adds a video to the feed table
 	 * @param \Video $vid
 	 * @param \User $user
 	 * @return bool
@@ -282,6 +293,7 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
+	 * Gets full xml feed text from database
 	 * @param \User $user
 	 * @return mixed
 	 * @throws \PDOException
@@ -299,8 +311,8 @@ class MySQLDAL extends DAL{
 		}
 	}
 
-
 	/**
+	 * Returns an array of YouTube IDs that are in the feed
 	 * @param \User $user
 	 * @return array|null
 	 * @throws \PDOException
@@ -337,6 +349,7 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
+	 * Sets full feed text in the feed database
 	 * @param \User $user
 	 * @param $feed
 	 * @return bool
@@ -356,8 +369,8 @@ class MySQLDAL extends DAL{
 		}
 	}
 
-
 	/**
+	 * Checks if a video is in a user's feed
 	 * @param \Video $vid
 	 * @param \User $user
 	 * @return bool
@@ -378,6 +391,11 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * Updates the user database from a given \User object
+	 * @param \User $user
+	 * @throws \PDOException
+	 */
 	public function updateUser(User $user){
 		try{
 			$p = parent::$PDO->prepare("UPDATE $this->usertable SET email=:email, firstname=:fname,
@@ -527,6 +545,12 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * Checks if two arrays are equal to test that SQL schemas are compliant
+	 * @param $correct
+	 * @param $existing
+	 * @return bool
+	 */
 	private function verifySchema($correct, $existing){
 		sort($correct);
 		sort($existing);
@@ -534,7 +558,8 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
-	 *
+	 * Returns an array of YouTube video IDs that can be safely deleted
+	 * @return array
 	 */
 	public function getPrunableVideos(){
 		$feedTable = $this->feedTable;

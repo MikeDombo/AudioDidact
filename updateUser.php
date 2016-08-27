@@ -63,11 +63,20 @@ else{
 	outputGenericError();
 }
 
+/**
+ * Output json encoded array that success is true
+ * Updates the session user variable
+ * @param \User $user
+ */
 function outputSuccess(User $user){
 	$_SESSION["user"] = $user;
 	$_SESSION["loggedIn"] = true;
 	echo json_encode(["success"=>true]);
 }
+
+/**
+ * Outputs generic json encoded failure
+ */
 function outputGenericError(){
 	echo json_encode(["success"=>false, "error"=>"Invalid Data Received!"]);
 }

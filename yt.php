@@ -64,7 +64,13 @@ else{
 	$podtube->makeFullFeed()->printFeed();
 }
 
-function checkFilesExist($dal, $podtube, $user){
+/**
+ * Gets the list of all feed items and makes sure that all of them are downloaded and available
+ * @param \DAL $dal
+ * @param \PodTube $podtube
+ * @param \User $user
+ */
+function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 	$items = $dal->getFeed($user);
 	for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
 		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists(DOWNLOAD_PATH
