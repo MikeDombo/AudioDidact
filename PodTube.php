@@ -119,7 +119,7 @@ class PodTube{
 	 */
 	private function addFeedItem($feed, $title, $id, $author, $time, $descr){
 		$newItem = $feed->createNewItem();
-		
+
 		$webPath = LOCAL_URL.DOWNLOAD_PATH."/".$id;
 		$filePath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$id;
 
@@ -131,7 +131,7 @@ class PodTube{
 		$duration = YouTube::getDuration($filePath.".mp3");
 
 		$newItem->setTitle($title);
-		$newItem->setLink("http://youtube.com/watch?v=".$id);
+		$newItem->setLink("http://youtube.com/watch?v=$id");
 		// Set description to be the title, author, thumbnail, and then the original video description
 		$newItem->setDescription("<h1>$title</h1>
 			<h2>$author</h2>
