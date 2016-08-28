@@ -299,7 +299,7 @@ function makeEditProfile(User $user){
 						if(!message.success){
 							return message.error;
 						}
-						$.get( "/<?php echo SUBDIR;?>/yt.php", function( data ) {});
+						$.get( "/<?php echo SUBDIR;?>yt.php", function( data ) {});
 					},
 					error: function(response){console.log(response);return processError(response);}
 				};
@@ -314,7 +314,7 @@ function makeEditProfile(User $user){
 							return message.error;
 						}
 						$("#feedIcoImg").attr("src", newValue);
-						$.get( "/<?php echo SUBDIR;?>/yt.php", function( data ) {});
+						$.get( "/<?php echo SUBDIR;?>yt.php", function( data ) {});
 					},
 					error: function(response){console.log(response);return processError(response);}
 				});
