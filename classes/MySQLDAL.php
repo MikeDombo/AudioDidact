@@ -94,6 +94,9 @@ class MySQLDAL extends DAL{
 		$user->setWebID($rows["webID"]);
 		$user->setFeedText($rows["feedText"]);
 		$user->setFeedLength($rows["feedLength"]);
+		if($rows["feedDetails"] != ""){
+			$user->setFeedDetails(json_decode($rows["feedDetails"], true));
+		}
 
 		return $user;
 	}
@@ -227,8 +230,8 @@ class MySQLDAL extends DAL{
 		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
 			try{
 				$p = parent::$PDO->prepare("INSERT INTO $this->usertable (username, password, email, firstname,
-				lastname, gender, webID, feedLength) VALUES (:username,:password,:email,:fname,:lname,:gender,:webID,
-				:feedLength)");
+				lastname, gender, webID, feedLength, feedDetails) VALUES (:username,:password,:email,:fname,:lname,
+				:gender,:webID,:feedLength,:feedDetails)");
 				$p->bindValue(':username', $user->getUsername(), PDO::PARAM_STR);
 				$p->bindValue(':password', $user->getPasswd(), PDO::PARAM_STR);
 				$p->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
@@ -237,6 +240,7 @@ class MySQLDAL extends DAL{
 				$p->bindValue(':gender', $user->getGender(), PDO::PARAM_INT);
 				$p->bindValue(':webID', $user->getWebID(), PDO::PARAM_STR);
 				$p->bindValue(':feedLength', $user->getFeedLength(), PDO::PARAM_INT);
+				$p->bindValue(':feedDetails', json_encode($user->getFeedDetails()), PDO::PARAM_STR);
 				$p->execute();
 			}
 			catch(PDOException $e){
@@ -399,7 +403,8 @@ class MySQLDAL extends DAL{
 	public function updateUser(User $user){
 		try{
 			$p = parent::$PDO->prepare("UPDATE $this->usertable SET email=:email, firstname=:fname,
- 			lastname=:lname, gender=:gender, feedLength=:feedLen, username=:uname, webID=:webID
+ 			lastname=:lname, gender=:gender, feedLength=:feedLen, username=:uname, webID=:webID, 
+ 			feedDetails=:feedDetails
  			WHERE ID=:id");
 			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":email", $user->getEmail(), PDO::PARAM_STR);
@@ -409,6 +414,7 @@ class MySQLDAL extends DAL{
 			$p->bindValue(":feedLen", $user->getFeedLength(), PDO::PARAM_INT);
 			$p->bindValue(":uname", $user->getUsername(), PDO::PARAM_STR);
 			$p->bindValue(":webID", $user->getWebID(), PDO::PARAM_STR);
+			$p->bindValue(":feedDetails", json_encode($user->getFeedDetails()), PDO::PARAM_STR);
 			$p->execute();
 		}
 		catch(PDOException $e){
@@ -422,20 +428,21 @@ class MySQLDAL extends DAL{
 	 * Generate the tables in the current database
 	 * @throws \PDOException
 	 */
-	public function makeDB(){
-		$generalSetupSQL = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";
+	public function makeDB($code = 1){
+		if($code == 1){
+			$generalSetupSQL = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";
 							SET time_zone = \"+00:00\";";
 
-		$preProcessSQL = "/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+			$preProcessSQL = "/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 						  /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 						  /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 						  /*!40101 SET NAMES utf8mb4 */;";
 
-		$postProcessSQL = "/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+			$postProcessSQL = "/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 						   /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 						   /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;";
 
-		$userTableSQL = "CREATE TABLE `".$this->usertable."` (
+			$userTableSQL = "CREATE TABLE `".$this->usertable."` (
 						  `ID` int(11) NOT NULL,
 						  `username` mediumtext COLLATE utf8mb4_bin NOT NULL,
 						  `password` mediumtext COLLATE utf8mb4_bin NOT NULL,
@@ -445,7 +452,8 @@ class MySQLDAL extends DAL{
 						  `gender` mediumtext COLLATE utf8mb4_bin,
 						  `webID` mediumtext COLLATE utf8mb4_bin NOT NULL,
 						  `feedText` longtext COLLATE utf8mb4_bin NOT NULL,
-						  `feedLength` int(11) NOT NULL
+						  `feedLength` int(11) NOT NULL,
+						  `feedDetails` mediumtext COLLATE utf8mb4_bin NOT NULL,
 						) 
 						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 						ALTER TABLE `".$this->usertable."`
@@ -453,7 +461,7 @@ class MySQLDAL extends DAL{
 						ALTER TABLE `".$this->usertable."`
 							MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
 
-		$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (
+			$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (
 						  `ID` int(11) NOT NULL,
 						  `userID` int(11) NOT NULL,
 						  `orderID` int(11) NOT NULL,
@@ -470,15 +478,26 @@ class MySQLDAL extends DAL{
 						ALTER TABLE `".$this->feedTable."`
 						  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
 
-		try{
-			// Execute all the statements
-			$p = parent::$PDO->prepare($generalSetupSQL.$preProcessSQL.$userTableSQL.$feedTableSQL.$postProcessSQL);
-			$p->execute();
+			try{
+				// Execute all the statements
+				$p = parent::$PDO->prepare($generalSetupSQL.$preProcessSQL.$userTableSQL.$feedTableSQL.$postProcessSQL);
+				$p->execute();
+			}catch(PDOException $e){
+				echo "Database creation failed! ".$e->getMessage();
+				error_log("Database creation failed! ".$e->getMessage());
+				throw $e;
+			}
 		}
-		catch(PDOException $e){
-			echo "Database creation failed! ".$e->getMessage();
-			error_log("Database creation failed! ".$e->getMessage());
-			throw $e;
+		else if($code == 2){
+			try{
+				$delta1 = "ALTER TABLE $this->usertable ADD `feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;";
+				$p = parent::$PDO->prepare($delta1);
+				$p->execute();
+			}catch(PDOException $e){
+				echo "Database update failed! ".$e->getMessage();
+				error_log("Database update failed! ".$e->getMessage());
+				throw $e;
+			}
 		}
 	}
 
@@ -508,16 +527,17 @@ class MySQLDAL extends DAL{
 			$feedTableSchema = $p->fetchAll(PDO::FETCH_ASSOC);
 
 			$userCorrect = [
-				["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment",],
-				["Field"=>"username", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
-				["Field"=>"password", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
-				["Field"=>"email", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
-				["Field"=>"firstname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>"",],
-				["Field"=>"lastname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>"",],
-				["Field"=>"gender", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>"",],
-				["Field"=>"webID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
-				["Field"=>"feedText", "Type"=>"longtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",],
-				["Field"=>"feedLength", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>"",]
+				["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
+				["Field"=>"username", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"password", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"email", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"firstname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"lastname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"gender", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"webID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"feedText", "Type"=>"longtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"feedLength", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"feedDetails", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""]
 			];
 
 			$feedCorrect = [

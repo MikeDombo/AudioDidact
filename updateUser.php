@@ -51,6 +51,39 @@ if(isset($_POST["name"]) && isset($_POST["value"])){
 				echo json_encode(["success"=>false, "error"=>"WebID invalid or is already registered!"]);
 			}
 		}
+		else if($_POST["name"] == "feedTitle"){
+			$current = $user->getFeedDetails();
+			$current["title"] = $_POST["value"];
+			$user->setFeedDetails($current);
+			$dal->updateUser($user);
+			outputSuccess($user);
+		}
+		else if($_POST["name"] == "feedDesc"){
+			$current = $user->getFeedDetails();
+			$current["description"] = $_POST["value"];
+			$user->setFeedDetails($current);
+			$dal->updateUser($user);
+			outputSuccess($user);
+		}
+		else if($_POST["name"] == "feedIco"){
+			if(filter_var($_POST["value"], FILTER_VALIDATE_URL)){
+				$current = $user->getFeedDetails();
+				$current["icon"] = $_POST["value"];
+				$user->setFeedDetails($current);
+				$dal->updateUser($user);
+				outputSuccess($user);
+			}
+			else{
+				echo json_encode(["success"=>false, "error"=>"Image is not a valid URL"]);
+			}
+		}
+		else if($_POST["name"] == "itunesAuthor"){
+			$current = $user->getFeedDetails();
+			$current["itunesAuthor"] = $_POST["value"];
+			$user->setFeedDetails($current);
+			$dal->updateUser($user);
+			outputSuccess($user);
+		}
 		else{
 			outputGenericError();
 		}
