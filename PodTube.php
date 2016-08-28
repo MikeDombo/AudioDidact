@@ -7,14 +7,14 @@ use \FeedWriter\RSS2;
  * Class PodTube
  */
 class PodTube{
-	/** @var \DAL the DAL */
+	/** @var DAL the DAL */
 	private $dal;
-	/** @var \User the user */
+	/** @var User the user */
 	private $user;
 
 	/**
 	 * PodTube constructor.
-	 * @param \DAL $dal
+	 * @param DAL $dal
 	 */
 	public function __construct(DAL $dal){
 		$this->dal = $dal;

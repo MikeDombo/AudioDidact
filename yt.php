@@ -62,9 +62,9 @@ else{
 /**
  * Gets the list of all feed items and makes sure that all of them are downloaded and available
  *
- * @param \DAL $dal
- * @param \PodTube $podTube
- * @param \User $user
+ * @param DAL $dal
+ * @param PodTube $podTube
+ * @param User $user
  */
 function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 	$items = $dal->getFeed($user);
