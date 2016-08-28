@@ -278,7 +278,6 @@ function makeEditProfile(User $user){
 				if(!message.success){
 					return message.error;
 				}
-
 			}
 			function processError(response){
 				$('#Error-Modal-Text').text(response);
@@ -294,6 +293,32 @@ function makeEditProfile(User $user){
 						return processSuccess(response);},
 					error: function(response){console.log(response);return processError(response);}
 				};
+				var feedOptionArray = {
+					success: function(response, newValue){
+						var message = JSON.parse(response);
+						if(!message.success){
+							return message.error;
+						}
+						$.get( "/<?php echo SUBDIR;?>/yt.php", function( data ) {});
+					},
+					error: function(response){console.log(response);return processError(response);}
+				};
+
+				$('#feedTitle').editable(feedOptionArray);
+				$('#itunesAuthor').editable(feedOptionArray);
+				$('#feedDesc').editable(feedOptionArray);
+				$('#feedIco').editable({
+					success: function(response, newValue){
+						var message = JSON.parse(response);
+						if(!message.success){
+							return message.error;
+						}
+						$("#feedIcoImg").attr("src", newValue);
+						$.get( "/<?php echo SUBDIR;?>/yt.php", function( data ) {});
+					},
+					error: function(response){console.log(response);return processError(response);}
+				});
+
 				$('#webID').editable({
 					success: function(response, newValue){
 						var message = JSON.parse(response);
@@ -307,18 +332,6 @@ function makeEditProfile(User $user){
 					error: function(response){console.log(response);return processError(response);}
 				});
 				$('#fname').editable(basicOptions);
-				$('#feedTitle').editable(basicOptions);
-				$('#feedIco').editable({
-					success: function(response, newValue){
-						var message = JSON.parse(response);
-						if(!message.success){
-							return message.error;
-						}
-						$("#feedIcoImg").attr("src", newValue);},
-					error: function(response){console.log(response);return processError(response);}
-				});
-				$('#itunesAuthor').editable(basicOptions);
-				$('#feedDesc').editable(basicOptions);
 				$('#lname').editable(basicOptions);
 				$('#email').editable(basicOptions);
 				$('#feedLen').editable(basicOptions);
