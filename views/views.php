@@ -133,7 +133,7 @@ function makeAddVideo(){
 
 /**
  * Prints all feed items as HTML
- * @param \User $user
+ * @param User $user
  */
 function showFeed(User $user){
 	?>
@@ -173,7 +173,7 @@ function showFeed(User $user){
 
 /**
  * Makes the user profile view for the general public
- * @param \User $user
+ * @param User $user
  */
 function makeViewProfile(User $user){
 	?>
@@ -205,7 +205,7 @@ function makeViewProfile(User $user){
 
 /**
  * Makes the editable user profile page
- * @param \User $user
+ * @param User $user
  */
 function makeEditProfile(User $user){
 	?>

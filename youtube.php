@@ -6,21 +6,21 @@ require_once __DIR__."/header.php";
  */
 class YouTube{
 	// Setup global variables
-	/** @var \PodTube PodTube object */
+	/** @var PodTube PodTube object */
 	private $podtube;
 	/** @var string YouTube URL */
 	private $YouTubeBaseURL = "http://www.youtube.com/";
-	/** @var \Video Video object to store the current video information */
+	/** @var Video Video object to store the current video information */
 	private $video;
 
 	/**
 	 * YouTube constructor. Gets the video information, checks for it in the user's feed.
 	 *
 	 * @param string $str
-	 * @param $podtube
+	 * @param PodTube $podtube
 	 * @throws \Exception
 	 */
-	public function __construct($str, $podtube){
+	public function __construct($str, PodTube $podtube){
 		$this->podtube = $podtube;
 		$this->video = new Video();
 
@@ -60,7 +60,7 @@ class YouTube{
 
 	/**
 	 * Set YouTube ID from a given string using parseYoutubeURL
-	 * @param $str
+	 * @param string $str
 	 * @return bool
 	 * @throws \Exception
 	 */
@@ -466,8 +466,8 @@ class YouTube{
 	// Accessor method
 
 	/**
-	 * Returns the current video object
-	 * @return bool|\Video
+	 * Returns the current Video object
+	 * @return Video
 	 */
 	public function getVideo(){
 		return $this->video;
