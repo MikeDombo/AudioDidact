@@ -14,6 +14,9 @@ Open your web browser to the server that you have set up. Make a new account usi
 
 Subscribe to the generated feed using the URL shown on the Add a Video page to receive updates as they come.
 
+## Documentation
+PHP API documentation is available ![here](https://md100play.github.io/PodTube/html/index.xhtml).
+
 ## Future Tasks
 - Customize feed options including Title, Author, image, etc.
 
