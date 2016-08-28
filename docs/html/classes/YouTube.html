@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - YouTube</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">YouTube</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="../source/YouTube.php.html#line7">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>\</small>YouTube</h1>
+        <h4>Class YouTube</h4>
+        <p/>
+        <ul/>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class YouTube
+            {<br/><ul class="none"><li>// members</li><li>private <span title="PodTube">PodTube</span> <a href="#members">$podtube</a>;
+                    </li><li>private string <a href="#members">$YouTubeBaseURL</a> =
+                        "http://www.youtube.com/";
+                    </li><li>private <span title="Video">Video</span> <a href="#members">$video</a>;
+                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="YouTube" href="../classes/YouTube/__construct.html">__construct</a>()
+                    </li><li>private bool <a title="YouTube" href="../classes/YouTube/setYoutubeID.html">setYoutubeID</a>()
+                    </li><li>public bool <a title="YouTube" href="../classes/YouTube/allDownloaded.html">allDownloaded</a>()
+                    </li><li>public void <a title="YouTube" href="../classes/YouTube/downloadThumbnail.html">downloadThumbnail</a>()
+                    </li><li>public void <a title="YouTube" href="../classes/YouTube/downloadVideo.html">downloadVideo</a>()
+                    </li><li>private string <a title="YouTube" href="../classes/YouTube/getDownloadURL.html">getDownloadURL</a>()
+                    </li><li>private bool|mixed <a title="YouTube" href="../classes/YouTube/getQualityProfilesFromURL.html">getQualityProfilesFromURL</a>()
+                    </li><li>private bool <a title="YouTube" href="../classes/YouTube/downloadWithPercentage.html">downloadWithPercentage</a>()
+                    </li><li>public void <a title="YouTube" href="../classes/YouTube/convert.html">convert</a>()
+                    </li><li>private int <a title="YouTube" href="../classes/YouTube/curl_httpstatus.html">curl_httpstatus</a>()
+                    </li><li>public static bool|string <a title="YouTube" href="../classes/YouTube/getDuration.html">getDuration</a>()
+                    </li><li>private bool <a title="YouTube" href="../classes/YouTube/parseYoutubeURL.html">parseYoutubeURL</a>()
+                    </li><li>public Video <a title="YouTube" href="../classes/YouTube/getVideo.html">getVideo</a>()
+                    </li></ul>
+
+            }<br/></div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="YouTubeBaseURL"><strong>$YouTubeBaseURL</strong>
+                —
+                string</li>
+            <li id="podtube"><strong>$podtube</strong>
+                —
+                <a title="PodTube" href="../classes/PodTube.html">PodTube</a></li>
+            <li id="video"><strong>$video</strong>
+                —
+                <a title="Video" href="../classes/Video.html">Video</a></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>private</h4>
+          <ul>
+            <li id="curl_httpstatus"><a title="YouTube" href="../classes/YouTube/curl_httpstatus.html">curl_httpstatus()</a>
+                — Use cURL to get the HTTP status of a given URL</li>
+            <li id="downloadWithPercentage"><a title="YouTube" href="../classes/YouTube/downloadWithPercentage.html">downloadWithPercentage()</a>
+                — Download the video to $localFile with a given $url While downloading output progress to UI as JSON array</li>
+            <li id="getDownloadURL"><a title="YouTube" href="../classes/YouTube/getDownloadURL.html">getDownloadURL()</a>
+                — Gets lowest quality mp4 download url based on a given id.</li>
+            <li id="getQualityProfilesFromURL"><a title="YouTube" href="../classes/YouTube/getQualityProfilesFromURL.html">getQualityProfilesFromURL()</a>
+                — Returns a quality profile or false based on a url.</li>
+            <li id="parseYoutubeURL"><a title="YouTube" href="../classes/YouTube/parseYoutubeURL.html">parseYoutubeURL()</a>
+                — Parse a YouTube URL to get the video ID</li>
+            <li id="setYoutubeID"><a title="YouTube" href="../classes/YouTube/setYoutubeID.html">setYoutubeID()</a>
+                — Set YouTube ID from a given string using parseYoutubeURL</li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="__construct"><a title="YouTube" href="../classes/YouTube/__construct.html">__construct()</a>
+                — YouTube constructor. Gets the video information, checks for it in the user's feed.</li>
+            <li id="allDownloaded"><a title="YouTube" href="../classes/YouTube/allDownloaded.html">allDownloaded()</a>
+                — Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)</li>
+            <li id="convert"><a title="YouTube" href="../classes/YouTube/convert.html">convert()</a>
+                — Converts mp4 video to mp3 audio using ffmpeg</li>
+            <li id="downloadThumbnail"><a title="YouTube" href="../classes/YouTube/downloadThumbnail.html">downloadThumbnail()</a>
+                — Download thumbnail using videoID from YouTube's image server</li>
+            <li id="downloadVideo"><a title="YouTube" href="../classes/YouTube/downloadVideo.html">downloadVideo()</a>
+                — Download video using download URL from Python script and then call downloadWithPercentage to actually download the video</li>
+            <li id="getDuration"><a title="YouTube" href="../classes/YouTube/getDuration.html">getDuration()</a>
+                — Get duration of media file from ffmpeg</li>
+            <li id="getVideo"><a title="YouTube" href="../classes/YouTube/getVideo.html">getVideo()</a>
+                — Returns the current Video object</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.9.0 - Copyright (C) 2010 - 2016 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>
