@@ -25,11 +25,17 @@ class User{
 	private $feedText;
 	/** @var  int $feedLength is the maximum number of items in the feed */
 	private $feedLength;
+	/** @var  array $feedDetails is an associative array containing the details used to make the feed */
+	private $feedDetails;
 
 	/**
 	 * User constructor.
 	 */
 	public function __construct(){
+		$this->feedDetails = ["title"=>"YouTube to Podcast",
+			"description"=>"Converts YouTube videos into a podcast feed.",
+			"icon"=>"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Rss-feed.svg/256px-Rss-feed.svg.png",
+			"itunesAuthor"=>"Michael Dombrowski"];
 	}
 
 	/**
@@ -222,4 +228,21 @@ class User{
 	public function setFeedLength($feedLength){
 		$this->feedLength = $feedLength;
 	}
+
+	/**
+	 * Gets the feed detail array
+	 * @return array
+	 */
+	public function getFeedDetails(){
+		return $this->feedDetails;
+	}
+
+	/**
+	 * Sets the feed detail array
+	 * @param array $feedDetails
+	 */
+	public function setFeedDetails($feedDetails){
+		$this->feedDetails = $feedDetails;
+	}
+
 }

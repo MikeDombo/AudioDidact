@@ -178,26 +178,27 @@ function showFeed(User $user){
 function makeViewProfile(User $user){
 	?>
 	<div class="col-sm-12">
-	<h1><?php echo $user->getWebID();?>'s Profile</h1>
-	<hr/>
+		<h1><?php echo $user->getWebID();?>'s Profile</h1>
+		<hr/>
 
-	<div>
-		<label for="profileURL">Profile URL:</label><a id="profileURL" href="<?php echo LOCAL_URL."user/".$user->getWebID();?>">
-		<?php echo LOCAL_URL."user/".$user->getWebID()?>
-		</a>
-	</div>
-	<div>
-		<label for="feedURL">Feed URL:</label><a id="feedURL" href="<?php echo LOCAL_URL."user/".$user->getWebID()."/feed";?>">
-		<?php echo LOCAL_URL."user/".$user->getWebID()."/feed";?>
-		</a>
-	</div>
-	<div>
-		<label for="name">Full Name:</label><span id="name"></span><?php echo $user->getFname()." ".$user->getLname();?></span>
-	</div>
-	<div>
-		<label for="gender">Gender:</label>
-		<span id="gender"><?php $g=$user->getGender(); if($g == 1){echo "Male";}else if($g == 2){echo "Female";}else if($g == 3){echo "Other";}?>
-		</span>
+		<div>
+			<label for="profileURL">Profile URL:</label><a id="profileURL" href="<?php echo LOCAL_URL."user/".$user->getWebID();?>">
+			<?php echo LOCAL_URL."user/".$user->getWebID()?>
+			</a>
+		</div>
+		<div>
+			<label for="feedURL">Feed URL:</label><a id="feedURL" href="<?php echo LOCAL_URL."user/".$user->getWebID()."/feed";?>">
+			<?php echo LOCAL_URL."user/".$user->getWebID()."/feed";?>
+			</a>
+		</div>
+		<div>
+			<label for="name">Full Name:</label><span id="name"></span><?php echo $user->getFname()." ".$user->getLname();?></span>
+		</div>
+		<div>
+			<label for="gender">Gender:</label>
+			<span id="gender"><?php $g=$user->getGender(); if($g == 1){echo "Male";}else if($g == 2){echo "Female";}else if($g == 3){echo "Other";}?>
+			</span>
+		</div>
 	</div>
 	<?php
 	showFeed($user);
@@ -212,31 +213,61 @@ function makeEditProfile(User $user){
 		<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 		<div class="col-sm-12">
-		<h1><?php echo $user->getUsername();?>'s Profile</h1>
-		<hr/>
+			<h1><?php echo $user->getUsername();?>'s Profile</h1>
+			<hr/>
 
-		<div class="form-group">
-			<label for="webID">Custom URL:</label>
-			<span><?php echo LOCAL_URL?>user/</span><a href="#" id="webID" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>
-			updateUser.php" data-title="Enter Custom URL"><?php echo $user->getWebID();?></a><span>/</span>
-		</div>
-		<div class="form-group">
-			<label for="fname">Firstname:</label>
-			<a href="#" id="fname" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter Firstname"><?php echo $user->getFname();?></a>
-			<label for="lname">Lastname:</label>
-			<a href="#" id="lname" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter Lastname"><?php echo $user->getLname();?></a>
-		</div>
-		<div class="form-group">
-			<label for="gender">Gender:</label>
-			<a href="#" id="gender" data-type="select" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Select Gender"></a>
-		</div>
-		<div class="form-group">
-			<label for="email">Email:</label>
-			<a href="#" id="email" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter Email"><?php echo $user->getEmail();?></a>
-		</div>
-		<div class="form-group">
-			<label for="feedLen">Number of Items in Feed:</label>
-			<a href="#" id="feedLen" data-type="number" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter # of Items in Feed (Max 50)" data-min="1" data-max="50"><?php echo $user->getFeedLength();?></a>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="webID">Custom URL:</label>
+					<span><?php echo LOCAL_URL?>user/</span><a href="#" id="webID" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>
+					updateUser.php" data-title="Enter Custom URL"><?php echo $user->getWebID();?></a><span>/</span>
+				</div>
+				<div class="form-group">
+					<label for="fname">Firstname:</label>
+					<a href="#" id="fname" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter Firstname"><?php echo $user->getFname();?></a>
+					<label for="lname">Lastname:</label>
+					<a href="#" id="lname" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter Lastname"><?php echo $user->getLname();?></a>
+				</div>
+				<div class="form-group">
+					<label for="gender">Gender:</label>
+					<a href="#" id="gender" data-type="select" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Select Gender"></a>
+				</div>
+				<div class="form-group">
+					<label for="email">Email:</label>
+					<a href="#" id="email" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter Email"><?php echo $user->getEmail();?></a>
+				</div>
+				<div class="form-group">
+					<label for="feedLen">Number of Items in Feed:</label>
+					<a href="#" id="feedLen" data-type="number" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter # of Items in Feed (Max 50)" data-min="1" data-max="50"><?php echo $user->getFeedLength();?></a>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<img id="feedIcoImg" style="max-height: 150px; max-width: 150px;"/>
+				</div>
+				<div class="form-group">
+					<label for="feedTitle">Feed Title:</label>
+					<a href="#" id="feedTitle" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php">
+						<?php echo $user->getFeedDetails()["title"];?>
+					</a>
+				</div>
+				<div class="form-group">
+					<label for="feedDesc">Feed Description:</label>
+					<a href="#" id="feedDesc" data-type="textarea" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser
+					.php"><?php echo $user->getFeedDetails()["description"];?></a>
+				</div>
+				<div class="form-group">
+					<label for="feedIco">Feed Icon:</label>
+					<a href="#" id="feedIco" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>
+					updateUser.php" data-tpl="<input type='text' size='100' style='width:100%;'>"><?php echo
+						$user->getFeedDetails()["icon"];?></a>
+				</div>
+				<div class="form-group">
+					<label for="itunesAuthor">iTunes Author:</label>
+					<a href="#" id="itunesAuthor" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>
+					updateUser.php"><?php echo $user->getFeedDetails()["itunesAuthor"];?></a>
+				</div>
+			</div>
 		</div>
 
 		<?php showFeed($user);?>
@@ -257,6 +288,7 @@ function makeEditProfile(User $user){
 			}
 			$.fn.editable.defaults.mode = 'inline';
 			$(document).ready(function() {
+				$("#feedIcoImg").attr("src", $("#feedIco").text());
 				var basicOptions = {
 					success: function(response, newValue){console.log(response);console.log(newValue);
 						return processSuccess(response);},
@@ -275,6 +307,18 @@ function makeEditProfile(User $user){
 					error: function(response){console.log(response);return processError(response);}
 				});
 				$('#fname').editable(basicOptions);
+				$('#feedTitle').editable(basicOptions);
+				$('#feedIco').editable({
+					success: function(response, newValue){
+						var message = JSON.parse(response);
+						if(!message.success){
+							return message.error;
+						}
+						$("#feedIcoImg").attr("src", newValue);},
+					error: function(response){console.log(response);return processError(response);}
+				});
+				$('#itunesAuthor').editable(basicOptions);
+				$('#feedDesc').editable(basicOptions);
 				$('#lname').editable(basicOptions);
 				$('#email').editable(basicOptions);
 				$('#feedLen').editable(basicOptions);
