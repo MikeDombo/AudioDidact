@@ -74,11 +74,11 @@ class PodTube{
 	 * @return \FeedWriter\RSS2
 	 */
 	private function makeFeed(){
-		// In future Title, Description, Image, and Author should be customizable.
-		$imageURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Rss-feed.svg/256px-Rss-feed.svg.png";
-		$itunesAuthor = "Michael Dombrowski";
-		$feedTitle = "YouTube to Podcast";
-		$feedDescription = "Converts YouTube videos into a podcast feed.";
+		$feedDetails = $this->user->getFeedDetails();
+		$imageURL = $feedDetails["icon"];
+		$itunesAuthor = $feedDetails["itunesAuthor"];
+		$feedTitle = $feedDetails["title"];
+		$feedDescription = $feedDetails["description"];
 
 		$feed = new RSS2;
 		$feed->setTitle($feedTitle);

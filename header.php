@@ -59,7 +59,7 @@ if(CHECK_REQUIRED){
 	else if($nextStep == 1){
 		echo "<h1>The database needs to be created, this will be completed automatically...</h1>";
 		error_log("Database needs to be created");
-		$dal->makeDB();
+		$dal->makeDB(1);
 		if($dal->verifyDB() == 0){
 			setCheckRequired("false");
 		}
@@ -70,7 +70,7 @@ if(CHECK_REQUIRED){
 	else if($nextStep == 2){
 		echo "<h1>The database needs to be updated, this will be completed automatically...</h1>";
 		error_log("Database needs to be updated");
-		$dal->makeDB();
+		$dal->makeDB(2);
 		$dal->verifyDB();
 		if($dal->verifyDB() == 0){
 			setCheckRequired("false");

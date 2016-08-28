@@ -19,10 +19,10 @@
 		<!DOCTYPE html>
 		<html>";
 		if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
-			makeHeader($webID." | User Page | Edit");
+			makeHeader("User Page | $webID | Edit");
 		}
 		else{
-			makeHeader($webID." | User Page");
+			makeHeader("User Page | $webID");
 		}
 		echo "<body>";
 		makeNav();
