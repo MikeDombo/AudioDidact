@@ -490,7 +490,7 @@ class MySQLDAL extends DAL{
 		}
 		else if($code == 2){
 			try{
-				$delta1 = "ALTER TABLE $this->usertable ADD `feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;";
+				$delta1 = "ALTER TABLE ".$this->usertable." ADD `feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;";
 				$p = parent::$PDO->prepare($delta1);
 				$p->execute();
 			}catch(PDOException $e){
