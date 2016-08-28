@@ -144,9 +144,10 @@ abstract class DAL {
 
 	/**
 	 * Sets up any database necessary
+	 * @param int $code
 	 * @return mixed
 	 */
-	abstract public function makeDB();
+	abstract public function makeDB($code);
 
 	/**
 	 * Verifies the database

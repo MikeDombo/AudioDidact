@@ -463,8 +463,6 @@ class YouTube{
 		return (isset($matches[1])) ? $matches[1] : false;
 	}
 
-	// Accessor method
-
 	/**
 	 * Returns the current Video object
 	 * @return Video
