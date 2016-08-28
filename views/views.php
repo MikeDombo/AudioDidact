@@ -334,7 +334,16 @@ function makeEditProfile(User $user){
 				$('#fname').editable(basicOptions);
 				$('#lname').editable(basicOptions);
 				$('#email').editable(basicOptions);
-				$('#feedLen').editable(basicOptions);
+				$('#feedLen').editable({
+					success: function(response, newValue){
+						var message = JSON.parse(response);
+						if(!message.success){
+							return message.error;
+						}
+						$.get( "/<?php echo SUBDIR;?>yt.php", function( data ) {});
+					},
+					error: function(response){console.log(response);return processError(response);}
+				});
 				$('#gender').editable({
 					value: <?php echo $user->getGender();?>,
 					source: [
