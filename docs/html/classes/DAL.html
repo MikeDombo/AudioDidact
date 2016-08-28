@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - DAL</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">DAL</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="../source/classes/DAL.php.html#line7">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>\</small>DAL</h1>
+        <h4>Class DAL</h4>
+        <p/>
+        <ul/>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class DAL
+            {<br/><ul class="none"><li>// members</li><li>protected static <span title="\PDO">PDO</span> <a href="#members">$PDO</a>;
+                    </li></ul><ul class="none"><li>// methods</li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByUsername.html">getUserByUsername</a>()
+                    </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByEmail.html">getUserByEmail</a>()
+                    </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByID.html">getUserByID</a>()
+                    </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByWebID.html">getUserByWebID</a>()
+                    </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/getFeed.html">getFeed</a>()
+                    </li><li>public abstract string <a title="DAL" href="../classes/DAL/getFeedText.html">getFeedText</a>()
+                    </li><li>public abstract Video <a title="DAL" href="../classes/DAL/getVideoByID.html">getVideoByID</a>()
+                    </li><li>public abstract void <a title="DAL" href="../classes/DAL/addUser.html">addUser</a>()
+                    </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/addVideo.html">addVideo</a>()
+                    </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/setFeedText.html">setFeedText</a>()
+                    </li><li>public abstract void <a title="DAL" href="../classes/DAL/updateUser.html">updateUser</a>()
+                    </li><li>public bool <a title="DAL" href="../classes/DAL/inFeed.html">inFeed</a>()
+                    </li><li>public bool <a title="DAL" href="../classes/DAL/usernameExists.html">usernameExists</a>()
+                    </li><li>public bool <a title="DAL" href="../classes/DAL/webIDExists.html">webIDExists</a>()
+                    </li><li>public bool <a title="DAL" href="../classes/DAL/emailExists.html">emailExists</a>()
+                    </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/makeDB.html">makeDB</a>()
+                    </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/verifyDB.html">verifyDB</a>()
+                    </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/getPrunableVideos.html">getPrunableVideos</a>()
+                    </li></ul>
+
+            }<br/></div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>protected</h4>
+          <ul class="members">
+            <li id="PDO"><strong>$PDO</strong>
+                —
+                <a title="\PDO" href="../classes/_PDO.html">\PDO</a></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>public</h4>
+          <ul>
+            <li id="addUser"><a title="DAL" href="../classes/DAL/addUser.html">addUser()</a>
+                — Puts user into the database</li>
+            <li id="addVideo"><a title="DAL" href="../classes/DAL/addVideo.html">addVideo()</a>
+                — Adds video into the video database for a specific user</li>
+            <li id="emailExists"><a title="DAL" href="../classes/DAL/emailExists.html">emailExists()</a>
+                — Checks if an email is already in the database</li>
+            <li id="getFeed"><a title="DAL" href="../classes/DAL/getFeed.html">getFeed()</a>
+                — Gets all the videos from the database</li>
+            <li id="getFeedText"><a title="DAL" href="../classes/DAL/getFeedText.html">getFeedText()</a>
+                — Gets the full text of the feed from the database</li>
+            <li id="getPrunableVideos"><a title="DAL" href="../classes/DAL/getPrunableVideos.html">getPrunableVideos()</a>
+                — Returns an array of video IDs that can be safely deleted</li>
+            <li id="getUserByEmail"><a title="DAL" href="../classes/DAL/getUserByEmail.html">getUserByEmail()</a>
+                — Returns User class built from the database</li>
+            <li id="getUserByID"><a title="DAL" href="../classes/DAL/getUserByID.html">getUserByID()</a>
+                — Returns User class built from the database</li>
+            <li id="getUserByUsername"><a title="DAL" href="../classes/DAL/getUserByUsername.html">getUserByUsername()</a>
+                — Returns User class built from the database</li>
+            <li id="getUserByWebID"><a title="DAL" href="../classes/DAL/getUserByWebID.html">getUserByWebID()</a>
+                — Returns User class built from the database</li>
+            <li id="getVideoByID"><a title="DAL" href="../classes/DAL/getVideoByID.html">getVideoByID()</a>
+                — Returns a Video class based on a user and an ID</li>
+            <li id="inFeed"><a title="DAL" href="../classes/DAL/inFeed.html">inFeed()</a>
+                — Default slow way to check if a video is in the feed. Override for faster lookup</li>
+            <li id="makeDB"><a title="DAL" href="../classes/DAL/makeDB.html">makeDB()</a>
+                — Sets up any database necessary</li>
+            <li id="setFeedText"><a title="DAL" href="../classes/DAL/setFeedText.html">setFeedText()</a>
+                — Sets feed xml text for a user</li>
+            <li id="updateUser"><a title="DAL" href="../classes/DAL/updateUser.html">updateUser()</a>
+                — Updates user entry in the database</li>
+            <li id="usernameExists"><a title="DAL" href="../classes/DAL/usernameExists.html">usernameExists()</a>
+                — Checks if a username is taken in the database</li>
+            <li id="verifyDB"><a title="DAL" href="../classes/DAL/verifyDB.html">verifyDB()</a>
+                — Verifies the database</li>
+            <li id="webIDExists"><a title="DAL" href="../classes/DAL/webIDExists.html">webIDExists()</a>
+                — Checks if a webID is taken in the database</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.9.0 - Copyright (C) 2010 - 2016 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>

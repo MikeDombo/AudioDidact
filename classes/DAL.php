@@ -9,73 +9,73 @@ abstract class DAL {
 	protected static $PDO;
 
 	/**
-	 * Returns \User class built from the database
+	 * Returns User class built from the database
 	 * @param string $username
-	 * @return \User
+	 * @return User
 	 */
 	abstract public function getUserByUsername($username);
 
 	/**
-	 * Returns \User class built from the database
+	 * Returns User class built from the database
 	 * @param string $email
-	 * @return \User
+	 * @return User
 	 */
 	abstract public function getUserByEmail($email);
 
 	/**
-	 * Returns \User class built from the database
+	 * Returns User class built from the database
 	 * @param int $id
-	 * @return \User
+	 * @return User
 	 */
 	abstract public function getUserByID($id);
 
 	/**
-	 * Returns \User class built from the database
+	 * Returns User class built from the database
 	 * @param string $webID
-	 * @return \User
+	 * @return User
 	 */
 	abstract public function getUserByWebID($webID);
 
 	/**
 	 * Gets all the videos from the database
-	 * @param \User $user
+	 * @param User $user
 	 * @return mixed
 	 */
 	abstract public function getFeed(User $user);
 
 	/**
 	 * Gets the full text of the feed from the database
-	 * @param \User $user
+	 * @param User $user
 	 * @return string
 	 */
 	abstract public function getFeedText(User $user);
 
 	/**
-	 * Returns a \Video class based on a user and an ID
-	 * @param \User $user
+	 * Returns a Video class based on a user and an ID
+	 * @param User $user
 	 * @param $id
-	 * @return \Video
+	 * @return Video
 	 */
 	abstract public function getVideoByID(User $user, $id);
 
 	/**
 	 * Puts user into the database
-	 * @param \User $user
+	 * @param User $user
 	 * @return void
 	 */
 	abstract public function addUser(User $user);
 
 	/**
 	 * Adds video into the video database for a specific user
-	 * @param \Video $vid
-	 * @param \User $user
+	 * @param Video $vid
+	 * @param User $user
 	 * @return mixed
 	 */
 	abstract public function addVideo(Video $vid, User $user);
 
 	/**
 	 * Sets feed xml text for a user
-	 * @param \User $user
+	 * @param User $user
 	 * @param $feed
 	 * @return mixed
 	 */
@@ -83,15 +83,15 @@ abstract class DAL {
 
 	/**
 	 * Updates user entry in the database
-	 * @param \User $user
+	 * @param User $user
 	 */
 	abstract public function updateUser(User $user);
 
 
 	/**
 	 * Default slow way to check if a video is in the feed. Override for faster lookup
-	 * @param \Video $vid
-	 * @param \User $user
+	 * @param Video $vid
+	 * @param User $user
 	 * @return bool
 	 */
 	public function inFeed(Video $vid, User $user){
