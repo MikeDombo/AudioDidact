@@ -18,9 +18,9 @@ Subscribe to the generated feed using the URL shown on the Add a Video page to r
 PHP API documentation is available [here](https://md100play.github.io/PodTube/html/index.xhtml).
 
 ## Future Tasks
-- Customize feed options including Title, Author, image, etc.
 
 ## Completed Tasks
 - Better session handling (session cookie is now stored for a long time and refreshed often)
 - Create and verify databases
 - Account management added
+- Customize feed options including Title, Author, image, etc.
