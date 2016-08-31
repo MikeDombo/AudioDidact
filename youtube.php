@@ -126,12 +126,12 @@ class YouTube{
 		$videoFilename = "$id.mp4";
 		$video = $path . $videoFilename;
 
+		$url = $this->getDownloadURL($id);
+		if(strpos($url, "Error:")>-1){
+			echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$url]);
+			throw new Exception("Download Failed!");
+		}
 		try{
-			$url = $this->getDownloadURL($id);
-			if(strpos($url, "Error:")>-1){
-				echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$url]);
-				throw new Exception("Download Failed!");
-			}
 			/* Actually download the video from the url and print the
 			 * percentage to the screen with JSON
 			 */
@@ -141,6 +141,7 @@ class YouTube{
 			return;
 		}
 		catch(Exception $e){
+			echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$e->getMessage()]);
 			throw $e;
 		}
 	}
@@ -328,6 +329,7 @@ class YouTube{
 		}
 		else{
 			error_log("Content length was 0 for URL: ".$url);
+			throw new Exception("Downloaded video length was 0, please try again later");
 		}
 
 		return true;
