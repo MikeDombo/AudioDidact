@@ -140,8 +140,7 @@ class PodTube{
 			<p>$descr</p>");
 		$newItem->addElement('media:content', array('media:title'=>$title), array('fileSize'=>filesize($filePath.".mp3"),
 			'type'=> 'audio/mp3', 'medium'=>'audio', 'url'=>$webPath.'.mp3'));
-		$newItem->addElement('media:content', array('media:title'=>$title), array('medium'=>'image',
-			'url'=>$webPath.'.jpg'), false, true);
+		$newItem->addElement('media:thumbnail', null, array('url'=>$webPath.'.jpg'), false, true);
 		$newItem->setEnclosure($webPath.".mp3", filesize($filePath.".mp3"), 'audio/mp3');
 		$newItem->addElement('itunes:image', "", array('href'=>$webPath.'.jpg'));
 		$newItem->addElement('itunes:author', $author);
