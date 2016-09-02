@@ -189,12 +189,13 @@ class YouTube{
 		$json_object = json_decode(substr($html, 0, $offset), true);
 		
 		if(isset($json_object["args"]["livestream"]) && $json_object["args"]["livestream"] && (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
-			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "Download failed\nThis URL is a livestream, try again when the stream has ended");
+			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "<h3>Download Failed</h3><h4>This URL is a 
+			livestream, try again when the stream has ended</h4>");
 			echo json_encode($response);
 			throw new Exception("Download Failed!");
 		}
 		if(isset($json_object["args"]["live_default_broadcast"]) && $json_object["args"]["live_default_broadcast"] == 1 || (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
-			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "Download failed\nTry again later");
+			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "<h3>Download Failed</h3><h4>Try again later</h4>");
 			echo json_encode($response);
 			throw new Exception("Download Failed!");
 		}
