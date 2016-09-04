@@ -12,7 +12,7 @@ require_once(__DIR__."/views/views.php");
 	?>
 	<body>
 		<?php makeNav();?>
-		<div class="container-fluid">
+		<div id="main-content" class="container-fluid">
 			<?php if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
 				makeAddVideo();
 				echo "</div>
@@ -20,6 +20,10 @@ require_once(__DIR__."/views/views.php");
 				</html>";
 				exit(0);
 			}?>
+			<div class="jumbotron text-center">
+				<h1>PodTube - YouTube to Podcast Service</h1>
+				<p class="lead">Make an account and add videos to your feed today!</p>
+			</div>
 			<div class="col-md-4">
 				<h3>What is PodTube?</h3>
 				<hr/>
