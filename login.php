@@ -7,16 +7,7 @@ require_once __DIR__."/header.php";
 
 // Check if the user is requesting a logout
 if(isset($_POST["action"]) && $_POST["action"] == "logout"){
-	unset($_SESSION["user"]);
-	$_SESSION["loggedIn"] = false;
-	$_SESSION = [];
-	$params = session_get_cookie_params();
-	setcookie(session_name(), '', time() - 42000,
-		$params["path"], $params["domain"],
-		$params["secure"], $params["httponly"]
-	);
-	session_destroy();
-	session_write_close();
+	clearSession();
 	echo "Logout Success!";
 	exit(0);
 }

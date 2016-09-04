@@ -39,6 +39,30 @@ class User{
 	}
 
 	/**
+	 * @param $email
+	 * @return mixed
+	 */
+	public function validateEmail($email){
+		return filter_var($email, FILTER_VALIDATE_EMAIL);
+	}
+
+	/**
+	 * @param $name
+	 * @return bool
+	 */
+	public function validateName($name){
+		return filter_var($name, FILTER_SANITIZE_STRING) == $name;
+	}
+
+	/**
+	 * @param $webID
+	 * @return bool
+	 */
+	public function validateWebID($webID){
+		return $webID == preg_replace( "/[^a-zA-Z0-9_-~\@\$]/", "", $webID);
+	}
+
+	/**
 	 * Checks if plaintext password when hashed, matches the hashed password stored in this User
 	 *
 	 * @param string $passwd The password to check against the password stored in the database
