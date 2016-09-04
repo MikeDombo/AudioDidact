@@ -41,7 +41,7 @@ class User{
 	/**
 	 * Validates names and other strings using PHP FILTER_VALIDATE_EMAIL. Returns true if the string is valid
 	 * @param $email
-	 * @return mixed
+	 * @return bool
 	 */
 	public function validateEmail($email){
 		return filter_var($email, FILTER_VALIDATE_EMAIL);
