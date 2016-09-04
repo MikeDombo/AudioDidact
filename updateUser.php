@@ -7,12 +7,12 @@ if(isset($_POST["name"]) && isset($_POST["value"])){
 		$user = $dal->getUserByID($_SESSION["user"]->getUserID());
 
 		if($_POST["name"] == "fname"){
-			$user->setFname($_POST["value"]);
+			$user->setFname(filter_var($_POST["value"], FILTER_SANITIZE_STRING));
 			$dal->updateUser($user);
 			outputSuccess($user);
 		}
 		else if($_POST["name"] == "lname"){
-			$user->setLname($_POST["value"]);
+			$user->setLname(filter_var($_POST["value"], FILTER_SANITIZE_STRING));
 			$dal->updateUser($user);
 			outputSuccess($user);
 		}
@@ -27,7 +27,7 @@ if(isset($_POST["name"]) && isset($_POST["value"])){
 			}
 		}
 		else if($_POST["name"] == "email"){
-			if(filter_var($_POST["value"], FILTER_VALIDATE_EMAIL) && !$dal->emailExists($_POST["value"])){
+			if($user->validateEmail($_POST["value"]) && !$dal->emailExists($_POST["value"])){
 				$user->setEmail($_POST["value"]);
 				$dal->updateUser($user);
 				outputSuccess($user);
@@ -43,20 +43,30 @@ if(isset($_POST["name"]) && isset($_POST["value"])){
 		}
 		else if($_POST["name"] == "webID"){
 			if(!$dal->webIDExists($_POST["value"])){
-				$user->setWebID($_POST["value"]);
+				if(!$user->validateWebID($_POST["value"])){
+					echo json_encode(["success"=>false, "error"=>"Custom URL contains invalid characters!"]);
+				}
+				else{
+					$user->setWebID($_POST["value"]);
+					$dal->updateUser($user);
+					outputSuccess($user);
+				}
+			}
+			else{
+				echo json_encode(["success"=>false, "error"=>"Custom URL is already registered!"]);
+			}
+		}
+		else if($_POST["name"] == "feedTitle"){
+			if($user->validateName($_POST["value"])){
+				$current = $user->getFeedDetails();
+				$current["title"] = $_POST["value"];
+				$user->setFeedDetails($current);
 				$dal->updateUser($user);
 				outputSuccess($user);
 			}
 			else{
-				echo json_encode(["success"=>false, "error"=>"WebID invalid or is already registered!"]);
+				echo json_encode(["success"=>false, "error"=>"Title contains illegal characters"]);
 			}
-		}
-		else if($_POST["name"] == "feedTitle"){
-			$current = $user->getFeedDetails();
-			$current["title"] = $_POST["value"];
-			$user->setFeedDetails($current);
-			$dal->updateUser($user);
-			outputSuccess($user);
 		}
 		else if($_POST["name"] == "feedDesc"){
 			$current = $user->getFeedDetails();
@@ -78,11 +88,16 @@ if(isset($_POST["name"]) && isset($_POST["value"])){
 			}
 		}
 		else if($_POST["name"] == "itunesAuthor"){
-			$current = $user->getFeedDetails();
-			$current["itunesAuthor"] = $_POST["value"];
-			$user->setFeedDetails($current);
-			$dal->updateUser($user);
-			outputSuccess($user);
+			if($user->validateName($_POST["value"])){
+				$current = $user->getFeedDetails();
+				$current["itunesAuthor"] = $_POST["value"];
+				$user->setFeedDetails($current);
+				$dal->updateUser($user);
+				outputSuccess($user);
+			}
+			else{
+				echo json_encode(["success"=>false, "error"=>"Author contains illegal characters!"]);
+			}
 		}
 		else{
 			outputGenericError();
