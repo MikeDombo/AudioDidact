@@ -7,19 +7,29 @@ require_once __DIR__."/../header.php";
  */
 function makeHeader($title){
 		echo '<head>
-				<meta name="viewport" content="width=device-width, initial-scale=1">
+				<meta charset="utf-8">
+			    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+			    <meta http-equiv="x-ua-compatible" content="ie=edge">
 				<title>YouTube to Podcast';
 				if($title != ""){
 					echo " | ".$title;
 				}
 		echo '</title>
+			<style>
+				@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+				#main-content {
+					padding-top:10px;
+				}
+			</style>
 			<link rel="shortcut icon" href="/'.SUBDIR;
 		echo 'favicon.ico" type="image/x-icon">
 			<link rel="icon" href="/'.SUBDIR;
 		echo 'favicon.ico" type="image/x-icon">
-			<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+			
 			<script>
 				function validateLogin(){
 					return $.trim($("#uname").val()) != "" && $.trim($("#passwd").val()) != "";
@@ -60,66 +70,65 @@ function makeHeader($title){
  * Makes the navbar dynamically depending on the state of the current user
  */
 function makeNav(){
-		echo '<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<div class="navbar-header">
-				  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
+		echo '
+				<nav class="navbar navbar-dark bg-inverse navbar-full">
+				  <button class="navbar-toggler hidden-sm-up pull-xs-right" type="button" data-toggle="collapse" 
+				  data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
+				    &#9776;
 				  </button>
-				  <a class="navbar-brand" href="/'.SUBDIR;echo '">PodTube</a>
-				</div>
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				  <ul class="nav navbar-nav">
-					<li class="active"><a href="/'.SUBDIR;
-				echo '">Home</a></li>
-				  </ul>
-				  <ul class="nav navbar-nav navbar-right">';
+			    <a class="navbar-brand" href="/'.SUBDIR;echo '">PodTube</a>
+			    <ul class="nav navbar-nav">
+				    <li class="nav-item">
+				        <a class="nav-link" href="/'.SUBDIR; echo '">Home</a>
+				    </li>
+			    </ul>
+				<div class="collapse navbar-toggleable-xs" id="bs-example-navbar-collapse-1">
+				  <ul class="nav navbar-nav pull-xs-right">';
 		if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"]){
 			echo '
-					<li class="dropdown">
-					  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
-					  <ul class="dropdown-menu">
-						<form class="navbar-form navbar-left">
-							<script>
-								$(function() {
-									$("#uname").keypress(function(e) {
-										if(e.which == 10 || e.which == 13) {
-											login();
-										}
-									});
-									$("#passwd").keypress(function(e) {
-										if(e.which == 10 || e.which == 13) {
-											login();
-										}
-									});
+					<li class="dropdown nav-item">
+					  <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" 
+					  aria-haspopup="true" aria-expanded="false">Login</a>
+					  <div class="dropdown-menu" style="right:0; min-width:300px;left:initial;">
+						<script>
+							$(function() {
+								$("#uname").keypress(function(e) {
+									if(e.which == 10 || e.which == 13) {
+										login();
+									}
 								});
-							</script>
-							<div class="form-group">
-								<input id="uname" type="text" class="form-control" placeholder="Username">
-								<input id="passwd" type="password" class="form-control" placeholder="Password">
-							</div>
-						</form>
-						<li role="separator" class="divider"></li>
-						<li><a class="btn btn-success" style="color:#FFFFFF" href="#" onclick="login();">Login</a></li>
-					  </ul>
+								$("#passwd").keypress(function(e) {
+									if(e.which == 10 || e.which == 13) {
+										login();
+									}
+								});
+							});
+						</script>
+						<div class="dropdown-item">
+							<input id="uname" type="text" class="form-control" placeholder="Username">
+							<input id="passwd" type="password" class="form-control" placeholder="Password">
+						</div>
+						<div class="dropdown-divider"></div>
+						<div class="dropdown-item"><a class="btn btn-success" style="color:#FFFFFF;width:100%;" 
+						href="#" onclick="login();">Login</a></div>
+					  </div>
 					</li>
-					<li><a class="btn btn-success" href="signup.php" style="color:#FFFFFF;">Sign Up!</a></li>';
+					<li class="nav-item"><a class="btn btn-success nav-link" href="signup.php" 
+					style="color:#FFFFFF;">Sign 
+					Up!</a></li>';
 		}
 		else{
 			echo '
-				<li>
-				  <a href="#" onclick="logout()">Logout</a>
+				<li class="nav-item">
+				  <a href="#" onclick="logout()" class="nav-link">Logout</a>
 				</li>
-				<li><a class="btn btn-success" href="'.LOCAL_URL."user/".$_SESSION["user"]->getWebID().'" style="color:#FFFFFF;">Account</a></li>	
+				<li class="nav-item"><a class="btn btn-success nav-link" href="'.LOCAL_URL."user/".$_SESSION["user"]->getWebID().'" 
+				style="color:#FFFFFF;">Account</a></li>	
 			';
 		}
 		echo '		</ul>
 				</div>
-			</div>
-		</nav>';
+			</nav>';
 }
 
 /**
@@ -147,24 +156,24 @@ function showFeed(User $user){
 		$items = $dal->getFeed($user);
 		for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
 			$i = $items[$x];
-			echo '<div class="panel panel-default">';
-			echo '<div class="panel-heading">'.$i->getTitle().' -- '.$i->getAuthor().'</div>';
+			echo '<div class="card">';
+			echo '<div class="card-header"><h4>'.$i->getTitle().'</h4>';
+			echo '<h5 class="text-muted">'.$i->getAuthor().'</h5></div><div class="card-block">';
 			$descr = $i->getDesc();
 
 			$words = explode("\n", $descr, 4);
 			if(count($words)>3){
-				$words[3] = "<p id='".$i->getId()."' class='hide'>".trim($words[3])."</p></p>";
-				$words[4] = "<a onclick='$(\"#".$i->getId()."\").removeClass(\"hide\");'>Continue Reading...</a>";
+				$words[3] = "<p id='".$i->getId()."' style='display:none;'>".trim($words[3])."</p></p>";
+				$words[4] = "<a onclick='$(\"#".$i->getId()."\").show();'>Continue Reading...</a>";
 			}
 			$descr = implode("\n", $words);
 
 			$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
 			$descr = nl2br($descr);
-			echo '<div class="panel-body"><h3>'.$i->getAuthor().'</h3>
-			<p><img class="alignleft size-medium" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" width="300" 
+			echo '<div class="card-text"><p><img class="alignleft size-medium" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" width="300" 
 			height="170" /></p>
-			<p>'.$descr.'</p></div>';
-			echo '</div>';
+			<p>'.$descr.'</div>';
+			echo '</div></div>';
 		}
 		?>
 	</div>
