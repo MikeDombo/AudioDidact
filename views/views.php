@@ -254,7 +254,7 @@ function makeEditProfile(User $user){
 				<div class="form-group">
 					<label for="feedDesc">Feed Description:</label>
 					<a href="#" id="feedDesc" data-type="textarea" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser
-					.php"><?php echo $user->getFeedDetails()["description"];?></a>
+					.php"><?php echo htmlentities($user->getFeedDetails()["description"]);?></a>
 				</div>
 				<div class="form-group">
 					<label for="feedIco">Feed Icon:</label>
