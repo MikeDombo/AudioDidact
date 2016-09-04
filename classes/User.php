@@ -39,6 +39,7 @@ class User{
 	}
 
 	/**
+	 * Validates names and other strings using PHP FILTER_VALIDATE_EMAIL. Returns true if the string is valid
 	 * @param $email
 	 * @return mixed
 	 */
@@ -47,6 +48,7 @@ class User{
 	}
 
 	/**
+	 * Validates names and other strings using PHP FILTER_SANITIZE_STRING. Returns true if the string is valid
 	 * @param $name
 	 * @return bool
 	 */
@@ -55,6 +57,7 @@ class User{
 	}
 
 	/**
+	 * Validates webID so it can only contain alphanumerics _,-,@, and $. Returns true if the string is valid
 	 * @param $webID
 	 * @return bool
 	 */
