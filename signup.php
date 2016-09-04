@@ -92,15 +92,28 @@ require_once(__DIR__."/views/views.php");
 			}
 		</script>
 		<?php makeNav();?>
-		<div class="container-fluid">
-			<div class="col-sm-8 col-sm-offset-4">
+		<div id="main-content" class="container-fluid">
+			<div class="col-sm-8 offset-sm-2">
 				<form class="navbar-form navbar-left">
-					<div class="form-group">
-						<input id="email" type="text" class="form-control" placeholder="Email Address">
-						<input id="unameSignup" type="text" class="form-control" placeholder="Username">
-						<input id="passwdSignup" type="password" class="form-control" placeholder="Password">
-						<a class="btn btn-success" style="color:#FFFFFF" href="#" onclick="signup();">Sign Up</a>
+					<div class="form-group row">
+						<label for="email" class="col-form-label col-sm-2">Email Address:</label>
+						<div class="col-sm-10">
+							<input id="email" type="text" class="form-control" placeholder="Email Address">
+						</div>
 					</div>
+					<div class="form-group row">
+						<label for="unameSignup" class="col-form-label col-sm-2">Username:</label>
+						<div class="col-sm-10">
+							<input id="unameSignup" type="text" class="form-control" placeholder="Username">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="passwdSignup" class="col-form-label col-sm-2">Password:</label>
+						<div class="col-sm-10">
+							<input id="passwdSignup" type="password" class="form-control" placeholder="Password">
+						</div>
+					</div>
+					<a class="btn btn-success form-control" style="color:#FFFFFF" href="#" onclick="signup();">Sign Up</a>
 				</form>
 			</div>
 		</div>
