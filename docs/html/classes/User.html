@@ -75,6 +75,7 @@
                     </li><li>private  <a href="#members">$feedText</a>;
                     </li><li>private  <a href="#members">$feedLength</a>;
                     </li><li>private  <a href="#members">$feedDetails</a>;
+                    </li><li>private <span title="bool">bool</span> <a href="#members">$privateFeed</a>;
                     </li></ul><ul class="none"><li>// methods</li><li>public void <a title="User" href="../classes/User/__construct.html">__construct</a>()
                     </li><li>public bool <a title="User" href="../classes/User/validateEmail.html">validateEmail</a>()
                     </li><li>public bool <a title="User" href="../classes/User/validateName.html">validateName</a>()
@@ -103,6 +104,8 @@
                     </li><li>public void <a title="User" href="../classes/User/setFeedLength.html">setFeedLength</a>()
                     </li><li>public array <a title="User" href="../classes/User/getFeedDetails.html">getFeedDetails</a>()
                     </li><li>public void <a title="User" href="../classes/User/setFeedDetails.html">setFeedDetails</a>()
+                    </li><li>public boolean <a title="User" href="../classes/User/isPrivateFeed.html">isPrivateFeed</a>()
+                    </li><li>public void <a title="User" href="../classes/User/setPrivateFeed.html">setPrivateFeed</a>()
                     </li></ul>
 
             }<br/></div>
@@ -110,61 +113,42 @@
         <div class="styled members">
           <h4>private</h4>
           <ul class="members">
-            <li id="email">
-              <strong>$email</strong>
-              <br/>
-              <span class="indent">@var  string $email is the email</span>
-            </li>
-            <li id="feedDetails">
-              <strong>$feedDetails</strong>
-              <br/>
-              <span class="indent">@var  array $feedDetails is an associative array containing the details used to make the feed</span>
-            </li>
-            <li id="feedLength">
-              <strong>$feedLength</strong>
-              <br/>
-              <span class="indent">@var  int $feedLength is the maximum number of items in the feed</span>
-            </li>
-            <li id="feedText">
-              <strong>$feedText</strong>
-              <br/>
-              <span class="indent">@var  string $feedText is the full xml text of the feed</span>
-            </li>
-            <li id="fname">
-              <strong>$fname</strong>
-              <br/>
-              <span class="indent">@var  string $fname is the first name</span>
-            </li>
-            <li id="gender">
-              <strong>$gender</strong>
-              <br/>
-              <span class="indent">@var  int $gender is the gender as an integer</span>
-            </li>
-            <li id="lname">
-              <strong>$lname</strong>
-              <br/>
-              <span class="indent">@var  string $lname is the last name</span>
-            </li>
-            <li id="passwd">
-              <strong>$passwd</strong>
-              <br/>
-              <span class="indent">@var  string $passwd is the hashed password</span>
-            </li>
-            <li id="userID">
-              <strong>$userID</strong>
-              <br/>
-              <span class="indent">@var  int $userID is the unique identifier assigned by the database</span>
-            </li>
-            <li id="username">
-              <strong>$username</strong>
-              <br/>
-              <span class="indent">@var  string $username is the username</span>
-            </li>
-            <li id="webID">
-              <strong>$webID</strong>
-              <br/>
-              <span class="indent">@var  string $webID is the webID</span>
-            </li>
+            <li id="email"><strong>$email</strong>
+                —
+                string</li>
+            <li id="feedDetails"><strong>$feedDetails</strong>
+                —
+                array</li>
+            <li id="feedLength"><strong>$feedLength</strong>
+                —
+                int</li>
+            <li id="feedText"><strong>$feedText</strong>
+                —
+                string</li>
+            <li id="fname"><strong>$fname</strong>
+                —
+                string</li>
+            <li id="gender"><strong>$gender</strong>
+                —
+                int</li>
+            <li id="lname"><strong>$lname</strong>
+                —
+                string</li>
+            <li id="passwd"><strong>$passwd</strong>
+                —
+                string</li>
+            <li id="privateFeed"><strong>$privateFeed</strong>
+                —
+                <a title="bool" href="../classes/bool.html">bool</a></li>
+            <li id="userID"><strong>$userID</strong>
+                —
+                int</li>
+            <li id="username"><strong>$username</strong>
+                —
+                string</li>
+            <li id="webID"><strong>$webID</strong>
+                —
+                string</li>
           </ul>
         </div>
         <h2 id="methods">Methods</h2>
@@ -195,6 +179,9 @@
                 — Gets username in lowercase</li>
             <li id="getWebID"><a title="User" href="../classes/User/getWebID.html">getWebID()</a>
                 — Gets webID</li>
+            <li id="isPrivateFeed">
+              <a title="User" href="../classes/User/isPrivateFeed.html">isPrivateFeed()</a>
+            </li>
             <li id="passwdCorrect"><a title="User" href="../classes/User/passwdCorrect.html">passwdCorrect()</a>
                 — Checks if plaintext password when hashed, matches the hashed password stored in this User</li>
             <li id="setEmail"><a title="User" href="../classes/User/setEmail.html">setEmail()</a>
@@ -215,6 +202,9 @@
                 — Sets hashed password using plaintext password and username</li>
             <li id="setPasswdDB"><a title="User" href="../classes/User/setPasswdDB.html">setPasswdDB()</a>
                 — Used to set the hashed password from the database.</li>
+            <li id="setPrivateFeed">
+              <a title="User" href="../classes/User/setPrivateFeed.html">setPrivateFeed()</a>
+            </li>
             <li id="setUserID"><a title="User" href="../classes/User/setUserID.html">setUserID()</a>
                 — Sets user ID</li>
             <li id="setUsername"><a title="User" href="../classes/User/setUsername.html">setUsername()</a>
