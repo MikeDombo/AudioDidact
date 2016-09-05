@@ -37,10 +37,43 @@ function make404(){
  * @param $webID The WebID of the requested feed
  */
 function returnUserFeed($webID){
-	header('Content-Type: application/xml; charset=utf-8');
 	$myDalClass = ChosenDAL;
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-	echo $dal->getFeedText($dal->getUserByWebID($webID));
+
+	$requestedUser = $dal->getUserByWebID($webID);
+	if($requestedUser->isPrivateFeed() && httpAuthenticate($dal)){
+		header('Content-Type: application/xml; charset=utf-8');
+		echo $dal->getFeedText($requestedUser);
+	}
+	else if(!$requestedUser->isPrivateFeed()){
+		header('Content-Type: application/xml; charset=utf-8');
+		echo $dal->getFeedText($requestedUser);
+	}
+}
+
+/**
+ * Sends HTTP Basic Authentication headers to the user and authenticates against the database
+ * @param DAL $dal
+ * @return bool
+ */
+function httpAuthenticate(DAL $dal){
+	if (!isset($_SERVER['PHP_AUTH_USER'])) {
+		header('WWW-Authenticate: Basic realm="Private User Feed"');
+		header('HTTP/1.0 401 Unauthorized');
+		echo "User must be authenticated to continue";
+		return false;
+	}
+	else if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) &&
+			$dal->usernameExists($_SERVER['PHP_AUTH_USER']) &&
+			$dal->getUserByUsername($_SERVER['PHP_AUTH_USER'])->passwdCorrect($_SERVER['PHP_AUTH_PW'])) {
+		return true;
+	}
+	else{
+		header('WWW-Authenticate: Basic realm="Private User Feed"');
+		header('HTTP/1.0 401 Unauthorized');
+		echo "User must be authenticated to continue";
+		return false;
+	}
 }
 
 /**

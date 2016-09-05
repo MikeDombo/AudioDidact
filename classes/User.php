@@ -27,6 +27,8 @@ class User{
 	private $feedLength;
 	/** @var  array $feedDetails is an associative array containing the details used to make the feed */
 	private $feedDetails;
+	/** @var  bool $privateFeed true if the user's feed should be protected by HTTP Basic Authentication */
+	private $privateFeed;
 
 	/**
 	 * User constructor.
@@ -270,6 +272,20 @@ class User{
 	 */
 	public function setFeedDetails($feedDetails){
 		$this->feedDetails = $feedDetails;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isPrivateFeed(){
+		return $this->privateFeed;
+	}
+
+	/**
+	 * @param boolean $privateFeed
+	 */
+	public function setPrivateFeed($privateFeed){
+		$this->privateFeed = $privateFeed;
 	}
 
 }
