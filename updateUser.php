@@ -41,6 +41,17 @@ if(isset($_POST["name"]) && isset($_POST["value"])){
 			$dal->updateUser($user);
 			outputSuccess($user);
 		}
+		else if($_POST["name"] == "privateFeed"){
+			if($_POST["value"] == "true"){
+				$_POST["value"] = true;
+			}
+			else{
+				$_POST["value"] = false;
+			}
+			$user->setPrivateFeed($_POST["value"]);
+			$dal->updateUser($user);
+			outputSuccess($user);
+		}
 		else if($_POST["name"] == "webID"){
 			if(!$dal->webIDExists($_POST["value"])){
 				if(!$user->validateWebID($_POST["value"])){
