@@ -97,6 +97,7 @@ class MySQLDAL extends DAL{
 		if($rows["feedDetails"] != ""){
 			$user->setFeedDetails(json_decode($rows["feedDetails"], true));
 		}
+		$user->setPrivateFeed($rows["privateFeed"]);
 
 		return $user;
 	}
@@ -230,8 +231,8 @@ class MySQLDAL extends DAL{
 		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
 			try{
 				$p = parent::$PDO->prepare("INSERT INTO $this->usertable (username, password, email, firstname,
-				lastname, gender, webID, feedLength, feedDetails) VALUES (:username,:password,:email,:fname,:lname,
-				:gender,:webID,:feedLength,:feedDetails)");
+				lastname, gender, webID, feedLength, feedDetails, privateFeed) VALUES (:username,:password,:email,
+				:fname,:lname,:gender,:webID,:feedLength,:feedDetails,:privateFeed)");
 				$p->bindValue(':username', $user->getUsername(), PDO::PARAM_STR);
 				$p->bindValue(':password', $user->getPasswd(), PDO::PARAM_STR);
 				$p->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
@@ -241,6 +242,7 @@ class MySQLDAL extends DAL{
 				$p->bindValue(':webID', $user->getWebID(), PDO::PARAM_STR);
 				$p->bindValue(':feedLength', $user->getFeedLength(), PDO::PARAM_INT);
 				$p->bindValue(':feedDetails', json_encode($user->getFeedDetails()), PDO::PARAM_STR);
+				$p->bindValue(':privateFeed', $user->isPrivateFeed(), PDO::PARAM_BOOL);
 				$p->execute();
 			}
 			catch(PDOException $e){
@@ -404,7 +406,7 @@ class MySQLDAL extends DAL{
 		try{
 			$p = parent::$PDO->prepare("UPDATE $this->usertable SET email=:email, firstname=:fname,
  			lastname=:lname, gender=:gender, feedLength=:feedLen, username=:uname, webID=:webID, 
- 			feedDetails=:feedDetails
+ 			feedDetails=:feedDetails,privateFeed=:privateFeed 
  			WHERE ID=:id");
 			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":email", $user->getEmail(), PDO::PARAM_STR);
@@ -415,6 +417,7 @@ class MySQLDAL extends DAL{
 			$p->bindValue(":uname", $user->getUsername(), PDO::PARAM_STR);
 			$p->bindValue(":webID", $user->getWebID(), PDO::PARAM_STR);
 			$p->bindValue(":feedDetails", json_encode($user->getFeedDetails()), PDO::PARAM_STR);
+			$p->bindValue(":privateFeed", $user->isPrivateFeed(), PDO::PARAM_BOOL);
 			$p->execute();
 		}
 		catch(PDOException $e){
@@ -454,6 +457,7 @@ class MySQLDAL extends DAL{
 						  `feedText` longtext COLLATE utf8mb4_bin NOT NULL,
 						  `feedLength` int(11) NOT NULL,
 						  `feedDetails` mediumtext COLLATE utf8mb4_bin NOT NULL,
+						  `privateFeed` tinyint(0) NOT NULL
 						) 
 						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 						ALTER TABLE `".$this->usertable."`
@@ -490,8 +494,11 @@ class MySQLDAL extends DAL{
 		}
 		else if($code == 2){
 			try{
-				$delta1 = "ALTER TABLE ".$this->usertable." ADD `feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;";
-				$p = parent::$PDO->prepare($delta1);
+				$delta1 = $this->makeAlterQuery($this->usertable, "feedDetails", "ALTER TABLE `".$this->usertable."` ADD 
+				`feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;");
+				$delta2 = $this->makeAlterQuery($this->usertable, "privateFeed", "ALTER TABLE `".$this->usertable."` ADD
+				 `privateFeed` BOOLEAN NOT NULL AFTER `feedDetails`;");
+				$p = parent::$PDO->prepare($delta1.$delta2);
 				$p->execute();
 			}catch(PDOException $e){
 				echo "Database update failed! ".$e->getMessage();
@@ -499,6 +506,23 @@ class MySQLDAL extends DAL{
 				throw $e;
 			}
 		}
+	}
+
+	/**
+	 * Builds a SQL query that checks if a column exists in a given table and adds the new column if it doesn't exist
+	 * @param $tableName
+	 * @param $columnName
+	 * @param $alterQuery
+	 * @return string
+	 */
+	private function makeAlterQuery($tableName, $columnName, $alterQuery){
+		return "IF NOT EXISTS( SELECT NULL
+                    FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE table_name = '$tableName'
+                    AND table_schema = '".DB_DATABASE."'
+                    AND column_name = '$columnName')  THEN 
+				    $alterQuery
+				END IF;";
 	}
 
 	/**
@@ -537,7 +561,8 @@ class MySQLDAL extends DAL{
 				["Field"=>"webID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 				["Field"=>"feedText", "Type"=>"longtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 				["Field"=>"feedLength", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"feedDetails", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""]
+				["Field"=>"feedDetails", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+				["Field"=>"privateFeed", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""]
 			];
 
 			$feedCorrect = [

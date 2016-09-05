@@ -210,7 +210,12 @@ function makeViewProfile(User $user){
 		</div>
 	</div>
 	<?php
-	showFeed($user);
+	if(!$user->isPrivateFeed()){
+		showFeed($user);
+	}
+	else{
+		echo "<h4>User's feed is private</h4>";
+	}
 }
 
 /**
@@ -221,6 +226,8 @@ function makeEditProfile(User $user){
 	?>
 		<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+		<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+		<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 		<div class="col-sm-12">
 			<h1><?php echo $user->getUsername();?>'s Profile</h1>
 			<hr/>
@@ -248,6 +255,10 @@ function makeEditProfile(User $user){
 				<div class="form-group">
 					<label for="feedLen">Number of Items in Feed:</label>
 					<a href="#" id="feedLen" data-type="number" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php" data-title="Enter # of Items in Feed (Max 50)" data-min="1" data-max="50"><?php echo $user->getFeedLength();?></a>
+				</div>
+				<div class="form-group">
+					<label for="privateFeed">Feed is Private:</label>
+					<input id="privateFeed" type="checkbox" <?php if($user->isPrivateFeed()){echo "checked";}?> data-toggle="toggle">
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -294,6 +305,17 @@ function makeEditProfile(User $user){
 					show: true
 				});
 			}
+			$(function() {
+				$('#privateFeed').bootstrapToggle();
+				$('#privateFeed').change(function(){
+					$.post("/<?php echo SUBDIR;?>updateUser.php", {name:"privateFeed", value:$(this).prop('checked')
+					},function(data){
+						if(processSuccess(data)){
+							processError(processSuccess(data));
+						}
+					});
+				});
+			});
 			$.fn.editable.defaults.mode = 'inline';
 			$(document).ready(function() {
 				$("#feedIcoImg").attr("src", $("#feedIco").text());
