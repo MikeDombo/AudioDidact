@@ -24,3 +24,4 @@ PHP API documentation is available [here](https://md100play.github.io/PodTube/ht
 - Create and verify databases
 - Account management added
 - Customize feed options including Title, Author, image, etc.
+- Users can choose to keep their feeds private and secured by HTTP Basic Authentication (Requires podcatcher support)
