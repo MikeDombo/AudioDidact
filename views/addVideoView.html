@@ -4,12 +4,18 @@
 	<div class="input-group" style="margin-bottom:20px; width:100%;">
 		<input type="text" id="yt" class="form-control" />
 	</div>
-	<div class="progress">
+	<!--<div class="progress">
 		<div class="progress-bar progress-total" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 	</div>
 	<div class="progress">
 		<div class="progress-bar progress-stage" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-	</div>
+	</div>!-->
+	<div class="text-xs-center" id="progress-total-text"></div>
+	<progress class="progress progress-animated" value="0" max="100" aria-describedby="progress-total-text"
+	          id="progress-total"></progress>
+	<div class="text-xs-center" id="progress-stage-text"></div>
+	<progress class="progress progress-animated" value="0" max="100" aria-describedby="progress-stage-text"
+	          id="progress-stage"></progress>
 	<h2><button onclick="ajax_stream();" class="btn-info btn">Add Video To Feed</button></h2>
 	<script>
 	$(function() {
@@ -30,8 +36,8 @@
 			return;
 		}
 		try{
-			$('.progress-total').removeClass("progress-bar-success").removeClass("progress-bar-danger").addClass("progress-bar-striped").addClass("active");
-			$('.progress-stage').removeClass("progress-bar-success").removeClass("progress-bar-danger").addClass("progress-bar-striped").addClass("active");
+			$('#progress-total').removeClass("progress-success").removeClass("progress-danger").addClass("progress-striped");
+			$('#progress-stage').removeClass("progress-success").removeClass("progress-danger").addClass("progress-striped");
 			var stages = {0:"Downloading", 1:"Converting to MP3"};
 			var numberOfStages = Object.keys(stages).length;
 
@@ -42,12 +48,16 @@
 			xhr.onreadystatechange = function() {
 				try{
 					if(error !== null){
-						$('.progress-total').css('width', 100+'%').attr('aria-valuenow', 100).text("Error").removeClass("active").removeClass("progress-bar-striped").addClass("progress-bar-danger");
-						$('.progress-stage').css('width', 100+'%').attr('aria-valuenow', 100).text("Error").removeClass("active").removeClass("progress-bar-striped").addClass("progress-bar-danger");
+						$('#progress-total').attr('value', 100).removeClass("progress-striped").addClass("progress-danger");
+						$('#progress-stage').attr('value', 100).removeClass("progress-striped").addClass("progress-danger");
+						$("#progress-stage-text").text("Error");
+						$("#progress-total-text").text("Error");
 					}
 					else if(xhr.readyState == 4){
-						$('.progress-total').css('width', 100+'%').attr('aria-valuenow', 100).text("Completed").removeClass("active").removeClass("progress-bar-striped").addClass("progress-bar-success");
-						$('.progress-stage').css('width', 100+'%').attr('aria-valuenow', 100).text("Completed").removeClass("active").removeClass("progress-bar-striped").addClass("progress-bar-success");
+						$('#progress-total').attr('value', 100).removeClass("progress-striped").addClass("progress-success");
+						$('#progress-stage').attr('value', 100).removeClass("progress-striped").addClass("progress-success");
+						$("#progress-stage-text").text("Completed");
+						$("#progress-total-text").text("Completed");
 					}
 					else if (xhr.readyState == 3){
 						var new_response = xhr.responseText.substring(xhr.previous_text.length);
@@ -65,9 +75,10 @@
 						var totalProg = ((100/(numberOfStages))*result.stage) + (result.progress/numberOfStages);
 						totalProg = Math.round(totalProg);
 						result.progress = Math.round(result.progress);
-						$('.progress-total').css('width', totalProg+'%').attr('aria-valuenow', totalProg).text(stages[result.stage]+" "+totalProg+"%");
-						$('.progress-stage').css('width', result.progress+'%').attr('aria-valuenow', result.progress).text(stages[result.stage]+" "+result.progress+"%");
-
+						$('#progress-total').attr('value', totalProg);
+						$('#progress-stage').attr('value', result.progress);
+						$("#progress-stage-text").text(stages[result.stage]+" "+result.progress+"%");
+						$("#progress-total-text").text(stages[result.stage]+" "+totalProg+"%");
 						xhr.previous_text = xhr.responseText;
 					}
 				}
