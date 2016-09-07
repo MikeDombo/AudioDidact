@@ -10,6 +10,26 @@ function makeHeader($title){
 				<meta charset="utf-8">
 			    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 			    <meta http-equiv="x-ua-compatible" content="ie=edge">
+			    <script>
+			        (function(){
+				        var t,i,e,n=window,o=document,a=arguments,s="script",r=["config","track","identify","visit","push","call","trackForm","trackClick"],c=function(){var t,i=this;for(i._e=[],t=0;r.length>t;t++)(function(t){i[t]=function(){return i._e.push([t].concat(Array.prototype.slice.call(arguments,0))),i}})(r[t])};for(n._w=n._w||{},t=0;a.length>t;t++)n._w[a[t]]=n[a[t]]=n[a[t]]||new c;i=o.createElement(s),i.async=1,i.src="//static.woopra.com/js/w.js",e=o.getElementsByTagName(s)[0],e.parentNode.insertBefore(i,e)
+						})("woopra");
+					woopra.config({
+					    domain: \'ytpod.mikedombrowski.com\'
+					});
+					woopra.track();
+					
+				  (function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){
+				  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');
+				  ga(\'create\', \'UA-83794723-1\', \'auto\');
+					ga(\'set\', {
+					  dimension1: "';if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){echo "true";}
+					  else{echo "false";};echo '",
+					});
+					ga(\'send\', \'pageview\');
+				</script>
 				<title>YouTube to Podcast';
 				if($title != ""){
 					echo " | ".$title;

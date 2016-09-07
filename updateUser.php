@@ -37,9 +37,14 @@ if(isset($_POST["name"]) && isset($_POST["value"])){
 			}
 		}
 		else if($_POST["name"] == "feedLen"){
-			$user->setFeedLength($_POST["value"]);
-			$dal->updateUser($user);
-			outputSuccess($user);
+			if(intval($_POST["value"]) > 0){
+				$user->setFeedLength(intval($_POST["value"]));
+				$dal->updateUser($user);
+				outputSuccess($user);
+			}
+			else{
+				echo json_encode(["success"=>false, "error"=>"Feed length must be positive!"]);
+			}
 		}
 		else if($_POST["name"] == "privateFeed"){
 			if($_POST["value"] == "true"){
