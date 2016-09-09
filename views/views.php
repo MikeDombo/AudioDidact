@@ -10,6 +10,11 @@ function makeHeader($title){
 				<meta charset="utf-8">
 			    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 			    <meta http-equiv="x-ua-compatible" content="ie=edge">
+			    <style>
+					body{
+						word-wrap:break-word;
+					}
+				</style>
 			    <script>
 			        (function(){
 				        var t,i,e,n=window,o=document,a=arguments,s="script",r=["config","track","identify","visit","push","call","trackForm","trackClick"],c=function(){var t,i=this;for(i._e=[],t=0;r.length>t;t++)(function(t){i[t]=function(){return i._e.push([t].concat(Array.prototype.slice.call(arguments,0))),i}})(r[t])};for(n._w=n._w||{},t=0;a.length>t;t++)n._w[a[t]]=n[a[t]]=n[a[t]]||new c;i=o.createElement(s),i.async=1,i.src="//static.woopra.com/js/w.js",e=o.getElementsByTagName(s)[0],e.parentNode.insertBefore(i,e)
@@ -157,7 +162,7 @@ function makeNav(){
 function makeAddVideo(){
 	echo file_get_contents(__DIR__.DIRECTORY_SEPARATOR."addVideoView.html");
 	$feedURL = LOCAL_URL."user/".$_SESSION["user"]->getWebID()."/feed/";
-	echo "<div class='col-sm-12' style='word-wrap:break-word;'><h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2></div>";
+	echo "<div class='col-sm-12'><h2>Feed Subscription URL: <a href='$feedURL'>$feedURL</a></h2></div>";
 }
 
 /**
@@ -190,8 +195,9 @@ function showFeed(User $user){
 
 			$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
 			$descr = nl2br($descr);
-			echo '<div class="card-text"><p><img class="alignleft size-medium" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" width="300" 
-			height="170" /></p>
+			echo '<img class="img-fluid img-thumbnail m-x-auto d-block" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" max-width="100%" 
+			height="auto" />';
+			echo '<div class="card-text">
 			<p>'.$descr.'</div>';
 			echo '</div></div>';
 		}
