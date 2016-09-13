@@ -21,7 +21,7 @@ require_once(__DIR__."/views/views.php");
 				exit(0);
 			}?>
 			<div class="jumbotron text-center">
-				<h1>PodTube - YouTube to Podcast Service</h1>
+				<h1 class="display-3">PodTube - YouTube to Podcast Service</h1>
 				<p class="lead">Make an account and add videos to your feed today!</p>
 			</div>
 			<div class="col-md-4">
