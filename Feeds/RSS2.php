@@ -25,13 +25,11 @@ namespace FeedWriter;
  *
  * @package     UniversalFeedWriter
  */
-class RSS2 extends Feed
-{
+class RSS2 extends Feed{
     /**
     * {@inheritdoc}
     */
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct(Feed::RSS2);
     }
 }

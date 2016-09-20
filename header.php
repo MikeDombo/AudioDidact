@@ -29,7 +29,8 @@ if (session_status() == PHP_SESSION_NONE) {
 		2678400,
 		"/",
 		parse_url(LOCAL_URL)["host"],
-		SessionCookieSecure, //HTTPS only
+		//HTTPS only
+		SessionCookieSecure,
 		true
 	);
 	session_start();

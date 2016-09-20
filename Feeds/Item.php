@@ -32,12 +32,11 @@ use \DateTime;
  * @author          Anis uddin Ahmad <anisniit@gmail.com>
  * @link            http://www.ajaxray.com/projects/rss
  */
-class Item
-{
+class Item{
     /**
     * Collection of feed item elements
     */
-    private $elements = array();
+    private $elements = [];
 
     /**
     * Contains the format of this feed.
@@ -55,8 +54,7 @@ class Item
 	 * @param string $version
 	 * @internal param string $RSS2 is default.
 	 */
-    public function __construct($version = Feed::RSS2)
-    {
+    public function __construct($version = Feed::RSS2){
         $this->version = $version;
     }
 
@@ -66,8 +64,7 @@ class Item
     * @access   private
     * @return   int
     **/
-    private function cpt()
-    {
+    private function cpt(){
         return $this->_cpt++;
     }
 
@@ -82,21 +79,21 @@ class Item
     * @param    boolean Specifies if multiple elements of the same name are allowed.
     * @return   self
     */
-    public function addElement($elementName, $content, $attributes = null, $overwrite = FALSE, $allowMultiple = FALSE)
-    {
+    public function addElement($elementName, $content, $attributes = null, $overwrite = false, $allowMultiple = false){
         $key = $elementName;
 
         // return if element already exists & if overwriting is disabled
         // & if multiple elements are not allowed.
         if (isset($this->elements[$elementName]) && !$overwrite) {
-            if (!$allowMultiple)
+            if (!$allowMultiple){
                 return null;
+			}
 
             $key .= '-' . $this->cpt();
         }
 
-        $this->elements[$key]['name']       = $elementName;
-        $this->elements[$key]['content']    = $content;
+        $this->elements[$key]['name'] = $elementName;
+        $this->elements[$key]['content'] = $content;
         $this->elements[$key]['attributes'] = $attributes;
 
         return $this;
@@ -110,8 +107,7 @@ class Item
     * @param    array   array of elements in 'tagName' => 'tagContent' format.
     * @return   self
     */
-    public function addElementArray(array $elementArray)
-    {
+    public function addElementArray(array $elementArray){
         foreach ($elementArray as $elementName => $content) {
             $this->addElement($elementName, $content);
         }
@@ -125,8 +121,7 @@ class Item
     * @access   public
     * @return   array   All elements of this item.
     */
-    public function getElements()
-    {
+    public function getElements(){
         return $this->elements;
     }
 
@@ -136,8 +131,7 @@ class Item
     * @access   public
     * @return   string  The feed type, as defined in Feed.php
     */
-    public function getVersion()
-    {
+    public function getVersion(){
         return $this->version;
     }
 
@@ -150,10 +144,8 @@ class Item
     * @param    string  The content of 'description' or 'summary' element
     * @return   self
     */
-    public function setDescription($description)
-    {
+    public function setDescription($description){
         $tag = ($this->version == Feed::ATOM) ? 'summary' : 'description';
-
         return $this->addElement($tag, $description);
     }
 
@@ -165,10 +157,10 @@ class Item
      * @param   string  Content for the item (i.e., the body of a blog post).
      * @return  self
      */
-    public function setContent($content)
-    {
-        if ($this->version != Feed::ATOM)
+    public function setContent($content){
+        if ($this->version != Feed::ATOM){
             die('The content element is supported in ATOM feeds only.');
+		}
 
         return $this->addElement('content', $content, array('type' => 'html'));
     }
@@ -180,8 +172,7 @@ class Item
     * @param    string  The content of 'title' element
     * @return   self
     */
-    public function setTitle($title)
-    {
+    public function setTitle($title){
         return $this->addElement('title', $title);
     }
 
@@ -196,29 +187,34 @@ class Item
     * @param    DateTime|int|string  Date which should be used.
     * @return   self
     */
-    public function setDate($date)
-    {
+    public function setDate($date){
         if (!is_numeric($date)) {
-            if ($date instanceof DateTime)
+            if ($date instanceof DateTime){
                 $date = $date->getTimestamp();
+			}
             else {
                 $date = strtotime($date);
 
-                if ($date === FALSE)
+                if ($date === false){
                     die('The given date string was not parseable.');
+				}
             }
-        } elseif ($date < 0)
+        }
+		elseif ($date < 0){
             die('The given date is not an UNIX timestamp.');
+		}
 
-        if ($this->version == Feed::ATOM) {
-            $tag    = 'updated';
-            $value  = date(\DATE_ATOM, $date);
-        } elseif ($this->version == Feed::RSS2) {
-            $tag    = 'pubDate';
-            $value  = date(\DATE_RSS, $date);
-        } else {
-            $tag    = 'dc:date';
-            $value  = date("Y-m-d", $date);
+        if ($this->version == Feed::ATOM){
+            $tag = 'updated';
+            $value = date(\DATE_ATOM, $date);
+        }
+		elseif ($this->version == Feed::RSS2){
+            $tag = 'pubDate';
+            $value = date(\DATE_RSS, $date);
+        }
+		else {
+            $tag = 'dc:date';
+            $value = date("Y-m-d", $date);
         }
 
         return $this->addElement($tag, $value);
@@ -231,11 +227,11 @@ class Item
     * @param    string  The content of 'link' element
     * @return   \FeedWriter\Item
     */
-    public function setLink($link)
-    {
+    public function setLink($link){
         if ($this->version == Feed::RSS2 || $this->version == Feed::RSS1) {
             $this->addElement('link', $link);
-        } else {
+        }
+		else{
             $this->addElement('link','',array('href'=>$link));
             $this->addElement('id', Feed::uuid($link,'urn:uuid:'));
         }
@@ -260,29 +256,32 @@ class Item
     * @return   self
     * @link     https://tools.ietf.org/html/rfc4288
     */
-    public function addEnclosure($url, $length, $type, $multiple = TRUE)
-    {
-        if ($this->version == Feed::RSS1)
+    public function addEnclosure($url, $length, $type, $multiple = true){
+        if ($this->version == Feed::RSS1){
             die('Media attachment is not supported in RSS1 feeds.');
+		}
 
         // the length parameter should be set to 0 if it can't be determined
         // see http://www.rssboard.org/rss-profile#element-channel-item-enclosure
-        if (!is_numeric($length) || $length < 0)
+        if (!is_numeric($length) || $length < 0){
             die('The length parameter must be an integer and greater or equals to zero.');
+		}
 
         // Regex used from RFC 4287, page 41
-        if (!is_string($type) || preg_match('/.+\/.+/', $type) != 1)
+        if (!is_string($type) || preg_match('/.+\/.+/', $type) != 1){
             die('type parameter must be a string and a MIME type.');
+		}
 
         $attributes = array('length' => $length, 'type' => $type);
 
         if ($this->version == Feed::RSS2) {
             $attributes['url'] = $url;
-            $this->addElement('enclosure', '', $attributes, FALSE, $multiple);
-        } else {
+            $this->addElement('enclosure', '', $attributes, false, $multiple);
+        }
+		else{
             $attributes['href'] = $url;
             $attributes['rel'] = 'enclosure';
-            $this->addElement('atom:link', '', $attributes, FALSE, $multiple);
+            $this->addElement('atom:link', '', $attributes, false, $multiple);
         }
 
         return $this;
@@ -301,8 +300,7 @@ class Item
     * @deprecated Use the addEnclosure method instead.
     *
     **/
-    public function setEnclosure($url, $length, $type)
-    {
+    public function setEnclosure($url, $length, $type){
         return $this->addEnclosure($url, $length, $type, false);
     }
 
@@ -316,29 +314,26 @@ class Item
     * @param    string  Optional URI related to the author
     * @return   self
     */
-    public function setAuthor($author, $email = null, $uri = null)
-    {
-        switch ($this->version) {
-            case Feed::RSS1: die('The author element is not supported in RSS1 feeds.');
-                break;
-            case Feed::RSS2:
-                if ($email != null)
-                    $author = $email . ' (' . $author . ')';
-
-                $this->addElement('author', $author);
-                break;
-            case Feed::ATOM:
-                $elements = array('name' => $author);
-
-                // Regex from RFC 4287 page 41
-                if ($email != null && preg_match('/.+@.+/', $email) == 1)
-                    $elements['email'] = $email;
-
-                if ($uri != null)
-                    $elements['uri'] = $uri;
-
-                $this->addElement('author', $elements);
-                break;
+    public function setAuthor($author, $email = null, $uri = null){
+        if($this->version == Feed::RSS1){
+            die('The author element is not supported in RSS1 feeds.');
+		}
+		else if($this->version == Feed::RSS2){
+			if ($email != null){
+				$author = $email . ' (' . $author . ')';
+			}
+			$this->addElement('author', $author);
+		}
+		else if($this->version == Feed::ATOM){
+			$elements = array('name' => $author);
+			// Regex from RFC 4287 page 41
+			if ($email != null && preg_match('/.+@.+/', $email) == 1){
+				$elements['email'] = $email;
+			}
+			if ($uri != null){
+				$elements['uri'] = $uri;
+			}
+			$this->addElement('author', $elements);
         }
 
         return $this;
@@ -354,38 +349,42 @@ class Item
     * @param    boolean The value of the 'isPermaLink' attribute in RSS 2 feeds.
     * @return   self
     */
-    public function setId($id, $permaLink = false)
-    {
+    public function setId($id, $permaLink = false){
         if ($this->version == Feed::RSS2) {
-            if (!is_bool($permaLink))
+            if (!is_bool($permaLink)){
                 die('The permaLink parameter must be boolean.');
+			}
 
             $permaLink = $permaLink ? 'true' : 'false';
 
             $this->addElement('guid', $id, array('isPermaLink' => $permaLink));
-        } elseif ($this->version == Feed::ATOM) {
+        }
+		elseif ($this->version == Feed::ATOM) {
             // Check if the given ID is an valid URI scheme (see RFC 4287 4.2.6)
             // The list of valid schemes was generated from http://www.iana.org/assignments/uri-schemes
             // by using only permanent or historical schemes.
             $validSchemes = array('aaa', 'aaas', 'about', 'acap', 'acct', 'afs', 'cap', 'cid', 'coap', 'coaps', 'crid', 'data', 'dav', 'dict', 'dns', 'dtn', 'dvb', 'example', 'fax', 'file', 'filesystem', 'ftp', 'geo', 'go', 'gopher', 'h323', 'ham', 'http', 'https', 'iax', 'icap', 'icon', 'im', 'imap', 'info', 'ipn', 'ipp', 'ipps', 'iris', 'iris.beep', 'iris.lwz', 'iris.xpc', 'iris.xpcs', 'jabber', 'jms', 'ldap', 'mailserver', 'mailto', 'mid', 'modem', 'msrp', 'msrps', 'mtqp', 'mupdate', 'news', 'nfs', 'ni', 'nih', 'nntp', 'opaquelocktoken', 'pack', 'pkcs11', 'pop', 'pres', 'prospero', 'reload', 'rsync', 'rtsp', 'rtsps', 'rtspu', 'service', 'session', 'shttp', 'sieve', 'sip', 'sips', 'sms', 'snews', 'snmp', 'soap.beep', 'soap.beeps', 'stun', 'stuns', 'tag', 'tel', 'telnet', 'tftp', 'thismessage', 'tip', 'tn3270', 'turn', 'turns', 'tv', 'urn', 'vemmi', 'videotex', 'wais', 'ws', 'wss', 'xcon', 'xcon-userid', 'xmlrpc.beep', 'xmlrpc.beeps', 'xmpp', 'z39.50', 'z39.50r', 'z39.50s');
-            $found = FALSE;
+            $found = false;
             $checkId = strtolower($id);
-            
-            foreach($validSchemes as $scheme)
-                if (strrpos($checkId, $scheme . ':', -strlen($checkId)) !== FALSE)
-                {
-                    $found = TRUE;
+
+            foreach($validSchemes as $scheme){
+                if (strrpos($checkId, $scheme . ':', -strlen($checkId)) !== false){
+                    $found = true;
                     break;
                 }
-            
-            if (!$found)
+			}
+
+            if (!$found){
                 die("The ID must begin with an IANA-registered URI scheme.");
-            
-            $this->addElement('id', $id, NULL, TRUE);
-        } else
+			}
+
+            $this->addElement('id', $id, null, true);
+        }
+		else{
             die('A unique ID is not supported in RSS1 feeds.');
+		}
 
         return $this;
     }
 
- } // end of class Item
+ }
