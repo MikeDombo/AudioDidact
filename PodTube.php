@@ -124,7 +124,7 @@ class PodTube{
 		$filePath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$id;
 
 		// Make description links clickable
-		$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
+		$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@!]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
 		$descr = nl2br($descr);
 
 		// Get the duration of the video and use it for the itunes:duration tag
@@ -135,8 +135,7 @@ class PodTube{
 		// Set description to be the title, author, thumbnail, and then the original video description
 		$newItem->setDescription("<h1>$title</h1>
 			<h2>$author</h2>
-			<p><img class=\"alignleft size-medium\" src=\"$webPath.jpg\" alt=\"$title -- $author\" 
-			width=\"300\" height=\"170\"/></p>
+			<p><img class=\"alignleft size-medium\" src=\"$webPath.jpg\" alt=\"$title -- $author\" width=\"300\" height=\"170\"/></p>
 			<p>$descr</p>");
 		$newItem->addElement('media:content', array('media:title'=>$title), array('fileSize'=>filesize($filePath.".mp3"),
 			'type'=> 'audio/mp3', 'medium'=>'audio', 'url'=>$webPath.'.mp3'));

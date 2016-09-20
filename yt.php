@@ -30,14 +30,14 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	try{
 		$download = new YouTube($_GET["yt"], $podtube);
 		$video = $download->getVideo();
-		
+
 		// If not all thumbnail, video, and audio are downloaded, then download them in that order
 		if(!$download->allDownloaded()){
 			$download->downloadThumbnail();
 			$download->downloadVideo();
 			$download->convert();
 		}
-		
+
 		if(!$dal->inFeed($video, $user)){
 			$dal->addVideo($video, $user);
 		}
@@ -51,7 +51,8 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 
 	// Create the RSS feed from the existing CSV, which will include the latest included video
 	$podtube->makeFullFeed();
-} // If there is no URL set, then just recreate a feed from the existing items in the CSV
+}
+// If there is no URL set, then just recreate a feed from the existing items in the CSV
 else{
 	$podtube = new PodTube($dal);
 	// Before we make the feed, check that every file is downloaded
