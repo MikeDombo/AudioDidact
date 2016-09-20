@@ -6,7 +6,8 @@
     <!-- Additional bootstrap files to load for additional parsers, enrichers and/or engines -->
     <!-- Place as many require nodes as you feel like in this container -->
     <!-- syntax: <require file="/path/to/file.php" /> -->
-    <bootstrap />
+    <bootstrap>
+	</bootstrap>
 
     <!-- A phpDox project to process, you can have multiple projects in one config file -->
     <project name="PodTube" source="${basedir}" workdir="${basedir}/build/phpdox/xml">

@@ -405,9 +405,8 @@ class MySQLDAL extends DAL{
 	public function updateUser(User $user){
 		try{
 			$p = parent::$PDO->prepare("UPDATE $this->usertable SET email=:email, firstname=:fname,
- 			lastname=:lname, gender=:gender, feedLength=:feedLen, username=:uname, webID=:webID, 
- 			feedDetails=:feedDetails,privateFeed=:privateFeed 
- 			WHERE ID=:id");
+ 			lastname=:lname, gender=:gender, feedLength=:feedLen, username=:uname, webID=:webID,
+ 			feedDetails=:feedDetails,privateFeed=:privateFeed WHERE ID=:id");
 			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":email", $user->getEmail(), PDO::PARAM_STR);
 			$p->bindValue(":fname", $user->getFname(), PDO::PARAM_STR);
@@ -458,7 +457,7 @@ class MySQLDAL extends DAL{
 						  `feedLength` int(11) NOT NULL,
 						  `feedDetails` mediumtext COLLATE utf8mb4_bin NOT NULL,
 						  `privateFeed` tinyint(0) NOT NULL
-						) 
+						)
 						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 						ALTER TABLE `".$this->usertable."`
 							ADD PRIMARY KEY (`ID`);
@@ -475,7 +474,7 @@ class MySQLDAL extends DAL{
 						  `videoTitle` text COLLATE utf8mb4_bin NOT NULL,
 						  `duration` int(11) DEFAULT NULL,
 						  `timeAdded` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-						) 
+						)
 						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 						ALTER TABLE `".$this->feedTable."`
 						  ADD PRIMARY KEY (`ID`);
@@ -494,10 +493,8 @@ class MySQLDAL extends DAL{
 		}
 		else if($code == 2){
 			try{
-				$delta1 = $this->makeAlterQuery($this->usertable, "feedDetails", "ALTER TABLE `".$this->usertable."` ADD 
-				`feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;");
-				$delta2 = $this->makeAlterQuery($this->usertable, "privateFeed", "ALTER TABLE `".$this->usertable."` ADD
-				 `privateFeed` BOOLEAN NOT NULL AFTER `feedDetails`;");
+				$delta1 = $this->makeAlterQuery($this->usertable, "feedDetails", "ALTER TABLE `".$this->usertable."` ADD `feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;");
+				$delta2 = $this->makeAlterQuery($this->usertable, "privateFeed", "ALTER TABLE `".$this->usertable."` ADD `privateFeed` BOOLEAN NOT NULL AFTER `feedDetails`;");
 				$p = parent::$PDO->prepare($delta1.$delta2);
 				$p->execute();
 			}catch(PDOException $e){
@@ -520,7 +517,7 @@ class MySQLDAL extends DAL{
                     FROM INFORMATION_SCHEMA.COLUMNS
                     WHERE table_name = '$tableName'
                     AND table_schema = '".DB_DATABASE."'
-                    AND column_name = '$columnName')  THEN 
+                    AND column_name = '$columnName')  THEN
 				    $alterQuery
 				END IF;";
 	}
@@ -610,9 +607,9 @@ class MySQLDAL extends DAL{
 		$feedTable = $this->feedTable;
 		$userTable = $this->usertable;
 		try{
-			$pruneSQL = "SELECT `videoID`, 
-							MIN((MaxOrderID-orderID)>=feedLength) AS `isUnNeeded` 
-							FROM 
+			$pruneSQL = "SELECT `videoID`,
+							MIN((MaxOrderID-orderID)>=feedLength) AS `isUnNeeded`
+							FROM
 								(SELECT
 								`".$feedTable."`.`userID`,
 								`".$userTable."`.`feedLength`,
@@ -622,7 +619,7 @@ class MySQLDAL extends DAL{
 								`".$feedTable."`
 							  INNER JOIN
 								`".$userTable."` ON `".$feedTable."`.`userID` = `".$userTable."`.`ID`) Y
-						    INNER JOIN (SELECT `userID`, MAX(`orderID`) AS MaxOrderID FROM `".$feedTable."` GROUP BY `userID`) AS X 
+						    INNER JOIN (SELECT `userID`, MAX(`orderID`) AS MaxOrderID FROM `".$feedTable."` GROUP BY `userID`) AS X
 						        ON X.userID=Y.`userID`
 						    GROUP BY `videoID`
 						    ORDER BY `isUnNeeded` DESC";
