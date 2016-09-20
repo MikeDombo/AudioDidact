@@ -23,15 +23,21 @@ function makeHeader($title){
 					    domain: \'ytpod.mikedombrowski.com\'
 					});
 					woopra.track();
-					
+
 				  (function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){
 				  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 				  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 				  })(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');
 				  ga(\'create\', \'UA-83794723-1\', \'auto\');
 					ga(\'set\', {
-					  dimension1: "';if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){echo "true";}
-					  else{echo "false";};echo '",
+					  dimension1: "';
+						if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
+							echo "true";
+						}
+						else{
+							echo "false";
+						}
+					  echo '",
 					});
 					ga(\'send\', \'pageview\');
 				</script>
@@ -54,7 +60,7 @@ function makeHeader($title){
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" crossorigin="anonymous">
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" crossorigin="anonymous"></script>
-			
+
 			<script>
 				function validateLogin(){
 					return $.trim($("#uname").val()) != "" && $.trim($("#passwd").val()) != "";
@@ -62,7 +68,7 @@ function makeHeader($title){
 				function login(){
 					if(validateLogin()){
 						$.post("/'.SUBDIR;
-						echo 'login.php", {uname:$("#uname").val(), passwd:$("#passwd").val(),action:"login"}, 
+						echo 'login.php", {uname:$("#uname").val(), passwd:$("#passwd").val(),action:"login"},
 						function
 						(data){
 							console.log(data);
@@ -97,8 +103,8 @@ function makeHeader($title){
 function makeNav(){
 		echo '
 				<nav class="navbar navbar-dark bg-inverse navbar-full">
-				  <button class="navbar-toggler hidden-sm-up pull-xs-right" type="button" data-toggle="collapse" 
-				  data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
+				  <button class="navbar-toggler hidden-sm-up pull-xs-right" type="button" data-toggle="collapse"
+				   data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
 				    &#9776;
 				  </button>
 			    <a class="navbar-brand" href="/'.SUBDIR;echo '">PodTube</a>
@@ -112,8 +118,8 @@ function makeNav(){
 		if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"]){
 			echo '
 					<li class="dropdown nav-item">
-					  <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button" 
-					  aria-haspopup="true" aria-expanded="false">Login</a>
+					  <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button"
+					   aria-haspopup="true" aria-expanded="false">Login</a>
 					  <div class="dropdown-menu" style="right:0; min-width:300px;left:initial;">
 						<script>
 							$(function() {
@@ -134,22 +140,18 @@ function makeNav(){
 							<input id="passwd" type="password" class="form-control" placeholder="Password">
 						</div>
 						<div class="dropdown-divider"></div>
-						<div class="dropdown-item"><a class="btn btn-success" style="color:#FFFFFF;width:100%;" 
-						href="#" onclick="login();">Login</a></div>
+						<div class="dropdown-item"><a class="btn btn-success" style="color:#FFFFFF;width:100%;" href="#" onclick="login();">Login</a>
+						</div>
 					  </div>
 					</li>
-					<li class="nav-item"><a class="btn btn-success nav-link" href="signup.php" 
-					style="color:#FFFFFF;">Sign 
-					Up!</a></li>';
+					<li class="nav-item"><a class="btn btn-success nav-link" href="signup.php" style="color:#FFFFFF;">Sign Up!</a></li>';
 		}
 		else{
 			echo '
 				<li class="nav-item">
 				  <a href="#" onclick="logout()" class="nav-link">Logout</a>
 				</li>
-				<li class="nav-item"><a class="btn btn-success nav-link" href="'.LOCAL_URL."user/".$_SESSION["user"]->getWebID().'" 
-				style="color:#FFFFFF;">Account</a></li>	
-			';
+				<li class="nav-item"><a class="btn btn-success nav-link" href="'.LOCAL_URL."user/".$_SESSION["user"]->getWebID().'" style="color:#FFFFFF;">Account</a></li>';
 		}
 		echo '		</ul>
 				</div>
@@ -193,10 +195,9 @@ function showFeed(User $user){
 			}
 			$descr = implode("\n", $words);
 
-			$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
+			$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@!]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
 			$descr = nl2br($descr);
-			echo '<img class="img-fluid img-thumbnail m-x-auto d-block" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" max-width="100%" 
-			height="auto" />';
+			echo '<img class="img-fluid img-thumbnail m-x-auto d-block" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" max-width="100%" height="auto" />';
 			echo '<div class="card-text">
 			<p>'.$descr.'</div>';
 			echo '</div></div>';
@@ -317,7 +318,7 @@ function makeEditProfile(User $user){
 		</div>
 
 		<?php showFeed($user);?>
-		
+
 		<script>
 			function processSuccess(response){
 				var message = JSON.parse(response);
@@ -413,7 +414,7 @@ function makeEditProfile(User $user){
 				});
 			});
 		</script>
-		
+
 		<div id="Error-Modal" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -426,7 +427,7 @@ function makeEditProfile(User $user){
 			</div>
 		</div>
 	</div>
-	
+
 <?php
 }
 ?>

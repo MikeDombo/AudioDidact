@@ -66,18 +66,18 @@ class YouTube{
 	 */
 	private function setYoutubeID($str){
 		// Try and parse the string into a usable ID
-		$tmp_id = $this->parseYoutubeURL($str);
-		$vid_id = ($tmp_id !== false) ? $tmp_id : $str;
-		$url = sprintf($this->YouTubeBaseURL . "watch?v=%s", $vid_id);
+		$tmpId = $this->parseYoutubeURL($str);
+		$vidId = ($tmpId !== false) ? $tmpId : $str;
+		$url = sprintf($this->YouTubeBaseURL . "watch?v=%s", $vidId);
 		// Get HTTP status of the video url and make sure that it is
 		// 200 = OK
 		// 301 = Moved Permanently
 		// 302 = Moved Temporarily
 		if($this->curl_httpstatus($url) !== 200 && $this->curl_httpstatus($url) !== 301 && $this->curl_httpstatus($url)
 			!== 302){
-			throw new Exception("Invalid Youtube video ID: $vid_id");
+			throw new Exception("Invalid Youtube video ID: $vidId");
 		}
-		return $vid_id;
+		return $vidId;
 	}
 
 	/**
@@ -124,7 +124,7 @@ class YouTube{
 		$id = $this->video->getID();
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
 		$videoFilename = "$id.mp4";
-		$video = $path . $videoFilename;
+		$videoPath = $path . $videoFilename;
 
 		$url = $this->getDownloadURL($id);
 		if(strpos($url, "Error:")>-1){
@@ -135,9 +135,9 @@ class YouTube{
 			/* Actually download the video from the url and print the
 			 * percentage to the screen with JSON
 			 */
-			$this->downloadWithPercentage($url, $video);
+			$this->downloadWithPercentage($url, $videoPath);
 			// Set the video file as publicly accessible
-			@chmod($video, 0775);
+			@chmod($videoPath, 0775);
 			return;
 		}
 		catch(Exception $e){
@@ -187,14 +187,15 @@ class YouTube{
 		$offset = $index+$i;
 
 		$json_object = json_decode(substr($html, 0, $offset), true);
-		
+
 		if(isset($json_object["args"]["livestream"]) && $json_object["args"]["livestream"] && (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
 			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "<h3>Download Failed</h3><h4>This URL is a 
 			livestream, try again when the stream has ended</h4>");
 			echo json_encode($response);
 			throw new Exception("Download Failed!");
 		}
-		if(isset($json_object["args"]["live_default_broadcast"]) && $json_object["args"]["live_default_broadcast"] == 1 || (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
+		//isset($json_object["args"]["live_default_broadcast"]) && $json_object["args"]["live_default_broadcast"] == 1
+		if(!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == ""){
 			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "<h3>Download Failed</h3><h4>Try again later</h4>");
 			echo json_encode($response);
 			throw new Exception("Download Failed!");

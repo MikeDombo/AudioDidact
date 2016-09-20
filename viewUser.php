@@ -14,7 +14,7 @@
 			echo "<script>alert(\"Invalid User!\");window.location = \"/".SUBDIR."\";</script>";
 			exit();
 		}
-			
+
 		echo "
 		<!DOCTYPE html>
 		<html>";
