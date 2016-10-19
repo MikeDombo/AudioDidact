@@ -57,9 +57,8 @@ function makeHeader($title){
 			<link rel="icon" href="/'.SUBDIR;
 		echo 'favicon.ico" type="image/x-icon">
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" crossorigin="anonymous">
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" crossorigin="anonymous"></script>
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
 
 			<script>
 				function validateLogin(){
@@ -103,7 +102,7 @@ function makeHeader($title){
 function makeNav(){
 		echo '
 				<nav class="navbar navbar-dark bg-inverse navbar-full">
-				  <button class="navbar-toggler hidden-sm-up pull-xs-right" type="button" data-toggle="collapse"
+				  <button class="navbar-toggler hidden-sm-up float-xs-right" type="button" data-toggle="collapse"
 				   data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
 				    &#9776;
 				  </button>
@@ -114,7 +113,7 @@ function makeNav(){
 				    </li>
 			    </ul>
 				<div class="collapse navbar-toggleable-xs" id="bs-example-navbar-collapse-1">
-				  <ul class="nav navbar-nav pull-xs-right">';
+				  <ul class="nav navbar-nav float-xs-right">';
 		if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"]){
 			echo '
 					<li class="dropdown nav-item">
