@@ -81,7 +81,6 @@ require_once(__DIR__."/views/views.php");
 			function signup(){
 				$.post("/<?php echo SUBDIR;?>signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup").val(),
 					email:$("#email").val()}, function(data){
-					console.log(data);
 					if(data.indexOf("Success")>-1){
 						location.assign("/<?php echo SUBDIR;?>");
 					}
