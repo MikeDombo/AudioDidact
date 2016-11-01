@@ -232,8 +232,8 @@ class Item{
             $this->addElement('link', $link);
         }
 		else{
-            $this->addElement('link','',array('href'=>$link));
-            $this->addElement('id', Feed::uuid($link,'urn:uuid:'));
+            $this->addElement('link', '', array('href'=>$link));
+            $this->addElement('id', Feed::uuid($link, 'urn:uuid:'));
         }
 
         return $this;

@@ -35,7 +35,8 @@ if (session_status() == PHP_SESSION_NONE) {
 	);
 	session_start();
 }
-setcookie(session_name(),session_id(),time()+2678400, "/", session_get_cookie_params()["domain"], session_get_cookie_params()["secure"], session_get_cookie_params()["httponly"]);
+setcookie(session_name(), session_id(), time()+2678400, "/", session_get_cookie_params()["domain"],
+	session_get_cookie_params()["secure"], session_get_cookie_params()["httponly"]);
 
 // Download new User from Db
 if(isset($_SESSION["user"]) && isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
