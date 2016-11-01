@@ -84,4 +84,3 @@ function httpAuthenticate(DAL $dal){
 	require_once __DIR__."/viewUser.php";
 	userPage($webID);
  }
- 

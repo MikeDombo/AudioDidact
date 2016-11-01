@@ -29,7 +29,7 @@ class PodTube{
 	 * @param $id
 	 * @return bool
 	 */
-	public function inFeed($id){
+	public function isInFeed($id){
 		$video = new Video();
 		$video->setId($id);
 		return $this->dal->inFeed($video, $this->user);
@@ -59,7 +59,7 @@ class PodTube{
 		$fe = $this->makeFeed();
 
 		$items = $this->dal->getFeed($this->user);
-		for($x=0;$x<$this->user->getFeedLength() && isset($items[$x]);$x++){
+		for($x=0; $x<$this->user->getFeedLength() && isset($items[$x]); $x++){
 			$i = $items[$x];
 			$fe = $this->addFeedItem($fe, $i->getTitle(), $i->getId(), $i->getAuthor(), $i->getTime(), $i->getDesc());
 		}
@@ -97,7 +97,7 @@ class PodTube{
 
 		$feed->setChannelElement('itunes:image', "", array('href'=>$imageURL));
 		$feed->setChannelElement('itunes:author', $itunesAuthor);
-		$feed->setChannelElement('itunes:category', "",array('text'=>'Technology'));
+		$feed->setChannelElement('itunes:category', "", array('text'=>'Technology'));
 		$feed->setChannelElement('language', 'en-US');
 		$feed->setChannelElement('itunes:explicit', "yes");
 		$feed->setChannelElement('sy:updatePeriod', "hourly");
@@ -145,7 +145,7 @@ class PodTube{
 		$newItem->addElement('itunes:author', $author);
 		$newItem->addElement('itunes:duration', $duration);
 
-		$newItem->setDate(date(DATE_RSS,$time));
+		$newItem->setDate(date(DATE_RSS, $time));
 		$newItem->setAuthor($author, 'me@me.com');
 		// Set GUID, this is absolutely necessary
 		$newItem->setId($webPath.".mp3", true);
