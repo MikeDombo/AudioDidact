@@ -64,7 +64,7 @@ class User{
 	 * @return bool
 	 */
 	public function validateWebID($webID){
-		return $webID == preg_replace( "/[^a-zA-Z0-9_-~\@\$]/", "", $webID);
+		return $webID == preg_replace("/[^a-zA-Z0-9_-~\@\$]/", "", $webID);
 	}
 
 	/**

@@ -36,7 +36,7 @@ class YouTube{
 
 			// Check if the video already exists in the DB. If it does, then we do not need to get the information
 			// from the YouTube API again
-			if(!$this->podtube->inFeed($this->video->getId())){
+			if(!$this->podtube->isInFeed($this->video->getId())){
 				// Get video author, title, and description from YouTube API
 				$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id="
 					.$this->video->getId().
@@ -189,8 +189,7 @@ class YouTube{
 		$json_object = json_decode(substr($html, 0, $offset), true);
 
 		if(isset($json_object["args"]["livestream"]) && $json_object["args"]["livestream"] && (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
-			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "<h3>Download Failed</h3><h4>This URL is a 
-			livestream, try again when the stream has ended</h4>");
+			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "<h3>Download Failed</h3><h4>This URL is a livestream, try again when the stream has ended</h4>");
 			echo json_encode($response);
 			throw new Exception("Download Failed!");
 		}
@@ -270,8 +269,7 @@ class YouTube{
 		preg_match_all($reg_exp, $url, $itag);
 		if(isset($itag[1][0]) && intval($itag[1][0]) > -1){
 			$itag = intval($itag[1][0]);
-			$quality_profile = $qp[$itag];
-			return $quality_profile;
+			return $qp[$itag];
 		}
 		return false;
 	}
