@@ -555,11 +555,11 @@ abstract class Feed {
     public static function uuid($key = null, $prefix = ''){
         $key = ($key == null) ? uniqid(rand()) : $key;
         $chars = md5($key);
-        $uuid  = substr($chars,0,8) . '-';
-        $uuid .= substr($chars,8,4) . '-';
-        $uuid .= substr($chars,12,4) . '-';
-        $uuid .= substr($chars,16,4) . '-';
-        $uuid .= substr($chars,20,12);
+        $uuid  = substr($chars, 0, 8) . '-';
+        $uuid .= substr($chars, 8, 4) . '-';
+        $uuid .= substr($chars, 12, 4) . '-';
+        $uuid .= substr($chars, 16, 4) . '-';
+        $uuid .= substr($chars, 20, 12);
 
         return $prefix . $uuid;
     }

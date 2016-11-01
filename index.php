@@ -5,7 +5,7 @@ require_once(__DIR__."/views/views.php");
 
 <!DOCTYPE html>
 <html>
-	<?php 
+	<?php
 	if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
 		makeHeader("Add a Video");
 	}
