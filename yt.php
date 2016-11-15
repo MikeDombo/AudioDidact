@@ -15,6 +15,8 @@ else{
 	echo json_encode(['stage'=>-1, 'error'=>"Must be logged in to continue!", 'progress'=>0]);
 	exit(1);
 }
+// Write session to file to prevent concurrency issues
+session_write_close();
 
 $myDalClass = ChosenDAL;
 $dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
@@ -24,7 +26,7 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	if(isset($argv) && isset($argv[2])){
 		$_GET["yt"] = $argv[2];
 	}
-	$podtube = new PodTube($dal);
+	$podtube = new PodTube($dal, $user);
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
@@ -54,7 +56,7 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 }
 // If there is no URL set, then just recreate a feed from the existing items in the CSV
 else{
-	$podtube = new PodTube($dal);
+	$podtube = new PodTube($dal, $user);
 	// Before we make the feed, check that every file is downloaded
 	checkFilesExist($dal, $podtube, $user);
 	$podtube->makeFullFeed()->printFeed();

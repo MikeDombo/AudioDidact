@@ -200,7 +200,6 @@ class YouTube{
 			throw new Exception("Download Failed!");
 		}
 		$encoded_stream_map = $json_object["args"]["url_encoded_fmt_stream_map"];
-		error_log(json_encode($json_object));
 		$dct = array();
 		$videos = explode(",", $encoded_stream_map);
 		foreach($videos as $i=>$video){
@@ -221,7 +220,6 @@ class YouTube{
 			$quality_profile = $this->getQualityProfilesFromURL($vurl);
 			$downloads[] = ["url"=>$vurl, "ext"=>$quality_profile["extension"], "res"=>$quality_profile["resolution"]];
 		}
-		error_log(json_encode($downloads));
 		$downloadURL = "";
 		$resolution = 999999;
 		// Find lowest quality mp4
