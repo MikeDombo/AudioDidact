@@ -41,6 +41,11 @@ function returnUserFeed($webID){
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 
 	$requestedUser = $dal->getUserByWebID($webID);
+	if($requestedUser == null){
+		error_log("user ".$webID." not found/is null");
+		http_response_code(404);
+		return;
+	}
 	if($requestedUser->isPrivateFeed() && httpAuthenticate($dal)){
 		header('Content-Type: application/xml; charset=utf-8');
 		echo $dal->getFeedText($requestedUser);
