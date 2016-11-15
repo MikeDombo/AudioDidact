@@ -35,6 +35,7 @@ if (session_status() == PHP_SESSION_NONE) {
 	);
 	session_start();
 }
+// Update session cookie and push expiration into the future
 setcookie(session_name(), session_id(), time()+2678400, "/", session_get_cookie_params()["domain"],
 	session_get_cookie_params()["secure"], session_get_cookie_params()["httponly"]);
 

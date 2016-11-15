@@ -16,12 +16,12 @@ class PodTube{
 	 * PodTube constructor.
 	 * @param DAL $dal
 	 */
-	public function __construct(DAL $dal){
+	public function __construct(DAL $dal, User $user){
 		$this->dal = $dal;
 
 		// This may need to change in future because it is a bit dangerous. PodTube class should only be called when
 		// there is a valid user.
-		$this->user = $_SESSION["user"];
+		$this->user = $user;
 	}
 
 	/**

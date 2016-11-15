@@ -29,6 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 			$user->setEmail($email);
 			$user->setPasswd($password);
 			$user->setWebID($user->getUsername());
+			$user->setPrivateFeed(false);
 			$user->setFeedLength(50);
 			// Add user to db and set session variables if it is a success.
 			try{
