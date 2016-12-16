@@ -20,6 +20,7 @@ Subscribe to the generated feed using the URL shown on the Add a Video page to r
 PHP API documentation is available [here](https://md100play.github.io/PodTube/html/index.html).
 
 ## Future Tasks
+- Allow videos with start points in the midst of the video using YouTube's "&t=" flag to set the *in* marker
 
 ## Completed Tasks
 - Session files are now written to disk as soon as possible so that a single browser can have multiple pages open and downloading concurrently
