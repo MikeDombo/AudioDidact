@@ -7,7 +7,7 @@
  */
 class MySQLDAL extends DAL{
 	/** @var string Database table for storing user information */
-	protected $usertable = "users";
+	protected $userTable = "users";
 	/** @var string Database table for storing feed/video information */
 	protected $feedTable = "feed";
 	/** @var string SQL host */
@@ -19,11 +19,19 @@ class MySQLDAL extends DAL{
 	/** @var string SQL database password */
 	private $password;
 
-	public function setPDO($PDO){
+	/**
+	 * Function to set the PDO. Used by SQLite
+	 * @param \PDO $PDO
+	 */
+	protected function setPDO(\PDO $PDO){
 		parent::$PDO = $PDO;
 	}
 
-	public function getPDO(){
+	/**
+	 * Function to get the PDO. Used by SQLite
+	 * @return \PDO $PDO
+	 */
+	protected function getPDO(){
 		return parent::$PDO;
 	}
 
@@ -65,7 +73,7 @@ class MySQLDAL extends DAL{
 	 */
 	public function getUserByID($id){
 		try{
-			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE ID=:id");
+			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE ID=:id");
 			$p->bindValue(":id", $id, PDO::PARAM_INT);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
@@ -118,7 +126,7 @@ class MySQLDAL extends DAL{
 	 */
 	public function getUserByWebID($webID){
 		try{
-			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE webID=:id");
+			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE webID=:id");
 			$p->bindValue(":id", $webID, PDO::PARAM_STR);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
@@ -147,7 +155,7 @@ class MySQLDAL extends DAL{
 	public function getUserByUsername($username){
 		$username = strtolower($username);
 		try{
-			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE username=:username");
+			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE username=:username");
 			$p->bindValue(":username", $username, PDO::PARAM_STR);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
@@ -176,7 +184,7 @@ class MySQLDAL extends DAL{
 	public function getUserByEmail($email){
 		$email = strtolower($email);
 		try{
-			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE email=:email");
+			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE email=:email");
 			$p->bindValue(":email", $email, PDO::PARAM_STR);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
@@ -238,7 +246,7 @@ class MySQLDAL extends DAL{
 	public function addUser(User $user){
 		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
 			try{
-				$p = parent::$PDO->prepare("INSERT INTO $this->usertable (username, password, email, firstname,
+				$p = parent::$PDO->prepare("INSERT INTO $this->userTable (username, password, email, firstname,
 				lastname, gender, webID, feedLength, feedText, feedDetails, privateFeed) VALUES (:username,:password,:email,
 				:fname,:lname,:gender,:webID,:feedLength, :feedText,:feedDetails,:privateFeed)");
 				$p->bindValue(':username', $user->getUsername(), PDO::PARAM_STR);
@@ -315,7 +323,7 @@ class MySQLDAL extends DAL{
 	 */
 	public function getFeedText(User $user){
 		try{
-			$p = parent::$PDO->prepare("SELECT feedText FROM $this->usertable WHERE id=:userid");
+			$p = parent::$PDO->prepare("SELECT feedText FROM $this->userTable WHERE id=:userid");
 			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
 			$p->execute();
 			return $p->fetchAll(PDO::FETCH_ASSOC)[0]["feedText"];
@@ -372,7 +380,7 @@ class MySQLDAL extends DAL{
 	 */
 	public function setFeedText(User $user, $feed){
 		try{
-			$p = parent::$PDO->prepare("UPDATE $this->usertable set feedText=:feedText WHERE id=:userid");
+			$p = parent::$PDO->prepare("UPDATE $this->userTable set feedText=:feedText WHERE id=:userid");
 			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":feedText", $feed, PDO::PARAM_STR);
 			$p->execute();
@@ -413,7 +421,7 @@ class MySQLDAL extends DAL{
 	 */
 	public function updateUser(User $user){
 		try{
-			$p = parent::$PDO->prepare("UPDATE $this->usertable SET email=:email, firstname=:fname,
+			$p = parent::$PDO->prepare("UPDATE $this->userTable SET email=:email, firstname=:fname,
  			lastname=:lname, gender=:gender, feedLength=:feedLen, username=:uname, webID=:webID,
  			feedDetails=:feedDetails,privateFeed=:privateFeed WHERE ID=:id");
 			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
@@ -437,6 +445,8 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * Generate the tables in the current database
+	 * @param int $code
+	 * @return void
 	 * @throws \PDOException
 	 */
 	public function makeDB($code = 1){
@@ -452,7 +462,7 @@ class MySQLDAL extends DAL{
 						   /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 						   /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;";
 
-		$userTableSQL = "CREATE TABLE `".$this->usertable."` (
+		$userTableSQL = "CREATE TABLE `".$this->userTable."` (
 						  `ID` int(11) NOT NULL,
 						  `username` mediumtext COLLATE utf8mb4_bin NOT NULL,
 						  `password` mediumtext COLLATE utf8mb4_bin NOT NULL,
@@ -467,9 +477,9 @@ class MySQLDAL extends DAL{
 						  `privateFeed` tinyint(1) NOT NULL
 						)
 						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-						ALTER TABLE `".$this->usertable."`
+						ALTER TABLE `".$this->userTable."`
 							ADD PRIMARY KEY (`ID`);
-						ALTER TABLE `".$this->usertable."`
+						ALTER TABLE `".$this->userTable."`
 							MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
 
 		$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (
@@ -502,8 +512,8 @@ class MySQLDAL extends DAL{
 		}
 		else if($code == 2){
 			try{
-				$delta1 = $this->makeAlterQuery($this->usertable, "feedDetails", "ALTER TABLE `".$this->usertable."` ADD `feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;");
-				$delta2 = $this->makeAlterQuery($this->usertable, "privateFeed", "ALTER TABLE `".$this->usertable."` ADD `privateFeed` BOOLEAN NOT NULL AFTER `feedDetails`;");
+				$delta1 = $this->makeAlterQuery($this->userTable, "feedDetails", "ALTER TABLE `".$this->userTable."` ADD `feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;");
+				$delta2 = $this->makeAlterQuery($this->userTable, "privateFeed", "ALTER TABLE `".$this->userTable."` ADD `privateFeed` BOOLEAN NOT NULL AFTER `feedDetails`;");
 				$p = parent::$PDO->prepare($delta1.$delta2);
 				$p->execute();
 			}catch(PDOException $e){
@@ -531,6 +541,10 @@ class MySQLDAL extends DAL{
 				END IF;";
 	}
 
+	/**
+	 * Function to return a list of database tables
+	 * @return array
+	 */
 	protected function getDatabaseTables(){
 		$p = parent::$PDO->prepare("SHOW TABLES");
 		$p->execute();
@@ -542,12 +556,21 @@ class MySQLDAL extends DAL{
 		return $tables;
 	}
 
+	/**
+	 * Function to get layout of a specific table
+	 * @param $table string Table to get layout of
+	 * @return array
+	 */
 	protected function describeTable($table){
 		$p = parent::$PDO->prepare("DESCRIBE $table");
 		$p->execute();
 		return $p->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	/**
+	 * Correct layout of the user table
+	 * @var array
+	 */
 	protected $userCorrect = [
 	["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
 	["Field"=>"username", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
@@ -563,6 +586,10 @@ class MySQLDAL extends DAL{
 	["Field"=>"privateFeed", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""]
 	];
 
+	/**
+	 * Correct layout of the feed table
+	 * @var array
+	 */
 	protected $feedCorrect = [
 	["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
 	["Field"=>"userID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
@@ -583,11 +610,11 @@ class MySQLDAL extends DAL{
 	public function verifyDB(){
 		try{
 			$tables = $this->getDatabaseTables();
-			if(!in_array($this->usertable, $tables, true) || !in_array($this->feedTable, $tables, true)){
+			if(!in_array($this->userTable, $tables, true) || !in_array($this->feedTable, $tables, true)){
 				return 1;
 			}
 
-			$userTableSchema = $this->describeTable($this->usertable);
+			$userTableSchema = $this->describeTable($this->userTable);
 			$feedTableSchema = $this->describeTable($this->feedTable);
 
 			if($this->verifySchema($this->userCorrect, $userTableSchema) && $this->verifySchema($this->feedCorrect,
@@ -622,7 +649,7 @@ class MySQLDAL extends DAL{
 	 */
 	public function getPrunableVideos(){
 		$feedTable = $this->feedTable;
-		$userTable = $this->usertable;
+		$userTable = $this->userTable;
 		try{
 			$pruneSQL = "SELECT `videoID`,
 							MIN((MaxOrderID-orderID)>=feedLength) AS `isUnNeeded`

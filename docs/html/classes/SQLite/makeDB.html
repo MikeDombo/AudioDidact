@@ -2,7 +2,7 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:pu="http://schema.phpunit.de/coverage/1.0" lang="en">
   <head>
-    <title>phpDox - MySQLDAL::__construct</title>
+    <title>phpDox - SQLite::makeDB</title>
     <link rel="stylesheet" type="text/css" href="../../css/style.css" media="screen"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   </head>
@@ -39,9 +39,9 @@
             <a href="../../classes.html#"/>
           </li>
           <li class="separator">
-            <a title="MySQLDAL" href="../../classes/MySQLDAL.html">MySQLDAL</a>
+            <a title="SQLite" href="../../classes/SQLite.html">SQLite</a>
           </li>
-          <li class="separator">__construct</li>
+          <li class="separator">makeDB</li>
         </ul>
       </div>
       <nav class="box">
@@ -56,48 +56,42 @@
             <a href="#parameter">Parameter</a>
           </li>
           <li>
+            <a href="#return">Return</a>
+          </li>
+          <li>
             <a href="#throws">Throws</a>
           </li>
           <li>
-            <a href="../../source/classes/MySQLDAL.php.html#line48">Source</a>
+            <a href="#overrides">Overrides</a>
+          </li>
+          <li>
+            <a href="../../source/classes/SQLite.php.html#line62">Source</a>
           </li>
         </ul>
       </nav>
       <section>
-        <h1><small>MySQLDAL::</small>__construct</h1>
-        <h4>MySQLDAL constructor.</h4>
-        <p>Sets up parent's PDO object using the parameters that are passed in.</p>
+        <h1><small>SQLite::</small>makeDB</h1>
+        <h4>Generate the tables in the current database</h4>
+        <p/>
         <ul/>
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
-          <code>public function __construct(
-        $host,
-            string
-        $db,
-            string
-        $username,
-            string
-        $password )
+          <code>public function makeDB([integer
+        $code = 1] )
             </code>
         </div>
         <h2 id="parameterlist">Parameters</h2>
         <dl class="styled">
-          <dt><code>$host</code>
+          <dt><code>$code</code>
                 —
-                </dt>
+                integer</dt>
           <dd/>
-          <dt><code>$db</code>
-                —
-                string</dt>
-          <dd>The database name</dd>
-          <dt><code>$username</code>
-                —
-                string</dt>
-          <dd>The username used to connect to the database</dd>
-          <dt><code>$password</code>
-                —
-                string</dt>
-          <dd>The password used to connect to the database</dd>
+        </dl>
+        <h2 id="return">Returns</h2>
+        <dl class="styled">
+          <dt>void</dt>
+          <dd><br/>
+        </dd>
         </dl>
         <h2 id="throws">Errors/Exceptions</h2>
         <dl class="styled">
@@ -106,8 +100,21 @@
               <a title="\PDOException" href="../../classes/_PDOException.html">PDOException</a>
             </code>
           </dt>
-          <dd>Rethrows any PDO exceptions encountered when connecting to the database</dd>
+          <dd/>
         </dl>
+        <h2 id="overrides">Parent Implementations</h2>
+        <ul class="styled">
+          <li>
+            <code>
+              <a title="MySQLDAL" href="../../classes/MySQLDAL/makeDB.html">MySQLDAL</a>
+            </code>
+          </li>
+          <li>
+            <code>
+              <a title="DAL" href="../../classes/DAL/makeDB.html">DAL</a>
+            </code>
+          </li>
+        </ul>
       </section>
     </div>
     <footer>
