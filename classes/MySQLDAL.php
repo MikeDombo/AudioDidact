@@ -7,9 +7,9 @@
  */
 class MySQLDAL extends DAL{
 	/** @var string Database table for storing user information */
-	private $usertable = "users";
+	protected $usertable = "users";
 	/** @var string Database table for storing feed/video information */
-	private $feedTable = "feed";
+	protected $feedTable = "feed";
 	/** @var string SQL host */
 	private $host;
 	/** @var string SQL database name */
@@ -18,6 +18,14 @@ class MySQLDAL extends DAL{
 	private $username;
 	/** @var string SQL database password */
 	private $password;
+
+	public function setPDO($PDO){
+		parent::$PDO = $PDO;
+	}
+
+	public function getPDO(){
+		return parent::$PDO;
+	}
 
 	/**
 	 * MySQLDAL constructor.
@@ -111,7 +119,7 @@ class MySQLDAL extends DAL{
 	public function getUserByWebID($webID){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->usertable WHERE webID=:id");
-			$p->bindValue(":id", $webID, PDO::PARAM_INT);
+			$p->bindValue(":id", $webID, PDO::PARAM_STR);
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
@@ -231,8 +239,8 @@ class MySQLDAL extends DAL{
 		if(!$this->usernameExists($user->getUsername()) && !$this->emailExists($user->getEmail())){
 			try{
 				$p = parent::$PDO->prepare("INSERT INTO $this->usertable (username, password, email, firstname,
-				lastname, gender, webID, feedLength, feedDetails, privateFeed) VALUES (:username,:password,:email,
-				:fname,:lname,:gender,:webID,:feedLength,:feedDetails,:privateFeed)");
+				lastname, gender, webID, feedLength, feedText, feedDetails, privateFeed) VALUES (:username,:password,:email,
+				:fname,:lname,:gender,:webID,:feedLength, :feedText,:feedDetails,:privateFeed)");
 				$p->bindValue(':username', $user->getUsername(), PDO::PARAM_STR);
 				$p->bindValue(':password', $user->getPasswd(), PDO::PARAM_STR);
 				$p->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
@@ -241,6 +249,7 @@ class MySQLDAL extends DAL{
 				$p->bindValue(':gender', $user->getGender(), PDO::PARAM_INT);
 				$p->bindValue(':webID', $user->getWebID(), PDO::PARAM_STR);
 				$p->bindValue(':feedLength', $user->getFeedLength(), PDO::PARAM_INT);
+				$p->bindValue(':feedText', $user->getFeedText(), PDO::PARAM_STR);
 				$p->bindValue(':feedDetails', json_encode($user->getFeedDetails()), PDO::PARAM_STR);
 				$p->bindValue(':privateFeed', $user->isPrivateFeed(), PDO::PARAM_BOOL);
 				$p->execute();
@@ -431,20 +440,19 @@ class MySQLDAL extends DAL{
 	 * @throws \PDOException
 	 */
 	public function makeDB($code = 1){
-		if($code == 1){
-			$generalSetupSQL = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";
+		$generalSetupSQL = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";
 							SET time_zone = \"+00:00\";";
 
-			$preProcessSQL = "/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+		$preProcessSQL = "/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 						  /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 						  /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 						  /*!40101 SET NAMES utf8mb4 */;";
 
-			$postProcessSQL = "/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+		$postProcessSQL = "/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 						   /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 						   /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;";
 
-			$userTableSQL = "CREATE TABLE `".$this->usertable."` (
+		$userTableSQL = "CREATE TABLE `".$this->usertable."` (
 						  `ID` int(11) NOT NULL,
 						  `username` mediumtext COLLATE utf8mb4_bin NOT NULL,
 						  `password` mediumtext COLLATE utf8mb4_bin NOT NULL,
@@ -455,8 +463,8 @@ class MySQLDAL extends DAL{
 						  `webID` mediumtext COLLATE utf8mb4_bin NOT NULL,
 						  `feedText` longtext COLLATE utf8mb4_bin NOT NULL,
 						  `feedLength` int(11) NOT NULL,
-						  `feedDetails` mediumtext COLLATE utf8mb4_bin NOT NULL,
-						  `privateFeed` tinyint(0) NOT NULL
+						  `feedDetails` mediumtext COLLATE utf8mb4_bin NULL,
+						  `privateFeed` tinyint(1) NOT NULL
 						)
 						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 						ALTER TABLE `".$this->usertable."`
@@ -464,7 +472,7 @@ class MySQLDAL extends DAL{
 						ALTER TABLE `".$this->usertable."`
 							MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
 
-			$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (
+		$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (
 						  `ID` int(11) NOT NULL,
 						  `userID` int(11) NOT NULL,
 						  `orderID` int(11) NOT NULL,
@@ -480,10 +488,11 @@ class MySQLDAL extends DAL{
 						  ADD PRIMARY KEY (`ID`);
 						ALTER TABLE `".$this->feedTable."`
 						  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
-
+		if($code == 1){
 			try{
 				// Execute all the statements
-				$p = parent::$PDO->prepare($generalSetupSQL.$preProcessSQL.$userTableSQL.$feedTableSQL.$postProcessSQL);
+				$p = parent::$PDO->prepare($generalSetupSQL.$preProcessSQL.
+					$userTableSQL.$feedTableSQL.$postProcessSQL);
 				$p->execute();
 			}catch(PDOException $e){
 				echo "Database creation failed! ".$e->getMessage();
@@ -522,6 +531,50 @@ class MySQLDAL extends DAL{
 				END IF;";
 	}
 
+	protected function getDatabaseTables(){
+		$p = parent::$PDO->prepare("SHOW TABLES");
+		$p->execute();
+		$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+		$tables = [];
+		foreach($rows as $r){
+			$tables[] = array_values($r)[0];
+		}
+		return $tables;
+	}
+
+	protected function describeTable($table){
+		$p = parent::$PDO->prepare("DESCRIBE $table");
+		$p->execute();
+		return $p->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	protected $userCorrect = [
+	["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
+	["Field"=>"username", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"password", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"email", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"firstname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"lastname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"gender", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"webID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"feedText", "Type"=>"longtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"feedLength", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"feedDetails", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"privateFeed", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""]
+	];
+
+	protected $feedCorrect = [
+	["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
+	["Field"=>"userID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"orderID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"videoID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"videoAuthor", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"description", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"videoTitle", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"duration", "Type"=>"int(11)", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"timeAdded", "Type"=>"timestamp", "Null"=>"NO", "Key"=>"", "Default"=>"CURRENT_TIMESTAMP", "Extra"=>""]
+	];
+
 	/**
 	 * Verifies the currently connected database against the current schema
 	 * @return int Returns 0 if all is well, 1 if the user table or feed table do not exist, and 2 if the tables exist but the schema inside is wrong
@@ -529,52 +582,16 @@ class MySQLDAL extends DAL{
 	 */
 	public function verifyDB(){
 		try{
-			$p = parent::$PDO->prepare("SHOW TABLES");
-			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
-			$tables = [];
-			foreach($rows as $r){
-				$tables[] = array_values($r)[0];
-			}
+			$tables = $this->getDatabaseTables();
 			if(!in_array($this->usertable, $tables, true) || !in_array($this->feedTable, $tables, true)){
 				return 1;
 			}
 
-			$p = parent::$PDO->prepare("DESCRIBE $this->usertable");
-			$p->execute();
-			$userTableSchema = $p->fetchAll(PDO::FETCH_ASSOC);
-			$p = parent::$PDO->prepare("DESCRIBE $this->feedTable");
-			$p->execute();
-			$feedTableSchema = $p->fetchAll(PDO::FETCH_ASSOC);
+			$userTableSchema = $this->describeTable($this->usertable);
+			$feedTableSchema = $this->describeTable($this->feedTable);
 
-			$userCorrect = [
-				["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
-				["Field"=>"username", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"password", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"email", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"firstname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"lastname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"gender", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"webID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"feedText", "Type"=>"longtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"feedLength", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"feedDetails", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"privateFeed", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""]
-			];
-
-			$feedCorrect = [
-				["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
-				["Field"=>"userID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"orderID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"videoID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"videoAuthor", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"description", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"videoTitle", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"duration", "Type"=>"int(11)", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-				["Field"=>"timeAdded", "Type"=>"timestamp", "Null"=>"NO", "Key"=>"", "Default"=>"CURRENT_TIMESTAMP", "Extra"=>""]
-			];
-
-			if($this->verifySchema($userCorrect, $userTableSchema) && $this->verifySchema($feedCorrect,	$feedTableSchema)){
+			if($this->verifySchema($this->userCorrect, $userTableSchema) && $this->verifySchema($this->feedCorrect,
+					$feedTableSchema)){
 				return 0;
 			}
 			else{
