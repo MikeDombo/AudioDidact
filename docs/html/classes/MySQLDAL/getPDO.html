@@ -2,7 +2,7 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:pu="http://schema.phpunit.de/coverage/1.0" lang="en">
   <head>
-    <title>phpDox - MySQLDAL::__construct</title>
+    <title>phpDox - MySQLDAL::getPDO</title>
     <link rel="stylesheet" type="text/css" href="../../css/style.css" media="screen"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   </head>
@@ -41,7 +41,7 @@
           <li class="separator">
             <a title="MySQLDAL" href="../../classes/MySQLDAL.html">MySQLDAL</a>
           </li>
-          <li class="separator">__construct</li>
+          <li class="separator">getPDO</li>
         </ul>
       </div>
       <nav class="box">
@@ -53,60 +53,28 @@
             <a href="#synopsis">Synopsis</a>
           </li>
           <li>
-            <a href="#parameter">Parameter</a>
+            <a href="#return">Return</a>
           </li>
           <li>
-            <a href="#throws">Throws</a>
-          </li>
-          <li>
-            <a href="../../source/classes/MySQLDAL.php.html#line48">Source</a>
+            <a href="../../source/classes/MySQLDAL.php.html#line34">Source</a>
           </li>
         </ul>
       </nav>
       <section>
-        <h1><small>MySQLDAL::</small>__construct</h1>
-        <h4>MySQLDAL constructor.</h4>
-        <p>Sets up parent's PDO object using the parameters that are passed in.</p>
+        <h1><small>MySQLDAL::</small>getPDO</h1>
+        <h4>Function to get the PDO. Used by SQLite</h4>
+        <p/>
         <ul/>
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
-          <code>public function __construct(
-        $host,
-            string
-        $db,
-            string
-        $username,
-            string
-        $password )
+          <code>protected function getPDO()
             </code>
         </div>
-        <h2 id="parameterlist">Parameters</h2>
+        <h2 id="return">Returns</h2>
         <dl class="styled">
-          <dt><code>$host</code>
-                —
-                </dt>
-          <dd/>
-          <dt><code>$db</code>
-                —
-                string</dt>
-          <dd>The database name</dd>
-          <dt><code>$username</code>
-                —
-                string</dt>
-          <dd>The username used to connect to the database</dd>
-          <dt><code>$password</code>
-                —
-                string</dt>
-          <dd>The password used to connect to the database</dd>
-        </dl>
-        <h2 id="throws">Errors/Exceptions</h2>
-        <dl class="styled">
-          <dt>
-            <code>
-              <a title="\PDOException" href="../../classes/_PDOException.html">PDOException</a>
-            </code>
-          </dt>
-          <dd>Rethrows any PDO exceptions encountered when connecting to the database</dd>
+          <dt>PDO</dt>
+          <dd>$PDO<br/>
+        </dd>
         </dl>
       </section>
     </div>

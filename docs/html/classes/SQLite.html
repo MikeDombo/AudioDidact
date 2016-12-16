@@ -2,7 +2,7 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
-    <title>phpDox - MySQLDAL</title>
+    <title>phpDox - SQLite</title>
     <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   </head>
@@ -35,7 +35,7 @@
           <li class="separator">
             <a href="../classes.html">Classes</a>
           </li>
-          <li class="separator">MySQLDAL</li>
+          <li class="separator">SQLite</li>
         </ul>
       </div>
       <nav class="box">
@@ -56,55 +56,52 @@
             <a href="#methods">Methods</a>
           </li>
           <li>
-            <a href="../source/classes/MySQLDAL.php.html#line8">Source</a>
+            <a href="../source/classes/SQLite.php.html#line7">Source</a>
           </li>
         </ul>
       </nav>
       <section>
-        <h1 id="introduction"><small>\</small>MySQLDAL</h1>
-        <h4>Class MySQLDAL contains methods for communicating with a SQL database</h4>
+        <h1 id="introduction"><small>\</small>SQLite</h1>
+        <h4>Class SQLite contains methods for communicating with a SQLite database stored on a filesystem</h4>
         <p/>
         <ul/>
         <h2 id="synopsis">Synopsis</h2>
-        <div class="synopsis">class MySQLDAL
-                extends <a title="DAL" href="../classes/DAL.html">DAL</a>
-            {<br/><ul class="none"><li>// members</li><li>protected string <a href="#members">$userTable</a> =
-                        "users";
-                    </li><li>protected string <a href="#members">$feedTable</a> =
-                        "feed";
-                    </li><li>private  <a href="#members">$host</a>;
-                    </li><li>private  <a href="#members">$db</a>;
-                    </li><li>private  <a href="#members">$username</a>;
-                    </li><li>private  <a href="#members">$password</a>;
-                    </li><li>protected array <a href="#members">$userCorrect</a> =
+        <div class="synopsis">class SQLite
+                extends <a title="MySQLDAL" href="../classes/MySQLDAL.html">MySQLDAL</a>
+            {<br/><ul class="none"><li>// members</li><li>protected array <a href="#members">$userCorrect</a> =
                         ;
                     </li><li>protected array <a href="#members">$feedCorrect</a> =
                         ;
-                    </li></ul><ul class="none"><li>// Inherited members from <span title="DAL">DAL</span></li><li>protected static <span title="\PDO">PDO</span> <a href="#members">$PDO</a>;
-                        </li></ul><ul class="none"><li>// methods</li><li>protected void <a title="MySQLDAL" href="../classes/MySQLDAL/setPDO.html">setPDO</a>()
-                    </li><li>protected PDO <a title="MySQLDAL" href="../classes/MySQLDAL/getPDO.html">getPDO</a>()
-                    </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/__construct.html">__construct</a>()
-                    </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByID.html">getUserByID</a>()
-                    </li><li>private User <a title="MySQLDAL" href="../classes/MySQLDAL/setUser.html">setUser</a>()
-                    </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByWebID.html">getUserByWebID</a>()
-                    </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByUsername.html">getUserByUsername</a>()
-                    </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByEmail.html">getUserByEmail</a>()
-                    </li><li>public null|Video <a title="MySQLDAL" href="../classes/MySQLDAL/getVideoByID.html">getVideoByID</a>()
-                    </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/addUser.html">addUser</a>()
-                    </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/addVideo.html">addVideo</a>()
-                    </li><li>public mixed <a title="MySQLDAL" href="../classes/MySQLDAL/getFeedText.html">getFeedText</a>()
-                    </li><li>public array|null <a title="MySQLDAL" href="../classes/MySQLDAL/getFeed.html">getFeed</a>()
-                    </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/setFeedText.html">setFeedText</a>()
-                    </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/inFeed.html">inFeed</a>()
-                    </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/updateUser.html">updateUser</a>()
-                    </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/makeDB.html">makeDB</a>()
-                    </li><li>private string <a title="MySQLDAL" href="../classes/MySQLDAL/makeAlterQuery.html">makeAlterQuery</a>()
-                    </li><li>protected array <a title="MySQLDAL" href="../classes/MySQLDAL/getDatabaseTables.html">getDatabaseTables</a>()
-                    </li><li>protected array <a title="MySQLDAL" href="../classes/MySQLDAL/describeTable.html">describeTable</a>()
-                    </li><li>public int <a title="MySQLDAL" href="../classes/MySQLDAL/verifyDB.html">verifyDB</a>()
-                    </li><li>private bool <a title="MySQLDAL" href="../classes/MySQLDAL/verifySchema.html">verifySchema</a>()
-                    </li><li>public array <a title="MySQLDAL" href="../classes/MySQLDAL/getPrunableVideos.html">getPrunableVideos</a>()
-                    </li></ul><ul class="none"><li>// Inherited methods from <span title="DAL">DAL</span></li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByUsername.html">getUserByUsername</a>()
+                    </li></ul><ul class="none"><li>// Inherited members from <span title="MySQLDAL">MySQLDAL</span></li><li>protected string <a href="#members">$userTable</a>;
+                        </li><li>protected string <a href="#members">$feedTable</a>;
+                        </li><li>protected array <a href="#members">$userCorrect</a>;
+                        </li><li>protected array <a href="#members">$feedCorrect</a>;
+                        </li></ul><ul class="none"><li>// Inherited members from <span title="DAL">DAL</span></li><li>protected static <span title="\PDO">PDO</span> <a href="#members">$PDO</a>;
+                        </li></ul><ul class="none"><li>// methods</li><li>public void <a title="SQLite" href="../classes/SQLite/__construct.html">__construct</a>()
+                    </li><li>protected array <a title="SQLite" href="../classes/SQLite/getDatabaseTables.html">getDatabaseTables</a>()
+                    </li><li>protected array <a title="SQLite" href="../classes/SQLite/describeTable.html">describeTable</a>()
+                    </li><li>public void <a title="SQLite" href="../classes/SQLite/makeDB.html">makeDB</a>()
+                    </li></ul><ul class="none"><li>// Inherited methods from <span title="MySQLDAL">MySQLDAL</span></li><li>protected void <a title="MySQLDAL" href="../classes/MySQLDAL/setPDO.html">setPDO</a>()
+                        </li><li>protected PDO <a title="MySQLDAL" href="../classes/MySQLDAL/getPDO.html">getPDO</a>()
+                        </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/__construct.html">__construct</a>()
+                        </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByID.html">getUserByID</a>()
+                        </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByWebID.html">getUserByWebID</a>()
+                        </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByUsername.html">getUserByUsername</a>()
+                        </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByEmail.html">getUserByEmail</a>()
+                        </li><li>public null|Video <a title="MySQLDAL" href="../classes/MySQLDAL/getVideoByID.html">getVideoByID</a>()
+                        </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/addUser.html">addUser</a>()
+                        </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/addVideo.html">addVideo</a>()
+                        </li><li>public mixed <a title="MySQLDAL" href="../classes/MySQLDAL/getFeedText.html">getFeedText</a>()
+                        </li><li>public array|null <a title="MySQLDAL" href="../classes/MySQLDAL/getFeed.html">getFeed</a>()
+                        </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/setFeedText.html">setFeedText</a>()
+                        </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/inFeed.html">inFeed</a>()
+                        </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/updateUser.html">updateUser</a>()
+                        </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/makeDB.html">makeDB</a>()
+                        </li><li>protected array <a title="MySQLDAL" href="../classes/MySQLDAL/getDatabaseTables.html">getDatabaseTables</a>()
+                        </li><li>protected array <a title="MySQLDAL" href="../classes/MySQLDAL/describeTable.html">describeTable</a>()
+                        </li><li>public int <a title="MySQLDAL" href="../classes/MySQLDAL/verifyDB.html">verifyDB</a>()
+                        </li><li>public array <a title="MySQLDAL" href="../classes/MySQLDAL/getPrunableVideos.html">getPrunableVideos</a>()
+                        </li></ul><ul class="none"><li>// Inherited methods from <span title="DAL">DAL</span></li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByUsername.html">getUserByUsername</a>()
                         </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByEmail.html">getUserByEmail</a>()
                         </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByID.html">getUserByID</a>()
                         </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByWebID.html">getUserByWebID</a>()
@@ -130,27 +127,12 @@
           <h4>Extends</h4>
           <ul>
             <li>
-              <a title="DAL" href="../classes/DAL.html">DAL</a>
+              <a title="MySQLDAL" href="../classes/MySQLDAL.html">MySQLDAL</a>
             </li>
           </ul>
         </div>
         <h2 id="members">Members</h2>
         <div class="styled members">
-          <h4>private</h4>
-          <ul class="members">
-            <li id="db"><strong>$db</strong>
-                —
-                string</li>
-            <li id="host"><strong>$host</strong>
-                —
-                string</li>
-            <li id="password"><strong>$password</strong>
-                —
-                string</li>
-            <li id="username"><strong>$username</strong>
-                —
-                string</li>
-          </ul>
           <h4>protected</h4>
           <ul class="members">
             <li id="PDO"><strong>$PDO</strong>
@@ -159,9 +141,15 @@
             <li id="feedCorrect"><strong>$feedCorrect</strong>
                 —
                 array<br/><span class="indent">Correct layout of the feed table</span></li>
+            <li id="feedCorrect"><strong>$feedCorrect</strong>
+                —
+                array<br/><span class="indent">Correct layout of the feed table</span></li>
             <li id="feedTable"><strong>$feedTable</strong>
                 —
                 string</li>
+            <li id="userCorrect"><strong>$userCorrect</strong>
+                —
+                array<br/><span class="indent">Correct layout of the user table</span></li>
             <li id="userCorrect"><strong>$userCorrect</strong>
                 —
                 array<br/><span class="indent">Correct layout of the user table</span></li>
@@ -172,15 +160,21 @@
         </div>
         <h2 id="methods">Methods</h2>
         <div class="styled">
-          <h4>private</h4>
+          <h4>protected</h4>
           <ul>
-            <li id="makeAlterQuery"><a title="MySQLDAL" href="../classes/MySQLDAL/makeAlterQuery.html">makeAlterQuery()</a>
-                — Builds a SQL query that checks if a column exists in a given table and adds the new column if it doesn't exist</li>
-            <li id="setUser"><a title="MySQLDAL" href="../classes/MySQLDAL/setUser.html">setUser()</a>
-                — Makes a new user object from a database select command.</li>
-            <li id="verifySchema"><a title="MySQLDAL" href="../classes/MySQLDAL/verifySchema.html">verifySchema()</a>
-                — Checks if two arrays are equal to test that SQL schemas are compliant</li>
+            <li id="describeTable"><a title="SQLite" href="../classes/SQLite/describeTable.html">describeTable()</a>
+                — Function to get layout of a specific table</li>
+            <li id="getDatabaseTables"><a title="SQLite" href="../classes/SQLite/getDatabaseTables.html">getDatabaseTables()</a>
+                — Function to return a list of database tables</li>
           </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="__construct"><a title="SQLite" href="../classes/SQLite/__construct.html">__construct()</a>
+                — SQLite constructor.</li>
+            <li id="makeDB"><a title="SQLite" href="../classes/SQLite/makeDB.html">makeDB()</a>
+                — Generate the tables in the current database</li>
+          </ul>
+          <h3>Inherited from <a title="MySQLDAL" href="../classes/MySQLDAL.html">MySQLDAL</a></h3>
           <h4>protected</h4>
           <ul>
             <li id="describeTable"><a title="MySQLDAL" href="../classes/MySQLDAL/describeTable.html">describeTable()</a>
@@ -194,8 +188,6 @@
           </ul>
           <h4>public</h4>
           <ul>
-            <li id="__construct"><a title="MySQLDAL" href="../classes/MySQLDAL/__construct.html">__construct()</a>
-                — MySQLDAL constructor.</li>
             <li id="addUser"><a title="MySQLDAL" href="../classes/MySQLDAL/addUser.html">addUser()</a>
                 — Adds a User object to the database</li>
             <li id="addVideo"><a title="MySQLDAL" href="../classes/MySQLDAL/addVideo.html">addVideo()</a>
