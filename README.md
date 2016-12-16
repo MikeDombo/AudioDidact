@@ -8,7 +8,7 @@ Set hostname to your public ip or domain and subdirectory.
 ![config.php](https://raw.githubusercontent.com/md100play/PodTube/master/README-images/config-php.PNG)
 
 - Set database configuration, also in `config.php`.
-- Set `batchProcess.php` to run as often as you like. This script is used to delete files once they are kicked out of every user's feed. If you have lots of disk space, then you may not want to run this script ever, so that the audio and thumbnails are always available.
+- Set `batchProcess.php` to run as often as you like using the Windows Task Sheduler or cron on *nix. This script is used to delete files once they are kicked out of every user's feed. If you have lots of disk space, then you may not want to run this script ever, so that the audio and thumbnails are always available.
 
 
 ## Usage
