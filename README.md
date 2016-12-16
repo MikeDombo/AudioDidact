@@ -20,6 +20,7 @@ PHP API documentation is available [here](https://md100play.github.io/PodTube/ht
 ## Future Tasks
 
 ## Completed Tasks
+- Session files are now written to disk as soon as possible so that a single browser can have multiple pages open and downloading concurrently
 - Better session handling (session cookie is now stored for a long time and refreshed often)
 - Create and verify databases
 - Account management added
