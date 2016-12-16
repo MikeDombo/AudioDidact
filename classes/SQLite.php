@@ -1,18 +1,18 @@
 <?php
 
+/**
+ * Class SQLite contains methods for communicating with a SQLite database stored on a filesystem
+ *
+ */
 class SQLite extends MySQLDAL{
 	/**
 	 * SQLite constructor.
 	 * Sets up parent's PDO object using the parameters that are passed in.
 	 *
-	 * @param string The filepath to the SQLite database file
+	 * @param $filepath string The filepath to the SQLite database file
 	 * @throws \PDOException Rethrows any PDO exceptions encountered when connecting to the database
 	 */
 	public function __construct($filepath, $i, $j, $k){
-		if(!CHECK_REQUIRED){
-			require_once __DIR__."/../header.php";
-		}
-
 		if($this->getPDO() == null){
 			try{
 				$this->setPDO(new PDO('sqlite:'.$filepath));
@@ -22,10 +22,14 @@ class SQLite extends MySQLDAL{
 				throw $e;
 			}
 		}
+
+		parent::__construct("","","","");
 	}
 
-	protected $collation = "BINARY";
-
+	/**
+	 * Function to return a list of database tables
+	 * @return array
+	 */
 	protected function getDatabaseTables(){
 		$p = parent::$PDO->prepare("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;");
 		$p->execute();
@@ -37,14 +41,26 @@ class SQLite extends MySQLDAL{
 		return $tables;
 	}
 
+	/**
+	 * Function to get layout of a specific table
+	 * @param $table string table to get layout of
+	 * @return array
+	 */
 	protected function describeTable($table){
 		$p = parent::$PDO->prepare("PRAGMA table_info([$table]);");
 		$p->execute();
 		return $p->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	/**
+	 * Generate the tables in the current database
+	 *
+	 * @param int $code
+	 * @return void
+	 * @throws \PDOException
+	 */
 	public function makeDB($code = 1){
-		$userTableSQL = "CREATE TABLE `".$this->usertable."` (
+		$userTableSQL = "CREATE TABLE `".$this->userTable."` (
 						  `ID` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 						  `username` mediumtext NOT NULL,
 						  `password` mediumtext NOT NULL,
@@ -96,6 +112,10 @@ class SQLite extends MySQLDAL{
 		}
 	}
 
+	/**
+	 * Correct layout of the user table
+	 * @var array
+	 */
 	protected $userCorrect = [['cid' => '0', 'name' => 'ID', 'type' => 'INTEGER', 'notnull' => '1', 'dflt_value' => NULL, 'pk' => '1'],
 		['cid' => '1', 'name' => 'username', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => NULL, 'pk' => '0'],
 		['cid' => '2', 'name' => 'password', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => NULL, 'pk' => '0'],
@@ -109,7 +129,10 @@ class SQLite extends MySQLDAL{
 		['cid' => '10', 'name' => 'feedDetails', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => NULL, 'pk' => '0'],
 		['cid' => '11', 'name' => 'privateFeed', 'type' => 'tinyint(1)', 'notnull' => '1', 'dflt_value' => NULL, 'pk'=> '0']];
 
-
+	/**
+	 * Correct layout of the feed table
+	 * @var array
+	 */
 	protected $feedCorrect = [['cid' => '0', 'name' => 'ID', 'type' => 'INTEGER', 'notnull' => '1', 'dflt_value' => NULL, 'pk' => '1'],
 		['cid' => '1', 'name' => 'userID', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => NULL, 'pk' => '0'],
 		['cid' => '2', 'name' => 'orderID', 'type' => 'int(11)', 'notnull' => '1','dflt_value' => NULL, 'pk' => '0'],
@@ -120,20 +143,4 @@ class SQLite extends MySQLDAL{
 		['cid' => '7', 'name' => 'duration', 'type' => 'int(11)', 'notnull' => '0','dflt_value' => 'NULL', 'pk' => '0'],
 		['cid' => '8', 'name' => 'timeAdded', 'type' => 'timestamp', 'notnull' => '1','dflt_value' => 'CURRENT_TIMESTAMP', 'pk' => '0']];
 
-	/**
-	 * Builds a SQL query that checks if a column exists in a given table and adds the new column if it doesn't exist
-	 * @param $tableName
-	 * @param $columnName
-	 * @param $alterQuery
-	 * @return string
-	 */
-	private function makeAlterQuery($tableName, $columnName, $alterQuery){
-		return "IF NOT EXISTS( SELECT NULL
-                    FROM INFORMATION_SCHEMA.COLUMNS
-                    WHERE table_name = '$tableName'
-                    AND table_schema = '".DB_DATABASE."'
-                    AND column_name = '$columnName')  THEN
-				    $alterQuery
-				END IF;";
-	}
 }
