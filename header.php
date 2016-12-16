@@ -39,21 +39,6 @@ if (session_status() == PHP_SESSION_NONE) {
 setcookie(session_name(), session_id(), time()+2678400, "/", session_get_cookie_params()["domain"],
 	session_get_cookie_params()["secure"], session_get_cookie_params()["httponly"]);
 
-// Download new User from Db
-if(isset($_SESSION["user"]) && isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
-	$myDalClass = ChosenDAL;
-	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-	try{
-		$_SESSION["user"] = $dal->getUserByID($_SESSION["user"]->getUserID());
-	}
-	catch(Exception $e){
-		clearSession();
-	}
-}
-else if(isset($_SESSION["user"]) && $_SESSION["user"] == null){
-	clearSession();
-}
-
 if(!function_exists("clearSession")){
 	/**
 	 * Deletes all session variables and the session cookies
@@ -70,6 +55,21 @@ if(!function_exists("clearSession")){
 		session_destroy();
 		session_write_close();
 	}
+}
+
+// Download new User from Db
+if(isset($_SESSION["user"]) && isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
+	$myDalClass = ChosenDAL;
+	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	try{
+		$_SESSION["user"] = $dal->getUserByID($_SESSION["user"]->getUserID());
+	}
+	catch(Exception $e){
+		clearSession();
+	}
+}
+else if(isset($_SESSION["user"]) && $_SESSION["user"] == null){
+	clearSession();
 }
 
 if(!function_exists("setCheckRequired")){
