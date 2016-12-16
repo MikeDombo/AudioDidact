@@ -12,6 +12,8 @@
 	          id="progress-stage"></progress>
 	<h2><button onclick="ajax_stream();" class="btn-info btn">Add Video To Feed</button></h2>
 	<script>
+	var currentlyDownloading = false;
+
 	$(function() {
 		$('.input-group').each(function() {
 			$(this).find('input').keypress(function(e) {
@@ -21,6 +23,7 @@
 			});
 		});
 	});
+
 	function ajax_stream(){
 		if(!$("#yt").val()){
 			return;
@@ -29,6 +32,14 @@
 			alert("Your browser does not support the native XMLHttpRequest object.");
 			return;
 		}
+		if(currentlyDownloading){
+			alert("Wait for the current download to complete");
+			return;
+		}
+		else{
+			currentlyDownloading = true;
+		}
+
 		try{
 			$('#progress-total').removeClass("progress-success").removeClass("progress-danger").addClass("progress-striped");
 			$('#progress-stage').removeClass("progress-success").removeClass("progress-danger").addClass("progress-striped");
@@ -52,6 +63,7 @@
 						$('#progress-stage').attr('value', 100).removeClass("progress-striped").addClass("progress-success");
 						$("#progress-stage-text").text("Completed");
 						$("#progress-total-text").text("Completed");
+						currentlyDownloading = false;
 					}
 					else if (xhr.readyState == 3){
 						var new_response = xhr.responseText.substring(xhr.previous_text.length);
