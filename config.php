@@ -18,6 +18,7 @@ define("SessionCookieSecure", true);
 /** Choose your DAL and Constants */
 define("ChosenDAL", "MySQLDAL");
 define("DB_HOST", "localhost");
+// Even if database, user, and password are not used, they have to be set to something
 define("DB_DATABASE", "podtube");
 define("DB_USER", "podtube");
 define("DB_PASSWORD", "podtube");
