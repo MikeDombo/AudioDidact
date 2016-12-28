@@ -57,6 +57,7 @@
 						$('#progress-stage').attr('value', 100).removeClass("progress-striped").addClass("progress-danger");
 						$("#progress-stage-text").text("Error");
 						$("#progress-total-text").text("Error");
+						currentlyDownloading = false;
 					}
 					else if(xhr.readyState == 4){
 						$('#progress-total').attr('value', 100).removeClass("progress-striped").addClass("progress-success");
@@ -76,6 +77,7 @@
 							$('#Error-Modal').modal({
 								show: true
 							});
+							currentlyDownloading = false;
 						}
 
 						var totalProg = ((100/(numberOfStages))*result.stage) + (result.progress/numberOfStages);
