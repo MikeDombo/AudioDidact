@@ -8,14 +8,14 @@ require_once __DIR__."/../header.php";
 function makeHeader($title){
 		echo '<head>
 				<meta charset="utf-8">
-			    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-			    <meta http-equiv="x-ua-compatible" content="ie=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 			    <style>
 					body{
 						word-wrap:break-word;
 					}
 				</style>
 			    <script>
+			    if(location.hostname != "localhost" && location.hostname != "127.0.0.1"){
 			        (function(){
 				        var t,i,e,n=window,o=document,a=arguments,s="script",r=["config","track","identify","visit","push","call","trackForm","trackClick"],c=function(){var t,i=this;for(i._e=[],t=0;r.length>t;t++)(function(t){i[t]=function(){return i._e.push([t].concat(Array.prototype.slice.call(arguments,0))),i}})(r[t])};for(n._w=n._w||{},t=0;a.length>t;t++)n._w[a[t]]=n[a[t]]=n[a[t]]||new c;i=o.createElement(s),i.async=1,i.src="//static.woopra.com/js/w.js",e=o.getElementsByTagName(s)[0],e.parentNode.insertBefore(i,e)
 						})("woopra");
@@ -40,6 +40,7 @@ function makeHeader($title){
 					  echo '",
 					});
 					ga(\'send\', \'pageview\');
+				}
 				</script>
 				<title>YouTube to Podcast';
 				if($title != ""){
@@ -47,9 +48,8 @@ function makeHeader($title){
 				}
 		echo '</title>
 			<style>
-				@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
 				#main-content {
-					padding-top:10px;
+					padding-top:1rem;
 				}
 			</style>
 			<link rel="shortcut icon" href="/'.SUBDIR;
@@ -57,10 +57,10 @@ function makeHeader($title){
 			<link rel="icon" href="/'.SUBDIR;
 		echo 'favicon.ico" type="image/x-icon">
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha256-/5pHDZh2fv1eZImyfiThtB5Ag4LqDjyittT7fLjdT/8=" crossorigin="anonymous"></script>
-			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/css/tether.min.css" integrity="sha256-y4TDcAD4/j5o4keZvggf698Cr9Oc7JZ+gGMax23qmVA=" crossorigin="anonymous" />
-			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+			 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" crossorigin="anonymous">
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+			<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
 			<script>
 				function validateLogin(){
@@ -103,22 +103,21 @@ function makeHeader($title){
  */
 function makeNav(){
 		echo '
-				<nav class="navbar navbar-dark bg-inverse navbar-full">
-				  <button class="navbar-toggler hidden-sm-up float-xs-right" type="button" data-toggle="collapse"
-				   data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
-				    &#9776;
-				  </button>
+				<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+				  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+			        <span class="navbar-toggler-icon"></span>
+			      </button>
 			    <a class="navbar-brand" href="/'.SUBDIR;echo '">PodTube</a>
-			    <ul class="nav navbar-nav">
-				    <li class="nav-item">
+			    <ul class="navbar-nav">
+				    <li class="nav-item p-1">
 				        <a class="nav-link" href="/'.SUBDIR; echo '">Home</a>
 				    </li>
 			    </ul>
-				<div class="collapse navbar-toggleable-xs" id="bs-example-navbar-collapse-1">
-				  <ul class="nav navbar-nav float-xs-right">';
+				<div class="collapse navbar-collapse justify-content-md-end" id="navbarDefault">
+				  <ul class="navbar-nav">';
 		if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"]){
 			echo '
-					<li class="dropdown nav-item">
+					<li class="nav-item dropdown p-1">
 					  <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button"
 					   aria-haspopup="true" aria-expanded="false">Login</a>
 					  <div class="dropdown-menu" style="right:0; min-width:300px;left:initial;">
@@ -136,23 +135,27 @@ function makeNav(){
 								});
 							});
 						</script>
-						<div class="dropdown-item">
+						<div class="p-2">
 							<input id="uname" type="text" class="form-control" placeholder="Username">
 							<input id="passwd" type="password" class="form-control" placeholder="Password">
 						</div>
 						<div class="dropdown-divider"></div>
-						<div class="dropdown-item"><a class="btn btn-success" style="color:#FFFFFF;width:100%;" href="#" onclick="login();">Login</a>
+						<div class="p-2"><a class="btn btn-success" style="color:#FFFFFF;width:100%;" href="#" 
+						onclick="login();">Login</a>
 						</div>
 					  </div>
 					</li>
-					<li class="nav-item"><a class="btn btn-success nav-link" href="signup.php" style="color:#FFFFFF;">Sign Up!</a></li>';
+					<li class="nav-item p-1"><a class="btn btn-success nav-link" href="signup.php" 
+					style="color:#FFFFFF;">Sign Up!</a></li>';
 		}
 		else{
 			echo '
-				<li class="nav-item">
+				<li class="nav-item p-1">
 				  <a href="#" onclick="logout()" class="nav-link">Logout</a>
 				</li>
-				<li class="nav-item"><a class="btn btn-success nav-link" href="'.LOCAL_URL."user/".$_SESSION["user"]->getWebID().'" style="color:#FFFFFF;">Account</a></li>';
+				<li class="nav-item p-1"><a class="btn btn-success nav-link" 
+				href="'.LOCAL_URL."user/"
+				.$_SESSION["user"]->getWebID().'" style="color:#FFFFFF;">Account</a></li>';
 		}
 		echo '		</ul>
 				</div>
@@ -252,8 +255,8 @@ function makeViewProfile(User $user){
  */
 function makeEditProfile(User $user){
 	?>
-		<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-		<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+		<link href="/<?php echo SUBDIR;?>public/css/bootstrap-editable.min.css" rel="stylesheet"/>
+		<script src="/<?php echo SUBDIR;?>public/js/bootstrap-editable.min.js"></script>
 		<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 		<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 		<div class="col-sm-12">
