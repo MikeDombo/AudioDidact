@@ -1,15 +1,21 @@
 <div class="col-sm-12">
-	<h1 class="display-3">YouTube to Podcast</h1>
+	<h1 class="display-1">YouTube to Podcast</h1>
 	<hr/>
 	<div class="input-group" style="margin-bottom:20px; width:100%;">
 		<input type="text" id="yt" class="form-control" />
 	</div>
-	<div class="text-xs-center" id="progress-total-text"></div>
-	<progress class="progress progress-animated" value="0" max="100" aria-describedby="progress-total-text"
-	          id="progress-total"></progress>
-	<div class="text-xs-center" id="progress-stage-text"></div>
-	<progress class="progress progress-animated" value="0" max="100" aria-describedby="progress-stage-text"
-	          id="progress-stage"></progress>
+
+	<div class="progess">
+		<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0"
+		     aria-valuemin="0" aria-valuemax="100" style="width:0%;"
+	          id="progress-total"></div>
+	</div>
+	<div class="progess" style="padding-top:10px;">
+		<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0"
+		     aria-valuemin="0" aria-valuemax="100" style="width:0%;"
+	          id="progress-stage"></div>
+	</div>
+
 	<h2><button onclick="ajax_stream();" class="btn-info btn">Add Video To Feed</button></h2>
 	<script>
 	var currentlyDownloading = false;
@@ -41,8 +47,8 @@
 		}
 
 		try{
-			$('#progress-total').removeClass("progress-success").removeClass("progress-danger").addClass("progress-striped");
-			$('#progress-stage').removeClass("progress-success").removeClass("progress-danger").addClass("progress-striped");
+			$('#progress-total').removeClass("bg-success").removeClass("bg-danger").addClass("progress-bar-striped");
+			$('#progress-stage').removeClass("bg-success").removeClass("bg-danger").addClass("progress-bar-striped");
 			var stages = {0:"Downloading", 1:"Converting to MP3"};
 			var numberOfStages = Object.keys(stages).length;
 
@@ -53,17 +59,17 @@
 			xhr.onreadystatechange = function() {
 				try{
 					if(error !== null){
-						$('#progress-total').attr('value', 100).removeClass("progress-striped").addClass("progress-danger");
-						$('#progress-stage').attr('value', 100).removeClass("progress-striped").addClass("progress-danger");
-						$("#progress-stage-text").text("Error");
-						$("#progress-total-text").text("Error");
+						$('#progress-total').attr('aria-valuenow', 100).removeClass("progress-bar-striped").addClass("bg-danger");
+						$('#progress-stage').attr('aria-valuenow', 100).removeClass("progress-striped").addClass("bg-danger");
+						$("#progress-stage").text("Error");
+						$("#progress-total").text("Error");
 						currentlyDownloading = false;
 					}
 					else if(xhr.readyState == 4){
-						$('#progress-total').attr('value', 100).removeClass("progress-striped").addClass("progress-success");
-						$('#progress-stage').attr('value', 100).removeClass("progress-striped").addClass("progress-success");
-						$("#progress-stage-text").text("Completed");
-						$("#progress-total-text").text("Completed");
+						$('#progress-total').attr('aria-valuenow', 100).removeClass("progress-bar-striped").addClass("bg-success");
+						$('#progress-stage').attr('aria-valuenow', 100).removeClass("progress-bar-striped").addClass("bg-success");
+						$("#progress-stage").text("Completed");
+						$("#progress-total").text("Completed");
 						currentlyDownloading = false;
 					}
 					else if (xhr.readyState == 3){
@@ -79,14 +85,18 @@
 							});
 							currentlyDownloading = false;
 						}
-
+						// Calculate Percent Done
 						var totalProg = ((100/(numberOfStages))*result.stage) + (result.progress/numberOfStages);
 						totalProg = Math.round(totalProg);
 						result.progress = Math.round(result.progress);
-						$('#progress-total').attr('value', totalProg);
-						$('#progress-stage').attr('value', result.progress);
-						$("#progress-stage-text").text(stages[result.stage]+" "+result.progress+"%");
-						$("#progress-total-text").text(stages[result.stage]+" "+totalProg+"%");
+						// Move bar forward
+						$('#progress-total').attr('aria-valuenow', totalProg);
+						$('#progress-stage').attr('aria-valuenow', result.progress);
+						$('#progress-total').width(totalProg+"%");
+						$('#progress-stage').width(result.progress+"%");
+
+						$("#progress-stage").text(stages[result.stage]+" "+result.progress+"%");
+						$("#progress-total").text(stages[result.stage]+" "+totalProg+"%");
 						xhr.previous_text = xhr.responseText;
 					}
 				}
