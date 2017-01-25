@@ -8,7 +8,7 @@ define("LOCAL_URL", "https://localhost/podtube/");
 /**  Change to subdirectory if any. End with trailing slash. If no subdirectory, enter "" */
 define("SUBDIR", "podtube/");
 /** Add server key here */
-define("GOOGLE_API_KEY", "****");
+define("GOOGLE_API_KEY", "***********");
 /** Set the directory where you want to download the thumbnails, videos, and audio. This must be publicly accessible */
 define("DOWNLOAD_PATH", "temp");
 /** Set to true if your server is setup for HTTPS (highly recommended); */
@@ -16,6 +16,8 @@ define("SessionCookieSecure", true);
 
 // Database constants
 /** Choose your DAL and Constants */
+
+// MySQL Database Usage
 define("ChosenDAL", "MySQLDAL");
 define("DB_HOST", "localhost");
 // Even if database, user, and password are not used, they have to be set to something
