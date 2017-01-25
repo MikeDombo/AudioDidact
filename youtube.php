@@ -44,7 +44,7 @@ class YouTube{
 					GOOGLE_API_KEY), true);
 				// If the lookup fails, send this error to the UI as a JSON array
 				if(!isset($info['items'][0]['snippet'])){
-					echo json_encode(['stage'=>-1, 'error'=>"ID Inaccessible", 'progress'=>0]);
+					$this->echoErrorJSON("ID Inaccessible");
 					throw new Exception("Download Failed!");
 				}
 				$info = $info['items'][0]['snippet'];
@@ -68,6 +68,10 @@ class YouTube{
 		// Try and parse the string into a usable ID
 		$tmpId = $this->parseYoutubeURL($str);
 		$vidId = ($tmpId !== false) ? $tmpId : $str;
+		if(strpos($vidId, "/playlist") > -1){
+			$this->echoErrorJSON("URL is a playlist. PodTube does not currently support playlists.");
+			throw new Exception("Cannot download playlist");
+		}
 		$url = sprintf($this->YouTubeBaseURL . "watch?v=%s", $vidId);
 		// Get HTTP status of the video url and make sure that it is
 		// 200 = OK
@@ -128,7 +132,7 @@ class YouTube{
 
 		$url = $this->getDownloadURL($id);
 		if(strpos($url, "Error:")>-1){
-			echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$url]);
+			$this->echoErrorJSON($url);
 			throw new Exception("Download Failed!");
 		}
 		try{
@@ -141,7 +145,7 @@ class YouTube{
 			return;
 		}
 		catch(Exception $e){
-			echo json_encode(['stage'=>-1, 'progress'=>0, 'error'=>$e->getMessage()]);
+			$this->echoErrorJSON($e->getMessage());
 			throw $e;
 		}
 	}
@@ -158,7 +162,7 @@ class YouTube{
 		$restriction_pattern = "og:restrictions:age";
 
 		if(strpos($html, $restriction_pattern)>-1){
-			return "Error: Age restricted video. Unable to download";
+			return "Error: Age restricted video. Unable to download.";
 		}
 		$json_start_pattern = "ytplayer.config = ";
 		$pattern_idx = strpos($html, $json_start_pattern);
@@ -189,14 +193,12 @@ class YouTube{
 		$json_object = json_decode(substr($html, 0, $offset), true);
 
 		if(isset($json_object["args"]["livestream"]) && $json_object["args"]["livestream"] && (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
-			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "<h3>Download Failed</h3><h4>This URL is a livestream, try again when the stream has ended</h4>");
-			echo json_encode($response);
+			$this->echoErrorJSON("<h3>Download Failed</h3><h4>This URL is a livestream, try again when the stream has ended</h4>");
 			throw new Exception("Download Failed!");
 		}
 		//isset($json_object["args"]["live_default_broadcast"]) && $json_object["args"]["live_default_broadcast"] == 1
 		if(!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == ""){
-			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "<h3>Download Failed</h3><h4>Try again later</h4>");
-			echo json_encode($response);
+			$this->echoErrorJSON("<h3>Download Failed</h3><h4>Try again later</h4>");
 			throw new Exception("Download Failed!");
 		}
 		$encoded_stream_map = $json_object["args"]["url_encoded_fmt_stream_map"];
@@ -231,6 +233,10 @@ class YouTube{
 		}
 
 		return $downloadURL;
+	}
+	
+	private function echoErrorJSON($message){
+		echo json_encode(['stage' =>-1, 'progress' => 0, 'error'=> $message]);
 	}
 
 	/**
@@ -291,8 +297,7 @@ class YouTube{
 		$data = curl_exec($ch);
 		curl_close($ch);
 		if ($data === false) {
-			$response = array('stage' =>-1, 'progress' => 0, 'error'=> "Download failed, URL tried was ".$url);
-			echo json_encode($response);
+			$this->echoErrorJSON("Download failed, URL tried was ".$url);
 			throw new Exception("Download Failed!");
 		}
 
