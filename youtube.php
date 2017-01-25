@@ -72,6 +72,10 @@ class YouTube{
 			$this->echoErrorJSON("URL is a playlist. PodTube does not currently support playlists.");
 			throw new Exception("Cannot download playlist");
 		}
+		if(strpos($vidId, "/c/") > -1 || strpos($vidId, "/channel/") > -1){
+			$this->echoErrorJSON("URL is a channel. PodTube does not, and likely will not ever, support downloading of channels.");
+			throw new Exception("Cannot download channel");
+		}
 		$url = sprintf($this->YouTubeBaseURL . "watch?v=%s", $vidId);
 		// Get HTTP status of the video url and make sure that it is
 		// 200 = OK
