@@ -43,8 +43,8 @@
 
             <!--  <include / exclude filter for filelist generator, mask must follow fnmatch() requirements  -->
             <!--  Multiple elements can be added to define more than one mask per filter -->
+			<exclude mask="**/config.php" />
             <include mask="*.php" />
-            <exclude mask="" />
 
             <!--  How to handle inheritance -->
             <inheritance resolve="true">
@@ -78,12 +78,10 @@
                 <source type="phploc" />
 
                 <!-- git vcs information -->
-                <!--
                 <source type="git">
-                    <git binary="/usr/bin/git" />
+                    <git binary="C:\Users\Mike\AppData\Local\GitHub\PortableGit_d7effa1a4a322478cd29c826b52a0c118ad3db11\cmd\git.exe" />
                     <history enabled="true" limit="15" cache="${phpDox.project.workdir}/gitlog.xml" />
                 </source>
-                -->
 
                 <!-- PHP Code Sniffer findings -->
                 <!--
