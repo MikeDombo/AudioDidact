@@ -113,7 +113,12 @@ function makeNav(){
 				        <a class="nav-link" href="/'.SUBDIR; echo '">Home</a>
 				    </li>
 			    </ul>
-				<div class="collapse navbar-collapse justify-content-md-end" id="navbarDefault">
+				<div class="collapse navbar-collapse" id="navbarDefault">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item p-1">
+							<a class="nav-link" href="/'.SUBDIR."getting_started.php"; echo '">Getting Started</a>
+						</li>
+					</ul>
 				  <ul class="navbar-nav">';
 		if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"]){
 			echo '
