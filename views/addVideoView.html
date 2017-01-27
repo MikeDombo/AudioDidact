@@ -103,7 +103,7 @@
 				catch (e){
 				}
 			};
-			xhr.open("GET", "yt.php?yt="+$("#yt").val(), true);
+			xhr.open("GET", "yt.php?yt="+encodeURIComponent($("#yt").val()), true);
 			xhr.send();
 		}
 		catch (e){

@@ -79,6 +79,7 @@ class SQLite extends MySQLDAL{
 						  `ID` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 						  `userID` int(11) NOT NULL,
 						  `orderID` int(11) NOT NULL,
+						  `URL` mediumtext NULL,
 						  `videoID` mediumtext NOT NULL,
 						  `videoAuthor` text NOT NULL,
 						  `description` text,
@@ -102,7 +103,7 @@ class SQLite extends MySQLDAL{
 		}
 		else if($code == 2){
 			try{
-				$p = parent::$PDO->prepare("");
+				$p = parent::$PDO->prepare("ALTER TABLE $this->feedTable ADD `URL` mediumtext NULL AFTER `orderID`");
 				$p->execute();
 			}catch(PDOException $e){
 				echo "Database update failed! ".$e->getMessage();
@@ -136,6 +137,7 @@ class SQLite extends MySQLDAL{
 	protected $feedCorrect = [['cid' => '0', 'name' => 'ID', 'type' => 'INTEGER', 'notnull' => '1', 'dflt_value' => NULL, 'pk' => '1'],
 		['cid' => '1', 'name' => 'userID', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => NULL, 'pk' => '0'],
 		['cid' => '2', 'name' => 'orderID', 'type' => 'int(11)', 'notnull' => '1','dflt_value' => NULL, 'pk' => '0'],
+		['cid' => '3', 'name' => 'URL', 'type' => 'mediumtext', 'notnull' => '0','dflt_value' => NULL, 'pk' => '0'],
 		['cid' => '3', 'name' => 'videoID', 'type' => 'mediumtext', 'notnull' => '1','dflt_value' => NULL, 'pk' => '0'],
 		['cid' => '4', 'name' => 'videoAuthor', 'type' => 'text', 'notnull' => '1','dflt_value' => NULL, 'pk' => '0'],
 		['cid' => '5', 'name' => 'description', 'type' => 'text', 'notnull' => '0','dflt_value' => NULL, 'pk' => '0'],

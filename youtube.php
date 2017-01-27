@@ -30,6 +30,8 @@ class YouTube{
 		}
 		// If there is a URL/ID, continue
 		if($str != null){
+			$this->video->setURL($str);
+
 			// Set video ID from setYoutubeID and time to current time
 			$this->video->setId($this->setYoutubeID($str));
 			$this->video->setTime(time());

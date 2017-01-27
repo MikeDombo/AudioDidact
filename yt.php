@@ -26,11 +26,12 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 	if(isset($argv) && isset($argv[2])){
 		$_GET["yt"] = $argv[2];
 	}
+	$url = ($_GET["yt"]);
 	$podtube = new PodTube($dal, $user);
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
-		$download = new YouTube($_GET["yt"], $podtube);
+		$download = routeByURL($url, $url, $podtube);
 		$video = $download->getVideo();
 
 		// If not all thumbnail, video, and audio are downloaded, then download them in that order
@@ -74,12 +75,29 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 	for($x=0; $x<$user->getFeedLength() && isset($items[$x]); $x++){
 		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists(DOWNLOAD_PATH
 				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
-			$download = new YouTube($items[$x]->getId(), $podTube);
-			if(!$download->allDownloaded()){
-				$download->downloadThumbnail();
-				$download->downloadVideo();
-				$download->convert();
+			$id = $items[$x]->getId();
+			if(strlen($id) == 11){
+				$download = new YouTube($id, $podTube);
+			}
+			else if(strlen($id) == 13){
+				$download = new CRTV($items[$x]->getURL(), $podTube);
+			}
+			if($download != null){
+				if(!$download->allDownloaded()){
+					$download->downloadThumbnail();
+					$download->downloadVideo();
+					$download->convert();
+				}
 			}
 		}
+	}
+}
+
+function routeByURL($url, $id, $podTube){
+	if(strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
+		return new YouTube($id, $podTube);
+	}
+	else if(strpos($url, "crtv.com") > -1){
+		return new CRTV($id, $podTube);
 	}
 }

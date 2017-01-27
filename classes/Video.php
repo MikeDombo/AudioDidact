@@ -20,6 +20,8 @@ class Video{
 	private $author;
 	/** @var int order of this video in the feed */
 	private $order;
+	/** @var string url of video page */
+	private $url;
 
 	/**
 	 * Gets the YouTube video ID
@@ -131,5 +133,19 @@ class Video{
 	 */
 	public function setOrder($order){
 		$this->order = $order;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getURL(){
+		return $this->url;
+	}
+
+	/**
+	 * @param string $url
+	 */
+	public function setURL($url){
+		$this->url = $url;
 	}
 }

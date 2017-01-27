@@ -230,6 +230,7 @@ class MySQLDAL extends DAL{
 			$vid->setTime(strtotime($row["timeAdded"]));
 			$vid->setTitle($row["videoTitle"]);
 			$vid->setOrder($row["orderID"]);
+			$vid->setURL($row["URL"]);
 			return $vid;
 		}
 		catch(PDOException $e){
@@ -294,11 +295,12 @@ class MySQLDAL extends DAL{
 			}
 
 			// Add the new Video to the user's feed
-			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, videoID, videoAuthor, description,
-			videoTitle, duration, orderID, timeAdded) VALUES (:userID,:videoID,:videoAuthor,:description,:videoTitle,
-			:duration, :orderID,:time)");
+			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, URL, videoID, videoAuthor, description,
+			videoTitle, duration, orderID, timeAdded) VALUES (:userID,:url,:videoID,:videoAuthor,:description,
+			:videoTitle,:duration, :orderID,:time)");
 			$p->bindValue(":userID", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
+			$p->bindValue(":url", $vid->getURL(), PDO::PARAM_STR);
 			$p->bindValue(":videoAuthor", $vid->getAuthor(), PDO::PARAM_STR);
 			$p->bindValue(":description", $vid->getDesc(), PDO::PARAM_STR);
 			$p->bindValue(":videoTitle", $vid->getTitle(), PDO::PARAM_STR);
@@ -361,6 +363,7 @@ class MySQLDAL extends DAL{
 				$vid->setTime(strtotime($row["timeAdded"]));
 				$vid->setTitle($row["videoTitle"]);
 				$vid->setOrder($row["orderID"]);
+				$vid->setURL($row["URL"]);
 				$returner[] = $vid;
 			}
 			return $returner;
@@ -485,6 +488,7 @@ class MySQLDAL extends DAL{
 		$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (
 						  `ID` int(11) NOT NULL,
 						  `userID` int(11) NOT NULL,
+						  `URL` text NULL,
 						  `orderID` int(11) NOT NULL,
 						  `videoID` mediumtext COLLATE utf8mb4_bin NOT NULL,
 						  `videoAuthor` text COLLATE utf8mb4_bin NOT NULL,
@@ -514,7 +518,8 @@ class MySQLDAL extends DAL{
 			try{
 				$delta1 = $this->makeAlterQuery($this->userTable, "feedDetails", "ALTER TABLE `".$this->userTable."` ADD `feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;");
 				$delta2 = $this->makeAlterQuery($this->userTable, "privateFeed", "ALTER TABLE `".$this->userTable."` ADD `privateFeed` BOOLEAN NOT NULL AFTER `feedDetails`;");
-				$p = parent::$PDO->prepare($delta1.$delta2);
+				$delta3 = $this->makeAlterQuery($this->feedTable, "URL", "ALTER TABLE `".$this->feedTable."` ADD `URL` text NULL AFTER `orderID`;");
+				$p = parent::$PDO->prepare($delta1.$delta2.$delta3);
 				$p->execute();
 			}catch(PDOException $e){
 				echo "Database update failed! ".$e->getMessage();
@@ -593,6 +598,7 @@ class MySQLDAL extends DAL{
 	protected $feedCorrect = [
 	["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
 	["Field"=>"userID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"URL", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"orderID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"videoID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"videoAuthor", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
