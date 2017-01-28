@@ -236,6 +236,13 @@ function showFeed(User $user){
 			audioElement.playbackRate = newSpeed;
 			$(this).text("Playback Speed: "+newSpeed+"x");
 		});
+		$("audio").on("play", function(){
+			var _this = $(this);
+			$("audio").each(function(i,el){
+				if(!$(el).is(_this))
+					$(el).get(0).pause();
+			});
+		});
 	</script>
 	<?php
 }
