@@ -193,8 +193,9 @@ function showFeed(User $user){
 		for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
 			$i = $items[$x];
 			echo '<div class="card">';
-			echo '<div class="card-header"><h4>'.$i->getTitle().'</h4>';
-			echo '<h5 class="text-muted">'.$i->getAuthor().'</h5></div><div class="card-block">';
+			echo '<div class="card-block">';
+			echo '<h4 class="card-title">'.$i->getTitle().'</h4>';
+			echo '<h5 class="card-title text-muted">'.$i->getAuthor().'</h5>';
 			$descr = $i->getDesc();
 
 			$words = explode("\n", $descr, 4);
@@ -206,13 +207,36 @@ function showFeed(User $user){
 
 			$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@!]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
 			$descr = nl2br($descr);
-			echo '<img class="img-fluid img-thumbnail m-x-auto d-block" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" max-width="100%" height="auto" />';
-			echo '<div class="card-text">
-			<p>'.$descr.'</div>';
+			echo '<img class="img-fluid img-thumbnail" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" max-width="100%" height="auto" />';
+			echo '<audio controls style="width:100%" class="m-1" preload="none">
+				  <source src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>';
+			echo '<button class="btn btn-outline-info btn-large playspeed">Playback Speed: x</button>';
+			echo '<div class="card-text"><p>'.$descr.'</div>';
 			echo '</div></div>';
 		}
 		?>
 	</div>
+	<script>
+		$(document).ready(function(){
+			$(".playspeed").each(function(){
+				var pb = $(this).parent().find("audio").get(0).playbackRate;
+				$(this).text("Playback Speed: "+pb+"x");
+			});
+		});
+		$(".playspeed").on("click", function(){
+			var audioElement = $(this).parent().find("audio").get(0);
+			var originalSpeed = audioElement.playbackRate;
+			var newSpeed = 0;
+			if(originalSpeed < 3){
+				newSpeed = originalSpeed + .5;
+			}
+			else{
+				newSpeed = 0.5;
+			}
+			audioElement.playbackRate = newSpeed;
+			$(this).text("Playback Speed: "+newSpeed+"x");
+		});
+	</script>
 	<?php
 }
 
