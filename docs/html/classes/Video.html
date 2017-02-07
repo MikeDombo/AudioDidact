@@ -53,9 +53,6 @@
             <a href="#methods">Methods</a>
           </li>
           <li>
-            <a href="#history">History</a>
-          </li>
-          <li>
             <a href="../source/classes/Video.php.html#line8">Source</a>
           </li>
         </ul>
@@ -74,6 +71,7 @@
                     </li><li>private  <a href="#members">$duration</a>;
                     </li><li>private  <a href="#members">$author</a>;
                     </li><li>private  <a href="#members">$order</a>;
+                    </li><li>private  <a href="#members">$url</a>;
                     </li></ul><ul class="none"><li>// methods</li><li>public mixed <a title="Video" href="../classes/Video/getId.html">getId</a>()
                     </li><li>public void <a title="Video" href="../classes/Video/setId.html">setId</a>()
                     </li><li>public mixed <a title="Video" href="../classes/Video/getTitle.html">getTitle</a>()
@@ -88,6 +86,8 @@
                     </li><li>public void <a title="Video" href="../classes/Video/setAuthor.html">setAuthor</a>()
                     </li><li>public int <a title="Video" href="../classes/Video/getOrder.html">getOrder</a>()
                     </li><li>public void <a title="Video" href="../classes/Video/setOrder.html">setOrder</a>()
+                    </li><li>public string <a title="Video" href="../classes/Video/getURL.html">getURL</a>()
+                    </li><li>public void <a title="Video" href="../classes/Video/setURL.html">setURL</a>()
                     </li></ul>
 
             }<br/></div>
@@ -116,6 +116,9 @@
             <li id="title"><strong>$title</strong>
                 —
                 string</li>
+            <li id="url"><strong>$url</strong>
+                —
+                string</li>
           </ul>
         </div>
         <h2 id="methods">Methods</h2>
@@ -136,6 +139,9 @@
                 — Gets the time the video was added</li>
             <li id="getTitle"><a title="Video" href="../classes/Video/getTitle.html">getTitle()</a>
                 — Gets the video title</li>
+            <li id="getURL">
+              <a title="Video" href="../classes/Video/getURL.html">getURL()</a>
+            </li>
             <li id="setAuthor"><a title="Video" href="../classes/Video/setAuthor.html">setAuthor()</a>
                 — Sets the video author</li>
             <li id="setDesc"><a title="Video" href="../classes/Video/setDesc.html">setDesc()</a>
@@ -150,81 +156,11 @@
                 — Sets the time the video was added</li>
             <li id="setTitle"><a title="Video" href="../classes/Video/setTitle.html">setTitle()</a>
                 — Sets the video title</li>
+            <li id="setURL">
+              <a title="Video" href="../classes/Video/setURL.html">setURL()</a>
+            </li>
           </ul>
         </div>
-        <h2 id="history">History</h2>
-        <ul class="styled history">
-          <li>
-            <h3>2016-08-27T07:54:21+02:00 (commit #<span title="6a6aa542c3d43550ae1f81ecdc625085f64ee169">6a6aa54</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Updated documentation</pre>
-            </div>
-          </li>
-          <li>
-            <h3>2016-08-27T04:25:28+02:00 (commit #<span title="5a4a1ac8cf52b0810d9e39cb3ac5e0b679d94ab1">5a4a1ac</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Add user management</pre>
-            </div>
-          </li>
-          <li>
-            <h3>2016-08-06T06:52:18+02:00 (commit #<span title="d3e68fc8888e78903daa9f31cdf22b72cfd8a87b">d3e68fc</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Properly add album artwork.
-
-Each episode now has album art!
-Loading of classes and things I always set at the top of php files are
-now all in header.php.
-Some small changes based on results from SonarQube.</pre>
-            </div>
-          </li>
-          <li>
-            <h3>2016-08-04T03:16:01+02:00 (commit #<span title="f62dee6427830eb4839a37b4fa37692edb4201ba">f62dee6</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Add documentation</pre>
-            </div>
-          </li>
-          <li>
-            <h3>2016-08-03T17:36:41+02:00 (commit #<span title="b44834efa7d4228cd61e2e1986ef4476886122f8">b44834e</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Add basic documentation</pre>
-            </div>
-          </li>
-          <li>
-            <h3>2016-08-01T05:10:55+02:00 (commit #<span title="3c5e27332a9ba67914f94589f87c6cd2defeffa1">3c5e273</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Brand new multi-user architecture
-
-Massive rewrite with a new DAL and proper database backend and
-abstraction. Now supports multiple users, although the UI is still
-forthcoming.
-Stay tuned for many more fantastic updates!</pre>
-            </div>
-          </li>
-        </ul>
       </section>
     </div>
     <footer>

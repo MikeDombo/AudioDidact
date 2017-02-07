@@ -200,16 +200,18 @@ function showFeed(User $user){
 
 			$words = explode("\n", $descr, 4);
 			if(count($words)>3){
-				$words[3] = "<p id='".$i->getId()."' style='display:none;'>".trim($words[3])."</p></p>";
+				$words[3] = "<p id='".$i->getId()."' style='display:none;'>".trim($words[3])." </p></p>";
 				$words[4] = "<a onclick='$(\"#".$i->getId()."\").show();'>Continue Reading...</a>";
 			}
 			$descr = implode("\n", $words);
 
-			$descr = preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@!]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $descr);
+			$descr = mb_ereg_replace('(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@!]*(\?\S+)?)?)?)', '<a href="\\1">\\1</a>', $descr);
 			$descr = nl2br($descr);
-			echo '<img class="img-fluid img-thumbnail" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" max-width="100%" height="auto" />';
+			echo '<img class="img-fluid img-thumbnail" src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg" style="max-height:300px;" />';
 			echo '<audio controls style="width:100%" class="m-1" preload="none">
-				  <source src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>';
+				     <source src="'.LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.mp3" type="audio/mpeg">
+				     Your browser does not support the audio element.
+				  </audio>';
 			echo '<button class="btn btn-outline-info btn-large playspeed">Playback Speed: x</button>';
 			echo '<div class="card-text"><p>'.$descr.'</div>';
 			echo '</div></div>';

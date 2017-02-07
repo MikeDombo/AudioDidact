@@ -100,4 +100,10 @@ function routeByURL($url, $id, $podTube){
 	else if(strpos($url, "crtv.com") > -1){
 		return new CRTV($id, $podTube);
 	}
+	else if(strpos($url, "soundcloud.com") > -1){
+		return new SoundCloud($id, $podTube);
+	}
+	else {
+		error_log("Could not find route for URL: ".$url." or ID: ".$id);
+	}
 }

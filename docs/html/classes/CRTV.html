@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - CRTV</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">CRTV</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="../source/CRTV.php.html#line7">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>\</small>CRTV</h1>
+        <h4>Class CRTV</h4>
+        <p/>
+        <ul/>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class CRTV
+            {<br/><ul class="none"><li>// members</li><li>private <span title="PodTube">PodTube</span> <a href="#members">$podtube</a>;
+                    </li><li>private string <a href="#members">$brightcoveBaseURL</a> =
+                        "https://secure.brightcove.com/services/mobile/streaming/index/master.m3u8";
+                    </li><li>private <span title="Video">Video</span> <a href="#members">$video</a>;
+                    </li><li>private  <a href="#members">$pubId</a>;
+                    </li><li>private  <a href="#members">$thumbnail_url</a>;
+                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="CRTV" href="../classes/CRTV/__construct.html">__construct</a>()
+                    </li><li>private void <a title="CRTV" href="../classes/CRTV/getVideoId.html">getVideoId</a>()
+                    </li><li>private void <a title="CRTV" href="../classes/CRTV/getPublisherID.html">getPublisherID</a>()
+                    </li><li>private void <a title="CRTV" href="../classes/CRTV/getVideoInfo.html">getVideoInfo</a>()
+                    </li><li>public bool <a title="CRTV" href="../classes/CRTV/allDownloaded.html">allDownloaded</a>()
+                    </li><li>public void <a title="CRTV" href="../classes/CRTV/downloadThumbnail.html">downloadThumbnail</a>()
+                    </li><li>public void <a title="CRTV" href="../classes/CRTV/downloadVideo.html">downloadVideo</a>()
+                    </li><li>public void <a title="CRTV" href="../classes/CRTV/convert.html">convert</a>()
+                    </li><li>public Video <a title="CRTV" href="../classes/CRTV/getVideo.html">getVideo</a>()
+                    </li></ul>
+
+            }<br/></div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="brightcoveBaseURL"><strong>$brightcoveBaseURL</strong>
+                —
+                string</li>
+            <li id="podtube"><strong>$podtube</strong>
+                —
+                <a title="PodTube" href="../classes/PodTube.html">PodTube</a></li>
+            <li id="pubId">
+              <strong>$pubId</strong>
+            </li>
+            <li id="thumbnail_url">
+              <strong>$thumbnail_url</strong>
+            </li>
+            <li id="video"><strong>$video</strong>
+                —
+                <a title="Video" href="../classes/Video.html">Video</a></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>private</h4>
+          <ul>
+            <li id="getPublisherID">
+              <a title="CRTV" href="../classes/CRTV/getPublisherID.html">getPublisherID()</a>
+            </li>
+            <li id="getVideoId">
+              <a title="CRTV" href="../classes/CRTV/getVideoId.html">getVideoId()</a>
+            </li>
+            <li id="getVideoInfo">
+              <a title="CRTV" href="../classes/CRTV/getVideoInfo.html">getVideoInfo()</a>
+            </li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="__construct"><a title="CRTV" href="../classes/CRTV/__construct.html">__construct()</a>
+                — CRTV constructor. Gets the video information, checks for it in the user's feed.</li>
+            <li id="allDownloaded"><a title="CRTV" href="../classes/CRTV/allDownloaded.html">allDownloaded()</a>
+                — Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)</li>
+            <li id="convert"><a title="CRTV" href="../classes/CRTV/convert.html">convert()</a>
+                — Converts mp4 video to mp3 audio using ffmpeg</li>
+            <li id="downloadThumbnail"><a title="CRTV" href="../classes/CRTV/downloadThumbnail.html">downloadThumbnail()</a>
+                — Download thumbnail using videoID from Brightcove</li>
+            <li id="downloadVideo">
+              <a title="CRTV" href="../classes/CRTV/downloadVideo.html">downloadVideo()</a>
+            </li>
+            <li id="getVideo"><a title="CRTV" href="../classes/CRTV/getVideo.html">getVideo()</a>
+                — Returns the current Video object</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.9.0 - Copyright (C) 2010 - 2017 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>
