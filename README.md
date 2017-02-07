@@ -1,5 +1,5 @@
 # PodTube
-Makes an RSS podcast feed from given YouTube URLs
+Makes an RSS podcast feed from given YouTube, SoundCloud, and CRTV URLs
 
 ## Configuration
 Download this repository and then edit `config.php` to add your [Google API server key.](https://console.developers.google.com/apis/credentials)
@@ -24,6 +24,7 @@ PHP API documentation is available [here](https://md100play.github.io/PodTube/ht
 - Enable choice between audio and video download
 
 ## Completed Tasks
+- Added SoundCloud to supported sites
 - Audio player with playback speed control added to account page
 - Added CRTV to supported sites
 - Session files are now written to disk as soon as possible so that a single browser can have multiple pages open and downloading concurrently
