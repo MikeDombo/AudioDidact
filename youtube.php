@@ -4,14 +4,10 @@ require_once __DIR__."/header.php";
 /**
  * Class YouTube
  */
-class YouTube{
+class YouTube extends SupportedSite{
 	// Setup global variables
-	/** @var PodTube PodTube object */
-	private $podtube;
 	/** @var string YouTube URL */
 	private $YouTubeBaseURL = "http://www.youtube.com/";
-	/** @var Video Video object to store the current video information */
-	private $video;
 
 	/**
 	 * YouTube constructor. Gets the video information, checks for it in the user's feed.
@@ -21,7 +17,7 @@ class YouTube{
 	 * @throws \Exception
 	 */
 	public function __construct($str, PodTube $podtube){
-		$this->podtube = $podtube;
+		parent::$podtube = $podtube;
 		$this->video = new Video();
 
 		// Make download folder if it does not exist
@@ -38,7 +34,7 @@ class YouTube{
 
 			// Check if the video already exists in the DB. If it does, then we do not need to get the information
 			// from the YouTube API again
-			if(!$this->podtube->isInFeed($this->video->getId())){
+			if(!parent::$podtube->isInFeed($this->video->getId())){
 				// Get video author, title, and description from YouTube API
 				$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id="
 					.$this->video->getId().
@@ -55,7 +51,7 @@ class YouTube{
 				$this->video->setDesc($info["description"]);
 			}
 			else{
-				$this->video = $this->podtube->getDataFromFeed($this->video->getId());
+				$this->video = parent::$podtube->getDataFromFeed($this->video->getId());
 			}
 		}
 	}
@@ -239,10 +235,6 @@ class YouTube{
 		}
 
 		return $downloadURL;
-	}
-	
-	private function echoErrorJSON($message){
-		echo json_encode(['stage' =>-1, 'progress' => 0, 'error'=> $message]);
 	}
 
 	/**
@@ -472,13 +464,5 @@ class YouTube{
 		$pattern .= '(?:.+)?$#x';
 		preg_match($pattern, $url, $matches);
 		return (isset($matches[1])) ? $matches[1] : false;
-	}
-
-	/**
-	 * Returns the current Video object
-	 * @return Video
-	 */
-	public function getVideo(){
-		return $this->video;
 	}
 }

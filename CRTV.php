@@ -4,14 +4,10 @@ require_once __DIR__."/header.php";
 /**
  * Class CRTV
  */
-class CRTV{
+class CRTV extends SupportedSite{
 	// Setup global variables
-	/** @var PodTube PodTube object */
-	private $podtube;
 	/** @var string YouTube URL */
 	private $brightcoveBaseURL = "https://secure.brightcove.com/services/mobile/streaming/index/master.m3u8";
-	/** @var Video Video object to store the current video information */
-	private $video;
 	private $pubId;
 	private $thumbnail_url;
 
@@ -23,7 +19,7 @@ class CRTV{
 	 * @throws \Exception
 	 */
 	public function __construct($str, PodTube $podtube){
-		$this->podtube = $podtube;
+		parent::$podtube = $podtube;
 		$this->video = new Video();
 
 		// Make download folder if it does not exist
@@ -42,7 +38,7 @@ class CRTV{
 			$this->getPublisherID($d["html"]);
 
 			// Check if the video already exists in the DB. If it does, then we do not need to get the information again
-			if(!$this->podtube->isInFeed($this->video->getId())){
+			if(!parent::$podtube->isInFeed($this->video->getId())){
 				// Get video author, title, and description from YouTube API
 				$info = $this->getVideoInfo($d["html"]);
 				$this->video->setTitle($info["title"]);
@@ -50,7 +46,7 @@ class CRTV{
 				$this->video->setDesc($info["description"]);
 			}
 			else{
-				$this->video = $this->podtube->getDataFromFeed($this->video->getId());
+				$this->video = parent::$podtube->getDataFromFeed($this->video->getId());
 			}
 		}
 	}
@@ -271,13 +267,5 @@ class CRTV{
 		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
 		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 		return;
-	}
-
-	/**
-	 * Returns the current Video object
-	 * @return Video
-	 */
-	public function getVideo(){
-		return $this->video;
 	}
 }

@@ -14,7 +14,9 @@ class PodTube{
 
 	/**
 	 * PodTube constructor.
+	 *
 	 * @param DAL $dal
+	 * @param \User $user Current user
 	 */
 	public function __construct(DAL $dal, User $user){
 		$this->dal = $dal;

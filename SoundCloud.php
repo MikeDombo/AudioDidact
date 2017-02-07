@@ -1,11 +1,7 @@
 <?php
 
-class SoundCloud{
+class SoundCloud extends SupportedSite{
 	// Setup global variables
-	/** @var PodTube PodTube object */
-	private $podtube;
-	/** @var \Video local video object */
-	private $video;
 	private $streams_base_url = "https://api.soundcloud.com/tracks/XYZ/streams?client_id=fDoItMDbsbZz8dY16ZzARCZmzgHBPotA";
 	private $thumbnail_url;
 	private $audioJSON;
@@ -18,7 +14,7 @@ class SoundCloud{
 	 * @throws \Exception
 	 */
 	public function __construct($str, PodTube $podtube){
-		$this->podtube = $podtube;
+		parent::$podtube = $podtube;
 		$this->video = new Video();
 
 		// Make download folder if it does not exist
@@ -35,13 +31,13 @@ class SoundCloud{
 			$this->video->setTime(time());
 
 			// Check if the video already exists in the DB. If it does, then we do not need to get the information again
-			if(!$this->podtube->isInFeed($this->video->getId())){
+			if(!parent::$podtube->isInFeed($this->video->getId())){
 				$this->video->setTitle($info["title"]);
 				$this->video->setAuthor($info["author"]);
 				$this->video->setDesc($info["description"]);
 			}
 			else{
-				$this->video = $this->podtube->getDataFromFeed($this->video->getId());
+				$this->video = parent::$podtube->getDataFromFeed($this->video->getId());
 			}
 		}
 	}
@@ -99,12 +95,18 @@ class SoundCloud{
 
 		foreach($this->audioJSON as $a){
 			$a = $a["data"][0];
-			if(isset($a["title"]) && isset($a["publisher_metadata"]) && isset($a["description"])){
-				$videoId = $a["publisher_metadata"]["id"];
+			if(isset($a["title"]) && isset($a["uri"]) && isset($a["description"])){
+				$id = explode("/", $a["uri"]);
+				$videoId = $id[count($id)-1];
 				$description = $a["description"];
 				$title = $a["title"];
 				$author = $a["user"]["username"];
-				$this->thumbnail_url = str_replace("large.jpg", "t500x500.jpg", $a["artwork_url"]);
+				if (isset($a["artwork_url"]) && $a["artwork_url"] != null){
+					$this->thumbnail_url = str_replace("large.jpg", "t500x500.jpg", $a["artwork_url"]);
+				}
+				else{
+					$this->thumbnail_url = str_replace("large.jpg", "t500x500.jpg", $a["user"]["avatar_url"]);
+				}
 				return ["ID" => $videoId, "description" => $description, "title" => $title, "author" => $author];
 			}
 		}
@@ -206,10 +208,6 @@ class SoundCloud{
 		return true;
 	}
 
-	private function echoErrorJSON($message){
-		echo json_encode(['stage' =>-1, 'progress' => 0, 'error'=> $message]);
-	}
-
 	/**
 	 * Since SoundCloud is audio only, we do not convert, but only add the album artwork
 	 */
@@ -226,13 +224,5 @@ class SoundCloud{
 		$response = array('stage' =>1, 'progress' => 100);
 		echo json_encode($response);
 		return;
-	}
-
-	/**
-	 * Returns the current Video object
-	 * @return Video
-	 */
-	public function getVideo(){
-		return $this->video;
 	}
 }

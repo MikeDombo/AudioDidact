@@ -82,6 +82,9 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 			else if(strlen($id) == 13){
 				$download = new CRTV($items[$x]->getURL(), $podTube);
 			}
+			else if(strlen($id) == 9){
+				$download = new SoundCloud($items[$x]->getURL(), $podTube);
+			}
 			if($download != null){
 				if(!$download->allDownloaded()){
 					$download->downloadThumbnail();
@@ -93,6 +96,12 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 	}
 }
 
+/**
+ * @param $url
+ * @param $id
+ * @param $podTube
+ * @return \SupportedSite
+ */
 function routeByURL($url, $id, $podTube){
 	if(strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
 		return new YouTube($id, $podTube);
