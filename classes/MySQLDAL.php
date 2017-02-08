@@ -445,6 +445,31 @@ class MySQLDAL extends DAL{
 		}
 	}
 
+	/**
+	 * Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not
+	 * Default Key Extra
+	 * @param $c Array dictionary representing a column's correct schema
+	 * @return string
+	 */
+	private function makeColumnSQL($c){
+		$columnText = "`".$c["Field"]."` ".$c["Type"];
+		if($c["Null"] == "NO"){
+			$columnText .= " NOT NULL";
+		}
+		else{
+			$columnText .= " NULL";
+		}
+		if($c["Default"] != null){
+			$columnText .= " DEFAULT ".$c["Default"];
+		}
+		if($c["Key"] == "PRI"){
+			$columnText .= " PRIMARY KEY";
+		}
+		if($c["Extra"] != ""){
+			$columnText .= " ".$c["Extra"];
+		}
+		return $columnText;
+	}
 
 	/**
 	 * Generate the tables in the current database
@@ -465,43 +490,20 @@ class MySQLDAL extends DAL{
 						   /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 						   /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;";
 
-		$userTableSQL = "CREATE TABLE `".$this->userTable."` (
-						  `ID` int(11) NOT NULL,
-						  `username` mediumtext COLLATE utf8mb4_bin NOT NULL,
-						  `password` mediumtext COLLATE utf8mb4_bin NOT NULL,
-						  `email` mediumtext COLLATE utf8mb4_bin NOT NULL,
-						  `firstname` mediumtext COLLATE utf8mb4_bin,
-						  `lastname` mediumtext COLLATE utf8mb4_bin,
-						  `gender` mediumtext COLLATE utf8mb4_bin,
-						  `webID` mediumtext COLLATE utf8mb4_bin NOT NULL,
-						  `feedText` longtext COLLATE utf8mb4_bin NOT NULL,
-						  `feedLength` int(11) NOT NULL,
-						  `feedDetails` mediumtext COLLATE utf8mb4_bin NULL,
-						  `privateFeed` tinyint(1) NOT NULL
-						)
-						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-						ALTER TABLE `".$this->userTable."`
-							ADD PRIMARY KEY (`ID`);
-						ALTER TABLE `".$this->userTable."`
-							MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
+		$userTableSQL = "CREATE TABLE `".$this->userTable."` (";
+		foreach($this->userCorrect as $column){
+			$userTableSQL .= $this->makeColumnSQL($column).",";
+		}
+		$userTableSQL = substr($userTableSQL, 0, strlen($userTableSQL)-1);
+		$userTableSQL .= ");";
 
-		$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (
-						  `ID` int(11) NOT NULL,
-						  `userID` int(11) NOT NULL,
-						  `URL` text NULL,
-						  `orderID` int(11) NOT NULL,
-						  `videoID` mediumtext COLLATE utf8mb4_bin NOT NULL,
-						  `videoAuthor` text COLLATE utf8mb4_bin NOT NULL,
-						  `description` text COLLATE utf8mb4_bin,
-						  `videoTitle` text COLLATE utf8mb4_bin NOT NULL,
-						  `duration` int(11) DEFAULT NULL,
-						  `timeAdded` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-						)
-						ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-						ALTER TABLE `".$this->feedTable."`
-						  ADD PRIMARY KEY (`ID`);
-						ALTER TABLE `".$this->feedTable."`
-						  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;";
+		$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (";
+		foreach($this->feedCorrect as $column){
+			$feedTableSQL .= $this->makeColumnSQL($column).",";
+		}
+		$feedTableSQL = substr($feedTableSQL, 0, strlen($feedTableSQL)-1);
+		$feedTableSQL .= ");";
+
 		if($code == 1){
 			try{
 				// Execute all the statements
@@ -516,10 +518,13 @@ class MySQLDAL extends DAL{
 		}
 		else if($code == 2){
 			try{
-				$delta1 = $this->makeAlterQuery($this->userTable, "feedDetails", "ALTER TABLE `".$this->userTable."` ADD `feedDetails` MEDIUMTEXT NULL AFTER `feedLength`;");
-				$delta2 = $this->makeAlterQuery($this->userTable, "privateFeed", "ALTER TABLE `".$this->userTable."` ADD `privateFeed` BOOLEAN NOT NULL AFTER `feedDetails`;");
-				$delta3 = $this->makeAlterQuery($this->feedTable, "URL", "ALTER TABLE `".$this->feedTable."` ADD `URL` text NULL AFTER `orderID`;");
-				$p = parent::$PDO->prepare($delta1.$delta2.$delta3);
+				$userTableSchema = $this->describeTable($this->userTable);
+				$feedTableSchema = $this->describeTable($this->feedTable);
+				$alterSQL = $this->makeAlterQuery([$this->userTable => $userTableSchema,
+												   $this->feedTable =>$feedTableSchema],
+												  [$this->userTable => $this->userCorrect,
+												   $this->feedTable => $this->feedCorrect]);
+				$p = parent::$PDO->prepare($alterSQL);
 				$p->execute();
 			}catch(PDOException $e){
 				echo "Database update failed! ".$e->getMessage();
@@ -530,20 +535,33 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
-	 * Builds a SQL query that checks if a column exists in a given table and adds the new column if it doesn't exist
-	 * @param $tableName
-	 * @param $columnName
-	 * @param $alterQuery
+	 * Generates SQL query to add missing columns to the given tables
+	 * @param $currentTables Array dictionary in the form of ["tableName"=>[table_schema]] representing the values
+	 * that are currently existing in the database
+	 * @param $correctTables Array dictionary in the form of ["tableName"=>[table_schema]] representing the correct
+	 * values
 	 * @return string
 	 */
-	private function makeAlterQuery($tableName, $columnName, $alterQuery){
-		return "IF NOT EXISTS( SELECT NULL
-                    FROM INFORMATION_SCHEMA.COLUMNS
-                    WHERE table_name = '$tableName'
-                    AND table_schema = '".DB_DATABASE."'
-                    AND column_name = '$columnName')  THEN
-				    $alterQuery
-				END IF;";
+	private function makeAlterQuery($currentTables, $correctTables){
+		$sql = "";
+		// Loop through the given tables
+		foreach($correctTables as $tableName=>$table){
+			// Loop through all the columns in a table
+			foreach($table as $i=>$correct){
+				// Check if the current column is in the existing database table
+				if(!in_array($correct, $currentTables[$tableName], true)){
+					$sql .= "ALTER TABLE `".$tableName."` ADD ".$this->makeColumnSQL($correct);
+					if($i == 0){
+						$sql .= " FIRST";
+					}
+					if($i > 0){
+						$sql .= " AFTER `".$table[$i-1]["Field"]."`";
+					}
+					$sql .= ";";
+				}
+			}
+		}
+		return $sql;
 	}
 
 	/**
