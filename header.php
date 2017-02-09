@@ -14,6 +14,9 @@ spl_autoload_register(function($class){
 	else if(file_exists(__DIR__.'/classes/'.$class.".php")){
 		require_once __DIR__.'/classes/'.$class.'.php';
 	}
+	else if(file_exists(__DIR__.'/SupportedSites/'.$class.".php")){
+		require_once __DIR__.'/SupportedSites/'.$class.'.php';
+	}
 	else if(file_exists(__DIR__.'/Feeds/'.$class.".php")){
 		require_once __DIR__.'/Feeds/'.$class.'.php';
 	}

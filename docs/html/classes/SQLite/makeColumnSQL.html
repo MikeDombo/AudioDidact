@@ -2,7 +2,7 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:pu="http://schema.phpunit.de/coverage/1.0" lang="en">
   <head>
-    <title>phpDox - MySQLDAL::verifySchema</title>
+    <title>phpDox - SQLite::makeColumnSQL</title>
     <link rel="stylesheet" type="text/css" href="../../css/style.css" media="screen"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   </head>
@@ -39,9 +39,9 @@
             <a href="../../classes.html#"/>
           </li>
           <li class="separator">
-            <a title="MySQLDAL" href="../../classes/MySQLDAL.html">MySQLDAL</a>
+            <a title="SQLite" href="../../classes/SQLite.html">SQLite</a>
           </li>
-          <li class="separator">verifySchema</li>
+          <li class="separator">makeColumnSQL</li>
         </ul>
       </div>
       <nav class="box">
@@ -59,39 +59,32 @@
             <a href="#return">Return</a>
           </li>
           <li>
-            <a href="../../source/classes/MySQLDAL.php.html#line669">Source</a>
+            <a href="../../source/classes/SQLite.php.html#line121">Source</a>
           </li>
         </ul>
       </nav>
       <section>
-        <h1><small>MySQLDAL::</small>verifySchema</h1>
-        <h4>Checks if two arrays are equal to test that SQL schemas are compliant</h4>
+        <h1><small>SQLite::</small>makeColumnSQL</h1>
+        <h4>Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not Default Key Extra</h4>
         <p/>
         <ul/>
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
-          <code>private function verifySchema(
-        $correct,
-            
-        $existing )
+          <code>private function makeColumnSQL(<a title="Array" href="../../classes/Array.html">Array</a>
+        $c )
             </code>
         </div>
         <h2 id="parameterlist">Parameters</h2>
         <dl class="styled">
-          <dt><code>$correct</code>
+          <dt><code>$c</code>
                 —
-                </dt>
-          <dd/>
-          <dt><code>$existing</code>
-                —
-                </dt>
-          <dd/>
+                object</dt>
+          <dd>dictionary representing a column's correct schema<br/><br/><br/>      </dd>
         </dl>
         <h2 id="return">Returns</h2>
         <dl class="styled">
-          <dt>bool</dt>
-          <dd><br/>
-        </dd>
+          <dt>string</dt>
+          <dd/>
         </dl>
       </section>
     </div>

@@ -75,16 +75,7 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 	for($x=0; $x<$user->getFeedLength() && isset($items[$x]); $x++){
 		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists(DOWNLOAD_PATH
 				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
-			$id = $items[$x]->getId();
-			if(strlen($id) == 11){
-				$download = new YouTube($id, $podTube);
-			}
-			else if(strlen($id) == 13){
-				$download = new CRTV($items[$x]->getURL(), $podTube);
-			}
-			else if(strlen($id) == 9){
-				$download = new SoundCloud($items[$x]->getURL(), $podTube);
-			}
+			$download = routeByURL($items[$x]->getURL(), $items[$x]->getId(), $podTube);
 			if($download != null){
 				if(!$download->allDownloaded()){
 					$download->downloadThumbnail();
@@ -116,3 +107,4 @@ function routeByURL($url, $id, $podTube){
 		error_log("Could not find route for URL: ".$url." or ID: ".$id);
 	}
 }
+

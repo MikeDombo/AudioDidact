@@ -517,20 +517,25 @@ class MySQLDAL extends DAL{
 			}
 		}
 		else if($code == 2){
-			try{
-				$userTableSchema = $this->describeTable($this->userTable);
-				$feedTableSchema = $this->describeTable($this->feedTable);
-				$alterSQL = $this->makeAlterQuery([$this->userTable => $userTableSchema,
-												   $this->feedTable =>$feedTableSchema],
-												  [$this->userTable => $this->userCorrect,
-												   $this->feedTable => $this->feedCorrect]);
-				$p = parent::$PDO->prepare($alterSQL);
-				$p->execute();
-			}catch(PDOException $e){
-				echo "Database update failed! ".$e->getMessage();
-				error_log("Database update failed! ".$e->getMessage());
-				throw $e;
-			}
+			$this->updateDBSchema();
+		}
+	}
+
+	protected function updateDBSchema(){
+		try{
+			$userTableSchema = $this->describeTable($this->userTable);
+			$feedTableSchema = $this->describeTable($this->feedTable);
+			$alterSQL = $this->makeAlterQuery([$this->userTable => $userTableSchema,
+											   $this->feedTable =>$feedTableSchema],
+											  [$this->userTable => $this->userCorrect,
+											   $this->feedTable => $this->feedCorrect]);
+			$p = parent::$PDO->prepare($alterSQL);
+			$p->execute();
+		}
+		catch(PDOException $e){
+			echo "Database update failed! ".$e->getMessage();
+			error_log("Database update failed! ".$e->getMessage());
+			throw $e;
 		}
 	}
 
