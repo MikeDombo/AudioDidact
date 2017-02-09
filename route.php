@@ -34,7 +34,7 @@ function make404(){
 
 /**
  * Make the user feed by reading it from the database.
- * @param $webID The WebID of the requested feed
+ * @param $webID string WebID of the requested feed
  */
 function returnUserFeed($webID){
 	$myDalClass = ChosenDAL;

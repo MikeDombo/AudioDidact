@@ -495,14 +495,14 @@ class MySQLDAL extends DAL{
 			$userTableSQL .= $this->makeColumnSQL($column).",";
 		}
 		$userTableSQL = substr($userTableSQL, 0, strlen($userTableSQL)-1);
-		$userTableSQL .= ");";
+		$userTableSQL .= ") CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;";
 
 		$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (";
 		foreach($this->feedCorrect as $column){
 			$feedTableSQL .= $this->makeColumnSQL($column).",";
 		}
 		$feedTableSQL = substr($feedTableSQL, 0, strlen($feedTableSQL)-1);
-		$feedTableSQL .= ");";
+		$feedTableSQL .= ")CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;";
 
 		if($code == 1){
 			try{

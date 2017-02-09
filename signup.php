@@ -11,6 +11,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 		$password = $_POST["passwd"];
 		$email = $_POST["email"];
 
+		if(mb_strlen($password) < 6){
+			echo "Sign up failed!\nPassword must be at least 6 characters long!";
+			exit(0);
+		}
+
 		$myDalClass = ChosenDAL;
 		$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 		// Make sure the username and email address are not taken.
@@ -31,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 			$user->setWebID($user->getUsername());
 			$user->setFeedText("");
 			$user->setPrivateFeed(false);
-			$user->setFeedLength(50);
+			$user->setFeedLength(25);
 			// Add user to db and set session variables if it is a success.
 			try{
 				$dal->addUser($user);
@@ -84,7 +89,7 @@ require_once(__DIR__."/views/views.php");
 				$.post("/<?php echo SUBDIR;?>signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup").val(),
 					email:$("#email").val()}, function(data){
 					if(data.indexOf("Success")>-1){
-						location.assign("/<?php echo SUBDIR;?>/getting_started.php");
+						location.assign("/<?php echo SUBDIR;?>getting_started.php");
 					}
 					else{
 						alert(data);
