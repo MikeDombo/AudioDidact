@@ -34,9 +34,9 @@ class User{
 	 * User constructor.
 	 */
 	public function __construct(){
-		$this->feedDetails = ["title"=>"YouTube to Podcast",
-			"description"=>"Converts YouTube videos into a podcast feed.",
-			"icon"=>"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Rss-feed.svg/256px-Rss-feed.svg.png",
+		$this->feedDetails = ["title"=>"AudioDidact",
+			"description"=>"Learn by putting audio and video from multiple sources into a portable podcast feed.",
+			"icon"=>LOCAL_URL."public/img/favicon/favicon-512x512.png",
 			"itunesAuthor"=>"Michael Dombrowski"];
 	}
 
@@ -64,7 +64,7 @@ class User{
 	 * @return bool
 	 */
 	public function validateWebID($webID){
-		return $webID == preg_replace("/[^a-zA-Z0-9_-~\@\$]/", "", $webID);
+		return $webID == preg_replace("/[^a-zA-Z0-9_\-~@\$]/", "", $webID);
 	}
 
 	/**

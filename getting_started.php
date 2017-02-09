@@ -6,19 +6,18 @@ require_once(__DIR__."/views/views.php");
 <!DOCTYPE html>
 <html>
 	<?php
-		makeHeader("Getting Started with PodTube");
+		makeHeader("Getting Started with AudioDidact");
 	?>
 	<body>
 		<?php makeNav();?>
 		<div id="main-content" class="container-fluid">
 			<div class="row">
-			
 				<div class="col-sm-4">
 					<div class="card">
 						<div class="card-block">
-							<h4 class="card-title">What <em>Exactly</em> Does PodTube Do?</h4>
-							<p class="card-text">PodTube generate an RSS feed that can be subscribed to like any podcast. You put videos into the podcast feed by entering in YouTube URLs on the homepage.</p>
-							<p class="card-text">PodTube only accepts individual videos, not channels or playlists.</p>
+							<h4 class="card-title">What <em>Exactly</em> Does AudioDidact Do?</h4>
+							<p class="card-text">AudioDidact generate an RSS feed that can be subscribed to like any podcast. You put videos into the podcast feed by entering in YouTube URLs on the homepage.</p>
+							<p class="card-text">AudioDidact only accepts individual videos, not channels or playlists.</p>
 						</div>
 					</div>
 				</div>
@@ -32,7 +31,6 @@ require_once(__DIR__."/views/views.php");
 						</div>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 	</body>

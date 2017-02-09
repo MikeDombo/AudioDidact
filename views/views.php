@@ -42,7 +42,7 @@ function makeHeader($title){
 					ga(\'send\', \'pageview\');
 				}
 				</script>
-				<title>YouTube to Podcast';
+				<title>AudioDidact';
 				if($title != ""){
 					echo " | ".$title;
 				}
@@ -52,15 +52,29 @@ function makeHeader($title){
 					padding-top:1rem;
 				}
 			</style>
-			<link rel="shortcut icon" href="/'.SUBDIR;
-		echo 'favicon.ico" type="image/x-icon">
-			<link rel="icon" href="/'.SUBDIR;
-		echo 'favicon.ico" type="image/x-icon">
+			<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/'.SUBDIR.'public/img/favicon/apple-touch-icon-57x57.png" />
+			<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/'.SUBDIR.'public/img/favicon/apple-touch-icon-114x114.png" />
+			<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/'.SUBDIR.'public/img/favicon/apple-touch-icon-72x72.png" />
+			<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/'.SUBDIR.'public/img/favicon/apple-touch-icon-144x144.png" />
+			<link rel="apple-touch-icon-precomposed" sizes="60x60" href="/'.SUBDIR.'public/img/favicon/apple-touch-icon-60x60.png" />
+			<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/'.SUBDIR.'public/img/favicon/apple-touch-icon-120x120.png" />
+			<link rel="apple-touch-icon-precomposed" sizes="76x76" href="/'.SUBDIR.'public/img/favicon/apple-touch-icon-76x76.png" />
+			<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/'.SUBDIR.'public/img/favicon/apple-touch-icon-152x152.png" />
+			<link rel="icon" type="image/png" href="/'.SUBDIR.'public/img/favicon/favicon-196x196.png" sizes="196x196" />
+			<link rel="icon" type="image/png" href="/'.SUBDIR.'public/img/favicon/favicon-96x96.png" sizes="96x96" />
+			<link rel="icon" type="image/png" href="/'.SUBDIR.'public/img/favicon/favicon-32x32.png" sizes="32x32" />
+			<link rel="icon" type="image/png" href="/'.SUBDIR.'public/img/favicon/favicon-16x16.png" sizes="16x16" />
+			<link rel="icon" type="image/png" href="/'.SUBDIR.'public/img/favicon/favicon-128.png" sizes="128x128" />
+			<meta name="msapplication-TileColor" content="#FFFFFF" />
+			<meta name="msapplication-TileImage" content="/'.SUBDIR.'public/img/favicon/mstile-144x144.png" />
+			<meta name="msapplication-square70x70logo" content="/'.SUBDIR.'public/img/favicon/mstile-70x70.png" />
+			<meta name="msapplication-square150x150logo" content="/'.SUBDIR.'public/img/favicon/mstile-150x150.png" />
+			<meta name="msapplication-wide310x150logo" content="/'.SUBDIR.'public/img/favicon/mstile-310x150.png" />
+			<meta name="msapplication-square310x310logo" content="/'.SUBDIR.'public/img/favicon/mstile-310x310.png" />
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-			 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+			<script src="/'.SUBDIR.'public/js/tether.min.js"></script>
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" crossorigin="anonymous">
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
-			<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
 			<script>
 				function validateLogin(){
@@ -107,7 +121,7 @@ function makeNav(){
 				  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
 			        <span class="navbar-toggler-icon"></span>
 			      </button>
-			    <a class="navbar-brand" href="/'.SUBDIR;echo '">PodTube</a>
+			    <a class="navbar-brand" href="/'.SUBDIR;echo '">AudioDidact</a>
 			    <ul class="navbar-nav">
 				    <li class="nav-item p-1">
 				        <a class="nav-link" href="/'.SUBDIR; echo '">Home</a>
@@ -117,6 +131,9 @@ function makeNav(){
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item p-1">
 							<a class="nav-link" href="/'.SUBDIR."getting_started.php"; echo '">Getting Started</a>
+						</li>
+						<li class="nav-item p-1">
+							<a class="nav-link" href="/'.SUBDIR."faq.php"; echo '">FAQ</a>
 						</li>
 					</ul>
 				  <ul class="navbar-nav">';
@@ -293,6 +310,7 @@ function makeViewProfile(User $user){
  */
 function makeEditProfile(User $user){
 	?>
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 		<link href="/<?php echo SUBDIR;?>public/css/bootstrap-editable.min.css" rel="stylesheet"/>
 		<script src="/<?php echo SUBDIR;?>public/js/bootstrap-editable.min.js"></script>
 		<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
@@ -461,7 +479,7 @@ function makeEditProfile(User $user){
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h2 class="modal-title">PodTube Error</h2>
+					<h2 class="modal-title">AudioDidact Error</h2>
 					<div class="modal-body">
 						<h3 id="Error-Modal-Text"></h3>
 					</div>
