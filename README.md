@@ -1,4 +1,4 @@
-# PodTube
+# AudioDidact
 Makes an RSS podcast feed from given YouTube, SoundCloud, and CRTV URLs
 
 ## Configuration
@@ -17,7 +17,7 @@ Open your web browser to the server that you have set up. Make a new account usi
 Subscribe to the generated feed using the URL shown on the Add a Video page to receive updates as they come.
 
 ## Documentation
-PHP API documentation is available [here](https://md100play.github.io/PodTube/html/index.html).
+PHP API documentation is available [here](https://md100play.github.io/AudioDidact/html/index.html).
 
 ## Future Tasks
 - Allow videos with start points in the midst of the video using YouTube's "&t=" flag to set the *in* marker
