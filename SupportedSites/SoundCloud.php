@@ -17,10 +17,6 @@ class SoundCloud extends SupportedSite{
 		parent::$podtube = $podtube;
 		$this->video = new Video();
 
-		// Make download folder if it does not exist
-		if(!file_exists(DOWNLOAD_PATH)){
-			mkdir(DOWNLOAD_PATH);
-		}
 		// If there is a URL/ID, continue
 		if($str != null){
 			$this->video->setURL($str);

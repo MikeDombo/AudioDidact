@@ -10,7 +10,7 @@
 	</bootstrap>
 
     <!-- A phpDox project to process, you can have multiple projects in one config file -->
-    <project name="PodTube" source="${basedir}" workdir="${basedir}/build/phpdox/xml">
+    <project name="AudioDidact" source="${basedir}" workdir="${basedir}/build/phpdox/xml">
         <!--  @name    - The name of the project -->
         <!--  @source  - The source directory of the application to process -->
         <!--  @workdir - The directory to store the xml data files in -->
@@ -79,7 +79,7 @@
 
                 <!-- git vcs information -->
                 <source type="git">
-                    <git binary="C:\Users\Mike\AppData\Local\GitHub\PortableGit_d7effa1a4a322478cd29c826b52a0c118ad3db11\cmd\git.exe" />
+                    <git binary="C:\Users\Mike\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd\git.exe" />
                     <history enabled="true" limit="15" cache="${phpDox.project.workdir}/gitlog.xml" />
                 </source>
 

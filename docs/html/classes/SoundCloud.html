@@ -56,7 +56,10 @@
             <a href="#methods">Methods</a>
           </li>
           <li>
-            <a href="../source/SoundCloud.php.html#line3">Source</a>
+            <a href="#history">History</a>
+          </li>
+          <li>
+            <a href="../source/SupportedSites/SoundCloud.php.html#line3">Source</a>
           </li>
         </ul>
       </nav>
@@ -175,6 +178,44 @@
                 — Returns the current Video object</li>
           </ul>
         </div>
+        <h2 id="history">History</h2>
+        <ul class="styled history">
+          <li>
+            <h3>2017-02-09T21:50:48+01:00 (commit #<span title="b45fd1e4daf05f7541ca84bb7547a3351dc91810">b45fd1e</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Moved files around. Added better updating to SQLite</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-07T05:20:13+01:00 (commit #<span title="0db4d70261123ff809cc025b4e20382b7ca3d994">0db4d70</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add abstract class to encapuslate the supported sites. Fix for soundcloud</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-07T02:10:51+01:00 (commit #<span title="29078bb22d4b7e33a02a466a5872af9533f4030d">29078bb</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add SoundCloud support
+
+In addition to adding SoundCloud, I fixed an issue of unicode when
+converting text into links using preg_replace. I switched to
+mb_ereg_replace, which is working correctly now without munging the
+multibyte unicode characters.</pre>
+            </div>
+          </li>
+        </ul>
       </section>
     </div>
     <footer>

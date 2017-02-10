@@ -42,11 +42,11 @@ function makeHeader($title){
 					ga(\'send\', \'pageview\');
 				}
 				</script>
-				<title>AudioDidact';
+				<title>';
 				if($title != ""){
-					echo " | ".$title;
+					echo $title." | ";
 				}
-		echo '</title>
+		echo 'AudioDidact</title>
 			<style>
 				#main-content {
 					padding-top:1rem;
@@ -130,9 +130,6 @@ function makeNav(){
 				<div class="collapse navbar-collapse" id="navbarDefault">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item p-1">
-							<a class="nav-link" href="/'.SUBDIR."getting_started.php"; echo '">Getting Started</a>
-						</li>
-						<li class="nav-item p-1">
 							<a class="nav-link" href="/'.SUBDIR."faq.php"; echo '">FAQ</a>
 						</li>
 					</ul>
@@ -209,7 +206,7 @@ function showFeed(User $user){
 		$items = $dal->getFeed($user);
 		for($x=0;$x<$user->getFeedLength() && isset($items[$x]);$x++){
 			$i = $items[$x];
-			echo '<div class="card">';
+			echo '<div class="card mb-5">';
 			echo '<div class="card-block">';
 			echo '<h4 class="card-title">'.$i->getTitle().'</h4>';
 			echo '<h5 class="card-title text-muted">'.$i->getAuthor().'</h5>';
@@ -318,7 +315,8 @@ function makeEditProfile(User $user){
 		<div class="col-sm-12">
 			<h1><?php echo $user->getUsername();?>'s Profile</h1>
 			<hr/>
-
+		</div>
+		<div class="row" style="margin-left:0;margin-right:0;">
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="webID">Custom URL:</label>

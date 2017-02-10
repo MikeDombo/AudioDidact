@@ -89,7 +89,7 @@ require_once(__DIR__."/views/views.php");
 				$.post("/<?php echo SUBDIR;?>signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup").val(),
 					email:$("#email").val()}, function(data){
 					if(data.indexOf("Success")>-1){
-						location.assign("/<?php echo SUBDIR;?>getting_started.php");
+						location.assign("/<?php echo SUBDIR;?>faq.php");
 					}
 					else{
 						alert(data);

@@ -43,6 +43,14 @@ if (session_status() == PHP_SESSION_NONE) {
 setcookie(session_name(), session_id(), time()+2678400, "/", session_get_cookie_params()["domain"],
 	session_get_cookie_params()["secure"], session_get_cookie_params()["httponly"]);
 
+// Make download folder if it does not exist and write htaccess file to cache content
+if(!file_exists(DOWNLOAD_PATH)){
+	mkdir(DOWNLOAD_PATH);
+	file_put_contents(DOWNLOAD_PATH."/.htaccess", "<filesMatch \".(jpg|mp3|mp4)$\">
+	Header set Cache-Control \"max-age=604800, public\"
+	</filesMatch>");
+}
+
 if(!function_exists("clearSession")){
 	/**
 	 * Deletes all session variables and the session cookies
