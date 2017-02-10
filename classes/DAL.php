@@ -87,6 +87,12 @@ abstract class DAL {
 	 */
 	abstract public function updateUser(User $user);
 
+	/**
+	 * Updates only a user's password in the database
+	 * @param User $user
+	 */
+	abstract public function updateUserPassword(User $user);
+
 
 	/**
 	 * Default slow way to check if a video is in the feed. Override for faster lookup

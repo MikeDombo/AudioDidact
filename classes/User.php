@@ -74,7 +74,23 @@ class User{
 	 * @return bool
 	 */
 	public function passwdCorrect($passwd){
-		return hash("SHA512", $passwd.$this->username) == $this->getPasswd();
+		if(strpos($this->getPasswd(), '$2y$12$') !== false){
+			return password_verify($passwd, $this->getPasswd());
+		}
+		else{
+			// Check password using old scheme
+			$result = hash("SHA512", $passwd.$this->username) == $this->getPasswd();
+			// If the password was correct, then update it to the new bcrypt scheme
+			if($result){
+				$this->setPasswd($passwd);
+				require_once __DIR__."/../config.php";
+				$myDalClass = ChosenDAL;
+				$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+				/** @var $dal \DAL */
+				$dal->updateUserPassword($this);
+			}
+			return $result;
+		}
 	}
 
 	/**
@@ -209,12 +225,8 @@ class User{
 	 * @throws \Exception Username must be set before setting the password because the password is stored as a hash of the plaintext password and the username
 	 */
 	public function setPasswd($passwd){
-		if($this->username != ""){
-			$passwd = hash("SHA512", $passwd.$this->username);
-			$this->passwd = $passwd;
-		}else{
-			throw new Exception("Username needs to be set before setting password!");
-		}
+		$options = ['cost' => 12];
+		$this->passwd = password_hash($passwd, PASSWORD_BCRYPT, $options);
 	}
 
 	/**

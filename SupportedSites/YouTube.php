@@ -163,7 +163,7 @@ class YouTube extends SupportedSite{
 		}
 		$json_start_pattern = "ytplayer.config = ";
 		$pattern_idx = strpos($html, $json_start_pattern);
-		# In case video is unable to play
+		// In case video is unable to play
 		if($pattern_idx == -1){
 			return "Error: Unable to find start pattern.";
 		}

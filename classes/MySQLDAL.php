@@ -418,6 +418,23 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
+	 * Updates only a user's password in the database
+	 * @param User $user
+	 */
+	public function updateUserPassword(User $user){
+		try{
+			$p = parent::$PDO->prepare("UPDATE $this->userTable SET `password`=:passwd WHERE ID=:id");
+			$p->bindValue(":passwd", $user->getPasswd(), PDO::PARAM_STR);
+			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
+			$p->execute();
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	/**
 	 * Updates the user database from a given \User object
 	 * @param User $user
 	 * @throws \PDOException

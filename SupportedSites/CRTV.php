@@ -57,33 +57,32 @@ class CRTV extends SupportedSite{
 		$finder = new DomXPath($doc);
 
 		// Get Thumbnail
-		$thumbnail_url = "";
+		$tbURL = "";
 		$nodes = $finder->query("//meta[@property='og:image']");
 		foreach($nodes as $i){
-			$thumbnail_url = $i->getAttribute('content');
+			$tbURL = $i->getAttribute('content');
 		}
-		parse_str(parse_url($thumbnail_url, PHP_URL_QUERY), $query);
+		parse_str(parse_url($tbURL, PHP_URL_QUERY), $query);
 		$videoId = $query["videoId"];
 
-		$this->thumbnail_url = $thumbnail_url;
+		$this->thumbnail_url = $tbURL;
 
 		return ["ID" => $videoId, "html" => $crtv_html];
 	}
 
 	private function getPublisherID($html){
 		// Get Brightcove Publisher/Account ID
-		$m = preg_match('/dataAc{1,2}ountId:\s+[\'\"](\d+)[\'\"]/', $html, $matches);
-		$pubId = $matches[1];
-		$this->pubId = $pubId;
+		preg_match('/dataAc{1,2}ountId:\s+[\'\"](\d+)[\'\"]/', $html, $matches);
+		$this->pubId = $matches[1];
 	}
 
 	private function getVideoInfo($html){
 		// Get Video Title
-		$m = preg_match('/\<title\>([^\<]*)\<\/title\>/', $html, $matches);
+		preg_match('/\<title\>([^\<]*)\<\/title\>/', $html, $matches);
 		$video_title = $matches[1];
 
 		// Get video description
-		$m = preg_match('/\<div class=[\"\']rtf[\'\"]\>\s*\<p\>(.*)\<\/p\>\s*\<\/div\>/', $html, $matches);
+		preg_match('/\<div class=[\"\']rtf[\'\"]\>\s*\<p\>(.*)\<\/p\>\s*\<\/div\>/', $html, $matches);
 		$desc = $matches[1];
 
 		return ["title" => $video_title, "description" => $desc];

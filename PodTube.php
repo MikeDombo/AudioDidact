@@ -150,7 +150,7 @@ class PodTube{
 		$newItem->setDate(date(DATE_RSS, $time));
 		$newItem->setAuthor($author, 'me@me.com');
 		// Set GUID, this is absolutely necessary
-		$newItem->setId($webPath.".mp3", true);
+		$newItem->setId("audiodidact/".$id.".mp3", false);
 
 		// Add the item generated to the global feed
 		$feed->addItem($newItem);
