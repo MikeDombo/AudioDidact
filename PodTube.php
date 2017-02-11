@@ -54,20 +54,23 @@ class PodTube{
 
 	/**
 	 * Make the RSS feed from the database
+	 *
+	 * @param bool $emptyFeed true if the generated feed should be empty and not saved to the db directly
 	 * @return \FeedWriter\RSS2|mixed
 	 */
-	public function makeFullFeed(){
+	public function makeFullFeed($emptyFeed = false){
 		// Setup global feed values
 		$fe = $this->makeFeed();
+		if(!$emptyFeed){
+			$items = $this->dal->getFeed($this->user);
+			for($x = 0; $x < $this->user->getFeedLength() && isset($items[$x]); $x++){
+				$i = $items[$x];
+				$fe = $this->addFeedItem($fe, $i->getTitle(), $i->getId(), $i->getAuthor(), $i->getTime(), $i->getDesc());
+			}
 
-		$items = $this->dal->getFeed($this->user);
-		for($x=0; $x<$this->user->getFeedLength() && isset($items[$x]); $x++){
-			$i = $items[$x];
-			$fe = $this->addFeedItem($fe, $i->getTitle(), $i->getId(), $i->getAuthor(), $i->getTime(), $i->getDesc());
+			// Save the generated feed to the db
+				$this->dal->setFeedText($this->user, $fe->generateFeed());
 		}
-
-		// Save the generated feed to the db
-		$this->dal->setFeedText($this->user, $fe->generateFeed());
 		return $fe;
 	}
 

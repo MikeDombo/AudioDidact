@@ -159,12 +159,13 @@ function makeNav(){
 							<input id="passwd" type="password" class="form-control" placeholder="Password">
 						</div>
 						<div class="dropdown-divider"></div>
-						<div class="p-2"><a class="btn btn-success" style="color:#FFFFFF;width:100%;" href="#" 
-						onclick="login();">Login</a>
+						<div class="p-2">
+							<a class="btn btn-success" style="color:#FFFFFF;width:100%;" href="#" onclick="login();">Login</a>
+							<a href="/'.SUBDIR.'forgot" >Forgot Password</a>
 						</div>
 					  </div>
 					</li>
-					<li class="nav-item p-1"><a class="btn btn-success nav-link" href="signup.php" 
+					<li class="nav-item p-1"><a class="btn btn-success nav-link" href="/'.SUBDIR.'signup.php" 
 					style="color:#FFFFFF;">Sign Up!</a></li>';
 		}
 		else{
@@ -487,5 +488,85 @@ function makeEditProfile(User $user){
 	</div>
 
 <?php
+}
+
+function makePasswordResetPage(User $user, $code){
+	makeHeader("Reset Your Password");
+	echo "<body>";
+	makeNav();
+?>
+	<script>
+		$(function(){
+			$("#passwdSignup").keypress(function (e){
+				if(e.which == 10 || e.which == 13){
+					signup();
+				}
+			});
+		});
+		function signup(){
+			$.get("/<?php echo SUBDIR;?>resetPassword", {uname:"<?php echo $user->getUsername();?>", passwd:$("#passwdSignup").val(), code:"<?php echo $code;?>"},
+				function(data){
+					if(data.indexOf("Success")>-1){
+						location.assign("/<?php echo SUBDIR."user/"; echo $user->getWebID();?>");
+					}
+					else{
+						alert(data);
+					}
+				});
+		}
+	</script>
+	<div id="main-content" class="container-fluid">
+		<div class="col-sm-8 offset-sm-2">
+			<h3>Choose a New Password</h3>
+			<form class="navbar-form navbar-left">
+				<div class="form-group row">
+					<label for="passwdSignup" class="col-form-label col-sm-2">Password:</label>
+					<div class="col-sm-10">
+						<input id="passwdSignup" type="password" class="form-control" placeholder="Password">
+					</div>
+				</div>
+				<a class="btn btn-success form-control" style="color:#FFFFFF" href="#" onclick="signup();">Reset Password</a>
+			</form>
+		</div>
+	</div>
+<?php
+	echo "</body></html>";
+}
+
+function makePasswordResetRequestPage(){
+	makeHeader("Request a Password Reset");
+	echo "<body>";
+	makeNav();
+	?>
+	<script>
+		$(function(){
+			$("#unameSignup").keypress(function (e){
+				if(e.which == 10 || e.which == 13){
+					signup();
+				}
+			});
+		});
+		function signup(){
+			$.get("/<?php echo SUBDIR;?>resetPassword", {uname:$("#unameSignup").val()}, function(data){
+					alert(data);
+					location.assign("/<?php echo SUBDIR;?>");
+				});
+		}
+	</script>
+	<div id="main-content" class="container-fluid">
+		<div class="col-sm-8 offset-sm-2">
+			<form class="navbar-form navbar-left">
+				<div class="form-group row">
+					<label for="unameSignup" class="col-form-label col-sm-2">Username or Email Address:</label>
+					<div class="col-sm-10">
+						<input id="unameSignup" type="text" class="form-control" placeholder="Username">
+					</div>
+				</div>
+				<a class="btn btn-success form-control" style="color:#FFFFFF" href="#" onclick="signup();">Request a Password Reset</a>
+			</form>
+		</div>
+	</div>
+	<?php
+	echo "</body></html>";
 }
 ?>

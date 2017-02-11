@@ -16,13 +16,20 @@ require_once(__DIR__."/views/views.php");
 	<body>
 		<?php makeNav();?>
 		<div id="main-content" class="container-fluid">
-			<?php if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
+			<?php if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && $_SESSION["user"]->isEmailVerified()){
 				makeAddVideo();
 				echo "</div>
 					</body>
 				</html>";
 				exit(0);
-			}?>
+			}
+			if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && !$_SESSION["user"]->isEmailVerified()){
+				echo '<div class="alert alert-danger" role="alert">
+				<div class="alert-text">Before using AudioDidact you must verify your email address.</div>
+				<div class="alert-text"><a href="/'.SUBDIR.'updateUser.php?resend">Click here to resend the email.</a></div>
+				</div>';
+			}
+			?>
 			<div class="jumbotron text-center">
 				<h1 class="display-1">AudioDidact - Custom Podcast Service</h1>
 				<h2><a href="signup.php">Make an Account and Add Content to Your Feed Now!</a></h2>

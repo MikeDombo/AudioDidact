@@ -46,9 +46,6 @@ class MySQLDAL extends DAL{
 	 * @throws \PDOException Rethrows any PDO exceptions encountered when connecting to the database
 	 */
 	public function __construct($host, $db, $username, $password){
-		if(!CHECK_REQUIRED){
-			require_once __DIR__."/../header.php";
-		}
 		$this->host = $host;
 		$this->db = $db;
 		$this->username = $username;
@@ -114,6 +111,13 @@ class MySQLDAL extends DAL{
 			$user->setFeedDetails(json_decode($rows["feedDetails"], true));
 		}
 		$user->setPrivateFeed($rows["privateFeed"]);
+		if($rows["emailVerificationCodes"] != ""){
+			$user->setEmailVerificationCodes(json_decode($rows["emailVerificationCodes"], true));
+		}
+		if($rows["passwordRecoveryCodes"] != ""){
+			$user->setPasswordRecoveryCodes(json_decode($rows["passwordRecoveryCodes"], true));
+		}
+		$user->setEmailVerified($rows["emailVerified"]);
 
 		return $user;
 	}
@@ -435,6 +439,25 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
+	 * Updates only a user's email verification and password recovery codes in the database
+	 * @param User $user
+	 */
+	public function updateUserEmailPasswordCodes(User $user){
+		try{
+			$p = parent::$PDO->prepare("UPDATE $this->userTable SET emailVerificationCodes=:email,
+ 				passwordRecoveryCodes=:pass WHERE ID=:id");
+			$p->bindValue(":email", json_encode($user->getEmailVerificationCodes()), PDO::PARAM_STR);
+			$p->bindValue(":pass", json_encode($user->getPasswordRecoveryCodes()), PDO::PARAM_STR);
+			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
+			$p->execute();
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	/**
 	 * Updates the user database from a given \User object
 	 * @param User $user
 	 * @throws \PDOException
@@ -443,7 +466,8 @@ class MySQLDAL extends DAL{
 		try{
 			$p = parent::$PDO->prepare("UPDATE $this->userTable SET email=:email, firstname=:fname,
  			lastname=:lname, gender=:gender, feedLength=:feedLen, username=:uname, webID=:webID,
- 			feedDetails=:feedDetails,privateFeed=:privateFeed WHERE ID=:id");
+ 			feedDetails=:feedDetails,privateFeed=:privateFeed,emailVerified=:emailVerified,emailVerificationCodes=:emailCodes,
+ 			passwordRecoveryCodes=:passCodes WHERE ID=:id");
 			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":email", $user->getEmail(), PDO::PARAM_STR);
 			$p->bindValue(":fname", $user->getFname(), PDO::PARAM_STR);
@@ -454,6 +478,9 @@ class MySQLDAL extends DAL{
 			$p->bindValue(":webID", $user->getWebID(), PDO::PARAM_STR);
 			$p->bindValue(":feedDetails", json_encode($user->getFeedDetails()), PDO::PARAM_STR);
 			$p->bindValue(":privateFeed", $user->isPrivateFeed(), PDO::PARAM_BOOL);
+			$p->bindValue(":emailVerified", $user->isEmailVerified(), PDO::PARAM_BOOL);
+			$p->bindValue(":emailCodes", json_encode($user->getEmailVerificationCodes()), PDO::PARAM_STR);
+			$p->bindValue(":passCodes", json_encode($user->getPasswordRecoveryCodes()), PDO::PARAM_STR);
 			$p->execute();
 		}
 		catch(PDOException $e){
@@ -628,7 +655,10 @@ class MySQLDAL extends DAL{
 	["Field"=>"feedText", "Type"=>"longtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"feedLength", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"feedDetails", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"privateFeed", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""]
+	["Field"=>"privateFeed", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"emailVerified", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>"0", "Extra"=>""],
+	["Field"=>"emailVerificationCodes", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"passwordRecoveryCodes", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""]
 	];
 
 	/**

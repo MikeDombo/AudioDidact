@@ -95,6 +95,12 @@ abstract class DAL {
 
 
 	/**
+	 * Updates only a user's email verification and password recovery codes in the database
+	 * @param User $user
+	 */
+	abstract public function updateUserEmailPasswordCodes(User $user);
+
+	/**
 	 * Default slow way to check if a video is in the feed. Override for faster lookup
 	 * @param Video $vid
 	 * @param User $user

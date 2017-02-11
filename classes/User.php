@@ -29,6 +29,14 @@ class User{
 	private $feedDetails;
 	/** @var  bool $privateFeed true if the user's feed should be protected by HTTP Basic Authentication */
 	private $privateFeed;
+	/** @var  bool $emailVerified true when the user has verified their email address */
+	private $emailVerified;
+	/** @var  array $emailVerificationCodes a dictionary of valid email verification response codes
+	  * values are in the form of [["code"=xyz, "expiration"=xyz]]*/
+	private $emailVerificationCodes;
+	/** @var  array $passwordRecoveryCodes a dictionary of valid password recovery response codes
+	  * values are in the form of [["code"=xyz, "expiration"=xyz]]*/
+	private $passwordRecoveryCodes;
 
 	/**
 	 * User constructor.
@@ -38,6 +46,114 @@ class User{
 			"description"=>"Learn by putting audio and video from multiple sources into a portable podcast feed.",
 			"icon"=>LOCAL_URL."public/img/favicon/favicon-512x512.png",
 			"itunesAuthor"=>"Michael Dombrowski"];
+		$this->emailVerificationCodes = [];
+		$this->passwordRecoveryCodes = [];
+		$this->emailVerified = false;
+	}
+
+	/**
+	 * returns a dictionary in the form of ["code"=random, "expiration"=24hours from now]
+	 * @return array
+	 */
+	private function generateRandomCode(){
+		return ["code"=>md5(uniqid(rand(), true)), "expiration"=>time()+(60*60*24)];
+	}
+
+	/**
+	 * Generates a random code and adds it to the list of email verification codes
+	 * @return array
+	 */
+	public function addEmailVerificationCode(){
+		// Make a new code and set the expiration for 24 hours
+		$newRandomCode = $this->generateRandomCode();
+		$this->emailVerificationCodes[] = $newRandomCode;
+		return $newRandomCode;
+	}
+
+	/**
+	 * Generic function to check that a given code is in a given code set and the expiration has not been exceeded
+	 * @param $existingCodes
+	 * @param $toCheck
+	 * @return bool
+	 */
+	private function verifyCodes($existingCodes, $toCheck){
+		foreach($existingCodes as $codes){
+			if($codes["code"] == $toCheck && $codes["expiration"] >= time()){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * verifies that a given email verification code is valid for this user
+	 * @param $c
+	 * @return bool
+	 */
+	public function verifyEmailVerificationCode($c){
+		return $this->verifyCodes($this->emailVerificationCodes, $c);
+	}
+
+	/**
+	 * Generates a random code and adds it to the list of password recovery codes
+	 * @return array
+	 */
+	public function addPasswordRecoveryCode(){
+		// Make a new code and set the expiration for 24 hours
+		$newRandomCode = $this->generateRandomCode();
+		$this->passwordRecoveryCodes[] = $newRandomCode;
+		return $newRandomCode;
+	}
+
+	/**
+	 * verifies that a given password recovery code is valid for this user
+	 * @param $c
+	 * @return bool
+	 */
+	public function verifyPasswordRecoveryCode($c){
+		return $this->verifyCodes($this->passwordRecoveryCodes, $c);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isEmailVerified(){
+		return $this->emailVerified;
+	}
+
+	/**
+	 * @param bool $emailVerified
+	 */
+	public function setEmailVerified($emailVerified){
+		$this->emailVerified = $emailVerified;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getEmailVerificationCodes(){
+		return $this->emailVerificationCodes;
+	}
+
+	/**
+	 * @param array $emailVerificationCodes
+	 */
+	public function setEmailVerificationCodes($emailVerificationCodes){
+		$this->emailVerificationCodes = $emailVerificationCodes;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getPasswordRecoveryCodes(){
+		return $this->passwordRecoveryCodes;
+	}
+
+	/**
+	 * @param array $passwordRecoveryCodes
+	 */
+	public function setPasswordRecoveryCodes($passwordRecoveryCodes){
+		$this->passwordRecoveryCodes = $passwordRecoveryCodes;
 	}
 
 	/**

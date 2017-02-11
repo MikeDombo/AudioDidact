@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__."/header.php";
 
-// Check if a user is signing up or nees the sign up webpage
+// Check if a user is signing up or needs the sign up webpage
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 	// Check that required variables are present and are not empty.
 	// More validation should be completed after this step, ie. check that email is legit.
@@ -18,6 +18,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
 		$myDalClass = ChosenDAL;
 		$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+		/** @var $dal \DAL */
 		// Make sure the username and email address are not taken.
 		if(!$dal->emailExists($email) && !$dal->usernameExists($username)){
 			$user = new User();
@@ -34,14 +35,20 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 			$user->setEmail($email);
 			$user->setPasswd($password);
 			$user->setWebID($user->getUsername());
-			$user->setFeedText("");
 			$user->setPrivateFeed(false);
 			$user->setFeedLength(25);
+			$podtube = new PodTube($dal, $user);
+			$user->setFeedText($podtube->makeFullFeed(true)->generateFeed());
+			$user->setEmailVerified(0);
 			// Add user to db and set session variables if it is a success.
 			try{
 				$dal->addUser($user);
 				$_SESSION["loggedIn"] = true;
-				$_SESSION["user"] = $dal->getUserByUsername($user->getUsername());
+				$user = $dal->getUserByUsername($user->getUsername());
+				$user->addEmailVerificationCode();
+				$_SESSION["user"] = $user;
+				$dal->updateUserEmailPasswordCodes($user);
+				EMail::sendVerificationEmail($user);
 				echo "Sign Up Success!";
 			}
 			catch(Exception $e){

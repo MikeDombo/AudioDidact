@@ -6,7 +6,9 @@ require_once __DIR__."/header.php";
  * another subdirectory under that, then the user must be requesting a user page. If there is another subdirectory
  * called "feed", then the user is request the feed of a specific user.
  */
-$url = explode("/", parse_url($_SERVER['REQUEST_URI'])["path"]);
+$path = parse_url($_SERVER['REQUEST_URI'])["path"];
+$path = str_replace(strtolower(SUBDIR), "", strtolower($path));
+$url = explode("/", $path);
 $webID = "";
 foreach($url as $k=>$u){
 	if($u == "user" && isset($url[$k+1])){
@@ -20,8 +22,96 @@ foreach($url as $k=>$u){
 			exit(0);
 		}
 	}
+	else if($u == "forgot"){
+		if(isset($_GET["recoveryCode"]) && isset($_GET["username"])){
+			makePasswordReset($_GET["username"], $_GET["recoveryCode"]);
+			exit(0);
+		}
+		else if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"] || $_SESSION["user"] == null){
+			require_once __DIR__."/views/views.php";
+			makePasswordResetRequestPage();
+			exit(0);
+		}
+	}
+	else if($u == "resetpassword"){
+		if(isset($_GET["uname"]) && isset($_GET["code"]) && isset($_GET["passwd"])){
+			resetPassword($_GET["uname"], $_GET["passwd"], $_GET["code"]);
+			exit(0);
+		}
+		else if(isset($_GET["uname"])){
+			makePasswordResetRequest($_GET["uname"]);
+			exit(0);
+		}
+	}
 }
 make404();
+
+function makePasswordResetRequest($username){
+	$myDalClass = ChosenDAL;
+	/** @var \DAL $dal */
+	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$possibleUser = $dal->getUserByUsername($username);
+	$possibleUserEmail = $dal->getUserByEmail($username);
+	// Check user based on username
+	if($possibleUser != null && $possibleUser->isEmailVerified()){
+		$possibleUser->setPasswordRecoveryCodes([]);
+		$possibleUser->addPasswordRecoveryCode();
+		$dal->updateUserEmailPasswordCodes($possibleUser);
+		EMail::sendForgotPasswordEmail($possibleUser);
+		echo "Password Reset Email Sent!";
+	}
+	// Check user based on email
+	else if($possibleUserEmail != null && $possibleUserEmail->isEmailVerified()){
+		$possibleUserEmail->setPasswordRecoveryCodes([]);
+		$possibleUserEmail->addPasswordRecoveryCode();
+		$dal->updateUserEmailPasswordCodes($possibleUserEmail);
+		EMail::sendForgotPasswordEmail($possibleUserEmail);
+		echo "Password Reset Email Sent!";
+	}
+	else{
+		echo "Password reset failed. Username or email address not found, or user's email was not verified.";
+	}
+}
+
+function resetPassword($username, $password, $code){
+	$myDalClass = ChosenDAL;
+	/** @var \DAL $dal */
+	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$user = $dal->getUserByUsername($username);
+	if($user != null){
+		if($user->verifyPasswordRecoveryCode($code)){
+			$user->setPasswd($password);
+			$user->setPasswordRecoveryCodes([]);
+			$dal->updateUserPassword($user);
+			$dal->updateUserEmailPasswordCodes($user);
+			// Log the user in with the new credentials
+			$_SESSION["user"] = $user;
+			$_SESSION["loggedIn"] = true;
+			EMail::sendPasswordWasResetEmail($user);
+			echo "Success!";
+		}
+		else{
+			echo "Failed: bad code given";
+		}
+	}
+	else{
+		echo "Failed: username not found.";
+	}
+}
+
+function makePasswordReset($username, $code){
+	$myDalClass = ChosenDAL;
+	/** @var \DAL $dal */
+	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$requestedUser = $dal->getUserByUsername($username);
+	if($requestedUser->verifyPasswordRecoveryCode($code)){
+		require_once __DIR__."/views/views.php";
+		makePasswordResetPage($requestedUser, $code);
+	}
+	else{
+		echo '<script>location.assign("/'.SUBDIR.'");</script>';
+	}
+}
 
 /**
  * Send a 404 error and show "Page not found"
