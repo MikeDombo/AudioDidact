@@ -121,7 +121,7 @@ else if(isset($_GET["resend"])){
 	else{
 		echo 'alert("Verification email failed.");';
 	}
-	echo 'location.assign(/'.SUBDIR.');';
+	echo 'location.assign("/'.SUBDIR.'");';
 	echo "</script>";
 }
 /**
