@@ -53,10 +53,13 @@
             <a href="#synopsis">Synopsis</a>
           </li>
           <li>
+            <a href="#parameter">Parameter</a>
+          </li>
+          <li>
             <a href="#return">Return</a>
           </li>
           <li>
-            <a href="../../source/PodTube.php.html#line59">Source</a>
+            <a href="../../source/PodTube.php.html#line61">Source</a>
           </li>
         </ul>
       </nav>
@@ -67,9 +70,17 @@
         <ul/>
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
-          <code>public function makeFullFeed()
+          <code>public function makeFullFeed([boolean
+        $emptyFeed = false] )
             </code>
         </div>
+        <h2 id="parameterlist">Parameters</h2>
+        <dl class="styled">
+          <dt><code>$emptyFeed</code>
+                —
+                boolean</dt>
+          <dd>true if the generated feed should be empty and not saved to the db directly<br/><br/><br/>      </dd>
+        </dl>
         <h2 id="return">Returns</h2>
         <dl class="styled">
           <dt>RSS2|mixed</dt>

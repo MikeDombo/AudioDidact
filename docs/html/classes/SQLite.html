@@ -100,6 +100,8 @@
                         </li><li>public array|null <a title="MySQLDAL" href="../classes/MySQLDAL/getFeed.html">getFeed</a>()
                         </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/setFeedText.html">setFeedText</a>()
                         </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/inFeed.html">inFeed</a>()
+                        </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/updateUserPassword.html">updateUserPassword</a>()
+                        </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes</a>()
                         </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/updateUser.html">updateUser</a>()
                         </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/makeDB.html">makeDB</a>()
                         </li><li>protected void <a title="MySQLDAL" href="../classes/MySQLDAL/updateDBSchema.html">updateDBSchema</a>()
@@ -118,6 +120,8 @@
                         </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/addVideo.html">addVideo</a>()
                         </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/setFeedText.html">setFeedText</a>()
                         </li><li>public abstract void <a title="DAL" href="../classes/DAL/updateUser.html">updateUser</a>()
+                        </li><li>public abstract void <a title="DAL" href="../classes/DAL/updateUserPassword.html">updateUserPassword</a>()
+                        </li><li>public abstract void <a title="DAL" href="../classes/DAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes</a>()
                         </li><li>public bool <a title="DAL" href="../classes/DAL/inFeed.html">inFeed</a>()
                         </li><li>public bool <a title="DAL" href="../classes/DAL/usernameExists.html">usernameExists</a>()
                         </li><li>public bool <a title="DAL" href="../classes/DAL/webIDExists.html">webIDExists</a>()
@@ -169,7 +173,7 @@
           <h4>private</h4>
           <ul>
             <li id="makeColumnSQL"><a title="SQLite" href="../classes/SQLite/makeColumnSQL.html">makeColumnSQL()</a>
-                — Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not Default Key Extra</li>
+                — Generates SQL query to make a column. Returns something in the form of `columnName` columnType null/Not Default Key Extra</li>
           </ul>
           <h4>protected</h4>
           <ul>
@@ -232,6 +236,10 @@
                 — Sets full feed text in the feed database</li>
             <li id="updateUser"><a title="MySQLDAL" href="../classes/MySQLDAL/updateUser.html">updateUser()</a>
                 — Updates the user database from a given \User object</li>
+            <li id="updateUserEmailPasswordCodes"><a title="MySQLDAL" href="../classes/MySQLDAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes()</a>
+                — Updates only a user's email verification and password recovery codes in the database</li>
+            <li id="updateUserPassword"><a title="MySQLDAL" href="../classes/MySQLDAL/updateUserPassword.html">updateUserPassword()</a>
+                — Updates only a user's password in the database</li>
             <li id="verifyDB"><a title="MySQLDAL" href="../classes/MySQLDAL/verifyDB.html">verifyDB()</a>
                 — Verifies the currently connected database against the current schema</li>
           </ul>
@@ -268,6 +276,10 @@
                 — Sets feed xml text for a user</li>
             <li id="updateUser"><a title="DAL" href="../classes/DAL/updateUser.html">updateUser()</a>
                 — Updates user entry in the database</li>
+            <li id="updateUserEmailPasswordCodes"><a title="DAL" href="../classes/DAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes()</a>
+                — Updates only a user's email verification and password recovery codes in the database</li>
+            <li id="updateUserPassword"><a title="DAL" href="../classes/DAL/updateUserPassword.html">updateUserPassword()</a>
+                — Updates only a user's password in the database</li>
             <li id="usernameExists"><a title="DAL" href="../classes/DAL/usernameExists.html">usernameExists()</a>
                 — Checks if a username is taken in the database</li>
             <li id="verifyDB"><a title="DAL" href="../classes/DAL/verifyDB.html">verifyDB()</a>
