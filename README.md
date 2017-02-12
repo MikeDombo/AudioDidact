@@ -24,6 +24,7 @@ PHP API documentation is available [here](https://md100play.github.io/AudioDidac
 - Enable choice between audio and video download
 
 ## Completed Tasks
+- Switched to Pug for HTML rendering
 - Add password reset
 - Add email verification
 - Added SoundCloud to supported sites
