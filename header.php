@@ -163,7 +163,6 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
 	$options = array_merge($initialOptions, $options);
 
 	$pug = new Pug\Pug(array('prettyprint' => $prettyPrint));
-	$output = $pug->render($view, $options);
-	return $output;
+	return $pug->render($view, $options);
 }
 
