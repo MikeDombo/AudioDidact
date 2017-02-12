@@ -1,0 +1,170 @@
+link(href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous")
+link(href="/#{subdir}public/css/bootstrap-editable.min.css" rel="stylesheet")
+script(src="/#{subdir}public/js/bootstrap-editable.min.js")
+link(href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet")
+script(src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js")
+div.col-sm-12
+    h1 #{user.username}'s Profile
+    hr
+div(style="margin-left:0;margin-right:0;").row
+    div.col-md-6
+        div.form-group
+            label(for="webID") Custom URL:
+            span #{localurl}user/
+            a(href="#" id="webID" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php" data-title="Enter Custom URL")
+                |#{user.webID}
+            span /
+        div.form-group
+            label(for="fname") Firstname:
+            a(href="#" id="fname" data-type="text" data-pk="1" data-url="/<?php echo SUBDIR;?>updateUser.php"
+            data-title="Enter Firstname")
+                |#{user.fName}
+            label(for="lname") Lastname:
+            a(href="#" id="lname" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php"
+            data-title="Enter Lastname")
+                |#{user.lName}
+        div.form-group
+            label(for="gender") Gender:
+            a(href="#" id="gender" data-type="select" data-pk="1" data-url="/#{subdir}updateUser.php"
+            data-title="Select Gender")
+        div.form-group
+            label(for="email") Email:
+            a(href="#" id="email" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php"
+            data-title="Enter Email")
+                |#{user.email}
+        div.form-group
+            label(for="feedLen") Number of Items in Feed:
+            a(href="#" id="feedLen" data-type="number" data-pk="1" data-url="/#{subdir}updateUser.php"
+            data-title="Enter # of Items in Feed (Max 50)" data-min="1" data-max="50")
+                |#{user.feedLength}
+        div.form-group
+            label(for="privateFeed") Feed is Private:
+            if user.privateFeed
+                input(id="privateFeed" type="checkbox" checked data-toggle="toggle")
+            else
+                input(id="privateFeed" type="checkbox" data-toggle="toggle")
+    div.col-md-6
+        div.form-group
+            img(id="feedIcoImg" style="max-height: 150px; max-width: 150px;")
+        div.form-group
+            label(for="feedTitle") Feed Title:
+            a(href="#" id="feedTitle" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php")
+                |#{user.feedDetails.title}
+        div.form-group
+            label(for="feedDesc") Feed Description:
+            a(href="#" id="feedDesc" data-type="textarea" data-pk="1" data-url="/#{subdir}updateUser.php")
+                |#{user.feedDetails.description}
+        div.form-group
+            label(for="feedIco") Feed Icon:
+            a(href="#" id="feedIco" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php"
+            data-tpl="<input type='text' size='100' style='width:100%;'>")
+                |#{user.feedDetails.icon}
+        div.form-group
+            label(for="itunesAuthor")iTunes Author:
+            a(href="#" id="itunesAuthor" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php")
+                |#{user.feedDetails.itunesAuthor}
+script.
+    function processSuccess(response){
+        var message = JSON.parse(response);
+        if(!message.success){
+            return message.error;
+        }
+    }
+    function processError(response){
+        $('#Error-Modal-Text').text(response);
+        $('#Error-Modal').modal({
+            show: true
+        });
+    }
+    $(function() {
+        $('#privateFeed').bootstrapToggle();
+        $('#privateFeed').change(function(){
+            $.post("/#{subdir}updateUser.php", {name:"privateFeed", value:$(this).prop('checked')
+            },function(data){
+                if(processSuccess(data)){
+                    processError(processSuccess(data));
+                }
+            });
+        });
+    });
+    $.fn.editable.defaults.mode = 'inline';
+    $(document).ready(function() {
+        $("#feedIcoImg").attr("src", $("#feedIco").text());
+        var basicOptions = {
+            success: function(response, newValue){console.log(response);console.log(newValue);
+                return processSuccess(response);},
+            error: function(response){console.log(response);return processError(response);}
+        };
+        var feedOptionArray = {
+            success: function(response, newValue){
+                var message = JSON.parse(response);
+                if(!message.success){
+                    return message.error;
+                }
+                $.get( "/#{subdir}yt.php", function( data ) {});
+            },
+            error: function(response){console.log(response);return processError(response);}
+        };
+
+        $('#feedTitle').editable(feedOptionArray);
+        $('#itunesAuthor').editable(feedOptionArray);
+        $('#feedDesc').editable(feedOptionArray);
+        $('#feedIco').editable({
+            success: function(response, newValue){
+                var message = JSON.parse(response);
+                if(!message.success){
+                    return message.error;
+                }
+                $("#feedIcoImg").attr("src", newValue);
+                $.get( "/#{subdir}yt.php", function( data ) {});
+            },
+            error: function(response){console.log(response);return processError(response);}
+        });
+
+        $('#webID').editable({
+            success: function(response, newValue){
+                var message = JSON.parse(response);
+                if(!message.success){
+                    return message.error;
+                }
+                else{
+                    window.location = "/#{subdir}"+"user/"+newValue;
+                }
+            },
+            error: function(response){console.log(response);return processError(response);}
+        });
+        $('#fname').editable(basicOptions);
+        $('#lname').editable(basicOptions);
+        $('#email').editable(basicOptions);
+        $('#feedLen').editable({
+            success: function(response, newValue){
+                var message = JSON.parse(response);
+                if(!message.success){
+                    return message.error;
+                }
+                $.get( "/#{subdir}yt.php", function( data ) {});
+            },
+            error: function(response){console.log(response);return processError(response);}
+        });
+        $('#gender').editable({
+            value: #{user.gender},
+            source: [
+                {value: 1, text: 'Male'},
+                {value: 2, text: 'Female'},
+                {value: 3, text: 'Other'}
+            ],
+            success: function(response){console.log(response);return processSuccess(response);},
+            error: function(response){console.log(response);return processError(response);}
+        });
+    });
+
+div(id="Error-Modal" class="modal fade" tabindex="-1" role="dialog")
+    div.modal-dialog
+        div.modal-content
+            button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                span (aria-hidden="true") &times;
+            h2.modal-title AudioDidact Error
+            div.modal-body
+                h3#Error-Modal-Text
+include userFeed.pug

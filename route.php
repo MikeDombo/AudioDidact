@@ -18,7 +18,22 @@ foreach($url as $k=>$u){
 			exit(0);
 		}
 		else if(!isset($url[$k+2]) || $url[$k+2] == ""){
-			printUserPage($webID);
+			$loggedin = "false";
+			if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
+				$loggedin = "true";
+			}
+			if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && $_SESSION["user"]->getWebID() == $webID){
+				$title = "User Page | $webID | Edit";
+				$edit = true;
+			}else{
+				$title = "User Page | $webID";
+				$edit = false;
+			}
+			require_once "app.php";
+			if(isset($_GET["verifyEmail"]) && $edit){
+				echo makeUserPage($webID, $edit, $loggedin, $_GET["verifyEmail"]);
+			}
+			echo makeUserPage($webID, $edit, $loggedin);
 			exit(0);
 		}
 	}

@@ -1,63 +1,65 @@
 <?php
 require_once __DIR__."/header.php";
-require_once(__DIR__."/views/views.php");
-?>
 
-<!DOCTYPE html>
-<html>
-	<?php
+if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && $_SESSION["user"]->isEmailVerified()){
+	$loggedin = "false";
+	$userData = [];
 	if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
-		makeHeader("Add Content");
+		$loggedin = "true";
+		$user = $_SESSION["user"];
+		$userData = ["privateFeed"=>$user->isPrivateFeed(), "fName"=>$user->getFname(), "lName"=>$user->getLname(),
+			"gender"=>$user->getGender(), "webID"=>$user->getWebID(), "username"=>$user->getUsername(),
+			"email"=>$user->getEmail(), "feedLength"=>$user->getFeedLength(), "feedDetails"=>$user->getFeedDetails()
+		];
 	}
-	else{
-		makeHeader("Home");
+	$pug = new Pug\Pug(array('prettyprint' => true));
+	$output = $pug->render('views/addVideo.pug', array(
+		'title' => "Add Content",
+		'subdir' => SUBDIR,
+		'loggedIn' => $loggedin,
+		'localurl' => LOCAL_URL,
+		'user' => $userData,
+		'verified' => true
+	));
+	echo $output;
+}
+else if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && !$_SESSION["user"]->isEmailVerified()){
+	$user = $_SESSION["user"];
+	$userData = ["privateFeed"=>$user->isPrivateFeed(), "fName"=>$user->getFname(), "lName"=>$user->getLname(),
+		"gender"=>$user->getGender(), "webID"=>$user->getWebID(), "username"=>$user->getUsername(),
+		"email"=>$user->getEmail(), "feedLength"=>$user->getFeedLength(), "feedDetails"=>$user->getFeedDetails()
+	];
+	$pug = new Pug\Pug(array('prettyprint' => true));
+	$output = $pug->render('views/homepage.pug', array(
+		'title' => "Add Content",
+		'subdir' => SUBDIR,
+		'loggedIn' => true,
+		'localurl' => LOCAL_URL,
+		'user' => $userData,
+		'verified' => false
+	));
+	echo $output;
+}
+else{
+	$loggedin = "false";
+	$userData = [];
+	if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
+		$loggedin = "true";
+		$user = $_SESSION["user"];
+		$userData = ["privateFeed"=>$user->isPrivateFeed(), "fName"=>$user->getFname(), "lName"=>$user->getLname(),
+			"gender"=>$user->getGender(), "webID"=>$user->getWebID(), "username"=>$user->getUsername(),
+			"email"=>$user->getEmail(), "feedLength"=>$user->getFeedLength(), "feedDetails"=>$user->getFeedDetails()
+		];
 	}
-	?>
-	<body>
-		<?php makeNav();?>
-		<div id="main-content" class="container-fluid">
-			<?php if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && $_SESSION["user"]->isEmailVerified()){
-				makeAddVideo();
-				echo "</div>
-					</body>
-				</html>";
-				exit(0);
-			}
-			if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && !$_SESSION["user"]->isEmailVerified()){
-				echo '<div class="alert alert-danger" role="alert">
-				<div class="alert-text">Before using AudioDidact you must verify your email address.</div>
-				<div class="alert-text"><a href="/'.SUBDIR.'updateUser.php?resend">Click here to resend the email.</a></div>
-				</div>';
-			}
-			?>
-			<div class="jumbotron text-center">
-				<h1 class="display-1">AudioDidact - Custom Podcast Service</h1>
-				<h2><a href="signup.php">Make an Account and Add Content to Your Feed Now!</a></h2>
-			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<h1>What is AudioDidact?</h1>
-					<hr/>
-					<p>AudioDidact means taking the best content from the web on the go in an audio form.</p>
-					<h4>AudioDidact does not work for playlists or channels, it is for adding individual videos/audio only.</h4>
-				</div>
-				<div class="col-md-4">
-					<h1>How Does This Work?</h1>
-					<hr/>
-					<h3><a href="signup.php">Sign up for an account</a> to get started.</h3>
-					<p>Enter any YouTube video or SoundCloud audio URL in the textbox and click "Add Video To Feed" to put the
-					video into your custom podcast feed. Look at the <a href="faq.php">FAQ page</a> to see an updated
-					list of supported websites. Next, subscribe to the feed URL shown on the "Add Video" page
-					with any podcast player.</p>
-				</div>
-				<div class="col-md-4">
-					<h1>Development</h1>
-					<hr/>
-					<p>AudioDidact is in active development by <a href="http://mikedombrowski.com" target="_blank">Michael Dombrowski</a>
-					 and the source is available on my <a href="http://github.com/md100play/AudioDidact" target="_blank">GitHub</a>.
-					 API Documentation is online <a href="http://md100play.github.io/AudioDidact" target="_blank">here</a>.</p>
-				</div>
-			</div>
-		</div>
-	</body>
-</html>
+
+	$pug = new Pug\Pug(array('prettyprint' => true));
+	$output = $pug->render('views/homepage.pug', array(
+		'title' => "Home",
+		'subdir' => SUBDIR,
+		'loggedIn' => $loggedin,
+		'localurl' => LOCAL_URL,
+		'user' => $userData,
+		'verified' => true
+	));
+	echo $output;
+}

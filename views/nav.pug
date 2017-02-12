@@ -1,0 +1,49 @@
+nav.navbar.navbar-toggleable-md.navbar-inverse.bg-inverse
+    button(type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault"
+    aria-expanded="false" aria-label="Toggle navigation").navbar-toggler.navbar-toggler-right
+        span.navbar-toggler-icon
+    a(class="navbar-brand" href="/#{subdir}").
+        AudioDidact
+    ul.navbar-nav
+        li.nav-item.p-1
+            a(class="nav-link" href="/#{subdir}").
+                Home
+    div.collapse.navbar-collapse#navbarDefault
+        ul.navbar-nav.mr-auto
+            li.nav-item.p-1
+                a(href="/#{subdir}faq.php").nav-link.
+                    FAQ
+        ul.navbar-nav
+            if loggedIn == "false"
+                li.nav-item.dropdown.p-1
+                    a(href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false") Login
+                    div(style="right:0; min-width:300px;left:initial;").dropdown-menu
+                        script.
+                            $(function() {
+                                $("#uname").keypress(function(e) {
+                                    if(e.which == 10 || e.which == 13) {
+                                        login();
+                                    }
+                                });
+                                $("#passwd").keypress(function(e) {
+                                    if(e.which == 10 || e.which == 13) {
+                                        login();
+                                    }
+                                });
+                            });
+                        div.p-2
+                            input(id="uname" type="text" class="form-control" placeholder="Username")
+                            input(id="passwd" type="password" class="form-control" placeholder="Password")
+                        div.dropdown-divider
+                        div.p-2
+                            a(class="btn btn-success" style="color:#FFFFFF;width:100%;" href="#" onclick="login();") Login
+                            a(href="/#{subdir}forgot") Forgot Password
+                li.nav-item.p-1
+                    a(class="btn btn-success nav-link" href="/#{subdir}signup.php" style="color:#FFFFFF;").
+                        Sign Up!
+            else
+                li.nav-item.p-1
+                    a(href="#" onclick="logout()").nav-link Logout
+                li.nav-item.p-1
+                    a(class="btn btn-success nav-link" href="/#{subdir}user/#{user.webID}" style="color:#FFFFFF;") Account

@@ -1,0 +1,92 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="utf-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+        style.
+            body{
+                word-wrap:break-word;
+            }
+        script.
+            if(location.hostname != "localhost" && location.hostname != "127.0.0.1"){
+                (function(){
+                    var t,i,e,n=window,o=document,a=arguments,s="script",r=["config","track","identify","visit","push","call","trackForm","trackClick"],c=function(){var t,i=this;for(i._e=[],t=0;r.length>t;t++)(function(t){i[t]=function(){return i._e.push([t].concat(Array.prototype.slice.call(arguments,0))),i}})(r[t])};for(n._w=n._w||{},t=0;a.length>t;t++)n._w[a[t]]=n[a[t]]=n[a[t]]||new c;i=o.createElement(s),i.async=1,i.src="//static.woopra.com/js/w.js",e=o.getElementsByTagName(s)[0],e.parentNode.insertBefore(i,e)
+                })("woopra");
+                woopra.config({
+                    domain: 'ytpod.mikedombrowski.com'
+                });
+                woopra.track();
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+                ga('create', 'UA-83794723-1', 'auto');
+                ga('set', {dimension1: "!{loggedIn}"});
+                ga('send', 'pageview');
+            }
+        title #{title} | AudioDidact
+        style.
+            #main-content {
+                padding-top:1rem;
+            }
+        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" crossorigin="anonymous")
+        link(rel="apple-touch-icon-precomposed" sizes="57x57" href="/#{subdir}public/img/favicon/apple-touch-icon-57x57.png")
+        link(rel="apple-touch-icon-precomposed" sizes="114x114"
+        href="/#{subdir}public/img/favicon/apple-touch-icon-114x114.png")
+        link(rel="apple-touch-icon-precomposed" sizes="72x72"
+        href="/#{subdir}public/img/favicon/apple-touch-icon-72x72.png")
+        link(rel="apple-touch-icon-precomposed" sizes="144x144"
+        href="/#{subdir}public/img/favicon/apple-touch-icon-144x144.png")
+        link(rel="apple-touch-icon-precomposed" sizes="60x60"
+        href="/#{subdir}public/img/favicon/apple-touch-icon-60x60.png")
+        link(rel="apple-touch-icon-precomposed" sizes="120x120"
+        href="/#{subdir}public/img/favicon/apple-touch-icon-120x120.png")
+        link(rel="apple-touch-icon-precomposed" sizes="76x76"
+        href="/#{subdir}public/img/favicon/apple-touch-icon-76x76.png")
+        link(rel="apple-touch-icon-precomposed" sizes="152x152"
+        href="/#{subdir}public/img/favicon/apple-touch-icon-152x152.png")
+        link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-196x196.png" sizes="196x196")
+        link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-96x96.png" sizes="96x96")
+        link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-32x32.png" sizes="32x32")
+        link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-16x16.png" sizes="16x16")
+        link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-128.png" sizes="128x128")
+        meta(name="msapplication-TileColor" content="#FFFFFF")
+        meta(name="msapplication-TileImage" content="/#{subdir}public/img/favicon/mstile-144x144.png")
+        meta(name="msapplication-square70x70logo" content="/#{subdir}public/img/favicon/mstile-70x70.png")
+        meta(name="msapplication-square150x150logo" content="/#{subdir}public/img/favicon/mstile-150x150.png")
+        meta(name="msapplication-wide310x150logo" content="/#{subdir}public/img/favicon/mstile-310x150.png")
+        meta(name="msapplication-square310x310logo" content="/#{subdir}public/img/favicon/mstile-310x310.png")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js")
+        script(src="/#{subdir}public/js/tether.min.js")
+        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" crossorigin="anonymous")
+        script.
+            function validateLogin(){
+                return $.trim($("#uname").val()) != "" && $.trim($("#passwd").val()) != "";
+            }
+            function login(){
+                if(validateLogin()){
+                    $.post("/!{subdir}login.php", {uname:$("#uname").val(), passwd:$("#passwd").val(),action:"login"},
+                    function(data){
+                        if(data.indexOf("Success")>-1){
+                            location.reload();
+                        }
+                        else{
+                            alert("Could not login with those credentials. Please make sure they are correct.");
+                        }
+                    });
+                }
+                else{
+                    alert("Could not validate login information, please check username and password");
+                }
+            }
+            function logout(){
+                $.post("/!{subdir}login.php", {action:"logout"}, function(data){
+                    if(data.indexOf("Success")>-1){
+                        location.reload();
+                    }
+                });
+            }
+    body
+        block nav
+        div.container-fluid#main-content
+            block content

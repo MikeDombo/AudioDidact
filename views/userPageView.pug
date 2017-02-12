@@ -1,0 +1,22 @@
+div.col-sm-12
+    h1 #{user.username}'s Profile
+    hr
+div
+    label(for="profileURL") Profile URL: <a id="profileURL" href="#{localurl}user/#{user.webID}">#{localurl}user/#{user.webID}</a>
+div
+    label(for="feedURL") Feed URL: <a id="feedURL" href="#{localurl}user/#{user.webID}/feed/">#{localurl}user/#{user.webID}/feed/</a>
+div
+    label(for="name") Full Name: <span id="name">#{user.fName} #{user.lName}</span>
+div
+    label(for="gender") Gender:
+    span(id="gender")
+        if user.gender == 1
+            |Male
+        else if user.gender == 2
+            |Female
+        else
+            |Other
+if user.privateFeed == 0
+    include userFeed.pug
+else
+    h4 User's feed is private

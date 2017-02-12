@@ -69,66 +69,24 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 	// Stop execution so that the sign up webpage is not shown.
 	exit(0);
 }
-require_once(__DIR__."/views/views.php");
-?>
-<html>
-	<?php makeHeader("Sign Up");?>
-	<body>
-		<script>
-			$(function() {
-				$("#unameSignup").keypress(function(e) {
-					if(e.which == 10 || e.which == 13) {
-						signup();
-					}
-				});
-				$("#passwdSignup").keypress(function(e) {
-					if(e.which == 10 || e.which == 13) {
-						signup();
-					}
-				});
-				$("#email").keypress(function(e) {
-					if(e.which == 10 || e.which == 13) {
-						signup();
-					}
-				});
-			});
-			function signup(){
-				$.post("/<?php echo SUBDIR;?>signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup").val(),
-					email:$("#email").val()}, function(data){
-					if(data.indexOf("Success")>-1){
-						location.assign("/<?php echo SUBDIR;?>faq.php");
-					}
-					else{
-						alert(data);
-					}
-				});
-			}
-		</script>
-		<?php makeNav();?>
-		<div id="main-content" class="container-fluid">
-			<div class="col-sm-8 offset-sm-2">
-				<form class="navbar-form navbar-left">
-					<div class="form-group row">
-						<label for="email" class="col-form-label col-sm-2">Email Address:</label>
-						<div class="col-sm-10">
-							<input id="email" type="text" class="form-control" placeholder="Email Address">
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="unameSignup" class="col-form-label col-sm-2">Username:</label>
-						<div class="col-sm-10">
-							<input id="unameSignup" type="text" class="form-control" placeholder="Username">
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="passwdSignup" class="col-form-label col-sm-2">Password:</label>
-						<div class="col-sm-10">
-							<input id="passwdSignup" type="password" class="form-control" placeholder="Password">
-						</div>
-					</div>
-					<a class="btn btn-success form-control" style="color:#FFFFFF" href="#" onclick="signup();">Sign Up</a>
-				</form>
-			</div>
-		</div>
-	</body>
-</html>
+
+$loggedin = "false";
+$userData = [];
+if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
+	$loggedin = "true";
+	$user = $_SESSION["user"];
+	$userData = ["privateFeed"=>$user->isPrivateFeed(), "fName"=>$user->getFname(), "lName"=>$user->getLname(),
+		"gender"=>$user->getGender(), "webID"=>$user->getWebID(), "username"=>$user->getUsername(),
+		"email"=>$user->getEmail(), "feedLength"=>$user->getFeedLength(), "feedDetails"=>$user->getFeedDetails()
+	];
+}
+
+$pug = new Pug\Pug(array('prettyprint' => true));
+$output = $pug->render('views/signup.pug', array(
+	'title' => "Home",
+	'subdir' => SUBDIR,
+	'loggedIn' => $loggedin,
+	'localurl' => LOCAL_URL,
+	'user' => $userData
+));
+echo $output;
