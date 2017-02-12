@@ -131,3 +131,39 @@ if(CHECK_REQUIRED){
 		error_log("Unknown database error: ".$nextStep);
 	}
 }
+
+function generatePug($view, $title, $options = [], $prettyPrint = false){
+	$loggedin = "false";
+	$verified = true;
+	$userData = [];
+	if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
+		$loggedin = "true";
+		if(isset($_SESSION["user"]) && $_SESSION["user"] != null){
+			/** @var User $user */
+			$user = $_SESSION["user"];
+			$userData = ["privateFeed" => $user->isPrivateFeed(), "fName" => $user->getFname(), "lName" => $user->getLname(),
+				"gender" => $user->getGender(), "webID" => $user->getWebID(), "username" => $user->getUsername(),
+				"email" => $user->getEmail(), "feedLength" => $user->getFeedLength(), "feedDetails" => $user->getFeedDetails()
+			];
+			if(!$user->isEmailVerified()){
+				$verified = false;
+			}
+		}
+	}
+
+	$initialOptions = array(
+		'title' => $title,
+		'subdir' => SUBDIR,
+		'loggedIn' => $loggedin,
+		'localurl' => LOCAL_URL,
+		'user' => $userData,
+		'verified' => $verified
+	);
+
+	$options = array_merge($initialOptions, $options);
+
+	$pug = new Pug\Pug(array('prettyprint' => $prettyPrint));
+	$output = $pug->render($view, $options);
+	return $output;
+}
+

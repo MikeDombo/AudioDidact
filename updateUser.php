@@ -4,6 +4,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 	if(isset($_POST["name"]) && isset($_POST["value"])){
 		if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
 			$myDalClass = ChosenDAL;
+			/** @var DAL $dal */
 			$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 			$user = $dal->getUserByID($_SESSION["user"]->getUserID());
 

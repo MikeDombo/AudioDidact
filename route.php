@@ -14,7 +14,7 @@ foreach($url as $k=>$u){
 	if($u == "user" && isset($url[$k+1])){
 		$webID = $url[$k+1];
 		if(isset($url[$k+2]) && $url[$k+2] == "feed"){
-			returnUserFeed($webID);
+			printUserFeed($webID);
 			exit(0);
 		}
 		else if(!isset($url[$k+2]) || $url[$k+2] == ""){
@@ -33,9 +33,15 @@ foreach($url as $k=>$u){
 			if(isset($_GET["verifyEmail"]) && $edit){
 				echo makeUserPage($webID, $edit, $loggedin, $_GET["verifyEmail"]);
 			}
-			echo makeUserPage($webID, $edit, $loggedin);
+			else{
+				echo makeUserPage($webID, $edit, $loggedin);
+			}
 			exit(0);
 		}
+	}
+	else if($u == "faq"){
+		echo generatePug("views/faq.pug", "FAQ");
+		exit(0);
 	}
 	else if($u == "forgot"){
 		if(isset($_GET["recoveryCode"]) && isset($_GET["username"])){
@@ -43,8 +49,7 @@ foreach($url as $k=>$u){
 			exit(0);
 		}
 		else if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"] || $_SESSION["user"] == null){
-			require_once __DIR__."/views/views.php";
-			makePasswordResetRequestPage();
+			echo generatePug("views/passwordResetRequest.pug", "Request a Password Reset");
 			exit(0);
 		}
 	}
@@ -120,8 +125,8 @@ function makePasswordReset($username, $code){
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	$requestedUser = $dal->getUserByUsername($username);
 	if($requestedUser->verifyPasswordRecoveryCode($code)){
-		require_once __DIR__."/views/views.php";
-		makePasswordResetPage($requestedUser, $code);
+		$options = ["passwordresetcode"=> $code, "user"=>$requestedUser];
+		echo generatePug("views/passwordResetPage.pug", "Reset Your Password", $options);
 	}
 	else{
 		echo '<script>location.assign("/'.SUBDIR.'");</script>';
@@ -141,8 +146,9 @@ function make404(){
  * Make the user feed by reading it from the database.
  * @param $webID string WebID of the requested feed
  */
-function returnUserFeed($webID){
+function printUserFeed($webID){
 	$myDalClass = ChosenDAL;
+	/** @var DAL $dal */
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 
 	$requestedUser = $dal->getUserByWebID($webID);
@@ -185,12 +191,3 @@ function httpAuthenticate(DAL $dal){
 		return false;
 	}
 }
-
-/**
- *  Make the user profile page
- * @param string User's webID
- */
- function printUserPage($webID){
-	require_once __DIR__."/viewUser.php";
-	userPage($webID);
- }

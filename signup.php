@@ -66,27 +66,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 		$_SESSION["loggedIn"] = false;
 		echo "Sign Up Failed!\nNo email, username, or password specified!";
 	}
-	// Stop execution so that the sign up webpage is not shown.
-	exit(0);
 }
-
-$loggedin = "false";
-$userData = [];
-if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
-	$loggedin = "true";
-	$user = $_SESSION["user"];
-	$userData = ["privateFeed"=>$user->isPrivateFeed(), "fName"=>$user->getFname(), "lName"=>$user->getLname(),
-		"gender"=>$user->getGender(), "webID"=>$user->getWebID(), "username"=>$user->getUsername(),
-		"email"=>$user->getEmail(), "feedLength"=>$user->getFeedLength(), "feedDetails"=>$user->getFeedDetails()
-	];
+else{
+	echo generatePug('views/signup.pug', 'Sign Up for AudioDidact');
 }
-
-$pug = new Pug\Pug(array('prettyprint' => true));
-$output = $pug->render('views/signup.pug', array(
-	'title' => "Home",
-	'subdir' => SUBDIR,
-	'loggedIn' => $loggedin,
-	'localurl' => LOCAL_URL,
-	'user' => $userData
-));
-echo $output;

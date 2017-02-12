@@ -25,7 +25,7 @@ block content
             $.post("/#{subdir}signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup").val(),
                 email:$("#email").val()}, function(data){
                 if(data.indexOf("Success") > -1){
-                    location.assign("/#{subdir}faq.php");
+                    location.assign("/#{subdir}faq");
                 }
                 else{
                     alert(data);

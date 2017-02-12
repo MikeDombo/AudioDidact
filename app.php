@@ -54,16 +54,7 @@ function makeUserPage($webID, $edit, $loggedIn, $verifyEmail = null){
 				"description" => $descr, "thumbnail" => $thumb, "audio" => $aud];
 		}
 	}
-	$pug = new Pug\Pug(array('prettyprint' => true));
-	$output = $pug->render('views/userPage.pug', array(
-		'title' => $title,
-		'subdir' => SUBDIR,
-		'loggedIn' => $loggedIn,
-		'edit' => $edit,
-		'user' => $userData,
-		'localurl' => LOCAL_URL,
-		'episodes' => $episodeData,
-		'emailverify' => $emailVerify
-	));
-	return $output;
+
+	$options = ["edit"=>$edit, "episodes"=>$episodeData, "emailverify"=>$emailVerify, "user"=>$userData];
+	return generatePug("views/userPage.pug", $title, $options);
 }
