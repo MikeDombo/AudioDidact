@@ -42,11 +42,9 @@ block content
 		script(src="/#{subdir}public/js/jquery.form.js")
 		script(src="/#{subdir}public/js/jsmediatags.min.js")
 		script.
-			var mediaFile;
 			var jsmediatags = window.jsmediatags;
 			document.getElementById("yt").addEventListener("change", function (event){
 				var file = event.target.files[0];
-				mediaFile = file;
 				jsmediatags.read(file, {
 					onSuccess: function (tag){
 						if($("#title").val() == ""){
@@ -89,7 +87,6 @@ block content
 						$("#progress").width('100%').text('100%');
 					},
 					complete: function (response){
-						console.log(response.responseText);
 						var r = JSON.parse(response.responseText);
 						if(r["error"] == false){
 							$("#progress").text("Successfully Uploaded!");
@@ -102,7 +99,8 @@ block content
 							$("#progress").text(r["error"]);
 						}
 					},
-					error: function (){
+					error: function (response){
+						console.log(response);
 						$("#progress").text("ERROR: unable to upload files");
 					}
 				};
@@ -146,15 +144,7 @@ block content
 			function upload(){
 
 			}
-		div(tabindex="-1" role="dialog").modal.fade#Error-Modal
-			div.modal-dialog
-				div.modal-content
-					div.modal-header
-						h2.modal-title AudioDidact Error
-						button(type="button" data-dismiss="modal" aria-label="Close").close
-							span(aria-hidden="true") &times;
-					div.modal-body
-						p#Error-Modal-Text
+		include errorModal.pug
 	div.col-sm-12.pt-2
 		h2 Feed Subscription URL:
 			a(href="#{localurl}user/#{user.webID}/feed") #{localurl}user/#{user.webID}/feed/

@@ -159,12 +159,5 @@ script.
         });
     });
 
-div(id="Error-Modal" class="modal fade" tabindex="-1" role="dialog")
-    div.modal-dialog
-        div.modal-content
-            button(type="button" class="close" data-dismiss="modal" aria-label="Close")
-                span (aria-hidden="true") &times;
-            h2.modal-title AudioDidact Error
-            div.modal-body
-                h3#Error-Modal-Text
+include errorModal.pug
 include userFeed.pug

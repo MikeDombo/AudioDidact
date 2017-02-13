@@ -107,15 +107,7 @@ block content
                 catch (e){
                 }
             }
-        div(tabindex="-1" role="dialog").modal.fade#Error-Modal
-            div.modal-dialog
-                div.modal-content
-                    div.modal-header
-                        h2.modal-title AudioDidact Error
-                        button(type="button" data-dismiss="modal" aria-label="Close").close
-                            span(aria-hidden="true") &times;
-                    div.modal-body
-                        p#Error-Modal-Text
+        include errorModal.pug
     div.col-sm-12
         h2 Feed Subscription URL:
             a(href="#{localurl}user/#{user.webID}/feed") #{localurl}user/#{user.webID}/feed/
