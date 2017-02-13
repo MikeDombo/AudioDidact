@@ -1,0 +1,160 @@
+extends template
+block nav
+	include nav.pug
+block content
+	div.col-md-12
+		h1.display-2 AudioDidact
+		hr
+		form(action="/#{subdir}upload.php" method="post" enctype="multipart/form-data" name="myForm").navbar-form.navbar-left.col-xl-8#myForm
+			div.form-group.row
+				label(for="yt").col-form-label.col-lg-2 File:
+				div.col-lg-10
+					input(name="yt" type="file").form-control#yt
+			div.form-group.row
+				label(for="title").col-form-label.col-lg-2 Title:
+				div.col-lg-10
+					input(name="title" type="text").form-control#title
+			div.form-group.row
+				label(for="author").col-form-label.col-lg-2 Author:
+				div.col-lg-10
+					input(name="author" type="text").form-control#author
+			div.form-group.row
+				label(for="description").col-form-label.col-lg-2 Description (HTML allowed):
+				div.col-lg-10
+					textarea(name="description").form-control#description
+			div.form-group.row
+				label(for="picture").col-form-label.col-lg-2 Album Art:
+				div.col-lg-10
+					img(style="max-width:300px; height:auto; display:none;").form-control#picture
+					label(for="albumArtURL").col-form-label Album Art URL:
+					input(name="albumArtURL" type="text").form-control#albumArtURL
+			div.form-group.row
+				label(for="albumArtFile").col-form-label.col-lg-2 Upload Album Art:
+				div.col-lg-10
+					input(name="albumArtFile" type="file").form-control#albumArtFile
+					input(name="art" type="text" hidden)#art
+			h2
+				button(type="submit" class="btn-success btn" form="myForm") Add To Feed
+				a(href="/#{subdir}" class="btn-info btn ml-5" role="button") Switch to URL Mode
+		div.progress
+			div(role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%; height:25px;").d-flex.justify-content-center.progress-bar.progress-bar-animated.align-middle#progress
+
+		script(src="/#{subdir}public/js/jquery.form.js")
+		script(src="/#{subdir}public/js/jsmediatags.min.js")
+		script.
+			var mediaFile;
+			var jsmediatags = window.jsmediatags;
+			document.getElementById("yt").addEventListener("change", function (event){
+				var file = event.target.files[0];
+				mediaFile = file;
+				jsmediatags.read(file, {
+					onSuccess: function (tag){
+						if($("#title").val() == ""){
+							$("#title").val(tag.tags.title);
+						}
+						if($("#author").val() == ""){
+							$("#author").val(tag.tags.artist);
+						}
+						if($("#description").val() == ""){
+							$("#description").val(tag.tags.comment.text);
+						}
+						var image = tag.tags.picture;
+						if(image){
+							var base64String = "";
+							for(var i = 0; i < image.data.length; i++){
+								base64String += String.fromCharCode(image.data[i]);
+							}
+							var base64 = "data:" + image.format + ";base64," +
+								window.btoa(base64String);
+							document.getElementById('picture').setAttribute('src', base64);
+							$("#art").val(base64);
+							document.getElementById('picture').style.display = "";
+						}
+					},
+					onError: function (error){
+						console.log(error);
+					}
+				});
+			}, false);
+
+			$(document).ready(function (){
+				var options = {
+					beforeSend: function (){
+						$("#progress").width('0%').text("");
+					},
+					uploadProgress: function (event, position, total, percentComplete){
+						$("#progress").width(percentComplete + '%').text(percentComplete + '%');
+					},
+					success: function (){
+						$("#progress").width('100%').text('100%');
+					},
+					complete: function (response){
+						console.log(response.responseText);
+						var r = JSON.parse(response.responseText);
+						if(r["error"] == false){
+							$("#progress").text("Successfully Uploaded!");
+						}
+						else{
+							$('#Error-Modal-Text').html(r['error']);
+							$('#Error-Modal').modal({
+								show: true
+							});
+							$("#progress").text(r["error"]);
+						}
+					},
+					error: function (){
+						$("#progress").text("ERROR: unable to upload files");
+					}
+				};
+				$("#myForm").ajaxForm(options);
+			});
+
+			function getBase64(file){
+				var reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = function (){
+					$("#art").val(reader.result);
+					document.getElementById('picture').setAttribute('src', reader.result);
+					document.getElementById('picture').style.display = "";
+				};
+				reader.onerror = function (error){
+					console.log('Error: ', error);
+				};
+			}
+
+			document.getElementById("albumArtFile").addEventListener("change", function (event){
+				var file = event.target.files[0];
+				if(file.type.indexOf("image") > -1){
+					getBase64(file);
+				}
+				else{
+					$('#Error-Modal-Text').html("Art must be an image!");
+					$('#Error-Modal').modal({
+						show: true
+					});
+				}
+			}, false);
+
+			document.getElementById("albumArtURL").addEventListener("change", function (){
+				if($("#albumArtURL").val() != ""){
+					$("#art").val($("#albumArtURL").val());
+					document.getElementById('picture').setAttribute('src', $("#albumArtURL").val());
+					document.getElementById('picture').style.display = "";
+				}
+			}, false);
+
+			function upload(){
+
+			}
+		div(tabindex="-1" role="dialog").modal.fade#Error-Modal
+			div.modal-dialog
+				div.modal-content
+					div.modal-header
+						h2.modal-title AudioDidact Error
+						button(type="button" data-dismiss="modal" aria-label="Close").close
+							span(aria-hidden="true") &times;
+					div.modal-body
+						p#Error-Modal-Text
+	div.col-sm-12.pt-2
+		h2 Feed Subscription URL:
+			a(href="#{localurl}user/#{user.webID}/feed") #{localurl}user/#{user.webID}/feed/

@@ -73,6 +73,7 @@ if(!function_exists("clearSession")){
 // Download new User from Db
 if(isset($_SESSION["user"]) && isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
 	$myDalClass = ChosenDAL;
+	/** @var DAL $dal */
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	try{
 		$_SESSION["user"] = $dal->getUserByID($_SESSION["user"]->getUserID());
@@ -136,18 +137,16 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
 	$loggedin = "false";
 	$verified = true;
 	$userData = [];
-	if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
+	if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && isset($_SESSION["user"]) && $_SESSION["user"] != null){
 		$loggedin = "true";
-		if(isset($_SESSION["user"]) && $_SESSION["user"] != null){
-			/** @var User $user */
-			$user = $_SESSION["user"];
-			$userData = ["privateFeed" => $user->isPrivateFeed(), "fName" => $user->getFname(), "lName" => $user->getLname(),
-				"gender" => $user->getGender(), "webID" => $user->getWebID(), "username" => $user->getUsername(),
-				"email" => $user->getEmail(), "feedLength" => $user->getFeedLength(), "feedDetails" => $user->getFeedDetails()
-			];
-			if(!$user->isEmailVerified()){
-				$verified = false;
-			}
+		/** @var User $user */
+		$user = $_SESSION["user"];
+		$userData = ["privateFeed" => $user->isPrivateFeed(), "fName" => $user->getFname(), "lName" => $user->getLname(),
+			"gender" => $user->getGender(), "webID" => $user->getWebID(), "username" => $user->getUsername(),
+			"email" => $user->getEmail(), "feedLength" => $user->getFeedLength(), "feedDetails" => $user->getFeedDetails()
+		];
+		if(!$user->isEmailVerified()){
+			$verified = false;
 		}
 	}
 
