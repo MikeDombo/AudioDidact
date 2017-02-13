@@ -1,6 +1,5 @@
 # AudioDidact
-Makes an RSS podcast feed from given YouTube, SoundCloud, and CRTV URLs
-
+Makes an RSS podcast feed from given YouTube, SoundCloud, and CRTV URLs. Also supports manually uploading audio or video, setting the metadata, and uploading album art. 
 ## Configuration
 Download this repository and then edit `config.php` to add your [Google API server key.](https://console.developers.google.com/apis/credentials)
 Set hostname to your public ip or domain and subdirectory.
@@ -24,6 +23,7 @@ PHP API documentation is available [here](https://md100play.github.io/AudioDidac
 - Enable choice between audio and video download
 
 ## Completed Tasks
+- Add manual upload
 - Switched to Pug for HTML rendering
 - Add password reset
 - Add email verification
