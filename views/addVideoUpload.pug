@@ -2,8 +2,10 @@ extends template
 block nav
 	include nav.pug
 block content
-	div.col-md-12
-		h1.display-2 AudioDidact
+	div.col-sm-12
+		h1.display-2.hidden-sm-down AudioDidact
+		h1.display-3.hidden-md-up.hidden-xs-down AudioDidact
+		h1.display-4.hidden-sm-up AudioDidact
 		hr
 		form(action="/#{subdir}upload.php" method="post" enctype="multipart/form-data" name="myForm").navbar-form.navbar-left.col-xl-8#myForm
 			div.form-group.row
@@ -33,9 +35,11 @@ block content
 				div.col-lg-10
 					input(name="albumArtFile" type="file").form-control#albumArtFile
 					input(name="art" type="text" hidden)#art
-			h2
-				button(type="submit" class="btn-success btn" form="myForm") Add To Feed
-				a(href="/#{subdir}" class="btn-info btn ml-5" role="button") Switch to URL Mode
+			div.pt-2.pb-2
+				button(type="submit" class="btn-success btn btn-block-xs-only" form="myForm") Add Video To Feed
+				a(href="/#{subdir}" class="btn-info btn ml-sm-5 btn-block-xs-only" role="button") Switch to URL Mode
+			style.
+				@media(max-width: 575px){.btn-block-xs-only{display: block;width: 100%;margin-bottom: .25rem;}}
 		div.progress
 			div(role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%; height:25px;").d-flex.justify-content-center.progress-bar.progress-bar-animated.align-middle#progress
 
