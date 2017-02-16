@@ -2,7 +2,7 @@
 Makes an RSS podcast feed from given YouTube, SoundCloud, and CRTV URLs. Also supports manually uploading audio or video, setting the metadata, and uploading album art. 
 
 # Get Started Immediately
-To get started immediately, make an account ![https://ytpod.mikedombrowski.com](https://ytpod.mikedombrowski.com), add content, and subscribe to the generated feed with your favorite podcast player.
+To get started immediately, make an account [https://ytpod.mikedombrowski.com](https://ytpod.mikedombrowski.com), add content, and subscribe to the generated feed with your favorite podcast player.
 
 # Running Your Own Server
 ## Configuration
