@@ -1,5 +1,10 @@
 # AudioDidact
 Makes an RSS podcast feed from given YouTube, SoundCloud, and CRTV URLs. Also supports manually uploading audio or video, setting the metadata, and uploading album art. 
+
+# Get Started Immediately
+To get started immediately, make an account [https://ytpod.mikedombrowski.com](https://ytpod.mikedombrowski.com), add content, and subscribe to the generated feed with your favorite podcast player.
+
+# Running Your Own Server
 ## Configuration
 Download this repository and then edit `config.php` to add your [Google API server key.](https://console.developers.google.com/apis/credentials)
 Set hostname to your public ip or domain and subdirectory.
@@ -7,7 +12,8 @@ Set hostname to your public ip or domain and subdirectory.
 ![config.php](https://raw.githubusercontent.com/md100play/PodTube/master/README-images/config-php.PNG)
 
 - Set database configuration, also in `config.php`.
-- Set `batchProcess.php` to run as often as you like using the Windows Task Sheduler or cron on *nix. This script is used to delete files once they are kicked out of every user's feed. If you have lots of disk space, then you may not want to run this script ever, so that the audio and thumbnails are always available.
+- Install pug-php using composer
+- Set `batchProcess.php` to run as often as you like using the Windows Task Sheduler or cron on linux. This script is used to delete files once they are kicked out of every user's feed. If you have lots of disk space, then you may not want to run this script ever, so that the audio and thumbnails are always available.
 
 
 ## Usage
