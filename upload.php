@@ -60,7 +60,7 @@ if(isset($_FILES["yt"])){
 		echo json_encode(['error'=>false]);
 	}
 
-	$data = ["ID"=>$generatedID, "description"=>$_POST["description"],
+	$data = ["ID"=>$generatedID, "description"=>htmlentities($_POST["description"], ENT_HTML5, "UTF-8"),
 			"title"=>$_POST["title"], "author"=>$_POST["author"], "filename"=>$_FILES["yt"]["name"]];
 
 	$podtube = new PodTube($dal, $user);
@@ -79,34 +79,7 @@ if(isset($_FILES["yt"])){
 	if(!$dal->inFeed($video, $user)){
 		$dal->addVideo($video, $user);
 	}
-
-	// Before we make the feed, check that every file is downloaded
-	checkFilesExist($dal, $podtube, $user);
 	$podtube->makeFullFeed();
-}
-
-/**
- * Gets the list of all feed items and makes sure that all of them are downloaded and available
- *
- * @param DAL $dal
- * @param PodTube $podTube
- * @param User $user
- */
-function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
-	$items = $dal->getFeed($user);
-	for($x=0; $x<$user->getFeedLength() && isset($items[$x]); $x++){
-		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists(DOWNLOAD_PATH
-				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
-			$download = routeByURL($items[$x]->getURL(), $items[$x]->getId(), $podTube);
-			if($download != null){
-				if(!$download->allDownloaded()){
-					$download->downloadThumbnail();
-					$download->downloadVideo();
-					$download->convert();
-				}
-			}
-		}
-	}
 }
 
 function save_base64_image($base64_image_string, $output_file_without_ext, $path_with_end_slash) {
@@ -117,11 +90,7 @@ function save_base64_image($base64_image_string, $output_file_without_ext, $path
 	$mime_split_without_base64 = explode(';', $mime, 2);
 	$mime_split = explode('/', $mime_split_without_base64[0], 2);
 	if(count($mime_split) == 2){
-		$extension=$mime_split[1];
-		if($extension=='jpeg')$extension='jpg';
-		if($extension=='jpg')$extension='jpg';
-		if($extension=='png')$extension='png';
-		$output_file_without_ext .= '.'.$extension;
+		$output_file_without_ext .= '.jpg';
 	}
 	file_put_contents($path_with_end_slash.$output_file_without_ext, base64_decode($data));
 	return $output_file_without_ext;
