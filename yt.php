@@ -41,8 +41,8 @@ if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
 
 		// If not all thumbnail, video, and audio are downloaded, then download them in that order
 		if(!$download->allDownloaded()){
-			$download->downloadThumbnail();
 			$download->downloadVideo();
+			$download->downloadThumbnail();
 			$download->convert();
 		}
 

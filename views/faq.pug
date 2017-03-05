@@ -8,7 +8,10 @@ block content
             div.card.mb-1
                 h3.card-header How do I access my feed?
                 div.card-block
-                    p.card-text Your personal feed is located at #{localurl}user/username/feed
+                    if loggedIn == "false"
+                        p.card-text Your personal feed is located at #{localurl}user/username/feed
+                    else
+                        p.card-text Your personal feed is located at #{localurl}user/#{user.webID}/feed
                     p.card-text.
                         Enter that URL into your podcast player of choice. I like <a href="http://www.shiftyjelly.com/pocketcasts/">PocketCasts</a> for Android and iOS, or <a href="https://overcast.fm/">Overcast</a> for iOS.
                         However, there are many other options as well and your personal feed will work in any of them.
