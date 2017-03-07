@@ -40,10 +40,11 @@ class PodTube{
 	/**
 	 * Returns a Video object from the feed based on the video's id.
 	 * @param $id
-	 * @return bool
+	 * @return Video|bool
 	 */
 	public function getDataFromFeed($id){
 		$items = $this->dal->getFeed($this->user);
+		/** @var Video $i */
 		foreach($items as $i){
 			if($i->getId() == $id){
 				return $i;
@@ -64,8 +65,9 @@ class PodTube{
 		if(!$emptyFeed){
 			$items = $this->dal->getFeed($this->user);
 			for($x = 0; $x < $this->user->getFeedLength() && isset($items[$x]); $x++){
+				/** @var Video $i */
 				$i = $items[$x];
-				$fe = $this->addFeedItem($fe, $i->getTitle(), $i->getId(), $i->getAuthor(), $i->getTime(), $i->getDesc());
+				$fe = $this->addFeedItem($fe, $i);
 			}
 
 			// Save the generated feed to the db
@@ -115,14 +117,16 @@ class PodTube{
 	/**
 	 * Add an item to the RSS feed
 	 * @param $feed
-	 * @param $title
-	 * @param $id
-	 * @param $author
-	 * @param $time
-	 * @param $descr
+	 * @param $video Video
 	 * @return mixed
 	 */
-	private function addFeedItem($feed, $title, $id, $author, $time, $descr){
+	private function addFeedItem($feed, $video){
+		$title = $video->getTitle();
+		$id = $video->getId();
+		$author = $video->getAuthor();
+		$descr = $video->getDesc();
+
+		/** @var \FeedWriter\Feed $feed */
 		$newItem = $feed->createNewItem();
 
 		$webPath = LOCAL_URL.DOWNLOAD_PATH."/".$id;
@@ -136,7 +140,7 @@ class PodTube{
 		$duration = YouTube::getDuration($filePath.".mp3");
 
 		$newItem->setTitle($title);
-		$newItem->setLink("http://youtube.com/watch?v=$id");
+		$newItem->setLink($video->getURL());
 		// Set description to be the title, author, thumbnail, and then the original video description
 		$newItem->setDescription("<h1>$title</h1>
 			<h2>$author</h2>
@@ -150,7 +154,7 @@ class PodTube{
 		$newItem->addElement('itunes:author', $author);
 		$newItem->addElement('itunes:duration', $duration);
 
-		$newItem->setDate(date(DATE_RSS, $time));
+		$newItem->setDate(date(DATE_RSS, $video->getTime()));
 		$newItem->setAuthor($author, 'me@me.com');
 		// Set GUID, this is absolutely necessary
 		$newItem->setId("audiodidact/".$id.".mp3", false);
