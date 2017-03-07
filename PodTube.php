@@ -140,7 +140,7 @@ class PodTube{
 		// Set description to be the title, author, thumbnail, and then the original video description
 		$newItem->setDescription("<h1>$title</h1>
 			<h2>$author</h2>
-			<p><img class=\"alignleft size-medium\" src=\"$webPath.jpg\" alt=\"$title -- $author\" width=\"100%\" height=\"auto\"/></p>
+			<p><img class=\"alignleft size-medium\" src=\"$webPath.jpg\" alt=\"".htmlentities($title)." -- ".htmlentities($author)."\" width=\"100%\" height=\"auto\"/></p>
 			<p>$descr</p>");
 		$newItem->addElement('media:content', array('media:title'=>$title), array('fileSize'=>filesize($filePath.".mp3"),
 			'type'=> 'audio/mp3', 'medium'=>'audio', 'url'=>$webPath.'.mp3'));
