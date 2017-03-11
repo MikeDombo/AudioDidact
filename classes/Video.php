@@ -92,6 +92,10 @@ class Video{
 	 * @return mixed
 	 */
 	public function getDuration(){
+		if($this->duration == null || $this->duration == 0){
+			return YouTube::getDurationSeconds(getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR
+				.$this->getId().".mp3");
+		}
 		return $this->duration;
 	}
 

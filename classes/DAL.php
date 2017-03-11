@@ -37,11 +37,19 @@ abstract class DAL {
 	abstract public function getUserByWebID($webID);
 
 	/**
-	 * Gets all the videos from the database
+	 * Gets all the videos from the database in the user's current feed
+	 * limited by the max number of items the user has set
 	 * @param User $user
 	 * @return mixed
 	 */
 	abstract public function getFeed(User $user);
+
+	/**
+	 * Gets all the videos from the database
+	 * @param User $user
+	 * @return mixed
+	 */
+	abstract public function getFullFeedHistory(User $user);
 
 	/**
 	 * Gets the full text of the feed from the database

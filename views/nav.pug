@@ -6,11 +6,24 @@ nav.navbar.navbar-toggleable-sm.navbar-inverse.bg-inverse
     div.collapse.navbar-collapse#navbarDefault
         ul.navbar-nav.mr-auto
             li.nav-item.p-1
-                a(class="nav-link" href="/#{subdir}").
-                    Home
+                if title == "Home"
+                    a(href="/#{subdir}").nav-link.active Home
+                else if title == "Add Content"
+                    a(href="/#{subdir}").nav-link.active Home
+                else if title == "Add Content Manually"
+                    a(href="/#{subdir}").nav-link.active Home
+                else
+                    a(href="/#{subdir}").nav-link Home
             li.nav-item.p-1
-                a(href="/#{subdir}faq").nav-link.
-                    FAQ
+                if title == "FAQ"
+                    a(href="/#{subdir}faq").nav-link.active FAQ
+                else
+                    a(href="/#{subdir}faq").nav-link FAQ
+            li.nav-item.p-1
+                if title == "Help"
+                    a(href="/#{subdir}help").nav-link.active Help
+                else
+                    a(href="/#{subdir}help").nav-link Help
         ul.navbar-nav
             if loggedIn == "false"
                 li.nav-item.dropdown.p-1

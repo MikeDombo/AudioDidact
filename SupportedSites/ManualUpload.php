@@ -79,11 +79,10 @@ class ManualUpload extends SupportedSite{
 
 	public function convert(){
 		$p = pathinfo($this->video->getURL())["extension"];
+		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
+		$ffmpeg_infile = $path.$this->video->getID().".mp4";
+		$ffmpeg_outfile = $path.$this->video->getID().".mp3";
 		if($p != "mp3"){
-			$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-			$ffmpeg_infile = $path.$this->video->getID().".mp4";
-			$ffmpeg_outfile = $path.$this->video->getID().".mp3";
-
 			// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
 			$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->video->getID().".txt 2>&1";
 
@@ -141,6 +140,7 @@ class ManualUpload extends SupportedSite{
 			@unlink($this->video->getID().".txt");
 			return;
 		}
+		$this->video->setDuration(YouTube::getDurationSeconds($ffmpeg_outfile));
 		return;
 	}
 }

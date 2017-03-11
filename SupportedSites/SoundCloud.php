@@ -216,6 +216,8 @@ class SoundCloud extends SupportedSite{
 		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
 		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 
+		$this->video->setDuration(YouTube::getDurationSeconds($ffmpeg_outfile));
+
 		// Send progress to UI
 		$response = array('stage' =>1, 'progress' => 100);
 		echo json_encode($response);

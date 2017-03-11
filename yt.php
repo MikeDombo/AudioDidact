@@ -27,10 +27,7 @@ $myDalClass = ChosenDAL;
 $dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 
 // If a video is being requested, then add the video, otherwise just show the current feed
-if(isset($_GET["yt"]) || (isset($argv) && isset($argv[2]))){
-	if(isset($argv) && isset($argv[2])){
-		$_GET["yt"] = $argv[2];
-	}
+if(isset($_GET["yt"])){
 	$url = ($_GET["yt"]);
 	$podtube = new PodTube($dal, $user);
 
@@ -101,7 +98,7 @@ function routeByURL($url, $id, $podTube){
 		return new YouTube($id, $podTube);
 	}
 	else if(strpos($url, "crtv.com") > -1){
-		return new CRTV($id, $podTube);
+		return new CRTV($url, $podTube);
 	}
 	else if(strpos($url, "soundcloud.com") > -1){
 		return new SoundCloud($id, $podTube);
@@ -109,5 +106,6 @@ function routeByURL($url, $id, $podTube){
 	else {
 		error_log("Could not find route for URL: ".$url." or ID: ".$id);
 	}
+	return null;
 }
 

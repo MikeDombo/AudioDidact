@@ -55,6 +55,93 @@ function makeUserPage($webID, $edit, $loggedIn, $verifyEmail = null){
 		}
 	}
 
-	$options = ["edit"=>$edit, "episodes"=>$episodeData, "emailverify"=>$emailVerify, "user"=>$userData];
+	$options = ["edit"=>$edit, "episodes"=>$episodeData, "emailverify"=>$emailVerify, "user"=>$userData,
+	"stats"=>generateStatistics($user)];
 	return generatePug("views/userPage.pug", $title, $options);
+}
+
+/**
+ * Returns Array with informative statistics about all videos in the feed
+ * @param \User $user
+ * @return array
+ */
+function generateStatistics(\User $user){
+	$myDalClass = ChosenDAL;
+	/** @var $dal \DAL */
+	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$stats = [];
+	$feed = $dal->getFullFeedHistory($user);
+	$stats["numVids"] = count($feed);
+	$time = 0;
+	foreach($feed as $v){
+		/** @var Video $v */
+		$time += $v->getDuration();
+	}
+
+	$timeConversion = secondsToTime($time);
+	$timeString = "";
+	$unitCount = 0;
+	if($timeConversion["d"] > 0){
+		$timeString .= $timeConversion["d"]." days, ";
+		$unitCount += 1;
+	}
+	if($timeConversion["h"] > 0){
+		$timeString .= $timeConversion["h"]." hours, ";
+		$unitCount += 1;
+	}
+	if($timeConversion["m"] > 0){
+		$timeString .= $timeConversion["m"]." minutes";
+		$unitCount += 1;
+	}
+	if($unitCount > 1){
+		$timeString .= ",";
+	}
+	if($unitCount > 0){
+		$timeString .= " and ";
+	}
+	if($timeConversion["s"] >= 0){
+		$timeString .= $timeConversion["s"]." seconds";
+	}
+
+	$stats["totalTime"] = $timeString;
+	return $stats;
+}
+
+/**
+ * Convert number of seconds into hours, minutes and seconds
+ * and return an array containing those values
+ *
+ * @param integer $inputSeconds Number of seconds to parse
+ * @return array
+ */
+
+function secondsToTime($inputSeconds) {
+
+	$secondsInAMinute = 60;
+	$secondsInAnHour  = 60 * $secondsInAMinute;
+	$secondsInADay    = 24 * $secondsInAnHour;
+
+	// extract days
+	$days = floor($inputSeconds / $secondsInADay);
+
+	// extract hours
+	$hourSeconds = $inputSeconds % $secondsInADay;
+	$hours = floor($hourSeconds / $secondsInAnHour);
+
+	// extract minutes
+	$minuteSeconds = $hourSeconds % $secondsInAnHour;
+	$minutes = floor($minuteSeconds / $secondsInAMinute);
+
+	// extract the remaining seconds
+	$remainingSeconds = $minuteSeconds % $secondsInAMinute;
+	$seconds = ceil($remainingSeconds);
+
+	// return the final array
+	$obj = array(
+		'd' => (int) $days,
+		'h' => (int) $hours,
+		'm' => (int) $minutes,
+		's' => (int) $seconds,
+	);
+	return $obj;
 }

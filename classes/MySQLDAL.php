@@ -379,6 +379,42 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
+	 * Gets all the videos from the database
+	 * @param User $user
+	 * @return mixed
+	 */
+	public function getFullFeedHistory(User $user){
+		try{
+			// Limit is not able to be a bound parameter, so I take the intval just to make sure nothing can get
+			// injected
+			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC");
+			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
+			$p->execute();
+			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			if(count($rows) < 1){
+				return null;
+			}
+			$returner = [];
+			foreach($rows as $row){
+				$vid = new Video();
+				$vid->setAuthor($row["videoAuthor"]);
+				$vid->setDesc($row["description"]);
+				$vid->setId($row["videoID"]);
+				$vid->setTime(strtotime($row["timeAdded"]));
+				$vid->setTitle($row["videoTitle"]);
+				$vid->setOrder($row["orderID"]);
+				$vid->setURL($row["URL"]);
+				$returner[] = $vid;
+			}
+			return $returner;
+		}
+		catch(PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	/**
 	 * Sets full feed text in the feed database
 	 * @param User $user
 	 * @param $feed

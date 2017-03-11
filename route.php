@@ -29,7 +29,7 @@ foreach($url as $k=>$u){
 				$title = "User Page | $webID";
 				$edit = false;
 			}
-			require_once "app.php";
+			require_once "userPageGenerator.php";
 			if(isset($_GET["verifyEmail"]) && $edit){
 				echo makeUserPage($webID, $edit, $loggedin, $_GET["verifyEmail"]);
 			}
@@ -41,6 +41,10 @@ foreach($url as $k=>$u){
 	}
 	else if($u == "faq"){
 		echo generatePug("views/faq.pug", "FAQ");
+		exit(0);
+	}
+	else if($u == "help"){
+		echo generatePug("views/help.pug", "Help");
 		exit(0);
 	}
 	else if($u == "forgot"){

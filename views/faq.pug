@@ -1,7 +1,4 @@
-extends template
-
-block nav
-    include nav.pug
+extends template.pug
 block content
     div.row.justify-content-center
         div.col-xl-6.col-lg-8
@@ -58,3 +55,4 @@ block content
                         gender, these will be shown. If you make your feed private you will have to provide your
                         username and password to your podcast player so that your feed can be checked. Support for
                         this does depend on your podcast player.
+            include help-cards

@@ -16,6 +16,8 @@ div
             |Female
         else
             |Other
+div.col-sm-12
+    include userPageStats.pug
 if user.privateFeed == 0
     include userFeed.pug
 else
