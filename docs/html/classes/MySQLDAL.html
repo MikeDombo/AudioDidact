@@ -97,6 +97,7 @@
                     </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/addVideo.html">addVideo</a>()
                     </li><li>public mixed <a title="MySQLDAL" href="../classes/MySQLDAL/getFeedText.html">getFeedText</a>()
                     </li><li>public array|null <a title="MySQLDAL" href="../classes/MySQLDAL/getFeed.html">getFeed</a>()
+                    </li><li>public mixed <a title="MySQLDAL" href="../classes/MySQLDAL/getFullFeedHistory.html">getFullFeedHistory</a>()
                     </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/setFeedText.html">setFeedText</a>()
                     </li><li>public bool <a title="MySQLDAL" href="../classes/MySQLDAL/inFeed.html">inFeed</a>()
                     </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/updateUserPassword.html">updateUserPassword</a>()
@@ -116,6 +117,7 @@
                         </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByID.html">getUserByID</a>()
                         </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByWebID.html">getUserByWebID</a>()
                         </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/getFeed.html">getFeed</a>()
+                        </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/getFullFeedHistory.html">getFullFeedHistory</a>()
                         </li><li>public abstract string <a title="DAL" href="../classes/DAL/getFeedText.html">getFeedText</a>()
                         </li><li>public abstract Video <a title="DAL" href="../classes/DAL/getVideoByID.html">getVideoByID</a>()
                         </li><li>public abstract void <a title="DAL" href="../classes/DAL/addUser.html">addUser</a>()
@@ -218,6 +220,8 @@
                 — Returns an array of YouTube IDs that are in the feed</li>
             <li id="getFeedText"><a title="MySQLDAL" href="../classes/MySQLDAL/getFeedText.html">getFeedText()</a>
                 — Gets full xml feed text from database</li>
+            <li id="getFullFeedHistory"><a title="MySQLDAL" href="../classes/MySQLDAL/getFullFeedHistory.html">getFullFeedHistory()</a>
+                — Gets all the videos from the database</li>
             <li id="getPrunableVideos"><a title="MySQLDAL" href="../classes/MySQLDAL/getPrunableVideos.html">getPrunableVideos()</a>
                 — Returns an array of YouTube video IDs that can be safely deleted</li>
             <li id="getUserByEmail"><a title="MySQLDAL" href="../classes/MySQLDAL/getUserByEmail.html">getUserByEmail()</a>
@@ -255,9 +259,11 @@
             <li id="emailExists"><a title="DAL" href="../classes/DAL/emailExists.html">emailExists()</a>
                 — Checks if an email is already in the database</li>
             <li id="getFeed"><a title="DAL" href="../classes/DAL/getFeed.html">getFeed()</a>
-                — Gets all the videos from the database</li>
+                — Gets all the videos from the database in the user's current feed limited by the max number of items the user has set</li>
             <li id="getFeedText"><a title="DAL" href="../classes/DAL/getFeedText.html">getFeedText()</a>
                 — Gets the full text of the feed from the database</li>
+            <li id="getFullFeedHistory"><a title="DAL" href="../classes/DAL/getFullFeedHistory.html">getFullFeedHistory()</a>
+                — Gets all the videos from the database</li>
             <li id="getPrunableVideos"><a title="DAL" href="../classes/DAL/getPrunableVideos.html">getPrunableVideos()</a>
                 — Returns an array of video IDs that can be safely deleted</li>
             <li id="getUserByEmail"><a title="DAL" href="../classes/DAL/getUserByEmail.html">getUserByEmail()</a>

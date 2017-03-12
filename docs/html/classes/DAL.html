@@ -73,6 +73,7 @@
                     </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByID.html">getUserByID</a>()
                     </li><li>public abstract User <a title="DAL" href="../classes/DAL/getUserByWebID.html">getUserByWebID</a>()
                     </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/getFeed.html">getFeed</a>()
+                    </li><li>public abstract mixed <a title="DAL" href="../classes/DAL/getFullFeedHistory.html">getFullFeedHistory</a>()
                     </li><li>public abstract string <a title="DAL" href="../classes/DAL/getFeedText.html">getFeedText</a>()
                     </li><li>public abstract Video <a title="DAL" href="../classes/DAL/getVideoByID.html">getVideoByID</a>()
                     </li><li>public abstract void <a title="DAL" href="../classes/DAL/addUser.html">addUser</a>()
@@ -111,9 +112,11 @@
             <li id="emailExists"><a title="DAL" href="../classes/DAL/emailExists.html">emailExists()</a>
                 — Checks if an email is already in the database</li>
             <li id="getFeed"><a title="DAL" href="../classes/DAL/getFeed.html">getFeed()</a>
-                — Gets all the videos from the database</li>
+                — Gets all the videos from the database in the user's current feed limited by the max number of items the user has set</li>
             <li id="getFeedText"><a title="DAL" href="../classes/DAL/getFeedText.html">getFeedText()</a>
                 — Gets the full text of the feed from the database</li>
+            <li id="getFullFeedHistory"><a title="DAL" href="../classes/DAL/getFullFeedHistory.html">getFullFeedHistory()</a>
+                — Gets all the videos from the database</li>
             <li id="getPrunableVideos"><a title="DAL" href="../classes/DAL/getPrunableVideos.html">getPrunableVideos()</a>
                 — Returns an array of video IDs that can be safely deleted</li>
             <li id="getUserByEmail"><a title="DAL" href="../classes/DAL/getUserByEmail.html">getUserByEmail()</a>
