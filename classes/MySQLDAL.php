@@ -365,6 +365,7 @@ class MySQLDAL extends DAL{
 				$vid->setDesc($row["description"]);
 				$vid->setId($row["videoID"]);
 				$vid->setTime(strtotime($row["timeAdded"]));
+				$vid->setDuration(intval($row["duration"]));
 				$vid->setTitle($row["videoTitle"]);
 				$vid->setOrder($row["orderID"]);
 				$vid->setURL($row["URL"]);
@@ -401,6 +402,7 @@ class MySQLDAL extends DAL{
 				$vid->setDesc($row["description"]);
 				$vid->setId($row["videoID"]);
 				$vid->setTime(strtotime($row["timeAdded"]));
+				$vid->setDuration(intval($row["duration"]));
 				$vid->setTitle($row["videoTitle"]);
 				$vid->setOrder($row["orderID"]);
 				$vid->setURL($row["URL"]);
