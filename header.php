@@ -165,3 +165,20 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
 	return $pug->render($view, $options);
 }
 
+function pluralize($word, $num){
+	if($num == 1){
+		return $word;
+	}
+	else{
+		if(substr($word, -1) == "y"){
+			return substr($word, 0, strlen($word)-1)."ies";
+		}
+		else if(substr($word, -1) == "s"){
+			return $word."es";
+		}
+		else{
+			return $word."s";
+		}
+	}
+}
+

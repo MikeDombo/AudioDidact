@@ -82,15 +82,15 @@ function generateStatistics(\User $user){
 	$timeString = "";
 	$unitCount = 0;
 	if($timeConversion["d"] > 0){
-		$timeString .= $timeConversion["d"]." days, ";
+		$timeString .= $timeConversion["d"]." ".pluralize("day", $timeConversion["d"]).", ";
 		$unitCount += 1;
 	}
 	if($timeConversion["h"] > 0){
-		$timeString .= $timeConversion["h"]." hours, ";
+		$timeString .= $timeConversion["h"]." ".pluralize("hour", $timeConversion["h"]).", ";
 		$unitCount += 1;
 	}
 	if($timeConversion["m"] > 0){
-		$timeString .= $timeConversion["m"]." minutes";
+		$timeString .= $timeConversion["m"]." ".pluralize("minute", $timeConversion["m"]);
 		$unitCount += 1;
 	}
 	if($unitCount > 1){
@@ -100,7 +100,7 @@ function generateStatistics(\User $user){
 		$timeString .= " and ";
 	}
 	if($timeConversion["s"] >= 0){
-		$timeString .= $timeConversion["s"]." seconds";
+		$timeString .= $timeConversion["s"]." ".pluralize("second", $timeConversion["s"]);
 	}
 
 	$stats["totalTime"] = $timeString;

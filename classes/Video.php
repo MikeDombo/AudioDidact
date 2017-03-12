@@ -92,7 +92,7 @@ class Video{
 	 * @return mixed
 	 */
 	public function getDuration(){
-		if($this->duration == null || $this->duration == 0){
+		if($this->duration == null){
 			return 0;
 		}
 		return $this->duration;
