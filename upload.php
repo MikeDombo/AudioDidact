@@ -82,6 +82,13 @@ if(isset($_FILES["yt"])){
 	$podtube->makeFullFeed();
 }
 
+/**
+ * Saves a given base64 encoded image to a jpg file
+ * @param $base64_image_string string base64 encoded image
+ * @param $output_file_without_ext string output filename without an extension specified
+ * @param $path_with_end_slash string path of where to save the file without a trailing slash
+ * @return string Full filename that was written into
+ */
 function save_base64_image($base64_image_string, $output_file_without_ext, $path_with_end_slash) {
 	$splited = explode(',', substr($base64_image_string, 5), 2);
 	$mime = $splited[0];

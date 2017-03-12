@@ -133,6 +133,14 @@ if(CHECK_REQUIRED){
 	}
 }
 
+/**
+ * Returns Pug (Jade) rendered HTML for a given view and options
+ * @param $view string Name of Pug view to be rendered
+ * @param $title string Title of the webpage
+ * @param array $options Additional options needed to render the view
+ * @param bool $prettyPrint If prettyPrint is false, all HTML is on a single line
+ * @return string Pug generated HTML
+ */
 function generatePug($view, $title, $options = [], $prettyPrint = false){
 	$loggedin = "false";
 	$verified = true;
@@ -165,6 +173,12 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
 	return $pug->render($view, $options);
 }
 
+/**
+ * Returns the correct plural or singular form of the given word
+ * @param $word String singular form of the word
+ * @param $num int number of things the word is referring to
+ * @return string correct form of the given word for the input number
+ */
 function pluralize($word, $num){
 	if($num == 1){
 		return $word;

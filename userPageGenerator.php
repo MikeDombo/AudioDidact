@@ -1,5 +1,13 @@
 <?php
-function makeUserPage($webID, $edit, $loggedIn, $verifyEmail = null){
+
+/**
+ * Returns Pug rendered HTML for the User page, either view or edit
+ * @param $webID string webID of the user's page to be rendered
+ * @param $edit boolean true if the user is logged in and viewing their own page
+ * @param null|string $verifyEmail null or string if the user is trying to verify their email address
+ * @return string HTML of User's page from Pug
+ */
+function makeUserPage($webID, $edit, $verifyEmail = null){
 	$myDalClass = ChosenDAL;
 	/** @var $dal \DAL */
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
@@ -16,12 +24,14 @@ function makeUserPage($webID, $edit, $loggedIn, $verifyEmail = null){
 	$emailVerify = 0;
 	if($verifyEmail != null && !$user->isEmailVerified()){
 		$result = $user->verifyEmailVerificationCode($verifyEmail);
+		// If the email verification code is correct, update the user information
 		if($result){
 			$user->setEmailVerified(1);
 			$user->setEmailVerificationCodes([]);
 			$dal->updateUser($user);
 			$emailVerify = 1;
-		}else{
+		}
+		else{
 			$emailVerify = 2;
 		}
 	}

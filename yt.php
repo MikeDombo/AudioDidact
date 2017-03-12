@@ -33,7 +33,7 @@ if(isset($_GET["yt"])){
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
-		$download = routeByURL($url, $url, $podtube);
+		$download = getSupportedSiteClass($url, $url, $podtube);
 		$video = $download->getVideo();
 
 		// If not all thumbnail, video, and audio are downloaded, then download them in that order
@@ -65,7 +65,6 @@ else{
 
 /**
  * Gets the list of all feed items and makes sure that all of them are downloaded and available
- *
  * @param DAL $dal
  * @param PodTube $podTube
  * @param User $user
@@ -75,7 +74,7 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 	for($x=0; $x<$user->getFeedLength() && isset($items[$x]); $x++){
 		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists(DOWNLOAD_PATH
 				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
-			$download = routeByURL($items[$x]->getURL(), $items[$x]->getId(), $podTube);
+			$download = getSupportedSiteClass($items[$x]->getURL(), $items[$x]->getId(), $podTube);
 			if($download != null){
 				if(!$download->allDownloaded()){
 					$download->downloadThumbnail();
@@ -88,12 +87,13 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 }
 
 /**
+ * Returns the appropriate SupportedClass to redownload any given content
  * @param $url
  * @param $id
  * @param $podTube
  * @return \SupportedSite
  */
-function routeByURL($url, $id, $podTube){
+function getSupportedSiteClass($url, $id, $podTube){
 	if(strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
 		return new YouTube($id, $podTube);
 	}
@@ -101,11 +101,12 @@ function routeByURL($url, $id, $podTube){
 		return new CRTV($url, $podTube);
 	}
 	else if(strpos($url, "soundcloud.com") > -1){
-		return new SoundCloud($id, $podTube);
+		return new SoundCloud($url, $podTube);
 	}
 	else {
 		error_log("Could not find route for URL: ".$url." or ID: ".$id);
 	}
+	// Error case or manually uploaded content case
 	return null;
 }
 

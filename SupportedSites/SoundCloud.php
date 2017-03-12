@@ -38,7 +38,7 @@ class SoundCloud extends SupportedSite{
 		}
 	}
 
-	private function  curl_http_get($url, $ssl = false) {
+	private function curl_http_get($url, $ssl = false) {
 		$ch = curl_init($url);
 		$headers = array(
 			"User-Agent: curl/7.16.3 (i686-pc-cygwin) libcurl/7.16.3 OpenSSL/0.9.8h zlib/1.2.3 libssh2/0.15-CVS",
