@@ -393,7 +393,7 @@ class MySQLDAL extends DAL{
 			$p->execute();
 			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
 			if(count($rows) < 1){
-				return null;
+				return [];
 			}
 			$returner = [];
 			foreach($rows as $row){
