@@ -43,10 +43,14 @@ class ManualUpload extends SupportedSite{
 		// If the mp3 and mp4 files exist, check if the mp3 has a duration that is not null
 		if(file_exists($downloadFilePath.".mp3") && YouTube::getDuration($downloadFilePath.".mp3")){
 			if($p == "mp3"){
+				// Before returning true, set the duration since convert will not be run
+				$this->video->setDuration(YouTube::getDurationSeconds($downloadFilePath.".mp3"));
 				return true;
 			}
 			else if(file_exists($downloadFilePath.".mp4") && YouTube::getDuration($downloadFilePath.".mp4") ==
 				YouTube::getDuration($downloadFilePath.".mp3")){
+				// Before returning true, set the duration since convert will not be run
+				$this->video->setDuration(YouTube::getDurationSeconds($downloadFilePath.".mp3"));
 				return true;
 			}
 		}

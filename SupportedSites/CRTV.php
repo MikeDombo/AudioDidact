@@ -103,6 +103,8 @@ class CRTV extends SupportedSite{
 		if(file_exists($downloadFilePath.".mp3") && file_exists($downloadFilePath.".mp4") &&
 			YouTube::getDuration($downloadFilePath.".mp4") == YouTube::getDuration($downloadFilePath.".mp3")
 			&& YouTube::getDuration($downloadFilePath.".mp3")){
+			// Before returning true, set the duration since convert will not be run
+			$this->video->setDuration(YouTube::getDurationSeconds($downloadFilePath.".mp3"));
 			return true;
 		}
 		// If only the mp4 is downloaded (and has a duration) or the mp3 duration is null, then convert the mp4 to mp3

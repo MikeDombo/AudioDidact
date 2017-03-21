@@ -122,6 +122,8 @@ class SoundCloud extends SupportedSite{
 		}
 		// If the mp3 check if the mp3 has a duration that is not null
 		if(file_exists($downloadFilePath.".mp3") && YouTube::getDuration($downloadFilePath.".mp3")){
+			// Before returning true, set the duration since convert will not be run
+			$this->video->setDuration(YouTube::getDurationSeconds($downloadFilePath.".mp3"));
 			return true;
 		}
 		// If all else fails, return false
