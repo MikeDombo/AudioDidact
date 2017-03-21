@@ -34,17 +34,19 @@ if(isset($_GET["yt"])){
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
 		$download = getSupportedSiteClass($url, $url, $podtube);
-		$video = $download->getVideo();
+		if($download != null){
+			$video = $download->getVideo();
 
-		// If not all thumbnail, video, and audio are downloaded, then download them in that order
-		if(!$download->allDownloaded()){
-			$download->downloadVideo();
-			$download->downloadThumbnail();
-			$download->convert();
-		}
+			// If not all thumbnail, video, and audio are downloaded, then download them in that order
+			if(!$download->allDownloaded()){
+				$download->downloadVideo();
+				$download->downloadThumbnail();
+				$download->convert();
+			}
 
-		if(!$dal->inFeed($video, $user)){
-			$dal->addVideo($video, $user);
+			if(!$dal->inFeed($video, $user)){
+				$dal->addVideo($video, $user);
+			}
 		}
 	}
 	catch(Exception $e){
@@ -106,6 +108,8 @@ function getSupportedSiteClass($url, $id, $podTube){
 	else {
 		error_log("Could not find route for URL: ".$url." or ID: ".$id);
 	}
+
+	echo json_encode(['stage'=>-1, 'error'=>"Could not find a class to download from that URL.", 'progress'=>0]);
 	// Error case or manually uploaded content case
 	return null;
 }
