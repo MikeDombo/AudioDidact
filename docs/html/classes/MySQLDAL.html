@@ -89,6 +89,7 @@
                     </li><li>public void <a title="MySQLDAL" href="../classes/MySQLDAL/__construct.html">__construct</a>()
                     </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByID.html">getUserByID</a>()
                     </li><li>private User <a title="MySQLDAL" href="../classes/MySQLDAL/setUser.html">setUser</a>()
+                    </li><li>private Video <a title="MySQLDAL" href="../classes/MySQLDAL/setVideo.html">setVideo</a>()
                     </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByWebID.html">getUserByWebID</a>()
                     </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByUsername.html">getUserByUsername</a>()
                     </li><li>public null|User <a title="MySQLDAL" href="../classes/MySQLDAL/getUserByEmail.html">getUserByEmail</a>()
@@ -191,6 +192,8 @@
                 — Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not Default Key Extra</li>
             <li id="setUser"><a title="MySQLDAL" href="../classes/MySQLDAL/setUser.html">setUser()</a>
                 — Makes a new user object from a database select command.</li>
+            <li id="setVideo"><a title="MySQLDAL" href="../classes/MySQLDAL/setVideo.html">setVideo()</a>
+                — Makes a new video object from a database select command.</li>
             <li id="verifySchema"><a title="MySQLDAL" href="../classes/MySQLDAL/verifySchema.html">verifySchema()</a>
                 — Checks if two arrays are equal to test that SQL schemas are compliant</li>
           </ul>
@@ -298,6 +301,46 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2017-04-05T04:48:09+02:00 (commit #<span title="b14dbadf818f6a7c6c7b3e9d5b7c5957ca90cbd2">b14dbad</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add choice to add a video to your podcast feed (instead of audio)</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-16T15:11:37+01:00 (commit #<span title="2ad295255481030ce70b50072f104429f13ff31e">2ad2952</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix to statistics for empty feeds</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-12T05:18:29+01:00 (commit #<span title="f53bccef049cb5c3c32b22f17ce932941db19b81">f53bcce</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix duration in statistics</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-11T06:40:01+01:00 (commit #<span title="a0e0ed17bd9ee1092695d663b218a03f07834952">a0e0ed1</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add stats and Help</pre>
+            </div>
+          </li>
           <li>
             <h3>2017-02-11T20:42:51+01:00 (commit #<span title="48bfcbd4f118dd9276a9b04af62422e4790ae93c">48bfcbd</span>)</h3>
             <div>
@@ -416,46 +459,6 @@
                         Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
                     </p>
               <pre class="wrapped">Update to optionally use SQLite instead of MySQL</pre>
-            </div>
-          </li>
-          <li>
-            <h3>2016-12-16T05:37:43+01:00 (commit #<span title="d0e3a4587c9797b3b01b2ed9212230324443388a">d0e3a45</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Update to optionally use SQLite instead of MySQL</pre>
-            </div>
-          </li>
-          <li>
-            <h3>2016-12-16T05:37:43+01:00 (commit #<span title="5ecc329c5ae49dce5582977eb22f3dee605bd711">5ecc329</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Update to optionally use SQLite instead of MySQL</pre>
-            </div>
-          </li>
-          <li>
-            <h3>2016-09-20T05:48:19+02:00 (commit #<span title="0f88787381956f6639acb15d1bc26a6cec358976">0f88787</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Update for formatting</pre>
-            </div>
-          </li>
-          <li>
-            <h3>2016-09-20T05:48:19+02:00 (commit #<span title="e897343204e593c117ab4b0b155fd269b8bfdd8b">e897343</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Update for formatting</pre>
             </div>
           </li>
         </ul>

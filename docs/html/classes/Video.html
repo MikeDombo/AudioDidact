@@ -75,6 +75,10 @@
                     </li><li>private  <a href="#members">$author</a>;
                     </li><li>private  <a href="#members">$order</a>;
                     </li><li>private  <a href="#members">$url</a>;
+                    </li><li>private  <a href="#members">$isVideo</a>;
+                    </li><li>private  <a href="#members">$thumbnailFilename</a>;
+                    </li><li>private  <a href="#members">$filename</a>;
+                    </li><li>private  <a href="#members">$fileExtension</a>;
                     </li></ul><ul class="none"><li>// methods</li><li>public mixed <a title="Video" href="../classes/Video/getId.html">getId</a>()
                     </li><li>public void <a title="Video" href="../classes/Video/setId.html">setId</a>()
                     </li><li>public mixed <a title="Video" href="../classes/Video/getTitle.html">getTitle</a>()
@@ -91,6 +95,13 @@
                     </li><li>public void <a title="Video" href="../classes/Video/setOrder.html">setOrder</a>()
                     </li><li>public string <a title="Video" href="../classes/Video/getURL.html">getURL</a>()
                     </li><li>public void <a title="Video" href="../classes/Video/setURL.html">setURL</a>()
+                    </li><li>public bool <a title="Video" href="../classes/Video/isIsVideo.html">isIsVideo</a>()
+                    </li><li>public void <a title="Video" href="../classes/Video/setIsVideo.html">setIsVideo</a>()
+                    </li><li>public string <a title="Video" href="../classes/Video/getThumbnailFilename.html">getThumbnailFilename</a>()
+                    </li><li>public void <a title="Video" href="../classes/Video/setThumbnailFilename.html">setThumbnailFilename</a>()
+                    </li><li>public string <a title="Video" href="../classes/Video/getFilename.html">getFilename</a>()
+                    </li><li>public void <a title="Video" href="../classes/Video/setFilename.html">setFilename</a>()
+                    </li><li>public string <a title="Video" href="../classes/Video/getFileExtension.html">getFileExtension</a>()
                     </li></ul>
 
             }<br/></div>
@@ -107,12 +118,24 @@
             <li id="duration"><strong>$duration</strong>
                 —
                 int</li>
+            <li id="fileExtension"><strong>$fileExtension</strong>
+                —
+                string</li>
+            <li id="filename"><strong>$filename</strong>
+                —
+                string</li>
             <li id="id"><strong>$id</strong>
                 —
                 string</li>
+            <li id="isVideo"><strong>$isVideo</strong>
+                —
+                boolean</li>
             <li id="order"><strong>$order</strong>
                 —
                 int</li>
+            <li id="thumbnailFilename"><strong>$thumbnailFilename</strong>
+                —
+                string</li>
             <li id="time"><strong>$time</strong>
                 —
                 string</li>
@@ -134,10 +157,19 @@
                 — Gets the video description</li>
             <li id="getDuration"><a title="Video" href="../classes/Video/getDuration.html">getDuration()</a>
                 — Gets the duration of the video in seconds</li>
+            <li id="getFileExtension">
+              <a title="Video" href="../classes/Video/getFileExtension.html">getFileExtension()</a>
+            </li>
+            <li id="getFilename">
+              <a title="Video" href="../classes/Video/getFilename.html">getFilename()</a>
+            </li>
             <li id="getId"><a title="Video" href="../classes/Video/getId.html">getId()</a>
                 — Gets the YouTube video ID</li>
             <li id="getOrder"><a title="Video" href="../classes/Video/getOrder.html">getOrder()</a>
                 — Gets the order of the video in the feed</li>
+            <li id="getThumbnailFilename">
+              <a title="Video" href="../classes/Video/getThumbnailFilename.html">getThumbnailFilename()</a>
+            </li>
             <li id="getTime"><a title="Video" href="../classes/Video/getTime.html">getTime()</a>
                 — Gets the time the video was added</li>
             <li id="getTitle"><a title="Video" href="../classes/Video/getTitle.html">getTitle()</a>
@@ -145,16 +177,28 @@
             <li id="getURL">
               <a title="Video" href="../classes/Video/getURL.html">getURL()</a>
             </li>
+            <li id="isIsVideo">
+              <a title="Video" href="../classes/Video/isIsVideo.html">isIsVideo()</a>
+            </li>
             <li id="setAuthor"><a title="Video" href="../classes/Video/setAuthor.html">setAuthor()</a>
                 — Sets the video author</li>
             <li id="setDesc"><a title="Video" href="../classes/Video/setDesc.html">setDesc()</a>
                 — Sets the video description</li>
             <li id="setDuration"><a title="Video" href="../classes/Video/setDuration.html">setDuration()</a>
                 — Sets the duration of the video in seconds</li>
+            <li id="setFilename">
+              <a title="Video" href="../classes/Video/setFilename.html">setFilename()</a>
+            </li>
             <li id="setId"><a title="Video" href="../classes/Video/setId.html">setId()</a>
                 — Sets the YouTube video ID</li>
+            <li id="setIsVideo">
+              <a title="Video" href="../classes/Video/setIsVideo.html">setIsVideo()</a>
+            </li>
             <li id="setOrder"><a title="Video" href="../classes/Video/setOrder.html">setOrder()</a>
                 — Sets the order of the video in the feed</li>
+            <li id="setThumbnailFilename">
+              <a title="Video" href="../classes/Video/setThumbnailFilename.html">setThumbnailFilename()</a>
+            </li>
             <li id="setTime"><a title="Video" href="../classes/Video/setTime.html">setTime()</a>
                 — Sets the time the video was added</li>
             <li id="setTitle"><a title="Video" href="../classes/Video/setTitle.html">setTitle()</a>
@@ -166,6 +210,46 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2017-04-05T04:48:09+02:00 (commit #<span title="b14dbadf818f6a7c6c7b3e9d5b7c5957ca90cbd2">b14dbad</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add choice to add a video to your podcast feed (instead of audio)</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-12T05:33:46+01:00 (commit #<span title="da10165978113703b1be66d0ba1e57f015e67012">da10165</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Correctly pluralize text in statistics</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-12T05:18:29+01:00 (commit #<span title="f53bccef049cb5c3c32b22f17ce932941db19b81">f53bcce</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix duration in statistics</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-11T06:40:01+01:00 (commit #<span title="a0e0ed17bd9ee1092695d663b218a03f07834952">a0e0ed1</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add stats and Help</pre>
+            </div>
+          </li>
           <li>
             <h3>2017-01-27T23:41:46+01:00 (commit #<span title="5acd74f37d53852d71e11d01a26e30d6eadc4cfa">5acd74f</span>)</h3>
             <div>
