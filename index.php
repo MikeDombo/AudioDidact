@@ -22,7 +22,8 @@ if(count($url) == 0 || (count($url) == 1 && $url[1] == "index.php")){
 			echo generatePug("views/addVideoUpload.pug", "Add Content Manually");
 		}
 		else{
-			echo generatePug("views/addVideo.pug", "Add Content");
+			$pageJS = 'public/js/addVideoURL.js';
+			echo generatePug("views/addVideo.pug", "Add Content", ["addUserJSCheck"=>SRIChecksum(file_get_contents($pageJS))]);
 		}
 	}
 	else{

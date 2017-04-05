@@ -37,7 +37,6 @@ class ManualUpload extends SupportedSite{
 	public function allDownloaded(){
 		$downloadPath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
 		$downloadFilePath = $downloadPath.$this->video->getFilename();
-		$fullDownloadPath = $downloadFilePath.$this->video->getFileExtension();
 
 		$p = pathinfo($this->video->getURL())["extension"];
 		// If the thumbnail has not been downloaded, go ahead and download it

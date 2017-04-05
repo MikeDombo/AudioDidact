@@ -133,6 +133,12 @@ if(CHECK_REQUIRED){
 	}
 }
 
+function SRIChecksum($input) {
+    $hash = hash('sha256', $input, true);
+    $hash_base64 = base64_encode($hash);
+    return "sha256-$hash_base64";
+}
+
 /**
  * Returns Pug (Jade) rendered HTML for a given view and options
  * @param $view string Name of Pug view to be rendered

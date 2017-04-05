@@ -20,7 +20,7 @@ block content
             a(href="/#{subdir}?manual" class="btn-info btn ml-sm-5 btn-block-xs-only" role="button") Switch to Manual Mode
         style.
             @media(max-width: 575px){.btn-block-xs-only{display: block;width: 100%;margin-bottom: .25rem;}}
-        script(src="/#{subdir}public/js/addVideoURL.js")
+        script(src="/#{subdir}public/js/addVideoURL.js" integrity="#{addUserJSCheck}")
         include errorModal.pug
     div.col-sm-12
         h2 Feed Subscription URL:
