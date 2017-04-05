@@ -12,19 +12,23 @@ class YouTube extends SupportedSite{
 	 * YouTube constructor. Gets the video information, checks for it in the user's feed.
 	 *
 	 * @param string $str
+	 * @param boolean $isVideo
 	 * @param PodTube $podtube
 	 * @throws \Exception
 	 */
-	public function __construct($str, PodTube $podtube){
+	public function __construct($str, $isVideo, PodTube $podtube){
 		parent::$podtube = $podtube;
 		$this->video = new Video();
 
 		// If there is a URL/ID, continue
 		if($str != null){
 			$this->video->setURL($str);
+			$this->video->setIsVideo($isVideo);
 
 			// Set video ID from setYoutubeID and time to current time
 			$this->video->setId($this->setYoutubeID($str));
+			$this->video->setFilename($this->video->getId());
+			$this->video->setThumbnailFilename($this->video->getFilename().".jpg");
 			$this->video->setTime(time());
 
 			// Check if the video already exists in the DB. If it does, then we do not need to get the information
@@ -86,24 +90,27 @@ class YouTube extends SupportedSite{
 	 * @return bool
 	 */
 	public function allDownloaded(){
-		$downloadFilePath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$this->video->getID();
+		$downloadPath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
+		$downloadFilePath = $downloadPath.$this->video->getFilename();
+		$fullDownloadPath = $downloadFilePath.$this->video->getFileExtension();
+
 		// If the thumbnail has not been downloaded, go ahead and download it
-		if(!file_exists($downloadFilePath.".jpg")){
+		if(!file_exists($downloadPath.$this->video->getThumbnailFilename())){
 			$this->downloadThumbnail();
 		}
-		// If the mp3 and mp4 files exist, check if the mp3 has a duration that is not null
-		if(file_exists($downloadFilePath.".mp3") && file_exists($downloadFilePath.".mp4") &&
-			$this->getDuration($downloadFilePath.".mp4") == $this->getDuration($downloadFilePath.".mp3")
-			&& $this->getDuration($downloadFilePath.".mp3")){
-				// Before returning true, set the duration since convert will not be run
-				$this->video->setDuration(self::getDurationSeconds($downloadFilePath.".mp3"));
-				return true;
-		}
-		// If only the mp4 is downloaded (and has a duration) or the mp3 duration is null, then convert the mp4 to mp3
-		if(file_exists($downloadFilePath.".mp4") && $this->getDuration($downloadFilePath.".mp4")){
-			$this->convert();
+		if($this->video->isIsVideo() && file_exists($fullDownloadPath) && SupportedSite::getDuration($fullDownloadPath)){
+			// If only the mp4 is downloaded (and has a duration)
+			$this->video->setDuration(SupportedSite::getDurationSeconds($fullDownloadPath));
 			return true;
 		}
+		else if(file_exists($downloadFilePath.".mp3") && file_exists($downloadFilePath.".mp4") &&
+			SupportedSite::getDuration($downloadFilePath.".mp3") &&
+			SupportedSite::getDuration($downloadFilePath.".mp4") == SupportedSite::getDuration($downloadFilePath.".mp3")){
+			// Before returning true, set the duration since convert will not be run
+			$this->video->setDuration(SupportedSite::getDurationSeconds($fullDownloadPath));
+			return true;
+		}
+
 		// If all else fails, return false
 		return false;
 	}
@@ -112,9 +119,8 @@ class YouTube extends SupportedSite{
 	 * Download thumbnail using videoID from YouTube's image server
 	 */
 	public function downloadThumbnail(){
-		$thumbFilename = $this->video->getID().".jpg";
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$thumbnail = $path . $thumbFilename;
+		$thumbnail = $path.$this->video->getThumbnailFilename();
 		file_put_contents($thumbnail, fopen("https://i.ytimg.com/vi/".$this->video->getID()."/mqdefault.jpg", "r"));
 		// Set the thumbnail file as publicly accessible
 		@chmod($thumbnail, 0775);
@@ -124,12 +130,11 @@ class YouTube extends SupportedSite{
 	 * Download video using download URL from Python script and then call downloadWithPercentage to actually download the video
 	 */
 	public function downloadVideo(){
-		$id = $this->video->getID();
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$videoFilename = "$id.mp4";
-		$videoPath = $path . $videoFilename;
+		$videoFilename = $this->video->getFilename().".mp4";
+		$videoPath = $path.$videoFilename;
 
-		$url = $this->getDownloadURL($id);
+		$url = $this->getDownloadURL($this->video->getID());
 		if(strpos($url, "Error:")>-1){
 			$this->echoErrorJSON($url);
 			throw new Exception("Download Failed!");
@@ -338,10 +343,10 @@ class YouTube extends SupportedSite{
 	 */
 	public function convert(){
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$ffmpeg_infile = $path . $this->video->getID() .".mp4";
-		$ffmpeg_albumArt = $path.$this->video->getID().".jpg";
-		$ffmpeg_outfile = $path . $this->video->getID() .".mp3";
-		$ffmpeg_tempFile = $path . $this->video->getID() ."-art.mp3";
+		$ffmpeg_infile = $path.$this->video->getFilename().".mp4";
+		$ffmpeg_albumArt = $path.$this->video->getThumbnailFilename();
+		$ffmpeg_outfile = $path.$this->video->getFilename().$this->video->getFileExtension();
+		$ffmpeg_tempFile = $path.$this->video->getFilename() ."-art.mp3";
 
 		// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
 		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->video->getID().".txt 2>&1";
@@ -402,7 +407,7 @@ class YouTube extends SupportedSite{
 		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
 		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 
-		$this->video->setDuration(self::getDurationSeconds($ffmpeg_outfile));
+		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpeg_outfile));
 		return;
 	}
 
@@ -422,43 +427,6 @@ class YouTube extends SupportedSite{
 		$int = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 		return intval($int);
-	}
-
-	/**
-	 * Get duration of media file from ffmpeg
-	 * @param $file
-	 * @return bool|string
-	 */
-	public static function getDuration($file){
-		$dur = shell_exec("ffmpeg -i ".$file." 2>&1");
-		if(preg_match("/: Invalid /", $dur)){
-			return false;
-		}
-		preg_match("/Duration: (.{2}):(.{2}):(.{2})/", $dur, $duration);
-		if(!isset($duration[1])){
-			return false;
-		}
-		return $duration[1].":".$duration[2].":".$duration[3];
-	}
-
-	/**
-	 * Get duration in seconds of media file from ffmpeg
-	 * @param $file
-	 * @return bool|string
-	 */
-	public static function getDurationSeconds($file){
-		$dur = shell_exec("ffmpeg -i ".$file." 2>&1");
-		if(preg_match("/: Invalid /", $dur)){
-			return false;
-		}
-		preg_match("/Duration: (.{2}):(.{2}):(.{2})/", $dur, $duration);
-		if(!isset($duration[1])){
-			return false;
-		}
-		$hours = $duration[1];
-		$minutes = $duration[2];
-		$seconds = $duration[3];
-		return $seconds + ($minutes*60) + ($hours*60*60);
 	}
 
 	/**

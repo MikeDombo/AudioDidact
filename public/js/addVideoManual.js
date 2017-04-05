@@ -43,6 +43,7 @@ $(document).ready(function (){
 			$("#progress").width('100%').text('100%');
 		},
 		complete: function (response){
+			console.log(response);
 			var r = JSON.parse(response.responseText);
 			if(r["error"] == false){
 				$("#progress").text("Successfully Uploaded!");

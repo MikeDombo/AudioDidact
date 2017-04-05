@@ -45,9 +45,10 @@ if(isset($_FILES["yt"])){
 		$generatedID = hash_file("sha256", $output_dir.$_FILES["yt"]["name"]);
 		rename($output_dir.$_FILES["yt"]["name"], $output_dir.$generatedID.".".$extension);
 
+		$thumbnailFilename = "";
 		// Save art from base64 encoded data
 		if(strpos($_POST["art"], "data:image") > -1){
-			save_base64_image($_POST["art"], $generatedID, $output_dir);
+			$thumbnailFilename = save_base64_image($_POST["art"], $generatedID, $output_dir);
 		}
 		// Save art from URL
 		else{
@@ -61,19 +62,22 @@ if(isset($_FILES["yt"])){
 	}
 
 	$data = ["ID"=>$generatedID, "description"=>htmlentities($_POST["description"], ENT_HTML5, "UTF-8"),
-			"title"=>$_POST["title"], "author"=>$_POST["author"], "filename"=>$_FILES["yt"]["name"]];
+			"title"=>$_POST["title"], "author"=>$_POST["author"], "filename"=>$_FILES["yt"]["name"], "thumbnailFilename"=>$thumbnailFilename];
+	$isVideo = boolval($_POST["audvid"]);
 
 	$podtube = new PodTube($dal, $user);
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
-	$download = new ManualUpload($data, $podtube);
+	$download = new ManualUpload($data, $isVideo, $podtube);
 	$video = $download->getVideo();
 
 	// If not all thumbnail, video, and audio are downloaded, then download them in that order
 	if(!$download->allDownloaded()){
 		$download->downloadThumbnail();
 		$download->downloadVideo();
-		$download->convert();
+		if(!$video->isIsVideo()){
+			$download->convert();
+		}
 	}
 
 	if(!$dal->inFeed($video, $user)){
@@ -93,12 +97,21 @@ function save_base64_image($base64_image_string, $output_file_without_ext, $path
 	$splited = explode(',', substr($base64_image_string, 5), 2);
 	$mime = $splited[0];
 	$data = $splited[1];
+	$output_file_with_ext = $output_file_without_ext;
 
 	$mime_split_without_base64 = explode(';', $mime, 2);
 	$mime_split = explode('/', $mime_split_without_base64[0], 2);
 	if(count($mime_split) == 2){
-		$output_file_without_ext .= '.jpg';
+		$extension = $mime_split[1];
+		if($extension == 'jpeg'){
+			$extension = 'jpg';
+		}
+		else if($extension == "png"){
+			$extension = "png";
+		}
+
+		$output_file_with_ext .= '.'.$extension;
 	}
-	file_put_contents($path_with_end_slash.$output_file_without_ext, base64_decode($data));
-	return $output_file_without_ext;
+	file_put_contents($path_with_end_slash.$output_file_with_ext, base64_decode($data));
+	return $output_file_with_ext;
 }

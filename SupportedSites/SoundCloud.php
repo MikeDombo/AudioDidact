@@ -10,20 +10,24 @@ class SoundCloud extends SupportedSite{
 	 * SoundCloud constructor. Gets the audio information, checks for it in the user's feed.
 	 *
 	 * @param string $str
+	 * @param boolean $isVideo
 	 * @param PodTube $podtube
 	 * @throws \Exception
 	 */
-	public function __construct($str, PodTube $podtube){
+	public function __construct($str, $isVideo, PodTube $podtube){
 		parent::$podtube = $podtube;
 		$this->video = new Video();
 
 		// If there is a URL/ID, continue
 		if($str != null){
 			$this->video->setURL($str);
+			$this->video->setIsVideo(false);
 
 			// Set video ID and time to current time
 			$info = $this->getVideoInfo($str);
 			$this->video->setId($info["ID"]);
+			$this->video->setFilename($this->video->getId());
+			$this->video->setThumbnailFilename($this->video->getFilename().".jpg");
 			$this->video->setTime(time());
 
 			// Check if the video already exists in the DB. If it does, then we do not need to get the information again
@@ -115,15 +119,17 @@ class SoundCloud extends SupportedSite{
 	 * @return bool
 	 */
 	public function allDownloaded(){
-		$downloadFilePath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$this->video->getID();
+		$downloadPath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
+		$fullDownloadPath = $downloadPath.$this->video->getFilename().$this->video->getFileExtension();
+
 		// If the thumbnail has not been downloaded, go ahead and download it
-		if(!file_exists($downloadFilePath.".jpg")){
+		if(!file_exists($downloadPath.$this->video->getThumbnailFilename())){
 			$this->downloadThumbnail();
 		}
 		// If the mp3 check if the mp3 has a duration that is not null
-		if(file_exists($downloadFilePath.".mp3") && YouTube::getDuration($downloadFilePath.".mp3")){
+		if(file_exists($fullDownloadPath) && SupportedSite::getDuration($fullDownloadPath)){
 			// Before returning true, set the duration since convert will not be run
-			$this->video->setDuration(YouTube::getDurationSeconds($downloadFilePath.".mp3"));
+			$this->video->setDuration(SupportedSite::getDurationSeconds($fullDownloadPath));
 			return true;
 		}
 		// If all else fails, return false
@@ -134,9 +140,8 @@ class SoundCloud extends SupportedSite{
 	 * Download thumbnail
 	 */
 	public function downloadThumbnail(){
-		$thumbFilename = $this->video->getID().".jpg";
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$thumbnail = $path . $thumbFilename;
+		$thumbnail = $path.$this->video->getThumbnailFilename();
 		file_put_contents($thumbnail, fopen($this->thumbnail_url, "r"));
 		// Set the thumbnail file as publicly accessible
 		@chmod($thumbnail, 0775);
@@ -150,10 +155,8 @@ class SoundCloud extends SupportedSite{
 	}
 
 	public function downloadVideo(){
-		$id = $this->video->getID();
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$videoFilename = "$id.mp3";
-		$videoPath = $path . $videoFilename;
+		$videoPath = $path.$this->video->getFilename().$this->video->getFileExtension();
 		$url = $this->getDownloadURL();
 
 		$ch = curl_init($url);
@@ -211,14 +214,14 @@ class SoundCloud extends SupportedSite{
 	 */
 	public function convert(){
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$ffmpeg_albumArt = $path.$this->video->getID().".jpg";
-		$ffmpeg_outfile = $path . $this->video->getID() .".mp3";
-		$ffmpeg_tempFile = $path . $this->video->getID() ."-art.mp3";
+		$ffmpeg_albumArt = $path.$this->video->getThumbnailFilename();
+		$ffmpeg_outfile = $path.$this->video->getFilename().$this->video->getFileExtension();
+		$ffmpeg_tempFile = $path.$this->video->getFilename()."-art.mp3";
 
 		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
 		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 
-		$this->video->setDuration(YouTube::getDurationSeconds($ffmpeg_outfile));
+		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpeg_outfile));
 
 		// Send progress to UI
 		$response = array('stage' =>1, 'progress' => 100);

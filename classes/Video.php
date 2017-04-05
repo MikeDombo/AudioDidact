@@ -22,6 +22,14 @@ class Video{
 	private $order;
 	/** @var string url of video page */
 	private $url;
+	/** @var boolean $isVideo True if this video should be added to a feed as video (not audio only) */
+	private $isVideo;
+	/** @var string $thumbnailFilename filename with extension of thumbnail */
+	private $thumbnailFilename;
+	/** @var string $filename filename of the audio/video file without extension */
+	private $filename;
+	/** @var string $fileExtension extension of the audio or video file with preceeding period (.)*/
+	private $fileExtension;
 
 	/**
 	 * Gets the YouTube video ID
@@ -151,4 +159,60 @@ class Video{
 	public function setURL($url){
 		$this->url = $url;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function isIsVideo(){
+		return $this->isVideo;
+	}
+
+	/**
+	 * @param bool $isVideo
+	 */
+	public function setIsVideo($isVideo){
+		$this->isVideo = $isVideo;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getThumbnailFilename(){
+		return $this->thumbnailFilename;
+	}
+
+	/**
+	 * @param string $thumbnailFilename
+	 */
+	public function setThumbnailFilename($thumbnailFilename){
+		$this->thumbnailFilename = $thumbnailFilename;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFilename(){
+		return $this->filename;
+	}
+
+	/**
+	 * @param string $filename
+	 */
+	public function setFilename($filename){
+		$this->filename = $filename;
+		if($this->isVideo){
+			$this->fileExtension = ".mp4";
+		}
+		else{
+			$this->fileExtension = ".mp3";
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFileExtension(){
+		return $this->fileExtension;
+	}
+
 }

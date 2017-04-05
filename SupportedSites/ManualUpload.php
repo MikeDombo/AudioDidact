@@ -2,16 +2,19 @@
 
 class ManualUpload extends SupportedSite{
 
-	public function __construct($data, PodTube $podtube){
+	public function __construct($data, $isVideo, PodTube $podtube){
 		parent::$podtube = $podtube;
 		$this->video = new Video();
 
 		// If there is a URL/ID, continue
 		if($data != null){
 			$this->video->setURL($data["filename"]);
+			$this->video->setIsVideo($isVideo);
 
 			// Set video ID and time to current time
 			$this->video->setId($data["ID"]);
+			$this->video->setFilename($this->video->getId());
+			$this->video->setThumbnailFilename($data["thumbnailFilename"]);
 			$this->video->setTime(time());
 
 			// Check if the video already exists in the DB. If it does, then we do not need to get the information again
@@ -23,8 +26,6 @@ class ManualUpload extends SupportedSite{
 			else{
 				$this->video = parent::$podtube->getDataFromFeed($this->video->getId());
 			}
-
-			$this->applyArt();
 		}
 	}
 
@@ -34,30 +35,33 @@ class ManualUpload extends SupportedSite{
 	 * @return bool
 	 */
 	public function allDownloaded(){
-		$downloadFilePath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$this->video->getID();
+		$downloadPath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
+		$downloadFilePath = $downloadPath.$this->video->getFilename();
+		$fullDownloadPath = $downloadFilePath.$this->video->getFileExtension();
+
 		$p = pathinfo($this->video->getURL())["extension"];
 		// If the thumbnail has not been downloaded, go ahead and download it
-		if(!file_exists($downloadFilePath.".jpg")){
+		if(!file_exists($this->video->getThumbnailFilename())){
 			$this->downloadThumbnail();
 		}
 		// If the mp3 and mp4 files exist, check if the mp3 has a duration that is not null
-		if(file_exists($downloadFilePath.".mp3") && YouTube::getDuration($downloadFilePath.".mp3")){
+		if(file_exists($downloadFilePath.".mp3") && SupportedSite::getDuration($downloadFilePath.".mp3")){
 			if($p == "mp3"){
 				// Before returning true, set the duration since convert will not be run
-				$this->video->setDuration(YouTube::getDurationSeconds($downloadFilePath.".mp3"));
+				$this->video->setDuration(SupportedSite::getDurationSeconds($downloadFilePath.".mp3"));
 				return true;
 			}
-			else if(file_exists($downloadFilePath.".mp4") && YouTube::getDuration($downloadFilePath.".mp4") ==
-				YouTube::getDuration($downloadFilePath.".mp3")){
+			else if(file_exists($downloadFilePath.".mp4") && SupportedSite::getDuration($downloadFilePath.".mp4") ==
+				SupportedSite::getDuration($downloadFilePath.".mp3")){
 				// Before returning true, set the duration since convert will not be run
-				$this->video->setDuration(YouTube::getDurationSeconds($downloadFilePath.".mp3"));
+				$this->video->setDuration(SupportedSite::getDurationSeconds($downloadFilePath.".mp3"));
 				return true;
 			}
 		}
 		// If only the mp4 is downloaded (and has a duration) or the mp3 duration is null, then convert the mp4 to mp3
-		if($p != "mp3" && file_exists($downloadFilePath.".mp4") && YouTube::getDuration($downloadFilePath.".mp4")){
+		if(!$this->video->isIsVideo() && $p != "mp3" && file_exists($downloadFilePath.".mp4") &&
+			SupportedSite::getDuration($downloadFilePath.".mp4")){
 			$this->convert();
-			$this->applyArt();
 			return true;
 		}
 		// If all else fails, return false
@@ -74,9 +78,9 @@ class ManualUpload extends SupportedSite{
 
 	private function applyArt(){
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$ffmpeg_outfile = $path.$this->video->getID().".mp3";
-		$ffmpeg_albumArt = $path.$this->video->getID().".jpg";
-		$ffmpeg_tempFile = $path.$this->video->getID()."-art.mp3";
+		$ffmpeg_outfile = $path.$this->video->getFilename().".mp3";
+		$ffmpeg_albumArt = $path.$this->video->getThumbnailFilename();
+		$ffmpeg_tempFile = $path.$this->video->getFilename()."-art.mp3";
 		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
 		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 	}
@@ -84,8 +88,8 @@ class ManualUpload extends SupportedSite{
 	public function convert(){
 		$p = pathinfo($this->video->getURL())["extension"];
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$ffmpeg_infile = $path.$this->video->getID().".mp4";
-		$ffmpeg_outfile = $path.$this->video->getID().".mp3";
+		$ffmpeg_infile = $path.$this->video->getFilename().".mp4";
+		$ffmpeg_outfile = $path.$this->video->getFilename().".mp3";
 		if($p != "mp3"){
 			// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
 			$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->video->getID().".txt 2>&1";
@@ -144,7 +148,8 @@ class ManualUpload extends SupportedSite{
 			@unlink($this->video->getID().".txt");
 			return;
 		}
-		$this->video->setDuration(YouTube::getDurationSeconds($ffmpeg_outfile));
+		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpeg_outfile));
+		$this->applyArt();
 		return;
 	}
 }

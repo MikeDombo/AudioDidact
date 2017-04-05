@@ -92,34 +92,58 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * Makes a new user object from a database select command.
-	 * @param $rows Database rows retrieved from another method
+	 *
+	 * @param $row array Database row retrieved from another method
 	 * @return User
 	 */
-	private function setUser($rows){
+	private function setUser($row){
 		$user = new User();
-		$user->setUserID($rows["ID"]);
-		$user->setUsername($rows["username"]);
-		$user->setPasswdDB($rows["password"]);
-		$user->setEmail($rows["email"]);
-		$user->setFname($rows["firstname"]);
-		$user->setLname($rows["lastname"]);
-		$user->setGender($rows["gender"]);
-		$user->setWebID($rows["webID"]);
-		$user->setFeedText($rows["feedText"]);
-		$user->setFeedLength($rows["feedLength"]);
-		if($rows["feedDetails"] != ""){
-			$user->setFeedDetails(json_decode($rows["feedDetails"], true));
+		$user->setUserID($row["ID"]);
+		$user->setUsername($row["username"]);
+		$user->setPasswdDB($row["password"]);
+		$user->setEmail($row["email"]);
+		$user->setFname($row["firstname"]);
+		$user->setLname($row["lastname"]);
+		$user->setGender($row["gender"]);
+		$user->setWebID($row["webID"]);
+		$user->setFeedText($row["feedText"]);
+		$user->setFeedLength($row["feedLength"]);
+		if($row["feedDetails"] != ""){
+			$user->setFeedDetails(json_decode($row["feedDetails"], true));
 		}
-		$user->setPrivateFeed($rows["privateFeed"]);
-		if($rows["emailVerificationCodes"] != ""){
-			$user->setEmailVerificationCodes(json_decode($rows["emailVerificationCodes"], true));
+		$user->setPrivateFeed($row["privateFeed"]);
+		if($row["emailVerificationCodes"] != ""){
+			$user->setEmailVerificationCodes(json_decode($row["emailVerificationCodes"], true));
 		}
-		if($rows["passwordRecoveryCodes"] != ""){
-			$user->setPasswordRecoveryCodes(json_decode($rows["passwordRecoveryCodes"], true));
+		if($row["passwordRecoveryCodes"] != ""){
+			$user->setPasswordRecoveryCodes(json_decode($row["passwordRecoveryCodes"], true));
 		}
-		$user->setEmailVerified($rows["emailVerified"]);
+		$user->setEmailVerified($row["emailVerified"]);
 
 		return $user;
+	}
+
+	/**
+	 * Makes a new video object from a database select command.
+	 * @param $row array Database rows retrieved from another method
+	 * @return Video
+	 */
+	private function setVideo($row){
+		$vid = new Video();
+
+		$vid->setAuthor($row["videoAuthor"]);
+		$vid->setDesc($row["description"]);
+		$vid->setId($row["videoID"]);
+		$vid->setTime(strtotime($row["timeAdded"]));
+		$vid->setDuration(intval($row["duration"]));
+		$vid->setTitle($row["videoTitle"]);
+		$vid->setOrder($row["orderID"]);
+		$vid->setURL($row["URL"]);
+		$vid->setIsVideo($row["isVideo"]);
+		$vid->setFilename($row["filename"]);
+		$vid->setThumbnailFilename($row["thumbnailFilename"]);
+
+		return $vid;
 	}
 
 	/**
@@ -227,15 +251,7 @@ class MySQLDAL extends DAL{
 			}
 			$row = $rows[0];
 
-			$vid = new Video();
-			$vid->setAuthor($row["videoAuthor"]);
-			$vid->setDesc($row["description"]);
-			$vid->setId($row["videoID"]);
-			$vid->setTime(strtotime($row["timeAdded"]));
-			$vid->setTitle($row["videoTitle"]);
-			$vid->setOrder($row["orderID"]);
-			$vid->setURL($row["URL"]);
-			return $vid;
+			return $this->setVideo($row);
 		}
 		catch(PDOException $e){
 			echo "ERROR: ".$e->getMessage();
@@ -300,8 +316,8 @@ class MySQLDAL extends DAL{
 
 			// Add the new Video to the user's feed
 			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, URL, videoID, videoAuthor, description,
-			videoTitle, duration, orderID, timeAdded) VALUES (:userID,:url,:videoID,:videoAuthor,:description,
-			:videoTitle,:duration, :orderID,:time)");
+			videoTitle, duration, orderID, timeAdded, filename, thumbnailFilename, isVideo) VALUES (:userID,:url,:videoID,
+			:videoAuthor, :description, :videoTitle,:duration, :orderID, :time, :filename, :thumbnailFilename, :isVideo)");
 			$p->bindValue(":userID", $user->getUserID(), PDO::PARAM_INT);
 			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
 			$p->bindValue(":url", $vid->getURL(), PDO::PARAM_STR);
@@ -311,6 +327,9 @@ class MySQLDAL extends DAL{
 			$p->bindValue(":duration", $vid->getDuration(), PDO::PARAM_STR);
 			$p->bindValue(":orderID", $order, PDO::PARAM_INT);
 			$p->bindValue(":time", date("Y-m-d H:i:s", time()), PDO::PARAM_STR);
+			$p->bindValue(":filename", $vid->getFilename(), PDO::PARAM_STR);
+			$p->bindValue(":thumbnailFilename", $vid->getThumbnailFilename(), PDO::PARAM_STR);
+			$p->bindValue(":isVideo", $vid->isIsVideo(), PDO::PARAM_BOOL);
 			$p->execute();
 
 			return true;
@@ -360,16 +379,7 @@ class MySQLDAL extends DAL{
 			}
 			$returner = [];
 			foreach($rows as $row){
-				$vid = new Video();
-				$vid->setAuthor($row["videoAuthor"]);
-				$vid->setDesc($row["description"]);
-				$vid->setId($row["videoID"]);
-				$vid->setTime(strtotime($row["timeAdded"]));
-				$vid->setDuration(intval($row["duration"]));
-				$vid->setTitle($row["videoTitle"]);
-				$vid->setOrder($row["orderID"]);
-				$vid->setURL($row["URL"]);
-				$returner[] = $vid;
+				$returner[] = $this->setVideo($row);
 			}
 			return $returner;
 		}
@@ -397,16 +407,7 @@ class MySQLDAL extends DAL{
 			}
 			$returner = [];
 			foreach($rows as $row){
-				$vid = new Video();
-				$vid->setAuthor($row["videoAuthor"]);
-				$vid->setDesc($row["description"]);
-				$vid->setId($row["videoID"]);
-				$vid->setTime(strtotime($row["timeAdded"]));
-				$vid->setDuration(intval($row["duration"]));
-				$vid->setTitle($row["videoTitle"]);
-				$vid->setOrder($row["orderID"]);
-				$vid->setURL($row["URL"]);
-				$returner[] = $vid;
+				$returner[] = $this->setVideo($row);
 			}
 			return $returner;
 		}
@@ -708,11 +709,14 @@ class MySQLDAL extends DAL{
 	["Field"=>"userID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"URL", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"orderID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"filename", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"thumbnailFilename", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"videoID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"videoAuthor", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"description", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"videoTitle", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
 	["Field"=>"duration", "Type"=>"int(11)", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
+	["Field"=>"isVideo", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>"0", "Extra"=>""],
 	["Field"=>"timeAdded", "Type"=>"timestamp", "Null"=>"NO", "Key"=>"", "Default"=>"CURRENT_TIMESTAMP", "Extra"=>""]
 	];
 

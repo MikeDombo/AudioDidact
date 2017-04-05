@@ -29,11 +29,15 @@ $dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 // If a video is being requested, then add the video, otherwise just show the current feed
 if(isset($_GET["yt"])){
 	$url = ($_GET["yt"]);
+	$isVideo = false;
 	$podtube = new PodTube($dal, $user);
+	if(isset($_GET["videoOnly"]) && $_GET["videoOnly"] == "true"){
+		$isVideo = true;
+	}
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
-		$download = getSupportedSiteClass($url, $url, $podtube);
+		$download = getSupportedSiteClass($url, $url, $isVideo, $podtube);
 		if($download != null){
 			$video = $download->getVideo();
 
@@ -41,7 +45,9 @@ if(isset($_GET["yt"])){
 			if(!$download->allDownloaded()){
 				$download->downloadVideo();
 				$download->downloadThumbnail();
-				$download->convert();
+				if(!$video->isIsVideo()){
+					$download->convert();
+				}
 			}
 
 			if(!$dal->inFeed($video, $user)){
@@ -72,16 +78,20 @@ else{
  * @param User $user
  */
 function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
+	/** @var array|Video $items */
 	$items = $dal->getFeed($user);
-	for($x=0; $x<$user->getFeedLength() && isset($items[$x]); $x++){
-		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$items[$x]->getId().".mp3") || !file_exists(DOWNLOAD_PATH
-				.DIRECTORY_SEPARATOR.$items[$x]->getId().".jpg")){
-			$download = getSupportedSiteClass($items[$x]->getURL(), $items[$x]->getId(), $podTube);
+	foreach($items as $video){
+		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$video->getId().".mp3") || !file_exists(DOWNLOAD_PATH
+				.DIRECTORY_SEPARATOR.$video->getId().".jpg")){
+
+			$download = getSupportedSiteClass($video->getURL(), $video->getId(), $video->isIsVideo(), $podTube);
 			if($download != null){
 				if(!$download->allDownloaded()){
 					$download->downloadThumbnail();
 					$download->downloadVideo();
-					$download->convert();
+					if(!$video->isIsVideo()){
+						$download->convert();
+					}
 				}
 			}
 		}
@@ -92,18 +102,19 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
  * Returns the appropriate SupportedClass to redownload any given content
  * @param $url
  * @param $id
+ * @param boolean $isVideo
  * @param $podTube
  * @return \SupportedSite
  */
-function getSupportedSiteClass($url, $id, $podTube){
+function getSupportedSiteClass($url, $id, $isVideo, $podTube){
 	if(strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
-		return new YouTube($id, $podTube);
+		return new YouTube($id, $isVideo, $podTube);
 	}
 	else if(strpos($url, "crtv.com") > -1){
-		return new CRTV($url, $podTube);
+		return new CRTV($url, $isVideo, $podTube);
 	}
 	else if(strpos($url, "soundcloud.com") > -1){
-		return new SoundCloud($url, $podTube);
+		return new SoundCloud($url, $isVideo, $podTube);
 	}
 	else {
 		error_log("Could not find route for URL: ".$url." or ID: ".$id);

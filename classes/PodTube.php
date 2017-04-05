@@ -1,6 +1,6 @@
 <?php
 // Include RSS feed generation library and other classes that are used.
-require_once __DIR__."/header.php";
+require_once __DIR__."/../header.php";
 use \FeedWriter\RSS2;
 
 /**
@@ -64,10 +64,9 @@ class PodTube{
 		$fe = $this->makeFeed();
 		if(!$emptyFeed){
 			$items = $this->dal->getFeed($this->user);
-			for($x = 0; $x < $this->user->getFeedLength() && isset($items[$x]); $x++){
-				/** @var Video $i */
-				$i = $items[$x];
-				$fe = $this->addFeedItem($fe, $i);
+			foreach($items as $video){
+				/** @var Video $video */
+				$fe = $this->addFeedItem($fe, $video);
 			}
 
 			// Save the generated feed to the db
@@ -122,42 +121,51 @@ class PodTube{
 	 */
 	private function addFeedItem($feed, $video){
 		$title = $video->getTitle();
-		$id = $video->getId();
 		$author = $video->getAuthor();
 		$descr = $video->getDesc();
 
 		/** @var \FeedWriter\Feed $feed */
 		$newItem = $feed->createNewItem();
 
-		$webPath = LOCAL_URL.DOWNLOAD_PATH."/".$id;
-		$filePath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$id;
+		$filenameWithExt = $video->getFilename().$video->getFileExtension();
+		$webPath = LOCAL_URL.DOWNLOAD_PATH."/".$filenameWithExt;
+		$webThumb = LOCAL_URL.DOWNLOAD_PATH."/".$video->getThumbnailFilename();
+		$filePath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$filenameWithExt;
 
 		// Make description links clickable
 		$descr = mb_ereg_replace('(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@!]*(\?\S+)?)?)?)', '<a href="\\1">\\1</a>', $descr);
 		$descr = nl2br($descr);
 
 		// Get the duration of the video and use it for the itunes:duration tag
-		$duration = YouTube::getDuration($filePath.".mp3");
+		$duration = SupportedSite::getDuration($filePath);
 
 		$newItem->setTitle($title);
 		$newItem->setLink($video->getURL());
 		// Set description to be the title, author, thumbnail, and then the original video description
-		$newItem->setDescription("<h1>$title</h1>
-			<h2>$author</h2>
-			<p><img class=\"alignleft size-medium\" src=\"$webPath.jpg\" alt=\"".htmlentities($title)." -- ".htmlentities($author)."\" width=\"100%\" height=\"auto\"/></p>
-			<p>$descr</p>");
-		$newItem->addElement('media:content', array('media:title'=>$title), array('fileSize'=>filesize($filePath.".mp3"),
-			'type'=> 'audio/mp3', 'medium'=>'audio', 'url'=>$webPath.'.mp3'));
-		$newItem->addElement('media:thumbnail', null, array('url'=>$webPath.'.jpg'), false, true);
-		$newItem->setEnclosure($webPath.".mp3", filesize($filePath.".mp3"), 'audio/mp3');
-		$newItem->addElement('itunes:image', "", array('href'=>$webPath.'.jpg'));
+		$newItem->setDescription("<h1>$title</h1><h2>$author</h2>
+			<p><img class=\"alignleft size-medium\" src=\"$webThumb\" alt=\"".htmlentities($title)." -- ".htmlentities($author)."
+			\"width=\"100%\" height=\"auto\"/></p><p>$descr</p>");
+
+		if($video->isIsVideo()){
+			$newItem->addElement('media:content', array('media:title'=>$title), array('fileSize'=>filesize($filePath),
+				'type'=> 'video/mp4', 'medium'=>'video', 'url'=>$webPath));
+			$newItem->setEnclosure($webPath, filesize($filePath), 'video/mp4');
+		}
+		else{
+			$newItem->addElement('media:content', array('media:title'=>$title), array('fileSize'=>filesize($filePath),
+				'type'=> 'audio/mpeg', 'medium'=>'audio', 'url'=>$webPath));
+			$newItem->setEnclosure($webPath, filesize($filePath), 'audio/mpeg');
+		}
+
+		$newItem->addElement('media:thumbnail', null, array('url'=>$webThumb), false, true);
+		$newItem->addElement('itunes:image', "", array('href'=>$webThumb));
 		$newItem->addElement('itunes:author', $author);
 		$newItem->addElement('itunes:duration', $duration);
 
 		$newItem->setDate(date(DATE_RSS, $video->getTime()));
 		$newItem->setAuthor($author, 'me@me.com');
 		// Set GUID, this is absolutely necessary
-		$newItem->setId("audiodidact/".$id.".mp3", false);
+		$newItem->setId("audiodidact/".$filenameWithExt, false);
 
 		// Add the item generated to the global feed
 		$feed->addItem($newItem);

@@ -33,6 +33,11 @@ block content
 				div.col-lg-10
 					input(name="albumArtFile" type="file").form-control#albumArtFile
 					input(name="art" type="text" hidden)#art
+			div.form-group.row
+				label(for="audvid").col-form-label.form-check-label Add as Video
+				div.col-lg-10
+					input.form-control(type="checkbox" name="audvid" value="true")#audvid
+
 			div.pt-2.pb-2
 				button(type="submit" class="btn-success btn btn-block-xs-only" form="myForm") Add Content To Feed
 				a(href="/#{subdir}" class="btn-info btn ml-sm-5 btn-block-xs-only" role="button") Switch to URL Mode

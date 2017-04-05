@@ -57,11 +57,11 @@ function makeUserPage($webID, $edit, $verifyEmail = null){
 			$descr = mb_ereg_replace('(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.%-=#~\@!]*(\?\S+)?)?)?)', '<a href="\\1" target="_blank">\\1</a>', $descr);
 			$descr = nl2br($descr);
 
-			$thumb = LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.jpg';
-			$aud = LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getId().'.mp3';
+			$thumb = LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getThumbnailFilename();
+			$episodeFile = LOCAL_URL.DOWNLOAD_PATH.'/'.$i->getFilename().$i->getFileExtension();
 
 			$episodeData[] = ["title" => $i->getTitle(), "author" => $i->getAuthor(), "id" => $i->getId(),
-				"description" => $descr, "thumbnail" => $thumb, "audio" => $aud];
+				"description" => $descr, "thumbnail" => $thumb, "episodeFile" => $episodeFile, "isVideo"=>$i->isIsVideo()];
 		}
 	}
 

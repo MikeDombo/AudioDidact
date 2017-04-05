@@ -30,4 +30,41 @@ abstract class SupportedSite {
 	public function getVideo(){
 		return $this->video;
 	}
+
+	/**
+	 * Get duration of media file from ffmpeg
+	 * @param $file
+	 * @return bool|string
+	 */
+	public static function getDuration($file){
+		$dur = shell_exec("ffmpeg -i ".$file." 2>&1");
+		if(preg_match("/: Invalid /", $dur)){
+			return false;
+		}
+		preg_match("/Duration: (.{2}):(.{2}):(.{2})/", $dur, $duration);
+		if(!isset($duration[1])){
+			return false;
+		}
+		return $duration[1].":".$duration[2].":".$duration[3];
+	}
+
+	/**
+	 * Get duration in seconds of media file from ffmpeg
+	 * @param $file
+	 * @return bool|string
+	 */
+	public static function getDurationSeconds($file){
+		$dur = shell_exec("ffmpeg -i ".$file." 2>&1");
+		if(preg_match("/: Invalid /", $dur)){
+			return false;
+		}
+		preg_match("/Duration: (.{2}):(.{2}):(.{2})/", $dur, $duration);
+		if(!isset($duration[1])){
+			return false;
+		}
+		$hours = $duration[1];
+		$minutes = $duration[2];
+		$seconds = $duration[3];
+		return $seconds + ($minutes*60) + ($hours*60*60);
+	}
 }
