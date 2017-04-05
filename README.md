@@ -25,17 +25,17 @@ Subscribe to the generated feed using the URL shown on the Add a Video page to r
 PHP API documentation is available [here](https://md100play.github.io/AudioDidact/html/index.html).
 
 ## Future Tasks
-- Allow videos with start points in the midst of the video using YouTube's "&t=" flag to set the *in* marker
-- Enable choice between audio and video download
+- More statistics. Possibly a GitHub style punchcard.
 
 ## Completed Tasks
+- Enable choice between audio and video download
 - Add manual upload
-- Switched to Pug for HTML rendering
+- Switch to Pug for HTML rendering
 - Add password reset
 - Add email verification
-- Added SoundCloud to supported sites
+- Add SoundCloud to supported sites
 - Audio player with playback speed control added to account page
-- Added CRTV to supported sites
+- Add CRTV to supported sites
 - Session files are now written to disk as soon as possible so that a single browser can have multiple pages open and downloading concurrently
 - Better session handling (session cookie is now stored for a long time and refreshed often)
 - Create and verify databases
