@@ -146,6 +146,7 @@ class YouTube extends SupportedSite{
 			$this->downloadWithPercentage($url, $videoPath);
 			// Set the video file as publicly accessible
 			@chmod($videoPath, 0775);
+			$this->video->setDuration(SupportedSite::getDurationSeconds($videoPath));
 			return;
 		}
 		catch(Exception $e){
@@ -407,7 +408,6 @@ class YouTube extends SupportedSite{
 		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
 		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 
-		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpeg_outfile));
 		return;
 	}
 

@@ -199,6 +199,8 @@ class CRTV extends SupportedSite{
 		}
 		// Delete the temporary file that contained the ffmpeg output
 		@unlink($this->video->getID().".txt");
+
+		$this->video->setDuration(SupportedSite::getDurationSeconds($videoPath));
 	}
 
 	/**
@@ -270,7 +272,6 @@ class CRTV extends SupportedSite{
 		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
 		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 
-		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpeg_outfile));
 		return;
 	}
 }

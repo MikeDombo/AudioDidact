@@ -62,7 +62,9 @@ if(isset($_FILES["yt"])){
 	}
 
 	$data = ["ID"=>$generatedID, "description"=>htmlentities($_POST["description"], ENT_HTML5, "UTF-8"),
-			"title"=>$_POST["title"], "author"=>$_POST["author"], "filename"=>$_FILES["yt"]["name"], "thumbnailFilename"=>$thumbnailFilename];
+			"title"=>$_POST["title"], "author"=>$_POST["author"], "filename"=>$_FILES["yt"]["name"],
+		"thumbnailFilename"=>$thumbnailFilename,
+		"duration"=>SupportedSite::getDurationSeconds(DOWNLOAD_PATH."/".$generatedID.".".$extension)];
 	$isVideo = boolval($_POST["audvid"]);
 
 	$podtube = new PodTube($dal, $user);
