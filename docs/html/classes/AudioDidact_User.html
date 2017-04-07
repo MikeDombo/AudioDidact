@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - AudioDidact\User</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html#AudioDidact">AudioDidact</a>
+          </li>
+          <li class="separator">User</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="#history">History</a>
+          </li>
+          <li>
+            <a href="../source/classes/User.php.html#line8">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>AudioDidact\</small>User</h1>
+        <h4>Class User stores user specific information</h4>
+        <p/>
+        <ul/>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class User
+            {<br/><ul class="none"><li>// members</li><li>private  <a href="#members">$username</a>;
+                    </li><li>private  <a href="#members">$email</a>;
+                    </li><li>private  <a href="#members">$fname</a>;
+                    </li><li>private  <a href="#members">$lname</a>;
+                    </li><li>private  <a href="#members">$gender</a>;
+                    </li><li>private  <a href="#members">$webID</a>;
+                    </li><li>private  <a href="#members">$passwd</a>;
+                    </li><li>private  <a href="#members">$userID</a>;
+                    </li><li>private  <a href="#members">$feedText</a>;
+                    </li><li>private  <a href="#members">$feedLength</a>;
+                    </li><li>private  <a href="#members">$feedDetails</a>;
+                    </li><li>private <span title="AudioDidact\bool">bool</span> <a href="#members">$privateFeed</a>;
+                    </li><li>private <span title="AudioDidact\bool">bool</span> <a href="#members">$emailVerified</a>;
+                    </li><li>private  <a href="#members">$emailVerificationCodes</a>;
+                    </li><li>private  <a href="#members">$passwordRecoveryCodes</a>;
+                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/__construct.html">__construct</a>()
+                    </li><li>private array <a title="AudioDidact\User" href="../classes/AudioDidact_User/generateRandomCode.html">generateRandomCode</a>()
+                    </li><li>public array <a title="AudioDidact\User" href="../classes/AudioDidact_User/addEmailVerificationCode.html">addEmailVerificationCode</a>()
+                    </li><li>private bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/verifyCodes.html">verifyCodes</a>()
+                    </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/verifyEmailVerificationCode.html">verifyEmailVerificationCode</a>()
+                    </li><li>public array <a title="AudioDidact\User" href="../classes/AudioDidact_User/addPasswordRecoveryCode.html">addPasswordRecoveryCode</a>()
+                    </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/verifyPasswordRecoveryCode.html">verifyPasswordRecoveryCode</a>()
+                    </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/isEmailVerified.html">isEmailVerified</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setEmailVerified.html">setEmailVerified</a>()
+                    </li><li>public array <a title="AudioDidact\User" href="../classes/AudioDidact_User/getEmailVerificationCodes.html">getEmailVerificationCodes</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setEmailVerificationCodes.html">setEmailVerificationCodes</a>()
+                    </li><li>public array <a title="AudioDidact\User" href="../classes/AudioDidact_User/getPasswordRecoveryCodes.html">getPasswordRecoveryCodes</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setPasswordRecoveryCodes.html">setPasswordRecoveryCodes</a>()
+                    </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/validateEmail.html">validateEmail</a>()
+                    </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/validateName.html">validateName</a>()
+                    </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/validateWebID.html">validateWebID</a>()
+                    </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/passwdCorrect.html">passwdCorrect</a>()
+                    </li><li>public mixed <a title="AudioDidact\User" href="../classes/AudioDidact_User/getUserID.html">getUserID</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setUserID.html">setUserID</a>()
+                    </li><li>public mixed <a title="AudioDidact\User" href="../classes/AudioDidact_User/getUsername.html">getUsername</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setUsername.html">setUsername</a>()
+                    </li><li>public mixed <a title="AudioDidact\User" href="../classes/AudioDidact_User/getEmail.html">getEmail</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setEmail.html">setEmail</a>()
+                    </li><li>public mixed <a title="AudioDidact\User" href="../classes/AudioDidact_User/getFname.html">getFname</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setFname.html">setFname</a>()
+                    </li><li>public mixed <a title="AudioDidact\User" href="../classes/AudioDidact_User/getLname.html">getLname</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setLname.html">setLname</a>()
+                    </li><li>public int <a title="AudioDidact\User" href="../classes/AudioDidact_User/getGender.html">getGender</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setGender.html">setGender</a>()
+                    </li><li>public mixed <a title="AudioDidact\User" href="../classes/AudioDidact_User/getWebID.html">getWebID</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setWebID.html">setWebID</a>()
+                    </li><li>public mixed <a title="AudioDidact\User" href="../classes/AudioDidact_User/getPasswd.html">getPasswd</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setPasswd.html">setPasswd</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setPasswdDB.html">setPasswdDB</a>()
+                    </li><li>public string <a title="AudioDidact\User" href="../classes/AudioDidact_User/getFeedText.html">getFeedText</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setFeedText.html">setFeedText</a>()
+                    </li><li>public int <a title="AudioDidact\User" href="../classes/AudioDidact_User/getFeedLength.html">getFeedLength</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setFeedLength.html">setFeedLength</a>()
+                    </li><li>public array <a title="AudioDidact\User" href="../classes/AudioDidact_User/getFeedDetails.html">getFeedDetails</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setFeedDetails.html">setFeedDetails</a>()
+                    </li><li>public boolean <a title="AudioDidact\User" href="../classes/AudioDidact_User/isPrivateFeed.html">isPrivateFeed</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setPrivateFeed.html">setPrivateFeed</a>()
+                    </li></ul>
+
+            }<br/></div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="email"><strong>$email</strong>
+                —
+                string</li>
+            <li id="emailVerificationCodes"><strong>$emailVerificationCodes</strong>
+                —
+                array</li>
+            <li id="emailVerified"><strong>$emailVerified</strong>
+                —
+                <a title="AudioDidact\bool" href="../classes/AudioDidact_bool.html">AudioDidact\bool</a></li>
+            <li id="feedDetails"><strong>$feedDetails</strong>
+                —
+                array</li>
+            <li id="feedLength"><strong>$feedLength</strong>
+                —
+                int</li>
+            <li id="feedText"><strong>$feedText</strong>
+                —
+                string</li>
+            <li id="fname"><strong>$fname</strong>
+                —
+                string</li>
+            <li id="gender"><strong>$gender</strong>
+                —
+                int</li>
+            <li id="lname"><strong>$lname</strong>
+                —
+                string</li>
+            <li id="passwd"><strong>$passwd</strong>
+                —
+                string</li>
+            <li id="passwordRecoveryCodes"><strong>$passwordRecoveryCodes</strong>
+                —
+                array</li>
+            <li id="privateFeed"><strong>$privateFeed</strong>
+                —
+                <a title="AudioDidact\bool" href="../classes/AudioDidact_bool.html">AudioDidact\bool</a></li>
+            <li id="userID"><strong>$userID</strong>
+                —
+                int</li>
+            <li id="username"><strong>$username</strong>
+                —
+                string</li>
+            <li id="webID"><strong>$webID</strong>
+                —
+                string</li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>private</h4>
+          <ul>
+            <li id="generateRandomCode"><a title="AudioDidact\User" href="../classes/AudioDidact_User/generateRandomCode.html">generateRandomCode()</a>
+                — returns a dictionary in the form of ["code"=random, "expiration"=24hours from now]</li>
+            <li id="verifyCodes"><a title="AudioDidact\User" href="../classes/AudioDidact_User/verifyCodes.html">verifyCodes()</a>
+                — Generic function to check that a given code is in a given code set and the expiration has not been exceeded</li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="__construct"><a title="AudioDidact\User" href="../classes/AudioDidact_User/__construct.html">__construct()</a>
+                — User constructor.</li>
+            <li id="addEmailVerificationCode"><a title="AudioDidact\User" href="../classes/AudioDidact_User/addEmailVerificationCode.html">addEmailVerificationCode()</a>
+                — Generates a random code and adds it to the list of email verification codes</li>
+            <li id="addPasswordRecoveryCode"><a title="AudioDidact\User" href="../classes/AudioDidact_User/addPasswordRecoveryCode.html">addPasswordRecoveryCode()</a>
+                — Generates a random code and adds it to the list of password recovery codes</li>
+            <li id="getEmail"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getEmail.html">getEmail()</a>
+                — Gets email in lowercase</li>
+            <li id="getEmailVerificationCodes">
+              <a title="AudioDidact\User" href="../classes/AudioDidact_User/getEmailVerificationCodes.html">getEmailVerificationCodes()</a>
+            </li>
+            <li id="getFeedDetails"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getFeedDetails.html">getFeedDetails()</a>
+                — Gets the feed detail array</li>
+            <li id="getFeedLength"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getFeedLength.html">getFeedLength()</a>
+                — Gets feed length</li>
+            <li id="getFeedText"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getFeedText.html">getFeedText()</a>
+                — Gets feed text</li>
+            <li id="getFname"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getFname.html">getFname()</a>
+                — Gets first name</li>
+            <li id="getGender"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getGender.html">getGender()</a>
+                — Gets gender as integer, or if not set, returns 1 (Male)</li>
+            <li id="getLname"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getLname.html">getLname()</a>
+                — Gets last name</li>
+            <li id="getPasswd"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getPasswd.html">getPasswd()</a>
+                — Gets hashed password</li>
+            <li id="getPasswordRecoveryCodes">
+              <a title="AudioDidact\User" href="../classes/AudioDidact_User/getPasswordRecoveryCodes.html">getPasswordRecoveryCodes()</a>
+            </li>
+            <li id="getUserID"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getUserID.html">getUserID()</a>
+                — Gets user ID</li>
+            <li id="getUsername"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getUsername.html">getUsername()</a>
+                — Gets username in lowercase</li>
+            <li id="getWebID"><a title="AudioDidact\User" href="../classes/AudioDidact_User/getWebID.html">getWebID()</a>
+                — Gets webID</li>
+            <li id="isEmailVerified">
+              <a title="AudioDidact\User" href="../classes/AudioDidact_User/isEmailVerified.html">isEmailVerified()</a>
+            </li>
+            <li id="isPrivateFeed">
+              <a title="AudioDidact\User" href="../classes/AudioDidact_User/isPrivateFeed.html">isPrivateFeed()</a>
+            </li>
+            <li id="passwdCorrect"><a title="AudioDidact\User" href="../classes/AudioDidact_User/passwdCorrect.html">passwdCorrect()</a>
+                — Checks if plaintext password when hashed, matches the hashed password stored in this User</li>
+            <li id="setEmail"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setEmail.html">setEmail()</a>
+                — Sets email in lower case</li>
+            <li id="setEmailVerificationCodes">
+              <a title="AudioDidact\User" href="../classes/AudioDidact_User/setEmailVerificationCodes.html">setEmailVerificationCodes()</a>
+            </li>
+            <li id="setEmailVerified">
+              <a title="AudioDidact\User" href="../classes/AudioDidact_User/setEmailVerified.html">setEmailVerified()</a>
+            </li>
+            <li id="setFeedDetails"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setFeedDetails.html">setFeedDetails()</a>
+                — Sets the feed detail array</li>
+            <li id="setFeedLength"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setFeedLength.html">setFeedLength()</a>
+                — Sets feed length</li>
+            <li id="setFeedText"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setFeedText.html">setFeedText()</a>
+                — Sets feed text</li>
+            <li id="setFname"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setFname.html">setFname()</a>
+                — Sets first name</li>
+            <li id="setGender"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setGender.html">setGender()</a>
+                — Sets gender</li>
+            <li id="setLname"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setLname.html">setLname()</a>
+                — Sets last name</li>
+            <li id="setPasswd"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setPasswd.html">setPasswd()</a>
+                — Sets hashed password using plaintext password and username</li>
+            <li id="setPasswdDB"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setPasswdDB.html">setPasswdDB()</a>
+                — Used to set the hashed password from the database.</li>
+            <li id="setPasswordRecoveryCodes">
+              <a title="AudioDidact\User" href="../classes/AudioDidact_User/setPasswordRecoveryCodes.html">setPasswordRecoveryCodes()</a>
+            </li>
+            <li id="setPrivateFeed">
+              <a title="AudioDidact\User" href="../classes/AudioDidact_User/setPrivateFeed.html">setPrivateFeed()</a>
+            </li>
+            <li id="setUserID"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setUserID.html">setUserID()</a>
+                — Sets user ID</li>
+            <li id="setUsername"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setUsername.html">setUsername()</a>
+                — Sets username in lowercase</li>
+            <li id="setWebID"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setWebID.html">setWebID()</a>
+                — Sets webID</li>
+            <li id="validateEmail"><a title="AudioDidact\User" href="../classes/AudioDidact_User/validateEmail.html">validateEmail()</a>
+                — Validates names and other strings using PHP FILTER_VALIDATE_EMAIL. Returns true if the string is valid</li>
+            <li id="validateName"><a title="AudioDidact\User" href="../classes/AudioDidact_User/validateName.html">validateName()</a>
+                — Validates names and other strings using PHP FILTER_SANITIZE_STRING. Returns true if the string is valid</li>
+            <li id="validateWebID"><a title="AudioDidact\User" href="../classes/AudioDidact_User/validateWebID.html">validateWebID()</a>
+                — Validates webID so it can only contain alphanumerics _,-,@, and $. Returns true if the string is valid</li>
+            <li id="verifyEmailVerificationCode"><a title="AudioDidact\User" href="../classes/AudioDidact_User/verifyEmailVerificationCode.html">verifyEmailVerificationCode()</a>
+                — verifies that a given email verification code is valid for this user</li>
+            <li id="verifyPasswordRecoveryCode"><a title="AudioDidact\User" href="../classes/AudioDidact_User/verifyPasswordRecoveryCode.html">verifyPasswordRecoveryCode()</a>
+                — verifies that a given password recovery code is valid for this user</li>
+          </ul>
+        </div>
+        <h2 id="history">History</h2>
+        <ul class="styled history">
+          <li>
+            <h3>2017-02-11T20:42:51+01:00 (commit #<span title="48bfcbd4f118dd9276a9b04af62422e4790ae93c">48bfcbd</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add email system for email verification and password reset</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-10T21:35:49+01:00 (commit #<span title="9ae233c3352ecaf61aaa2b75ff52401abb5cad7b">9ae233c</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Implemented better password algorithm (bcrypt) with proper salting</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-09T22:55:31+01:00 (commit #<span title="f99928d5f96c78a89063d517c0e3f2e0bbb3d849">f99928d</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Namechange and new logo</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-02T00:41:28+01:00 (commit #<span title="ac8b7e208355b925de36614cb51ff7bb9842d74f">ac8b7e2</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Slight reformatting for better readability</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-02T00:41:28+01:00 (commit #<span title="1e2d90120f9f3a87ca833b8fa821454f6e3e8c62">1e2d901</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Slight reformatting for better readability</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-02T00:41:28+01:00 (commit #<span title="ba501c14e8c799edb62fe88e14c873172d829a5d">ba501c1</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Slight reformatting for better readability</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-02T00:41:28+01:00 (commit #<span title="3292ef7c6ed1af62197445d2a90dce3cf8050be0">3292ef7</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Slight reformatting for better readability</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-05T04:12:03+02:00 (commit #<span title="bab088d079f35ed2b028af0d2f058238b1f8dbb6">bab088d</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add option to make feed private</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-05T04:12:03+02:00 (commit #<span title="5a96009575beb4a79d35bb0608c7361efdbc0ec1">5a96009</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add option to make feed private</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-05T04:12:03+02:00 (commit #<span title="8cea490a62455f537127c5bf30eeb4037c0eec38">8cea490</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add option to make feed private</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-05T04:12:03+02:00 (commit #<span title="2b46d29a32d0b237d8e7bd851cd141d10aea1605">2b46d29</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add option to make feed private</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-04T05:02:44+02:00 (commit #<span title="91e80118363cb7d27a587c810705b6415877e758">91e8011</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update documenation</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-04T05:02:44+02:00 (commit #<span title="27bada4041a70e039b22799aa7b3ee9c36a11e0d">27bada4</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update documenation</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-04T05:02:44+02:00 (commit #<span title="2a086f07bd4c8de818a3af1dd69fcfbae7eb3363">2a086f0</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update documenation</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-04T05:02:44+02:00 (commit #<span title="12fac867c9101632d0430edf25543edca259216c">12fac86</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update documenation</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-04T04:59:21+02:00 (commit #<span title="b4c7769e90775290dd8e9ef7292d13e176d1632c">b4c7769</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update documentation</pre>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.9.0 - Copyright (C) 2010 - 2017 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>

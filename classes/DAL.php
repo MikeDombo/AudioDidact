@@ -1,5 +1,5 @@
 <?php
-
+namespace AudioDidact;
 
 /**
  * Class DAL

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - AudioDidact\PodTube</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html#AudioDidact">AudioDidact</a>
+          </li>
+          <li class="separator">PodTube</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="#history">History</a>
+          </li>
+          <li>
+            <a href="../source/classes/PodTube.php.html#line10">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>AudioDidact\</small>PodTube</h1>
+        <h4>Class PodTube</h4>
+        <p/>
+        <ul/>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class PodTube
+            {<br/><ul class="none"><li>// members</li><li>private <span title="\AudioDidact\DAL">DAL</span> <a href="#members">$dal</a>;
+                    </li><li>private <span title="\AudioDidact\User">User</span> <a href="#members">$user</a>;
+                    </li></ul><ul class="none"><li>// methods</li><li>public void <a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/__construct.html">__construct</a>()
+                    </li><li>public bool <a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/isInFeed.html">isInFeed</a>()
+                    </li><li>public Video|bool <a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/getDataFromFeed.html">getDataFromFeed</a>()
+                    </li><li>public RSS2|mixed <a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/makeFullFeed.html">makeFullFeed</a>()
+                    </li><li>private RSS2 <a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/makeFeed.html">makeFeed</a>()
+                    </li><li>private mixed <a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/addFeedItem.html">addFeedItem</a>()
+                    </li></ul>
+
+            }<br/></div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="dal"><strong>$dal</strong>
+                —
+                <a title="\AudioDidact\DAL" href="../classes/_AudioDidact_DAL.html">\AudioDidact\DAL</a></li>
+            <li id="user"><strong>$user</strong>
+                —
+                <a title="\AudioDidact\User" href="../classes/_AudioDidact_User.html">\AudioDidact\User</a></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>private</h4>
+          <ul>
+            <li id="addFeedItem"><a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/addFeedItem.html">addFeedItem()</a>
+                — Add an item to the RSS feed</li>
+            <li id="makeFeed"><a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/makeFeed.html">makeFeed()</a>
+                — Generate the global feed header variables</li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="__construct"><a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/__construct.html">__construct()</a>
+                — PodTube constructor.</li>
+            <li id="getDataFromFeed"><a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/getDataFromFeed.html">getDataFromFeed()</a>
+                — Returns a Video object from the feed based on the video's id.</li>
+            <li id="isInFeed"><a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/isInFeed.html">isInFeed()</a>
+                — Public function exposing database inFeed function.</li>
+            <li id="makeFullFeed"><a title="AudioDidact\PodTube" href="../classes/AudioDidact_PodTube/makeFullFeed.html">makeFullFeed()</a>
+                — Make the RSS feed from the database</li>
+          </ul>
+        </div>
+        <h2 id="history">History</h2>
+        <ul class="styled history">
+          <li>
+            <h3>2017-04-05T04:48:09+02:00 (commit #<span title="b14dbadf818f6a7c6c7b3e9d5b7c5957ca90cbd2">b14dbad</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add choice to add a video to your podcast feed (instead of audio)</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-07T05:40:58+01:00 (commit #<span title="0944fbbe647ec8770aa9b2e255425216871a52ca">0944fbb</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">change AddToFeed to take in a video object</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-07T05:28:07+01:00 (commit #<span title="05771281676dff3ee8ca8c1f08dc3767a69ed78a">0577128</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix image alt text in feed</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-11T20:42:51+01:00 (commit #<span title="48bfcbd4f118dd9276a9b04af62422e4790ae93c">48bfcbd</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add email system for email verification and password reset</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-10T21:35:49+01:00 (commit #<span title="9ae233c3352ecaf61aaa2b75ff52401abb5cad7b">9ae233c</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Implemented better password algorithm (bcrypt) with proper salting</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-07T05:20:13+01:00 (commit #<span title="0db4d70261123ff809cc025b4e20382b7ca3d994">0db4d70</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add abstract class to encapuslate the supported sites. Fix for soundcloud</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-07T02:10:51+01:00 (commit #<span title="29078bb22d4b7e33a02a466a5872af9533f4030d">29078bb</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add SoundCloud support
+
+In addition to adding SoundCloud, I fixed an issue of unicode when
+converting text into links using preg_replace. I switched to
+mb_ereg_replace, which is working correctly now without munging the
+multibyte unicode characters.</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-15T17:59:54+01:00 (commit #<span title="1a2ead21739dd4454eaf83fb765ce3970365c9cb">1a2ead2</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix concurrency issue due to SESSION files</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-15T17:59:54+01:00 (commit #<span title="0fd57d703efa9a7446cedfb6d47164f842cadd04">0fd57d7</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix concurrency issue due to SESSION files</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-15T17:59:54+01:00 (commit #<span title="997a2673321114486463eea0feead74e420a537c">997a267</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix concurrency issue due to SESSION files</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-15T17:59:54+01:00 (commit #<span title="59668a680a4af63b3aca075e1258d8c0309f53a7">59668a6</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix concurrency issue due to SESSION files</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-02T00:41:28+01:00 (commit #<span title="ac8b7e208355b925de36614cb51ff7bb9842d74f">ac8b7e2</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Slight reformatting for better readability</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-02T00:41:28+01:00 (commit #<span title="1e2d90120f9f3a87ca833b8fa821454f6e3e8c62">1e2d901</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Slight reformatting for better readability</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-02T00:41:28+01:00 (commit #<span title="ba501c14e8c799edb62fe88e14c873172d829a5d">ba501c1</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Slight reformatting for better readability</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-11-02T00:41:28+01:00 (commit #<span title="3292ef7c6ed1af62197445d2a90dce3cf8050be0">3292ef7</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Slight reformatting for better readability</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-09-20T05:48:19+02:00 (commit #<span title="0f88787381956f6639acb15d1bc26a6cec358976">0f88787</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update for formatting</pre>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.9.0 - Copyright (C) 2010 - 2017 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>

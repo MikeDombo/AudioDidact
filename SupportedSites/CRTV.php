@@ -1,4 +1,7 @@
 <?php
+namespace AudioDidact\SupportedSites;
+use AudioDidact\PodTube;
+use AudioDidact\Video;
 
 /**
  * Class CRTV
@@ -15,7 +18,7 @@ class CRTV extends SupportedSite{
 	 *
 	 * @param string $str
 	 * @param boolean $downloadVideo
-	 * @param PodTube $podtube
+	 * @param \AudioDidact\PodTube $podtube
 	 * @throws \Exception
 	 */
 	public function __construct($str, $downloadVideo, PodTube $podtube){
@@ -55,10 +58,10 @@ class CRTV extends SupportedSite{
 		$crtv_html = file_get_contents($str);
 
 		// Setup CRTV webpage parsing objects
-		$doc = new DOMDocument();
+		$doc = new \DOMDocument();
 		libxml_use_internal_errors(true);
 		$doc->loadHTML($crtv_html);
-		$finder = new DomXPath($doc);
+		$finder = new \DomXPath($doc);
 
 		// Get Thumbnail
 		$tbURL = "";

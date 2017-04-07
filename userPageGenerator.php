@@ -9,7 +9,7 @@
  */
 function makeUserPage($webID, $edit, $verifyEmail = null){
 	$myDalClass = ChosenDAL;
-	/** @var $dal \DAL */
+	/** @var $dal \AudioDidact\DAL */
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	$user = $dal->getUserByWebID($webID);
 	if($user == null){
@@ -43,7 +43,7 @@ function makeUserPage($webID, $edit, $verifyEmail = null){
 	if($edit || $userData["privateFeed"] == 0){
 		$items = $dal->getFeed($user);
 		for($x = 0; $x < $user->getFeedLength() && isset($items[$x]); $x++){
-			/** @var Video $i */
+			/** @var \AudioDidact\Video $i */
 			$i = $items[$x];
 			$descr = $i->getDesc();
 
@@ -72,19 +72,19 @@ function makeUserPage($webID, $edit, $verifyEmail = null){
 
 /**
  * Returns Array with informative statistics about all videos in the feed
- * @param \User $user
+ * @param \AudioDidact\User $user
  * @return array
  */
-function generateStatistics(\User $user){
+function generateStatistics(\AudioDidact\User $user){
 	$myDalClass = ChosenDAL;
-	/** @var $dal \DAL */
+	/** @var $dal \AudioDidact\DAL */
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	$stats = [];
 	$feed = $dal->getFullFeedHistory($user);
 	$stats["numVids"] = count($feed);
 	$time = 0;
 	foreach($feed as $v){
-		/** @var Video $v */
+		/** @var \AudioDidact\Video $v */
 		$time += $v->getDuration();
 	}
 

@@ -1,4 +1,5 @@
 <?php
+namespace AudioDidact;
 
 /**
  * Class SQLite contains methods for communicating with a SQLite database stored on a filesystem
@@ -15,9 +16,9 @@ class SQLite extends MySQLDAL{
 	public function __construct($filepath, $i, $j, $k){
 		if($this->getPDO() == null){
 			try{
-				$this->setPDO(new PDO('sqlite:'.$filepath));
-				$this->getPDO()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			}catch(PDOException $e){
+				$this->setPDO(new \PDO('sqlite:'.$filepath));
+				$this->getPDO()->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+			}catch(\PDOException $e){
 				echo 'ERROR: '.$e->getMessage();
 				throw $e;
 			}
@@ -33,7 +34,7 @@ class SQLite extends MySQLDAL{
 	protected function getDatabaseTables(){
 		$p = parent::$PDO->prepare("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;");
 		$p->execute();
-		$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+		$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 		$tables = [];
 		foreach($rows as $r){
 			$tables[] = array_values($r)[0];
@@ -49,7 +50,7 @@ class SQLite extends MySQLDAL{
 	protected function describeTable($table){
 		$p = parent::$PDO->prepare("PRAGMA table_info([$table]);");
 		$p->execute();
-		return $p->fetchAll(PDO::FETCH_ASSOC);
+		return $p->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -71,7 +72,7 @@ class SQLite extends MySQLDAL{
 				// Use "updateDBSchema" so that the newly created tables will be updated to the correct schema
 				$this->updateDBSchema();
 			}
-			catch(PDOException $e){
+			catch(\PDOException $e){
 				echo "Database creation failed! ".$e->getMessage();
 				error_log("Database creation failed! ".$e->getMessage());
 				throw $e;
@@ -84,9 +85,9 @@ class SQLite extends MySQLDAL{
 
 	/**
 	 * Generates SQL query to add missing columns to the given tables
-	 * @param $currentTables Array dictionary in the form of ["tableName"=>[table_schema]] representing the values
+	 * @param $currentTables array dictionary in the form of ["tableName"=>[table_schema]] representing the values
 	 * that are currently existing in the database
-	 * @param $correctTables Array dictionary in the form of ["tableName"=>[table_schema]] representing the correct
+	 * @param $correctTables array dictionary in the form of ["tableName"=>[table_schema]] representing the correct
 	 * values
 	 * @return string
 	 */
@@ -115,7 +116,7 @@ class SQLite extends MySQLDAL{
 	/**
 	 * Generates SQL query to make a column. Returns something in the form of `columnName` columnType null/Not
 	 * Default Key Extra
-	 * @param $c Array dictionary representing a column's correct schema
+	 * @param $c array dictionary representing a column's correct schema
 	 * @return string
 	 */
 	private function makeColumnSQL($c){

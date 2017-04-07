@@ -98,7 +98,7 @@ make404();
  */
 function makePasswordResetRequest($username){
 	$myDalClass = ChosenDAL;
-	/** @var \DAL $dal */
+	/** @var \AudioDidact\DAL $dal */
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	$possibleUser = $dal->getUserByUsername($username);
 	$possibleUserEmail = $dal->getUserByEmail($username);
@@ -107,7 +107,7 @@ function makePasswordResetRequest($username){
 		$possibleUser->setPasswordRecoveryCodes([]);
 		$possibleUser->addPasswordRecoveryCode();
 		$dal->updateUserEmailPasswordCodes($possibleUser);
-		EMail::sendForgotPasswordEmail($possibleUser);
+		\AudioDidact\EMail::sendForgotPasswordEmail($possibleUser);
 		echo "Password Reset Email Sent!";
 	}
 	// Check user based on email
@@ -115,7 +115,7 @@ function makePasswordResetRequest($username){
 		$possibleUserEmail->setPasswordRecoveryCodes([]);
 		$possibleUserEmail->addPasswordRecoveryCode();
 		$dal->updateUserEmailPasswordCodes($possibleUserEmail);
-		EMail::sendForgotPasswordEmail($possibleUserEmail);
+		\AudioDidact\EMail::sendForgotPasswordEmail($possibleUserEmail);
 		echo "Password Reset Email Sent!";
 	}
 	else{
@@ -131,7 +131,7 @@ function makePasswordResetRequest($username){
  */
 function resetPassword($username, $password, $code){
 	$myDalClass = ChosenDAL;
-	/** @var \DAL $dal */
+	/** @var \AudioDidact\DAL $dal */
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	$user = $dal->getUserByUsername($username);
 	if($user != null){
@@ -145,7 +145,7 @@ function resetPassword($username, $password, $code){
 			// Log the user in with the new credentials
 			$_SESSION["user"] = $user;
 			$_SESSION["loggedIn"] = true;
-			EMail::sendPasswordWasResetEmail($user);
+			\AudioDidact\EMail::sendPasswordWasResetEmail($user);
 			echo "Success!";
 		}
 		else{
@@ -164,7 +164,7 @@ function resetPassword($username, $password, $code){
  */
 function makePasswordReset($username, $code){
 	$myDalClass = ChosenDAL;
-	/** @var \DAL $dal */
+	/** @var \AudioDidact\DAL $dal */
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 	$requestedUser = $dal->getUserByUsername($username);
 	if($requestedUser->verifyPasswordRecoveryCode($code)){
@@ -191,7 +191,7 @@ function make404(){
  */
 function printUserFeed($webID){
 	$myDalClass = ChosenDAL;
-	/** @var DAL $dal */
+	/** @var \AudioDidact\DAL $dal */
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 
 	$requestedUser = $dal->getUserByWebID($webID);
@@ -212,10 +212,10 @@ function printUserFeed($webID){
 
 /**
  * Sends HTTP Basic Authentication headers to the user and authenticates against the database
- * @param DAL $dal
+ * @param \AudioDidact\DAL $dal
  * @return bool
  */
-function httpAuthenticate(DAL $dal){
+function httpAuthenticate(\AudioDidact\DAL $dal){
 	if (!isset($_SERVER['PHP_AUTH_USER'])) {
 		header('WWW-Authenticate: Basic realm="Private User Feed"');
 		header('HTTP/1.0 401 Unauthorized');

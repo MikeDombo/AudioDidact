@@ -1,5 +1,7 @@
 <?php
+namespace AudioDidact;
 require_once __DIR__."/header.php";
+
 // Set some important constants/ini
 ignore_user_abort(true);
 ob_implicit_flush(true);
@@ -9,6 +11,7 @@ ob_implicit_flush(true);
  */
 if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && isset($_SESSION["user"]) && $_SESSION["user"] instanceof
 	User){
+	/** @var \AudioDidact\User $user */
 	$user = $_SESSION["user"];
 	if(!$user->isEmailVerified()){
 		echo json_encode(['stage'=>-1, 'error'=>"Must verify email first!", 'progress'=>0]);
@@ -23,7 +26,7 @@ else{
 session_write_close();
 
 $myDalClass = ChosenDAL;
-/** @var $dal \DAL */
+/** @var $dal \AudioDidact\DAL */
 $dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 
 // If a video is being requested, then add the video, otherwise just show the current feed
@@ -55,7 +58,7 @@ if(isset($_GET["yt"])){
 			}
 		}
 	}
-	catch(Exception $e){
+	catch(\Exception $e){
 		exit();
 	}
 
@@ -73,9 +76,9 @@ else{
 
 /**
  * Gets the list of all feed items and makes sure that all of them are downloaded and available
- * @param DAL $dal
- * @param PodTube $podTube
- * @param User $user
+ * @param \AudioDidact\DAL $dal
+ * @param \AudioDidact\PodTube $podTube
+ * @param \AudioDidact\User $user
  */
 function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
 	/** @var array|Video $items */
@@ -104,17 +107,17 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
  * @param $id
  * @param boolean $isVideo
  * @param $podTube
- * @return \SupportedSite
+ * @return \AudioDidact\SupportedSites\SupportedSite
  */
 function getSupportedSiteClass($url, $id, $isVideo, $podTube){
 	if(strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
-		return new YouTube($id, $isVideo, $podTube);
+		return new SupportedSites\YouTube($id, $isVideo, $podTube);
 	}
 	else if(strpos($url, "crtv.com") > -1){
-		return new CRTV($url, $isVideo, $podTube);
+		return new SupportedSites\CRTV($url, $isVideo, $podTube);
 	}
 	else if(strpos($url, "soundcloud.com") > -1){
-		return new SoundCloud($url, $isVideo, $podTube);
+		return new SupportedSites\SoundCloud($url, $isVideo, $podTube);
 	}
 	else {
 		error_log("Could not find route for URL: ".$url." or ID: ".$id);

@@ -1,4 +1,5 @@
 <?php
+namespace AudioDidact;
 require_once __DIR__."/../header.php";
 
 /**

@@ -1,4 +1,5 @@
 <?php
+namespace AudioDidact;
 
 /**
  * Class to handle email utilities such as mailing for new accounts and password recovery

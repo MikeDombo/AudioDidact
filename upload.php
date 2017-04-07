@@ -1,4 +1,5 @@
 <?php
+namespace AudioDidact;
 require_once "header.php";
 $output_dir = DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
 
@@ -11,6 +12,7 @@ ob_implicit_flush(true);
  */
 if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && isset($_SESSION["user"]) && $_SESSION["user"] instanceof
 	User){
+	/** @var \AudioDidact\User $user */
 	$user = $_SESSION["user"];
 	if(!$user->isEmailVerified()){
 		echo json_encode(['stage'=>-1, 'error'=>"Must verify email first!", 'progress'=>0]);
@@ -25,7 +27,7 @@ else{
 session_write_close();
 
 $myDalClass = ChosenDAL;
-/** @var $dal \DAL */
+/** @var $dal \AudioDidact\DAL */
 $dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 
 // If a video is being requested, then add the video, otherwise just show the current feed
@@ -64,13 +66,13 @@ if(isset($_FILES["yt"])){
 	$data = ["ID"=>$generatedID, "description"=>htmlentities($_POST["description"], ENT_HTML5, "UTF-8"),
 			"title"=>$_POST["title"], "author"=>$_POST["author"], "filename"=>$_FILES["yt"]["name"],
 		"thumbnailFilename"=>$thumbnailFilename,
-		"duration"=>SupportedSite::getDurationSeconds(DOWNLOAD_PATH."/".$generatedID.".".$extension)];
+		"duration"=>SupportedSites\SupportedSite::getDurationSeconds(DOWNLOAD_PATH."/".$generatedID.".".$extension)];
 	$isVideo = boolval($_POST["audvid"]);
 
 	$podtube = new PodTube($dal, $user);
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
-	$download = new ManualUpload($data, $isVideo, $podtube);
+	$download = new SupportedSites\ManualUpload($data, $isVideo, $podtube);
 	$video = $download->getVideo();
 
 	// If not all thumbnail, video, and audio are downloaded, then download them in that order

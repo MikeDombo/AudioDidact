@@ -1,4 +1,5 @@
 <?php
+namespace AudioDidact;
 // Include RSS feed generation library and other classes that are used.
 require_once __DIR__."/../header.php";
 use \FeedWriter\RSS2;
@@ -7,16 +8,16 @@ use \FeedWriter\RSS2;
  * Class PodTube
  */
 class PodTube{
-	/** @var DAL the DAL */
+	/** @var \AudioDidact\DAL the DAL */
 	private $dal;
-	/** @var User the user */
+	/** @var \AudioDidact\User the user */
 	private $user;
 
 	/**
 	 * PodTube constructor.
 	 *
-	 * @param DAL $dal
-	 * @param \User $user Current user
+	 * @param \AudioDidact\DAL $dal
+	 * @param \AudioDidact\User $user Current user
 	 */
 	public function __construct(DAL $dal, User $user){
 		$this->dal = $dal;
@@ -93,7 +94,7 @@ class PodTube{
 		$feed->setImage($feedTitle, LOCAL_URL, $imageURL);
 
 		$feed->setDate(date(DATE_RSS, time()));
-		$feed->setChannelElement('pubDate', date(\DATE_RSS, time()));
+		$feed->setChannelElement('pubDate', date(DATE_RSS, time()));
 		$feed->setSelfLink(LOCAL_URL."user/".$this->user->getWebID()."/feed/");
 
 		$feed->addNamespace("media", "http://search.yahoo.com/mrss/");
@@ -137,7 +138,7 @@ class PodTube{
 		$descr = nl2br($descr);
 
 		// Get the duration of the video and use it for the itunes:duration tag
-		$duration = SupportedSite::getDuration($filePath);
+		$duration = SupportedSites\SupportedSite::getDuration($filePath);
 
 		$newItem->setTitle($title);
 		$newItem->setLink($video->getURL());

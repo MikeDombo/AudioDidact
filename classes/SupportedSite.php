@@ -1,10 +1,10 @@
 <?php
-
+namespace AudioDidact\SupportedSites;
 
 abstract class SupportedSite {
-	/** @var  \PodTube static \PodTube object */
+	/** @var  \AudioDidact\PodTube static \PodTube object */
 	protected static $podtube;
-	/** @var \Video local video object */
+	/** @var \AudioDidact\Video local video object */
 	protected $video;
 
 	/**
@@ -25,7 +25,7 @@ abstract class SupportedSite {
 
 	/**
 	 * Returns the current Video object
-	 * @return Video
+	 * @return \AudioDidact\Video
 	 */
 	public function getVideo(){
 		return $this->video;

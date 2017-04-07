@@ -1,4 +1,5 @@
 <?php
+namespace AudioDidact;
 require_once __DIR__."/../header.php";
 
 /**
@@ -202,7 +203,7 @@ class User{
 				require_once __DIR__."/../config.php";
 				$myDalClass = ChosenDAL;
 				$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-				/** @var $dal \DAL */
+				/** @var $dal \AudioDidact\DAL */
 				$dal->updateUserPassword($this);
 			}
 			return $result;

@@ -1,5 +1,5 @@
 <?php
-
+namespace AudioDidact;
 
 /**
  * Class MySQLDAL contains methods for communicating with a SQL database
@@ -53,9 +53,9 @@ class MySQLDAL extends DAL{
 
 		if(parent::$PDO == null){
 			try{
-				parent::$PDO = new PDO('mysql:host='.$host.';dbname='.$db.';charset=utf8', $username, $password);
-				parent::$PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			}catch(PDOException $e){
+				parent::$PDO = new \PDO('mysql:host='.$host.';dbname='.$db.';charset=utf8', $username, $password);
+				parent::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+			}catch(\PDOException $e){
 				echo 'ERROR: '.$e->getMessage();
 				throw $e;
 			}
@@ -71,9 +71,9 @@ class MySQLDAL extends DAL{
 	public function getUserByID($id){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE ID=:id");
-			$p->bindValue(":id", $id, PDO::PARAM_INT);
+			$p->bindValue(":id", $id, \PDO::PARAM_INT);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
 				return null;
 			}
@@ -84,7 +84,7 @@ class MySQLDAL extends DAL{
 
 			return $this->setUser($rows);
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -155,9 +155,9 @@ class MySQLDAL extends DAL{
 	public function getUserByWebID($webID){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE webID=:id");
-			$p->bindValue(":id", $webID, PDO::PARAM_STR);
+			$p->bindValue(":id", $webID, \PDO::PARAM_STR);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
 				return null;
 			}
@@ -168,7 +168,7 @@ class MySQLDAL extends DAL{
 
 			return $this->setUser($rows);
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -184,9 +184,9 @@ class MySQLDAL extends DAL{
 		$username = strtolower($username);
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE username=:username");
-			$p->bindValue(":username", $username, PDO::PARAM_STR);
+			$p->bindValue(":username", $username, \PDO::PARAM_STR);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
 				return null;
 			}
@@ -197,7 +197,7 @@ class MySQLDAL extends DAL{
 
 			return $this->setUser($rows);
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -213,9 +213,9 @@ class MySQLDAL extends DAL{
 		$email = strtolower($email);
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE email=:email");
-			$p->bindValue(":email", $email, PDO::PARAM_STR);
+			$p->bindValue(":email", $email, \PDO::PARAM_STR);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			if(count($rows) > 1){
 				return null;
 			}
@@ -226,7 +226,7 @@ class MySQLDAL extends DAL{
 
 			return $this->setUser($rows);
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -242,10 +242,10 @@ class MySQLDAL extends DAL{
 	public function getVideoByID(User $user, $id){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid AND videoID=:videoID");
-			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
-			$p->bindValue(":videoID", $id, PDO::PARAM_STR);
+			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
+			$p->bindValue(":videoID", $id, \PDO::PARAM_STR);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			if(count($rows) < 1){
 				return null;
 			}
@@ -253,7 +253,7 @@ class MySQLDAL extends DAL{
 
 			return $this->setVideo($row);
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -270,26 +270,26 @@ class MySQLDAL extends DAL{
 				$p = parent::$PDO->prepare("INSERT INTO $this->userTable (username, password, email, firstname,
 				lastname, gender, webID, feedLength, feedText, feedDetails, privateFeed) VALUES (:username,:password,:email,
 				:fname,:lname,:gender,:webID,:feedLength, :feedText,:feedDetails,:privateFeed)");
-				$p->bindValue(':username', $user->getUsername(), PDO::PARAM_STR);
-				$p->bindValue(':password', $user->getPasswd(), PDO::PARAM_STR);
-				$p->bindValue(':email', $user->getEmail(), PDO::PARAM_STR);
-				$p->bindValue(':fname', $user->getFname(), PDO::PARAM_STR);
-				$p->bindValue(':lname', $user->getLname(), PDO::PARAM_STR);
-				$p->bindValue(':gender', $user->getGender(), PDO::PARAM_INT);
-				$p->bindValue(':webID', $user->getWebID(), PDO::PARAM_STR);
-				$p->bindValue(':feedLength', $user->getFeedLength(), PDO::PARAM_INT);
-				$p->bindValue(':feedText', $user->getFeedText(), PDO::PARAM_STR);
-				$p->bindValue(':feedDetails', json_encode($user->getFeedDetails()), PDO::PARAM_STR);
-				$p->bindValue(':privateFeed', $user->isPrivateFeed(), PDO::PARAM_BOOL);
+				$p->bindValue(':username', $user->getUsername(), \PDO::PARAM_STR);
+				$p->bindValue(':password', $user->getPasswd(), \PDO::PARAM_STR);
+				$p->bindValue(':email', $user->getEmail(), \PDO::PARAM_STR);
+				$p->bindValue(':fname', $user->getFname(), \PDO::PARAM_STR);
+				$p->bindValue(':lname', $user->getLname(), \PDO::PARAM_STR);
+				$p->bindValue(':gender', $user->getGender(), \PDO::PARAM_INT);
+				$p->bindValue(':webID', $user->getWebID(), \PDO::PARAM_STR);
+				$p->bindValue(':feedLength', $user->getFeedLength(), \PDO::PARAM_INT);
+				$p->bindValue(':feedText', $user->getFeedText(), \PDO::PARAM_STR);
+				$p->bindValue(':feedDetails', json_encode($user->getFeedDetails()), \PDO::PARAM_STR);
+				$p->bindValue(':privateFeed', $user->isPrivateFeed(), \PDO::PARAM_BOOL);
 				$p->execute();
 			}
-			catch(PDOException $e){
+			catch(\PDOException $e){
 				echo 'ERROR: '.$e->getMessage();
 				throw $e;
 			}
 		}
 		else{
-			throw new Exception("Username or Email Address Already Exists!");
+			throw new \Exception("Username or Email Address Already Exists!");
 		}
 	}
 
@@ -304,9 +304,9 @@ class MySQLDAL extends DAL{
 		try{
 			// Find the largest orderID and add 1 to it to use as the orderID of the newest video
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT 1");
-			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			if(count($rows) == 0){
 				$order = 1;
 			}
@@ -318,23 +318,23 @@ class MySQLDAL extends DAL{
 			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, URL, videoID, videoAuthor, description,
 			videoTitle, duration, orderID, timeAdded, filename, thumbnailFilename, isVideo) VALUES (:userID,:url,:videoID,
 			:videoAuthor, :description, :videoTitle,:duration, :orderID, :time, :filename, :thumbnailFilename, :isVideo)");
-			$p->bindValue(":userID", $user->getUserID(), PDO::PARAM_INT);
-			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
-			$p->bindValue(":url", $vid->getURL(), PDO::PARAM_STR);
-			$p->bindValue(":videoAuthor", $vid->getAuthor(), PDO::PARAM_STR);
-			$p->bindValue(":description", $vid->getDesc(), PDO::PARAM_STR);
-			$p->bindValue(":videoTitle", $vid->getTitle(), PDO::PARAM_STR);
-			$p->bindValue(":duration", $vid->getDuration(), PDO::PARAM_STR);
-			$p->bindValue(":orderID", $order, PDO::PARAM_INT);
-			$p->bindValue(":time", date("Y-m-d H:i:s", time()), PDO::PARAM_STR);
-			$p->bindValue(":filename", $vid->getFilename(), PDO::PARAM_STR);
-			$p->bindValue(":thumbnailFilename", $vid->getThumbnailFilename(), PDO::PARAM_STR);
-			$p->bindValue(":isVideo", $vid->isIsVideo(), PDO::PARAM_BOOL);
+			$p->bindValue(":userID", $user->getUserID(), \PDO::PARAM_INT);
+			$p->bindValue(":videoID", $vid->getId(), \PDO::PARAM_STR);
+			$p->bindValue(":url", $vid->getURL(), \PDO::PARAM_STR);
+			$p->bindValue(":videoAuthor", $vid->getAuthor(), \PDO::PARAM_STR);
+			$p->bindValue(":description", $vid->getDesc(), \PDO::PARAM_STR);
+			$p->bindValue(":videoTitle", $vid->getTitle(), \PDO::PARAM_STR);
+			$p->bindValue(":duration", $vid->getDuration(), \PDO::PARAM_STR);
+			$p->bindValue(":orderID", $order, \PDO::PARAM_INT);
+			$p->bindValue(":time", date("Y-m-d H:i:s", time()), \PDO::PARAM_STR);
+			$p->bindValue(":filename", $vid->getFilename(), \PDO::PARAM_STR);
+			$p->bindValue(":thumbnailFilename", $vid->getThumbnailFilename(), \PDO::PARAM_STR);
+			$p->bindValue(":isVideo", $vid->isIsVideo(), \PDO::PARAM_BOOL);
 			$p->execute();
 
 			return true;
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -349,11 +349,11 @@ class MySQLDAL extends DAL{
 	public function getFeedText(User $user){
 		try{
 			$p = parent::$PDO->prepare("SELECT feedText FROM $this->userTable WHERE id=:userid");
-			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
 			$p->execute();
-			return $p->fetchAll(PDO::FETCH_ASSOC)[0]["feedText"];
+			return $p->fetchAll(\PDO::FETCH_ASSOC)[0]["feedText"];
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -371,9 +371,9 @@ class MySQLDAL extends DAL{
 			// injected
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT "
 			.intval($user->getFeedLength()));
-			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			if(count($rows) < 1){
 				return null;
 			}
@@ -383,7 +383,7 @@ class MySQLDAL extends DAL{
 			}
 			return $returner;
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -399,9 +399,9 @@ class MySQLDAL extends DAL{
 			// Limit is not able to be a bound parameter, so I take the intval just to make sure nothing can get
 			// injected
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC");
-			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			if(count($rows) < 1){
 				return [];
 			}
@@ -411,7 +411,7 @@ class MySQLDAL extends DAL{
 			}
 			return $returner;
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -427,12 +427,12 @@ class MySQLDAL extends DAL{
 	public function setFeedText(User $user, $feed){
 		try{
 			$p = parent::$PDO->prepare("UPDATE $this->userTable set feedText=:feedText WHERE id=:userid");
-			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
-			$p->bindValue(":feedText", $feed, PDO::PARAM_STR);
+			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
+			$p->bindValue(":feedText", $feed, \PDO::PARAM_STR);
 			$p->execute();
 			return true;
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -448,13 +448,13 @@ class MySQLDAL extends DAL{
 	public function inFeed(Video $vid, User $user){
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid AND videoID=:videoID");
-			$p->bindValue(":userid", $user->getUserID(), PDO::PARAM_INT);
-			$p->bindValue(":videoID", $vid->getId(), PDO::PARAM_STR);
+			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
+			$p->bindValue(":videoID", $vid->getId(), \PDO::PARAM_STR);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			return count($rows)>0;
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -467,11 +467,11 @@ class MySQLDAL extends DAL{
 	public function updateUserPassword(User $user){
 		try{
 			$p = parent::$PDO->prepare("UPDATE $this->userTable SET `password`=:passwd WHERE ID=:id");
-			$p->bindValue(":passwd", $user->getPasswd(), PDO::PARAM_STR);
-			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":passwd", $user->getPasswd(), \PDO::PARAM_STR);
+			$p->bindValue(":id", $user->getUserID(), \PDO::PARAM_INT);
 			$p->execute();
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -485,12 +485,12 @@ class MySQLDAL extends DAL{
 		try{
 			$p = parent::$PDO->prepare("UPDATE $this->userTable SET emailVerificationCodes=:email,
  				passwordRecoveryCodes=:pass WHERE ID=:id");
-			$p->bindValue(":email", json_encode($user->getEmailVerificationCodes()), PDO::PARAM_STR);
-			$p->bindValue(":pass", json_encode($user->getPasswordRecoveryCodes()), PDO::PARAM_STR);
-			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
+			$p->bindValue(":email", json_encode($user->getEmailVerificationCodes()), \PDO::PARAM_STR);
+			$p->bindValue(":pass", json_encode($user->getPasswordRecoveryCodes()), \PDO::PARAM_STR);
+			$p->bindValue(":id", $user->getUserID(), \PDO::PARAM_INT);
 			$p->execute();
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -507,22 +507,22 @@ class MySQLDAL extends DAL{
  			lastname=:lname, gender=:gender, feedLength=:feedLen, username=:uname, webID=:webID,
  			feedDetails=:feedDetails,privateFeed=:privateFeed,emailVerified=:emailVerified,emailVerificationCodes=:emailCodes,
  			passwordRecoveryCodes=:passCodes WHERE ID=:id");
-			$p->bindValue(":id", $user->getUserID(), PDO::PARAM_INT);
-			$p->bindValue(":email", $user->getEmail(), PDO::PARAM_STR);
-			$p->bindValue(":fname", $user->getFname(), PDO::PARAM_STR);
-			$p->bindValue(":lname", $user->getLname(), PDO::PARAM_STR);
-			$p->bindValue(":gender", $user->getGender(), PDO::PARAM_INT);
-			$p->bindValue(":feedLen", $user->getFeedLength(), PDO::PARAM_INT);
-			$p->bindValue(":uname", $user->getUsername(), PDO::PARAM_STR);
-			$p->bindValue(":webID", $user->getWebID(), PDO::PARAM_STR);
-			$p->bindValue(":feedDetails", json_encode($user->getFeedDetails()), PDO::PARAM_STR);
-			$p->bindValue(":privateFeed", $user->isPrivateFeed(), PDO::PARAM_BOOL);
-			$p->bindValue(":emailVerified", $user->isEmailVerified(), PDO::PARAM_BOOL);
-			$p->bindValue(":emailCodes", json_encode($user->getEmailVerificationCodes()), PDO::PARAM_STR);
-			$p->bindValue(":passCodes", json_encode($user->getPasswordRecoveryCodes()), PDO::PARAM_STR);
+			$p->bindValue(":id", $user->getUserID(), \PDO::PARAM_INT);
+			$p->bindValue(":email", $user->getEmail(), \PDO::PARAM_STR);
+			$p->bindValue(":fname", $user->getFname(), \PDO::PARAM_STR);
+			$p->bindValue(":lname", $user->getLname(), \PDO::PARAM_STR);
+			$p->bindValue(":gender", $user->getGender(), \PDO::PARAM_INT);
+			$p->bindValue(":feedLen", $user->getFeedLength(), \PDO::PARAM_INT);
+			$p->bindValue(":uname", $user->getUsername(), \PDO::PARAM_STR);
+			$p->bindValue(":webID", $user->getWebID(), \PDO::PARAM_STR);
+			$p->bindValue(":feedDetails", json_encode($user->getFeedDetails()), \PDO::PARAM_STR);
+			$p->bindValue(":privateFeed", $user->isPrivateFeed(), \PDO::PARAM_BOOL);
+			$p->bindValue(":emailVerified", $user->isEmailVerified(), \PDO::PARAM_BOOL);
+			$p->bindValue(":emailCodes", json_encode($user->getEmailVerificationCodes()), \PDO::PARAM_STR);
+			$p->bindValue(":passCodes", json_encode($user->getPasswordRecoveryCodes()), \PDO::PARAM_STR);
 			$p->execute();
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -593,7 +593,7 @@ class MySQLDAL extends DAL{
 				$p = parent::$PDO->prepare($generalSetupSQL.$preProcessSQL.
 					$userTableSQL.$feedTableSQL.$postProcessSQL);
 				$p->execute();
-			}catch(PDOException $e){
+			}catch(\PDOException $e){
 				echo "Database creation failed! ".$e->getMessage();
 				error_log("Database creation failed! ".$e->getMessage());
 				throw $e;
@@ -615,7 +615,7 @@ class MySQLDAL extends DAL{
 			$p = parent::$PDO->prepare($alterSQL);
 			$p->execute();
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "Database update failed! ".$e->getMessage();
 			error_log("Database update failed! ".$e->getMessage());
 			throw $e;
@@ -659,7 +659,7 @@ class MySQLDAL extends DAL{
 	protected function getDatabaseTables(){
 		$p = parent::$PDO->prepare("SHOW TABLES");
 		$p->execute();
-		$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+		$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 		$tables = [];
 		foreach($rows as $r){
 			$tables[] = array_values($r)[0];
@@ -675,7 +675,7 @@ class MySQLDAL extends DAL{
 	protected function describeTable($table){
 		$p = parent::$PDO->prepare("DESCRIBE $table");
 		$p->execute();
-		return $p->fetchAll(PDO::FETCH_ASSOC);
+		return $p->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -743,7 +743,7 @@ class MySQLDAL extends DAL{
 				return 2;
 			}
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
@@ -787,7 +787,7 @@ class MySQLDAL extends DAL{
 						    ORDER BY `isUnNeeded` DESC";
 			$p = parent::$PDO->prepare($pruneSQL);
 			$p->execute();
-			$rows = $p->fetchAll(PDO::FETCH_ASSOC);
+			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
 			$pruneArray = [];
 
 			foreach($rows as $r){
@@ -798,7 +798,7 @@ class MySQLDAL extends DAL{
 			}
 			return $pruneArray;
 		}
-		catch(PDOException $e){
+		catch(\PDOException $e){
 			throw $e;
 		}
 	}

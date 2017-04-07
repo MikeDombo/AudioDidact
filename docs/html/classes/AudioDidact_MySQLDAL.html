@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - AudioDidact\MySQLDAL</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html#AudioDidact">AudioDidact</a>
+          </li>
+          <li class="separator">MySQLDAL</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#hierarchy">Hierarchy</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="#history">History</a>
+          </li>
+          <li>
+            <a href="../source/classes/MySQLDAL.php.html#line8">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>AudioDidact\</small>MySQLDAL</h1>
+        <h4>Class MySQLDAL contains methods for communicating with a SQL database</h4>
+        <p/>
+        <ul/>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class MySQLDAL
+                extends <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL.html">DAL</a>
+            {<br/><ul class="none"><li>// members</li><li>protected string <a href="#members">$userTable</a> =
+                        "users";
+                    </li><li>protected string <a href="#members">$feedTable</a> =
+                        "feed";
+                    </li><li>private  <a href="#members">$host</a>;
+                    </li><li>private  <a href="#members">$db</a>;
+                    </li><li>private  <a href="#members">$username</a>;
+                    </li><li>private  <a href="#members">$password</a>;
+                    </li><li>protected array <a href="#members">$userCorrect</a> =
+                        ;
+                    </li><li>protected array <a href="#members">$feedCorrect</a> =
+                        ;
+                    </li></ul><ul class="none"><li>// Inherited members from <span title="AudioDidact\DAL">DAL</span></li><li>protected static <span title="\PDO">PDO</span> <a href="#members">$PDO</a>;
+                        </li></ul><ul class="none"><li>// methods</li><li>protected void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setPDO.html">setPDO</a>()
+                    </li><li>protected PDO <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getPDO.html">getPDO</a>()
+                    </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/__construct.html">__construct</a>()
+                    </li><li>public null|User <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByID.html">getUserByID</a>()
+                    </li><li>private User <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setUser.html">setUser</a>()
+                    </li><li>private Video <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setVideo.html">setVideo</a>()
+                    </li><li>public null|User <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByWebID.html">getUserByWebID</a>()
+                    </li><li>public null|User <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByUsername.html">getUserByUsername</a>()
+                    </li><li>public null|User <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByEmail.html">getUserByEmail</a>()
+                    </li><li>public null|Video <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getVideoByID.html">getVideoByID</a>()
+                    </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/addUser.html">addUser</a>()
+                    </li><li>public bool <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/addVideo.html">addVideo</a>()
+                    </li><li>public mixed <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeedText.html">getFeedText</a>()
+                    </li><li>public array|null <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeed.html">getFeed</a>()
+                    </li><li>public mixed <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFullFeedHistory.html">getFullFeedHistory</a>()
+                    </li><li>public bool <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setFeedText.html">setFeedText</a>()
+                    </li><li>public bool <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/inFeed.html">inFeed</a>()
+                    </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserPassword.html">updateUserPassword</a>()
+                    </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes</a>()
+                    </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUser.html">updateUser</a>()
+                    </li><li>private string <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeColumnSQL.html">makeColumnSQL</a>()
+                    </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeDB.html">makeDB</a>()
+                    </li><li>protected void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateDBSchema.html">updateDBSchema</a>()
+                    </li><li>private string <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeAlterQuery.html">makeAlterQuery</a>()
+                    </li><li>protected array <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getDatabaseTables.html">getDatabaseTables</a>()
+                    </li><li>protected array <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/describeTable.html">describeTable</a>()
+                    </li><li>public int <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/verifyDB.html">verifyDB</a>()
+                    </li><li>private bool <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/verifySchema.html">verifySchema</a>()
+                    </li><li>public array <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getPrunableVideos.html">getPrunableVideos</a>()
+                    </li></ul><ul class="none"><li>// Inherited methods from <span title="AudioDidact\DAL">DAL</span></li><li>public abstract User <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByUsername.html">getUserByUsername</a>()
+                        </li><li>public abstract User <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByEmail.html">getUserByEmail</a>()
+                        </li><li>public abstract User <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByID.html">getUserByID</a>()
+                        </li><li>public abstract User <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByWebID.html">getUserByWebID</a>()
+                        </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFeed.html">getFeed</a>()
+                        </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFullFeedHistory.html">getFullFeedHistory</a>()
+                        </li><li>public abstract string <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFeedText.html">getFeedText</a>()
+                        </li><li>public abstract Video <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getVideoByID.html">getVideoByID</a>()
+                        </li><li>public abstract void <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/addUser.html">addUser</a>()
+                        </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/addVideo.html">addVideo</a>()
+                        </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/setFeedText.html">setFeedText</a>()
+                        </li><li>public abstract void <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateUser.html">updateUser</a>()
+                        </li><li>public abstract void <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateUserPassword.html">updateUserPassword</a>()
+                        </li><li>public abstract void <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes</a>()
+                        </li><li>public bool <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/inFeed.html">inFeed</a>()
+                        </li><li>public bool <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/usernameExists.html">usernameExists</a>()
+                        </li><li>public bool <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/webIDExists.html">webIDExists</a>()
+                        </li><li>public bool <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/emailExists.html">emailExists</a>()
+                        </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/makeDB.html">makeDB</a>()
+                        </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/verifyDB.html">verifyDB</a>()
+                        </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getPrunableVideos.html">getPrunableVideos</a>()
+                        </li></ul>
+
+            }<br/></div>
+        <h2 id="hierarchy">Hierarchy</h2>
+        <div class="styled">
+          <h4>Extends</h4>
+          <ul>
+            <li>
+              <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL.html">AudioDidact\DAL</a>
+            </li>
+          </ul>
+        </div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="db"><strong>$db</strong>
+                —
+                string</li>
+            <li id="host"><strong>$host</strong>
+                —
+                string</li>
+            <li id="password"><strong>$password</strong>
+                —
+                string</li>
+            <li id="username"><strong>$username</strong>
+                —
+                string</li>
+          </ul>
+          <h4>protected</h4>
+          <ul class="members">
+            <li id="PDO"><strong>$PDO</strong>
+                —
+                <a title="\PDO" href="../classes/_PDO.html">\PDO</a></li>
+            <li id="feedCorrect"><strong>$feedCorrect</strong>
+                —
+                array<br/><span class="indent">Correct layout of the feed table</span></li>
+            <li id="feedTable"><strong>$feedTable</strong>
+                —
+                string</li>
+            <li id="userCorrect"><strong>$userCorrect</strong>
+                —
+                array<br/><span class="indent">Correct layout of the user table</span></li>
+            <li id="userTable"><strong>$userTable</strong>
+                —
+                string</li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>private</h4>
+          <ul>
+            <li id="makeAlterQuery"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeAlterQuery.html">makeAlterQuery()</a>
+                — Generates SQL query to add missing columns to the given tables</li>
+            <li id="makeColumnSQL"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeColumnSQL.html">makeColumnSQL()</a>
+                — Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not Default Key Extra</li>
+            <li id="setUser"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setUser.html">setUser()</a>
+                — Makes a new user object from a database select command.</li>
+            <li id="setVideo"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setVideo.html">setVideo()</a>
+                — Makes a new video object from a database select command.</li>
+            <li id="verifySchema"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/verifySchema.html">verifySchema()</a>
+                — Checks if two arrays are equal to test that SQL schemas are compliant</li>
+          </ul>
+          <h4>protected</h4>
+          <ul>
+            <li id="describeTable"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/describeTable.html">describeTable()</a>
+                — Function to get layout of a specific table</li>
+            <li id="getDatabaseTables"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getDatabaseTables.html">getDatabaseTables()</a>
+                — Function to return a list of database tables</li>
+            <li id="getPDO"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getPDO.html">getPDO()</a>
+                — Function to get the PDO. Used by SQLite</li>
+            <li id="setPDO"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setPDO.html">setPDO()</a>
+                — Function to set the PDO. Used by SQLite</li>
+            <li id="updateDBSchema">
+              <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateDBSchema.html">updateDBSchema()</a>
+            </li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="__construct"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/__construct.html">__construct()</a>
+                — MySQLDAL constructor.</li>
+            <li id="addUser"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/addUser.html">addUser()</a>
+                — Adds a User object to the database</li>
+            <li id="addVideo"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/addVideo.html">addVideo()</a>
+                — Adds a video to the feed table</li>
+            <li id="getFeed"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeed.html">getFeed()</a>
+                — Returns an array of YouTube IDs that are in the feed</li>
+            <li id="getFeedText"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeedText.html">getFeedText()</a>
+                — Gets full xml feed text from database</li>
+            <li id="getFullFeedHistory"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFullFeedHistory.html">getFullFeedHistory()</a>
+                — Gets all the videos from the database</li>
+            <li id="getPrunableVideos"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getPrunableVideos.html">getPrunableVideos()</a>
+                — Returns an array of YouTube video IDs that can be safely deleted</li>
+            <li id="getUserByEmail"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByEmail.html">getUserByEmail()</a>
+                — Gets User from an email</li>
+            <li id="getUserByID"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByID.html">getUserByID()</a>
+                — Gets the user by the database user id</li>
+            <li id="getUserByUsername"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByUsername.html">getUserByUsername()</a>
+                — Gets a User from the database based on a username</li>
+            <li id="getUserByWebID"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByWebID.html">getUserByWebID()</a>
+                — Gets a User object from a webID</li>
+            <li id="getVideoByID"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getVideoByID.html">getVideoByID()</a>
+                — Gets Video for a User by the YouTube ID</li>
+            <li id="inFeed"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/inFeed.html">inFeed()</a>
+                — Checks if a video is in a user's feed</li>
+            <li id="makeDB"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeDB.html">makeDB()</a>
+                — Generate the tables in the current database</li>
+            <li id="setFeedText"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setFeedText.html">setFeedText()</a>
+                — Sets full feed text in the feed database</li>
+            <li id="updateUser"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUser.html">updateUser()</a>
+                — Updates the user database from a given \User object</li>
+            <li id="updateUserEmailPasswordCodes"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes()</a>
+                — Updates only a user's email verification and password recovery codes in the database</li>
+            <li id="updateUserPassword"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserPassword.html">updateUserPassword()</a>
+                — Updates only a user's password in the database</li>
+            <li id="verifyDB"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/verifyDB.html">verifyDB()</a>
+                — Verifies the currently connected database against the current schema</li>
+          </ul>
+          <h3>Inherited from <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL.html">AudioDidact\DAL</a></h3>
+          <h4>public</h4>
+          <ul>
+            <li id="addUser"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/addUser.html">addUser()</a>
+                — Puts user into the database</li>
+            <li id="addVideo"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/addVideo.html">addVideo()</a>
+                — Adds video into the video database for a specific user</li>
+            <li id="emailExists"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/emailExists.html">emailExists()</a>
+                — Checks if an email is already in the database</li>
+            <li id="getFeed"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFeed.html">getFeed()</a>
+                — Gets all the videos from the database in the user's current feed limited by the max number of items the user has set</li>
+            <li id="getFeedText"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFeedText.html">getFeedText()</a>
+                — Gets the full text of the feed from the database</li>
+            <li id="getFullFeedHistory"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFullFeedHistory.html">getFullFeedHistory()</a>
+                — Gets all the videos from the database</li>
+            <li id="getPrunableVideos"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getPrunableVideos.html">getPrunableVideos()</a>
+                — Returns an array of video IDs that can be safely deleted</li>
+            <li id="getUserByEmail"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByEmail.html">getUserByEmail()</a>
+                — Returns User class built from the database</li>
+            <li id="getUserByID"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByID.html">getUserByID()</a>
+                — Returns User class built from the database</li>
+            <li id="getUserByUsername"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByUsername.html">getUserByUsername()</a>
+                — Returns User class built from the database</li>
+            <li id="getUserByWebID"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByWebID.html">getUserByWebID()</a>
+                — Returns User class built from the database</li>
+            <li id="getVideoByID"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getVideoByID.html">getVideoByID()</a>
+                — Returns a Video class based on a user and an ID</li>
+            <li id="inFeed"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/inFeed.html">inFeed()</a>
+                — Default slow way to check if a video is in the feed. Override for faster lookup</li>
+            <li id="makeDB"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/makeDB.html">makeDB()</a>
+                — Sets up any database necessary</li>
+            <li id="setFeedText"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/setFeedText.html">setFeedText()</a>
+                — Sets feed xml text for a user</li>
+            <li id="updateUser"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateUser.html">updateUser()</a>
+                — Updates user entry in the database</li>
+            <li id="updateUserEmailPasswordCodes"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes()</a>
+                — Updates only a user's email verification and password recovery codes in the database</li>
+            <li id="updateUserPassword"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateUserPassword.html">updateUserPassword()</a>
+                — Updates only a user's password in the database</li>
+            <li id="usernameExists"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/usernameExists.html">usernameExists()</a>
+                — Checks if a username is taken in the database</li>
+            <li id="verifyDB"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/verifyDB.html">verifyDB()</a>
+                — Verifies the database</li>
+            <li id="webIDExists"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/webIDExists.html">webIDExists()</a>
+                — Checks if a webID is taken in the database</li>
+          </ul>
+        </div>
+        <h2 id="history">History</h2>
+        <ul class="styled history">
+          <li>
+            <h3>2017-04-05T04:48:09+02:00 (commit #<span title="b14dbadf818f6a7c6c7b3e9d5b7c5957ca90cbd2">b14dbad</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add choice to add a video to your podcast feed (instead of audio)</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-16T15:11:37+01:00 (commit #<span title="2ad295255481030ce70b50072f104429f13ff31e">2ad2952</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix to statistics for empty feeds</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-12T05:18:29+01:00 (commit #<span title="f53bccef049cb5c3c32b22f17ce932941db19b81">f53bcce</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Fix duration in statistics</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-03-11T06:40:01+01:00 (commit #<span title="a0e0ed17bd9ee1092695d663b218a03f07834952">a0e0ed1</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add stats and Help</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-11T20:42:51+01:00 (commit #<span title="48bfcbd4f118dd9276a9b04af62422e4790ae93c">48bfcbd</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Add email system for email verification and password reset</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-10T21:35:49+01:00 (commit #<span title="9ae233c3352ecaf61aaa2b75ff52401abb5cad7b">9ae233c</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Implemented better password algorithm (bcrypt) with proper salting</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-09T22:55:07+01:00 (commit #<span title="201713a74f6f532becb60b4deb510e25c346ec9f">201713a</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Bug fixes</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-09T21:50:48+01:00 (commit #<span title="b45fd1e4daf05f7541ca84bb7547a3351dc91810">b45fd1e</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Moved files around. Added better updating to SQLite</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-02-08T02:44:43+01:00 (commit #<span title="b6ba3b0d6f4dcdd420e355c4237eadd47bfa72b4">b6ba3b0</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Better handling of database updates</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-01-27T23:41:46+01:00 (commit #<span title="5acd74f37d53852d71e11d01a26e30d6eadc4cfa">5acd74f</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">update to add CRTV</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-12-16T21:47:51+01:00 (commit #<span title="ed05d7fd81c4cfaba121c3c9a1c312b721ae4beb">ed05d7f</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update documentation for SQLite</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-12-16T21:47:51+01:00 (commit #<span title="3408d87c3c38221be7000ce689f6a86fcd5f8acb">3408d87</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update documentation for SQLite</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-12-16T21:47:51+01:00 (commit #<span title="6a5ed27ecf9cd8d5fe4186a54abbb8963b9ff7c1">6a5ed27</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update documentation for SQLite</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-12-16T21:47:51+01:00 (commit #<span title="d25da4b3912b2f038f6e36957f3daa888fd48ea7">d25da4b</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update documentation for SQLite</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-12-16T05:37:43+01:00 (commit #<span title="97fcc24e6f039ab675aeae67ade117491970c266">97fcc24</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update to optionally use SQLite instead of MySQL</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2016-12-16T05:37:43+01:00 (commit #<span title="b08afb7058e62e732bbe58149422dcb40d3cb4fa">b08afb7</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Update to optionally use SQLite instead of MySQL</pre>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.9.0 - Copyright (C) 2010 - 2017 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>

@@ -1,4 +1,7 @@
 <?php
+namespace AudioDidact\SupportedSites;
+use AudioDidact\PodTube;
+use AudioDidact\Video;
 
 /**
  * Class YouTube
@@ -42,7 +45,7 @@ class YouTube extends SupportedSite{
 				// If the lookup fails, send this error to the UI as a JSON array
 				if(!isset($info['items'][0]['snippet'])){
 					$this->echoErrorJSON("ID Inaccessible");
-					throw new Exception("Download Failed!");
+					throw new \Exception("Download Failed!");
 				}
 				$info = $info['items'][0]['snippet'];
 				$this->video->setTitle($info["title"]);
@@ -67,11 +70,11 @@ class YouTube extends SupportedSite{
 		$vidId = ($tmpId !== false) ? $tmpId : $str;
 		if(strpos($vidId, "/playlist") > -1){
 			$this->echoErrorJSON("URL is a playlist. PodTube does not currently support playlists.");
-			throw new Exception("Cannot download playlist");
+			throw new \Exception("Cannot download playlist");
 		}
 		if(strpos($vidId, "/c/") > -1 || strpos($vidId, "/channel/") > -1 || strpos($vidId, "/user/") > -1){
 			$this->echoErrorJSON("URL is a channel. PodTube does not, and likely will not ever, support downloading of channels.");
-			throw new Exception("Cannot download channel");
+			throw new \Exception("Cannot download channel");
 		}
 		$url = sprintf($this->YouTubeBaseURL . "watch?v=%s", $vidId);
 		// Get HTTP status of the video url and make sure that it is
@@ -80,7 +83,7 @@ class YouTube extends SupportedSite{
 		// 302 = Moved Temporarily
 		if($this->curl_httpstatus($url) !== 200 && $this->curl_httpstatus($url) !== 301 && $this->curl_httpstatus($url)
 			!== 302){
-			throw new Exception("Invalid Youtube video ID: $vidId");
+			throw new \Exception("Invalid Youtube video ID: $vidId");
 		}
 		return $vidId;
 	}
@@ -137,7 +140,7 @@ class YouTube extends SupportedSite{
 		$url = $this->getDownloadURL($this->video->getID());
 		if(strpos($url, "Error:")>-1){
 			$this->echoErrorJSON($url);
-			throw new Exception("Download Failed!");
+			throw new \Exception("Download Failed!");
 		}
 		try{
 			/* Actually download the video from the url and print the
@@ -149,7 +152,7 @@ class YouTube extends SupportedSite{
 			$this->video->setDuration(SupportedSite::getDurationSeconds($videoPath));
 			return;
 		}
-		catch(Exception $e){
+		catch(\Exception $e){
 			$this->echoErrorJSON($e->getMessage());
 			throw $e;
 		}
@@ -199,12 +202,12 @@ class YouTube extends SupportedSite{
 
 		if(isset($json_object["args"]["livestream"]) && $json_object["args"]["livestream"] && (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
 			$this->echoErrorJSON("<h3>Download Failed</h3><h4>This URL is a livestream, try again when the stream has ended</h4>");
-			throw new Exception("Download Failed!");
+			throw new \Exception("Download Failed!");
 		}
 		//isset($json_object["args"]["live_default_broadcast"]) && $json_object["args"]["live_default_broadcast"] == 1
 		if(!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == ""){
 			$this->echoErrorJSON("<h3>Download Failed</h3><h4>Try again later</h4>");
-			throw new Exception("Download Failed!");
+			throw new \Exception("Download Failed!");
 		}
 		$encoded_stream_map = $json_object["args"]["url_encoded_fmt_stream_map"];
 		$dct = array();
@@ -299,7 +302,7 @@ class YouTube extends SupportedSite{
 		curl_close($ch);
 		if ($data === false) {
 			$this->echoErrorJSON("Download failed, URL tried was ".$url);
-			throw new Exception("Download Failed!");
+			throw new \Exception("Download Failed!");
 		}
 
 		// Get content length in bytes
@@ -333,7 +336,7 @@ class YouTube extends SupportedSite{
 		}
 		else{
 			error_log("Content length was 0 for URL: ".$url);
-			throw new Exception("Downloaded video length was 0, please try again later");
+			throw new \Exception("Downloaded video length was 0, please try again later");
 		}
 
 		return true;

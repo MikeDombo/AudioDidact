@@ -1,4 +1,7 @@
 <?php
+namespace AudioDidact\SupportedSites;
+use AudioDidact\PodTube;
+use AudioDidact\Video;
 
 class SoundCloud extends SupportedSite{
 	// Setup global variables
@@ -169,7 +172,7 @@ class SoundCloud extends SupportedSite{
 		curl_close($ch);
 		if ($data === false) {
 			$this->echoErrorJSON("Download failed, URL tried was ".$url);
-			throw new Exception("Download Failed!");
+			throw new \Exception("Download Failed!");
 		}
 
 		// Get content length in bytes
@@ -203,7 +206,7 @@ class SoundCloud extends SupportedSite{
 		}
 		else{
 			error_log("Content length was 0 for URL: ".$url);
-			throw new Exception("Downloaded audio length was 0, please try again later");
+			throw new \Exception("Downloaded audio length was 0, please try again later");
 		}
 
 		return true;

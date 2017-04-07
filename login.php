@@ -17,7 +17,7 @@ if(isset($_POST["uname"]) && isset($_POST["passwd"])){
 	// Check login info, set loggedIn to true if the information is correct
 	$myDalClass = ChosenDAL;
 	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-	/** @var $dal \DAL */
+	/** @var $dal \AudioDidact\DAL */
 	$possibleUser = $dal->getUserByUsername($_POST["uname"]);
 	$possibleUserEmail = $dal->getUserByEmail($_POST["uname"]);
 	// Check user based on username

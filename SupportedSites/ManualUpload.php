@@ -1,4 +1,7 @@
 <?php
+namespace AudioDidact\SupportedSites;
+use AudioDidact\PodTube;
+use AudioDidact\Video;
 
 class ManualUpload extends SupportedSite{
 
