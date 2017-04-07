@@ -9,6 +9,7 @@ define("LOCAL_URL", "https://localhost/podtube/");
 define("SUBDIR", "podtube/");
 /** Add server key here */
 define("GOOGLE_API_KEY", "****");
+
 /** Set the directory where you want to download the thumbnails, videos, and audio. This must be publicly accessible */
 define("DOWNLOAD_PATH", "temp");
 /** Set to true if your server is setup for HTTPS (highly recommended); */
@@ -20,12 +21,12 @@ define("EMAIL_FROM", "\"AudioDidact Administrator\"<michael@mikedombrowski.com>"
 
 // Database constants
 /** Choose your DAL and Constants */
-define("ChosenDAL", "MySQLDAL");
+define("ChosenDAL", "\\AudioDidact\\MySQLDAL");
 define("DB_HOST", "localhost");
 // Even if database, user, and password are not used, they have to be set to something
 define("DB_DATABASE", "podtube");
-define("DB_USER", "****");
-define("DB_PASSWORD", "****");
+define("DB_USER", "root");
+define("DB_PASSWORD", "");
 
 // SQLite Database Usage
 //define("ChosenDAL", "SQLite");
