@@ -4,7 +4,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 	if(isset($_POST["name"]) && isset($_POST["value"])){
 		if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
 			$myDalClass = ChosenDAL;
-			/** @var DAL $dal */
+			/** @var \AudioDidact\DAL $dal */
 			$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
 			$user = $dal->getUserByID($_SESSION["user"]->getUserID());
 
@@ -114,9 +114,9 @@ else if(isset($_GET["resend"])){
 		$_SESSION["user"]->addEmailVerificationCode();
 		$myDalClass = ChosenDAL;
 		$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-		/** @var $dal \DAL */
+		/** @var $dal \AudioDidact\DAL */
 		$dal->updateUserEmailPasswordCodes($_SESSION["user"]);
-		EMail::sendVerificationEmail($_SESSION["user"]);
+		AudioDidact\EMail::sendVerificationEmail($_SESSION["user"]);
 		echo 'alert("Verification email resent!");';
 	}
 	else{
@@ -128,9 +128,9 @@ else if(isset($_GET["resend"])){
 /**
  * Output json encoded array that success is true
  * Updates the session user variable
- * @param \User $user
+ * @param \AudioDidact\User $user
  */
-function outputSuccess(User $user){
+function outputSuccess(\AudioDidact\User $user){
 	$_SESSION["user"] = $user;
 	$_SESSION["loggedIn"] = true;
 	echo json_encode(["success"=>true]);
