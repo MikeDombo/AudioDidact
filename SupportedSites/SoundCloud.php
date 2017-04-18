@@ -5,7 +5,7 @@ use AudioDidact\Video;
 
 class SoundCloud extends SupportedSite{
 	// Setup global variables
-	private $streams_base_url = "https://api.soundcloud.com/tracks/XYZ/streams?client_id=fDoItMDbsbZz8dY16ZzARCZmzgHBPotA";
+	private $streams_base_url = "https://api.soundcloud.com/tracks/XYZ/streams?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z";
 	private $thumbnail_url;
 	private $audioJSON;
 
