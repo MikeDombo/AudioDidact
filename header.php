@@ -186,14 +186,15 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
  * @return string correct form of the given word for the input number
  */
 function pluralize($word, $num){
+	$vowels = ["a", "e", "i", "o", "u"];
 	if($num == 1){
 		return $word;
 	}
 	else{
-		if(substr($word, -1) == "y"){
+		if(substr($word, -1, 1) == "y" && !in_array(substr($word, -2, 1), $vowels, true)){
 			return substr($word, 0, strlen($word)-1)."ies";
 		}
-		else if(substr($word, -1) == "s"){
+		else if(substr($word, -1, 1) == "s"){
 			return $word."es";
 		}
 		else{
