@@ -131,7 +131,7 @@ class SQLite extends MySQLDAL{
 			$columnText .= " PRIMARY KEY";
 		}
 		return $columnText;
-	}
+	}	
 
 	/**
 	 * Correct layout of the user table
@@ -149,9 +149,12 @@ class SQLite extends MySQLDAL{
 		['cid' => '8', 'name' => 'feedText', 'type' => 'longtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
 		['cid' => '9', 'name' => 'feedLength', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
 		['cid' => '10', 'name' => 'feedDetails', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '11', 'name' => 'privateFeed', 'type' => 'tinyint(1)', 'notnull' => '1', 'dflt_value' => null, 'pk'=> '0']
+		['cid' => '11', 'name' => 'privateFeed', 'type' => 'tinyint(1)', 'notnull' => '1', 'dflt_value' => null, 'pk'=> '0'],
+		['cid' => '12', "name"=>"emailVerified", "type"=>"tinyint(1)", "notnull"=>"1", "dflt_value"=>"0", "pk"=>"0"],
+		['cid' => '13', "name"=>"emailVerificationCodes", "type"=>"mediumtext", "notnull"=>"0", "dflt_value"=>null, "pk"=>"0"],
+		['cid' => '14', "name"=>"passwordRecoveryCodes", "type"=>"mediumtext", "notnull"=>"0", "dflt_value"=>null, "pk"=>"0"]
 	];
-
+	
 	/**
 	 * Correct layout of the feed table
 	 * @var array
@@ -160,13 +163,16 @@ class SQLite extends MySQLDAL{
 		['cid' => '0', 'name' => 'ID', 'type' => 'INTEGER', 'notnull' => '1', 'dflt_value' => null, 'pk' => '1'],
 		['cid' => '1', 'name' => 'userID', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
 		['cid' => '2', 'name' => 'orderID', 'type' => 'int(11)', 'notnull' => '1','dflt_value' => null, 'pk' => '0'],
-		['cid' => '3', 'name' => 'URL', 'type' => 'mediumtext', 'notnull' => '0','dflt_value' => null, 'pk' => '0'],
-		['cid' => '3', 'name' => 'videoID', 'type' => 'mediumtext', 'notnull' => '1','dflt_value' => null, 'pk' => '0'],
-		['cid' => '4', 'name' => 'videoAuthor', 'type' => 'text', 'notnull' => '1','dflt_value' => null, 'pk' => '0'],
-		['cid' => '5', 'name' => 'description', 'type' => 'text', 'notnull' => '0','dflt_value' => null, 'pk' => '0'],
-		['cid' => '6', 'name' => 'videoTitle', 'type' => 'text', 'notnull' => '1','dflt_value' => null, 'pk' => '0'],
-		['cid' => '7', 'name' => 'duration', 'type' => 'int(11)', 'notnull' => '0','dflt_value' => 'null', 'pk' => '0'],
-		['cid' => '8', 'name' => 'timeAdded', 'type' => 'timestamp', 'notnull' => '1','dflt_value' => 'CURRENT_TIMESTAMP', 'pk' => '0']
+		['cid' => '3', "name"=>"filename", "type"=>"mediumtext", "notnull"=>"0", "dflt_value"=>null, "pk"=>"0"],
+		['cid' => '4', "name"=>"thumbnailFilename", "type"=>"mediumtext", "notnull"=>"0", "dflt_value"=>null, "pk"=>"0"],
+		['cid' => '5', 'name' => 'URL', 'type' => 'mediumtext', 'notnull' => '0','dflt_value' => null, 'pk' => '0'],
+		['cid' => '6', 'name' => 'videoID', 'type' => 'mediumtext', 'notnull' => '1','dflt_value' => null, 'pk' => '0'],
+		['cid' => '7', 'name' => 'videoAuthor', 'type' => 'text', 'notnull' => '1','dflt_value' => null, 'pk' => '0'],
+		['cid' => '8', 'name' => 'description', 'type' => 'text', 'notnull' => '0','dflt_value' => null, 'pk' => '0'],
+		['cid' => '9', 'name' => 'videoTitle', 'type' => 'text', 'notnull' => '1','dflt_value' => null, 'pk' => '0'],
+		['cid' => '10', 'name' => 'duration', 'type' => 'int(11)', 'notnull' => '0','dflt_value' => 'null', 'pk' => '0'],
+		['cid' => '11', "name"=>"isVideo", "type"=>"tinyint(1)", "notnull"=>"1", "dflt_value"=>"0", "pk"=>"0"],
+		['cid' => '12', 'name' => 'timeAdded', 'type' => 'timestamp', 'notnull' => '1','dflt_value' => 'CURRENT_TIMESTAMP', 'pk' => '0']
 	];
 
 }
