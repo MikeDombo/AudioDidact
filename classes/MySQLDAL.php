@@ -18,6 +18,10 @@ class MySQLDAL extends DAL{
 	private $username;
 	/** @var string SQL database password */
 	private $password;
+	/** @var array|string SQL database table names */
+	protected $myDBTables;
+	/** @var  array|array array of the correct database table schemas keyed by table name */
+	private $correctSchemas;
 
 	/**
 	 * Function to set the PDO. Used by SQLite
@@ -50,6 +54,8 @@ class MySQLDAL extends DAL{
 		$this->db = $db;
 		$this->username = $username;
 		$this->password = $password;
+		$this->myDBTables = [$this->userTable, $this->feedTable];
+		$this->correctSchemas = [$this->userTable => $this->userCorrect, $this->feedTable => $this->feedCorrect];
 
 		if(parent::$PDO == null){
 			try{
@@ -531,7 +537,7 @@ class MySQLDAL extends DAL{
 	/**
 	 * Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not
 	 * Default Key Extra
-	 * @param $c Array dictionary representing a column's correct schema
+	 * @param $c array dictionary representing a column's correct schema
 	 * @return string
 	 */
 	private function makeColumnSQL($c){
@@ -561,39 +567,26 @@ class MySQLDAL extends DAL{
 	 * @throws \PDOException
 	 */
 	public function makeDB($code = 1){
-		$generalSetupSQL = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";
+		if($code == 1){
+			$generalSetupSQL = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";
 							SET time_zone = \"+00:00\";";
 
-		$preProcessSQL = "/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-						  /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-						  /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-						  /*!40101 SET NAMES utf8mb4 */;";
+			$sql = "";
+			foreach($this->myDBTables as $tableName){
+				$sql .= "CREATE TABLE `$tableName` (";
+				foreach($this->correctSchemas[$tableName] as $column){
+					$sql .= $this->makeColumnSQL($column).",";
+				}
+				$sql = substr($sql, 0, strlen($sql) - 1);
+				$sql .= ") CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;";
+			}
 
-		$postProcessSQL = "/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-						   /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-						   /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;";
-
-		$userTableSQL = "CREATE TABLE `".$this->userTable."` (";
-		foreach($this->userCorrect as $column){
-			$userTableSQL .= $this->makeColumnSQL($column).",";
-		}
-		$userTableSQL = substr($userTableSQL, 0, strlen($userTableSQL)-1);
-		$userTableSQL .= ") CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;";
-
-		$feedTableSQL = "CREATE TABLE `".$this->feedTable."` (";
-		foreach($this->feedCorrect as $column){
-			$feedTableSQL .= $this->makeColumnSQL($column).",";
-		}
-		$feedTableSQL = substr($feedTableSQL, 0, strlen($feedTableSQL)-1);
-		$feedTableSQL .= ")CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;";
-
-		if($code == 1){
 			try{
 				// Execute all the statements
-				$p = parent::$PDO->prepare($generalSetupSQL.$preProcessSQL.
-					$userTableSQL.$feedTableSQL.$postProcessSQL);
+				$p = parent::$PDO->prepare($generalSetupSQL.$sql);
 				$p->execute();
-			}catch(\PDOException $e){
+			}
+			catch(\PDOException $e){
 				echo "Database creation failed! ".$e->getMessage();
 				error_log("Database creation failed! ".$e->getMessage());
 				throw $e;
@@ -604,14 +597,14 @@ class MySQLDAL extends DAL{
 		}
 	}
 
-	protected function updateDBSchema(){
+	private function updateDBSchema(){
 		try{
-			$userTableSchema = $this->describeTable($this->userTable);
-			$feedTableSchema = $this->describeTable($this->feedTable);
-			$alterSQL = $this->makeAlterQuery([$this->userTable => $userTableSchema,
-											   $this->feedTable =>$feedTableSchema],
-											  [$this->userTable => $this->userCorrect,
-											   $this->feedTable => $this->feedCorrect]);
+			$alterSQL = "";
+			foreach($this->myDBTables as $tableName){
+				$currentSchema = $this->describeTable($tableName);
+				$alterSQL .= $this->makeAlterQuery([$tableName => $currentSchema],
+					[$tableName => $this->correctSchemas[$tableName]]);
+			}
 			$p = parent::$PDO->prepare($alterSQL);
 			$p->execute();
 		}
@@ -624,9 +617,9 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * Generates SQL query to add missing columns to the given tables
-	 * @param $currentTables Array dictionary in the form of ["tableName"=>[table_schema]] representing the values
+	 * @param $currentTables array dictionary in the form of ["tableName"=>[table_schema]] representing the values
 	 * that are currently existing in the database
-	 * @param $correctTables Array dictionary in the form of ["tableName"=>[table_schema]] representing the correct
+	 * @param $correctTables array dictionary in the form of ["tableName"=>[table_schema]] representing the correct
 	 * values
 	 * @return string
 	 */
@@ -728,20 +721,20 @@ class MySQLDAL extends DAL{
 	public function verifyDB(){
 		try{
 			$tables = $this->getDatabaseTables();
-			if(!in_array($this->userTable, $tables, true) || !in_array($this->feedTable, $tables, true)){
-				return 1;
+			foreach($this->myDBTables as $tableName){
+				if(!in_array($tableName, $tables, true)){
+					return 1;
+				}
 			}
 
-			$userTableSchema = $this->describeTable($this->userTable);
-			$feedTableSchema = $this->describeTable($this->feedTable);
+			foreach($this->myDBTables as $tableName){
+				$currentTableSchema = $this->describeTable($tableName);
+				if(!$this->verifySchema($this->correctSchemas[$tableName], $currentTableSchema)){
+					return 2;
+				}
+			}
 
-			if($this->verifySchema($this->userCorrect, $userTableSchema) && $this->verifySchema($this->feedCorrect,
-					$feedTableSchema)){
-				return 0;
-			}
-			else{
-				return 2;
-			}
+			return 0;
 		}
 		catch(\PDOException $e){
 			echo "ERROR: ".$e->getMessage();
