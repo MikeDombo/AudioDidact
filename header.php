@@ -190,16 +190,14 @@ function pluralize($word, $num){
 	if($num == 1){
 		return $word;
 	}
+	if(substr($word, -1, 1) == "y" && !in_array(substr($word, -2, 1), $vowels, true)){
+		return substr($word, 0, strlen($word)-1)."ies";
+	}
+	else if(substr($word, -1, 1) == "s"){
+		return $word."es";
+	}
 	else{
-		if(substr($word, -1, 1) == "y" && !in_array(substr($word, -2, 1), $vowels, true)){
-			return substr($word, 0, strlen($word)-1)."ies";
-		}
-		else if(substr($word, -1, 1) == "s"){
-			return $word."es";
-		}
-		else{
-			return $word."s";
-		}
+		return $word."s";
 	}
 }
 
