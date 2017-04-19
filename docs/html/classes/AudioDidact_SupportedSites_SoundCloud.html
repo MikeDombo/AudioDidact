@@ -74,7 +74,7 @@
         <div class="synopsis">class SoundCloud
                 extends <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite.html">SupportedSite</a>
             {<br/><ul class="none"><li>// members</li><li>private string <a href="#members">$streams_base_url</a> =
-                        "https://api.soundcloud.com/tracks/XYZ/streams?client_id=fDoItMDbsbZz8dY16ZzARCZmzgHBPotA";
+                        "https://api.soundcloud.com/tracks/XYZ/streams?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z";
                     </li><li>private  <a href="#members">$thumbnail_url</a>;
                     </li><li>private  <a href="#members">$audioJSON</a>;
                     </li></ul><ul class="none"><li>// Inherited members from <span title="AudioDidact\SupportedSites\SupportedSite">SupportedSite</span></li><li>protected static <span title="\AudioDidact\PodTube">PodTube</span> <a href="#members">$podtube</a>;
@@ -87,6 +87,7 @@
                     </li><li>private void <a title="AudioDidact\SupportedSites\SoundCloud" href="../classes/AudioDidact_SupportedSites_SoundCloud/getDownloadURL.html">getDownloadURL</a>()
                     </li><li>public void <a title="AudioDidact\SupportedSites\SoundCloud" href="../classes/AudioDidact_SupportedSites_SoundCloud/downloadVideo.html">downloadVideo</a>()
                     </li><li>public void <a title="AudioDidact\SupportedSites\SoundCloud" href="../classes/AudioDidact_SupportedSites_SoundCloud/convert.html">convert</a>()
+                    </li><li>public void <a title="AudioDidact\SupportedSites\SoundCloud" href="../classes/AudioDidact_SupportedSites_SoundCloud/applyArt.html">applyArt</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="AudioDidact\SupportedSites\SupportedSite">SupportedSite</span></li><li>public abstract bool <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded</a>()
                         </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadThumbnail.html">downloadThumbnail</a>()
                         </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadVideo.html">downloadVideo</a>()
@@ -151,6 +152,9 @@
                 — SoundCloud constructor. Gets the audio information, checks for it in the user's feed.</li>
             <li id="allDownloaded"><a title="AudioDidact\SupportedSites\SoundCloud" href="../classes/AudioDidact_SupportedSites_SoundCloud/allDownloaded.html">allDownloaded()</a>
                 — Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)</li>
+            <li id="applyArt">
+              <a title="AudioDidact\SupportedSites\SoundCloud" href="../classes/AudioDidact_SupportedSites_SoundCloud/applyArt.html">applyArt()</a>
+            </li>
             <li id="convert"><a title="AudioDidact\SupportedSites\SoundCloud" href="../classes/AudioDidact_SupportedSites_SoundCloud/convert.html">convert()</a>
                 — Since SoundCloud is audio only, we do not convert, but only add the album artwork</li>
             <li id="downloadThumbnail"><a title="AudioDidact\SupportedSites\SoundCloud" href="../classes/AudioDidact_SupportedSites_SoundCloud/downloadThumbnail.html">downloadThumbnail()</a>

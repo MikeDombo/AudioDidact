@@ -597,7 +597,7 @@ class MySQLDAL extends DAL{
 		}
 	}
 
-	private function updateDBSchema(){
+	protected function updateDBSchema(){
 		try{
 			$alterSQL = "";
 			foreach($this->myDBTables as $tableName){

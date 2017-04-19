@@ -208,14 +208,19 @@ class SoundCloud extends SupportedSite{
 			error_log("Content length was 0 for URL: ".$url);
 			throw new \Exception("Downloaded audio length was 0, please try again later");
 		}
+		$this->applyArt();
 
 		return true;
 	}
-
+	
 	/**
 	 * Since SoundCloud is audio only, we do not convert, but only add the album artwork
 	 */
 	public function convert(){
+		
+	}
+
+	public function applyArt(){
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
 		$ffmpeg_albumArt = $path.$this->video->getThumbnailFilename();
 		$ffmpeg_outfile = $path.$this->video->getFilename().$this->video->getFileExtension();

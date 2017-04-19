@@ -80,6 +80,7 @@
                         ;
                     </li></ul><ul class="none"><li>// Inherited members from <span title="AudioDidact\MySQLDAL">MySQLDAL</span></li><li>protected string <a href="#members">$userTable</a>;
                         </li><li>protected string <a href="#members">$feedTable</a>;
+                        </li><li>protected <span title="AudioDidact\array|string">array|string</span> <a href="#members">$myDBTables</a>;
                         </li><li>protected array <a href="#members">$userCorrect</a>;
                         </li><li>protected array <a href="#members">$feedCorrect</a>;
                         </li></ul><ul class="none"><li>// Inherited members from <span title="AudioDidact\DAL">DAL</span></li><li>protected static <span title="\PDO">PDO</span> <a href="#members">$PDO</a>;
@@ -108,7 +109,6 @@
                         </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes</a>()
                         </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUser.html">updateUser</a>()
                         </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeDB.html">makeDB</a>()
-                        </li><li>protected void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateDBSchema.html">updateDBSchema</a>()
                         </li><li>protected array <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getDatabaseTables.html">getDatabaseTables</a>()
                         </li><li>protected array <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/describeTable.html">describeTable</a>()
                         </li><li>public int <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/verifyDB.html">verifyDB</a>()
@@ -162,6 +162,9 @@
             <li id="feedTable"><strong>$feedTable</strong>
                 —
                 string</li>
+            <li id="myDBTables"><strong>$myDBTables</strong>
+                —
+                <a title="AudioDidact\array|string" href="../classes/AudioDidact_array|string.html">AudioDidact\array|string</a></li>
             <li id="userCorrect"><strong>$userCorrect</strong>
                 —
                 array<br/><span class="indent">Correct layout of the user table</span></li>
@@ -207,9 +210,6 @@
                 — Function to get the PDO. Used by SQLite</li>
             <li id="setPDO"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setPDO.html">setPDO()</a>
                 — Function to set the PDO. Used by SQLite</li>
-            <li id="updateDBSchema">
-              <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateDBSchema.html">updateDBSchema()</a>
-            </li>
           </ul>
           <h4>public</h4>
           <ul>
