@@ -87,12 +87,12 @@ class CRTV extends SupportedSite{
 		// Get Video Title
 		preg_match('/\<title\>([^\<]*)\<\/title\>/', $html, $matches);
 		$video_title = $matches[1];
-		$video_title = htmlspecialchars_decode($video_title, ENT_QUOTES);
+		$video_title = html_entity_decode($video_title, ENT_QUOTES, 'UTF-8');
 
 		// Get video description
 		preg_match('/\<div class=[\"\']rtf[\'\"]\>\s*\<p\>\s*(.*)\s*\<\/p\>\s*\<\/div\>/', $html, $matches);
 		$desc = $matches[1];
-		$desc = htmlspecialchars_decode($desc, ENT_QUOTES);
+		$desc = html_entity_decode($desc, ENT_QUOTES, 'UTF-8');
 
 		return ["title" => $video_title, "description" => $desc];
 	}

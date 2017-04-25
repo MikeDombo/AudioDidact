@@ -92,24 +92,30 @@ function generateStatistics(\AudioDidact\User $user){
 	$timeString = "";
 	$unitCount = 0;
 	if($timeConversion["d"] > 0){
-		$timeString .= $timeConversion["d"]." ".pluralize("day", $timeConversion["d"]).", ";
-		$unitCount += 1;
+		$timeString .= $timeConversion["d"]." ".pluralize("day", $timeConversion["d"]);
+		$unitCount++;
 	}
 	if($timeConversion["h"] > 0){
-		$timeString .= $timeConversion["h"]." ".pluralize("hour", $timeConversion["h"]).", ";
-		$unitCount += 1;
+		if($timeConversion["d"] > 0){
+			$timeString .= ", ";
+		}
+		$timeString .= $timeConversion["h"]." ".pluralize("hour", $timeConversion["h"]);
+		$unitCount++;
 	}
 	if($timeConversion["m"] > 0){
+		if($timeConversion["d"] > 0 || $timeConversion["h"] > 0){
+			$timeString .= ", ";
+		}
 		$timeString .= $timeConversion["m"]." ".pluralize("minute", $timeConversion["m"]);
-		$unitCount += 1;
-	}
-	if($unitCount > 1){
-		$timeString .= ",";
-	}
-	if($unitCount > 0){
-		$timeString .= " and ";
+		$unitCount++;
 	}
 	if($timeConversion["s"] >= 0){
+		if($unitCount > 1){
+			$timeString .= ",";
+		}
+		if($unitCount > 0){
+			$timeString .= " and ";
+		}
 		$timeString .= $timeConversion["s"]." ".pluralize("second", $timeConversion["s"]);
 	}
 
