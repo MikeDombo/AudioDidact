@@ -201,3 +201,18 @@ function pluralize($word, $num){
 	}
 }
 
+function stringListicle($list){
+	$returnString = "";
+	if(count($list) == 2){
+		return $list[0]." and ".$list[1];
+	}
+	foreach($list as $i=>$item){
+		if($i == count($list) - 1){
+			$returnString .= "and ".$item;
+		}
+		else{
+			$returnString .= $item.", ";
+		}
+	}
+	return $returnString;
+}
