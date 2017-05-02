@@ -18,10 +18,10 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
 		$myDalClass = ChosenDAL;
 		$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-		/** @var $dal \DAL */
+		/** @var $dal \AudioDidact\DAL */
 		// Make sure the username and email address are not taken.
 		if(!$dal->emailExists($email) && !$dal->usernameExists($username)){
-			$user = new User();
+			$user = new AudioDidact\User();
 			if(!$user->validateEmail($email)){
 				echo "Sign up failed!\nInvalid Email Address!";
 				exit(0);
@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 			$user->setWebID($user->getUsername());
 			$user->setPrivateFeed(false);
 			$user->setFeedLength(25);
-			$podtube = new PodTube($dal, $user);
+			$podtube = new AudioDidact\PodTube($dal, $user);
 			$user->setFeedText($podtube->makeFullFeed(true)->generateFeed());
 			$user->setEmailVerified(0);
 			// Add user to db and set session variables if it is a success.
@@ -48,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 				$user->addEmailVerificationCode();
 				$_SESSION["user"] = $user;
 				$dal->updateUserEmailPasswordCodes($user);
-				EMail::sendVerificationEmail($user);
+				AudioDidact\EMail::sendVerificationEmail($user);
 				echo "Sign Up Success!";
 			}
 			catch(Exception $e){

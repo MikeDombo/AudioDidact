@@ -43,7 +43,7 @@ class MySQLDAL extends DAL{
 	 * MySQLDAL constructor.
 	 * Sets up parent's PDO object using the parameters that are passed in.
 	 *
-	 * @param string The hostname/ip and port of the database
+	 * @param string $host The hostname/ip and port of the database
 	 * @param string $db The database name
 	 * @param string $username The username used to connect to the database
 	 * @param string $password The password used to connect to the database

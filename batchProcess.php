@@ -3,7 +3,7 @@ require_once __DIR__."/header.php";
 
 $myDalClass = ChosenDAL;
 $dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-/** @var $dal DAL */
+/** @var $dal \AudioDidact\DAL */
 $pruneVids = $dal->getPrunableVideos();
 foreach($pruneVids as $v){
 	$downloadPath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$v;

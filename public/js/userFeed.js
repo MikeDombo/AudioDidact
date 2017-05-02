@@ -18,7 +18,7 @@ $(".playspeed").on("click", function(){
 	$(this).text("Playback Speed: "+newSpeed+"x");
 });
 $(".playback").on("play", function(){
-	$me = $(this);
+	var $me = $(this);
 	$(".playback").each(function(){
 		if(!$(this).is($me)){
 			$(this).get(0).pause();

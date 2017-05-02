@@ -117,6 +117,7 @@ abstract class DAL {
 	public function inFeed(Video $vid, User $user){
 		$f = $this->getFeed($user);
 		foreach($f as $v){
+			/** @var $v \AudioDidact\Video */
 			if($v->getId() == $vid->getId()){
 				return true;
 			}
