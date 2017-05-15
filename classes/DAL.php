@@ -59,14 +59,6 @@ abstract class DAL {
 	abstract public function getFeedText(User $user);
 
 	/**
-	 * Returns a Video class based on a user and an ID
-	 * @param User $user
-	 * @param $id
-	 * @return Video
-	 */
-	abstract public function getVideoByID(User $user, $id);
-
-	/**
 	 * Puts user into the database
 	 * @param User $user
 	 * @return void

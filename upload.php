@@ -47,7 +47,7 @@ if(isset($_FILES["yt"])){
 		$generatedID = hash_file("sha256", $output_dir.$_FILES["yt"]["name"]);
 		rename($output_dir.$_FILES["yt"]["name"], $output_dir.$generatedID.".".$extension);
 
-		$thumbnailFilename = "";
+		$thumbnailFilename = $generatedID.".jpg";
 		// Save art from base64 encoded data
 		if(strpos($_POST["art"], "data:image") > -1){
 			$thumbnailFilename = save_base64_image($_POST["art"], $generatedID, $output_dir);

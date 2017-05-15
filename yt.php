@@ -56,6 +56,12 @@ if(isset($_GET["yt"])){
 			if(!$dal->inFeed($video, $user)){
 				$dal->addVideo($video, $user);
 			}
+			/*
+			 * TODO:
+			else{
+				$dal->updateVideo($video, $user);
+			}
+			*/
 		}
 	}
 	catch(\Exception $e){

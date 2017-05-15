@@ -239,33 +239,6 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
-	 * Gets Video for a User by the YouTube ID
-	 * @param User $user
-	 * @param $id
-	 * @return null|Video
-	 * @throws \PDOException
-	 */
-	public function getVideoByID(User $user, $id){
-		try{
-			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid AND videoID=:videoID");
-			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
-			$p->bindValue(":videoID", $id, \PDO::PARAM_STR);
-			$p->execute();
-			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
-			if(count($rows) < 1){
-				return null;
-			}
-			$row = $rows[0];
-
-			return $this->setVideo($row);
-		}
-		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
-			throw $e;
-		}
-	}
-
-	/**
 	 * Adds a User object to the database
 	 * @param User $user
 	 * @throws \Exception|\PDOException
@@ -452,18 +425,17 @@ class MySQLDAL extends DAL{
 	 * @throws \PDOException
 	 */
 	public function inFeed(Video $vid, User $user){
-		try{
-			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid AND videoID=:videoID");
-			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
-			$p->bindValue(":videoID", $vid->getId(), \PDO::PARAM_STR);
-			$p->execute();
-			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
-			return count($rows)>0;
+		$items = $this->getFeed($user);
+		if($items == null){
+			return false;
 		}
-		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
-			throw $e;
+		/** @var \AudioDidact\Video $video */
+		foreach($items as $video){
+			if($video->getId() == $vid->getId()){
+				return true;
+			}
 		}
+		return false;
 	}
 
 	/**
@@ -715,7 +687,8 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * Verifies the currently connected database against the current schema
-	 * @return int Returns 0 if all is well, 1 if the user table or feed table do not exist, and 2 if the tables exist but the schema inside is wrong
+	 * @return int Returns 0 if all is well, 1 if the user table or feed table do not exist, and 2 if the tables exist
+	 *     but the schema inside is wrong
 	 * @throws \PDOException
 	 */
 	public function verifyDB(){
