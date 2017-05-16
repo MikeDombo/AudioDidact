@@ -32,16 +32,9 @@ class SoundCloud extends SupportedSite{
 			$this->video->setFilename($this->video->getId());
 			$this->video->setThumbnailFilename($this->video->getFilename().".jpg");
 			$this->video->setTime(time());
-
-			// Check if the video already exists in the DB. If it does, then we do not need to get the information again
-			if(!parent::$podtube->isInFeed($this->video->getId())){
-				$this->video->setTitle($info["title"]);
-				$this->video->setAuthor($info["author"]);
-				$this->video->setDesc($info["description"]);
-			}
-			else{
-				$this->video = parent::$podtube->getDataFromFeed($this->video->getId());
-			}
+			$this->video->setTitle($info["title"]);
+			$this->video->setAuthor($info["author"]);
+			$this->video->setDesc($info["description"]);
 		}
 	}
 

@@ -20,16 +20,9 @@ class ManualUpload extends SupportedSite{
 			$this->video->setThumbnailFilename($data["thumbnailFilename"]);
 			$this->video->setTime(time());
 			$this->video->setDuration($data["duration"]);
-
-			// Check if the video already exists in the DB. If it does, then we do not need to get the information again
-			if(!parent::$podtube->isInFeed($this->video->getId())){
-				$this->video->setTitle($data["title"]);
-				$this->video->setAuthor($data["author"]);
-				$this->video->setDesc($data["description"]);
-			}
-			else{
-				$this->video = parent::$podtube->getDataFromFeed($this->video->getId());
-			}
+			$this->video->setTitle($data["title"]);
+			$this->video->setAuthor($data["author"]);
+			$this->video->setDesc($data["description"]);
 		}
 	}
 

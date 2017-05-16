@@ -74,6 +74,14 @@ abstract class DAL {
 	abstract public function addVideo(Video $vid, User $user);
 
 	/**
+	 * Updates an existing video in the video database for a specific user
+	 * @param Video $vid
+	 * @param User $user
+	 * @return mixed
+	 */
+	abstract public function updateVideo(Video $vid, User $user);
+
+	/**
 	 * Sets feed xml text for a user
 	 * @param User $user
 	 * @param $feed
@@ -108,6 +116,9 @@ abstract class DAL {
 	 */
 	public function inFeed(Video $vid, User $user){
 		$f = $this->getFeed($user);
+		if($f == null){
+			return false;
+		}
 		foreach($f as $v){
 			/** @var $v \AudioDidact\Video */
 			if($v->getId() == $vid->getId()){

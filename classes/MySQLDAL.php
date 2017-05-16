@@ -320,6 +320,37 @@ class MySQLDAL extends DAL{
 	}
 
 	/**
+	 * Updates an existing video in the video database for a specific user
+	 * @param Video $vid
+	 * @param User $user
+	 * @return mixed
+	 */
+	public function updateVideo(Video $vid, User $user){
+		try{
+			$p = parent::$PDO->prepare("UPDATE $this->feedTable SET videoAuthor = :videoAuthor,
+            description = :description, videoTitle = :videoTitle, duration = :duration, filename = :filename, 
+            thumbnailFilename = :thumbnailFilename, isVideo = :isVideo WHERE videoID = :videoID AND userID = :userID");
+
+			$p->bindValue(":userID", $user->getUserID(), \PDO::PARAM_INT);
+			$p->bindValue(":videoID", $vid->getId(), \PDO::PARAM_STR);
+			$p->bindValue(":videoAuthor", $vid->getAuthor(), \PDO::PARAM_STR);
+			$p->bindValue(":description", $vid->getDesc(), \PDO::PARAM_STR);
+			$p->bindValue(":videoTitle", $vid->getTitle(), \PDO::PARAM_STR);
+			$p->bindValue(":duration", $vid->getDuration(), \PDO::PARAM_STR);
+			$p->bindValue(":filename", $vid->getFilename(), \PDO::PARAM_STR);
+			$p->bindValue(":thumbnailFilename", $vid->getThumbnailFilename(), \PDO::PARAM_STR);
+			$p->bindValue(":isVideo", $vid->isIsVideo(), \PDO::PARAM_BOOL);
+			$p->execute();
+
+			return true;
+		}
+		catch(\PDOException $e){
+			echo "ERROR: ".$e->getMessage();
+			throw $e;
+		}
+	}
+
+	/**
 	 * Gets full xml feed text from database
 	 * @param User $user
 	 * @return mixed
@@ -415,27 +446,6 @@ class MySQLDAL extends DAL{
 			echo "ERROR: ".$e->getMessage();
 			throw $e;
 		}
-	}
-
-	/**
-	 * Checks if a video is in a user's feed
-	 * @param Video $vid
-	 * @param User $user
-	 * @return bool
-	 * @throws \PDOException
-	 */
-	public function inFeed(Video $vid, User $user){
-		$items = $this->getFeed($user);
-		if($items == null){
-			return false;
-		}
-		/** @var \AudioDidact\Video $video */
-		foreach($items as $video){
-			if($video->getId() == $vid->getId()){
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**

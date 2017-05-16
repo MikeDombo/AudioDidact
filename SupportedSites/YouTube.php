@@ -34,27 +34,20 @@ class YouTube extends SupportedSite{
 			$this->video->setThumbnailFilename($this->video->getFilename().".jpg");
 			$this->video->setTime(time());
 
-			// Check if the video already exists in the DB. If it does, then we do not need to get the information
-			// from the YouTube API again
-			if(!parent::$podtube->isInFeed($this->video->getId())){
-				// Get video author, title, and description from YouTube API
-				$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id="
-					.$this->video->getId().
-					"&fields=items/snippet/description,items/snippet/title,items/snippet/channelTitle&key=".
-					GOOGLE_API_KEY), true);
-				// If the lookup fails, send this error to the UI as a JSON array
-				if(!isset($info['items'][0]['snippet'])){
-					$this->echoErrorJSON("ID Inaccessible");
-					throw new \Exception("Download Failed!");
-				}
-				$info = $info['items'][0]['snippet'];
-				$this->video->setTitle($info["title"]);
-				$this->video->setAuthor($info["channelTitle"]);
-				$this->video->setDesc($info["description"]);
+			// Get video author, title, and description from YouTube API
+			$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id="
+				.$this->video->getId().
+				"&fields=items/snippet/description,items/snippet/title,items/snippet/channelTitle&key=".
+				GOOGLE_API_KEY), true);
+			// If the lookup fails, send this error to the UI as a JSON array
+			if(!isset($info['items'][0]['snippet'])){
+				$this->echoErrorJSON("ID Inaccessible");
+				throw new \Exception("Download Failed!");
 			}
-			else{
-				$this->video = parent::$podtube->getDataFromFeed($this->video->getId());
-			}
+			$info = $info['items'][0]['snippet'];
+			$this->video->setTitle($info["title"]);
+			$this->video->setAuthor($info["channelTitle"]);
+			$this->video->setDesc($info["description"]);
 		}
 	}
 

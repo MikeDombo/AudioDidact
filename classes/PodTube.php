@@ -28,33 +28,6 @@ class PodTube{
 	}
 
 	/**
-	 * Public function exposing database inFeed function.
-	 * @param $id
-	 * @return bool
-	 */
-	public function isInFeed($id){
-		$video = new Video();
-		$video->setId($id);
-		return $this->dal->inFeed($video, $this->user);
-	}
-
-	/**
-	 * Returns a Video object from the feed based on the video's id.
-	 * @param $id
-	 * @return Video|bool
-	 */
-	public function getDataFromFeed($id){
-		$items = $this->dal->getFeed($this->user);
-		/** @var Video $i */
-		foreach($items as $i){
-			if($i->getId() == $id){
-				return $i;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Make the RSS feed from the database
 	 *
 	 * @param bool $emptyFeed true if the generated feed should be empty and not saved to the db directly
