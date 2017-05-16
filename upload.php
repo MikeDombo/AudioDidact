@@ -67,7 +67,11 @@ if(isset($_FILES["yt"])){
 			"title"=>$_POST["title"], "author"=>$_POST["author"], "filename"=>$_FILES["yt"]["name"],
 		"thumbnailFilename"=>$thumbnailFilename,
 		"duration"=>SupportedSites\SupportedSite::getDurationSeconds(DOWNLOAD_PATH."/".$generatedID.".".$extension)];
-	$isVideo = boolval($_POST["audvid"]);
+		
+	$isVideo = false;
+	if(isset($_POST["audvid"])){
+		$isVideo = boolval($_POST["audvid"]);
+	}
 
 	$podtube = new PodTube($dal, $user);
 
