@@ -98,14 +98,13 @@
                     </li><li>public null|User <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByWebID.html">getUserByWebID</a>()
                     </li><li>public null|User <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByUsername.html">getUserByUsername</a>()
                     </li><li>public null|User <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByEmail.html">getUserByEmail</a>()
-                    </li><li>public null|Video <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getVideoByID.html">getVideoByID</a>()
                     </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/addUser.html">addUser</a>()
                     </li><li>public bool <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/addVideo.html">addVideo</a>()
+                    </li><li>public mixed <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateVideo.html">updateVideo</a>()
                     </li><li>public mixed <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeedText.html">getFeedText</a>()
                     </li><li>public array|null <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeed.html">getFeed</a>()
                     </li><li>public mixed <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFullFeedHistory.html">getFullFeedHistory</a>()
                     </li><li>public bool <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setFeedText.html">setFeedText</a>()
-                    </li><li>public bool <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/inFeed.html">inFeed</a>()
                     </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserPassword.html">updateUserPassword</a>()
                     </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes</a>()
                     </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUser.html">updateUser</a>()
@@ -125,9 +124,9 @@
                         </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFeed.html">getFeed</a>()
                         </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFullFeedHistory.html">getFullFeedHistory</a>()
                         </li><li>public abstract string <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFeedText.html">getFeedText</a>()
-                        </li><li>public abstract Video <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getVideoByID.html">getVideoByID</a>()
                         </li><li>public abstract void <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/addUser.html">addUser</a>()
                         </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/addVideo.html">addVideo</a>()
+                        </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateVideo.html">updateVideo</a>()
                         </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/setFeedText.html">setFeedText</a>()
                         </li><li>public abstract void <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateUser.html">updateUser</a>()
                         </li><li>public abstract void <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateUserPassword.html">updateUserPassword</a>()
@@ -246,10 +245,6 @@
                 — Gets a User from the database based on a username</li>
             <li id="getUserByWebID"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getUserByWebID.html">getUserByWebID()</a>
                 — Gets a User object from a webID</li>
-            <li id="getVideoByID"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getVideoByID.html">getVideoByID()</a>
-                — Gets Video for a User by the YouTube ID</li>
-            <li id="inFeed"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/inFeed.html">inFeed()</a>
-                — Checks if a video is in a user's feed</li>
             <li id="makeDB"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeDB.html">makeDB()</a>
                 — Generate the tables in the current database</li>
             <li id="setFeedText"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setFeedText.html">setFeedText()</a>
@@ -260,6 +255,8 @@
                 — Updates only a user's email verification and password recovery codes in the database</li>
             <li id="updateUserPassword"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserPassword.html">updateUserPassword()</a>
                 — Updates only a user's password in the database</li>
+            <li id="updateVideo"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateVideo.html">updateVideo()</a>
+                — Updates an existing video in the video database for a specific user</li>
             <li id="verifyDB"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/verifyDB.html">verifyDB()</a>
                 — Verifies the currently connected database against the current schema</li>
           </ul>
@@ -288,8 +285,6 @@
                 — Returns User class built from the database</li>
             <li id="getUserByWebID"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByWebID.html">getUserByWebID()</a>
                 — Returns User class built from the database</li>
-            <li id="getVideoByID"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getVideoByID.html">getVideoByID()</a>
-                — Returns a Video class based on a user and an ID</li>
             <li id="inFeed"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/inFeed.html">inFeed()</a>
                 — Default slow way to check if a video is in the feed. Override for faster lookup</li>
             <li id="makeDB"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/makeDB.html">makeDB()</a>
@@ -302,6 +297,8 @@
                 — Updates only a user's email verification and password recovery codes in the database</li>
             <li id="updateUserPassword"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateUserPassword.html">updateUserPassword()</a>
                 — Updates only a user's password in the database</li>
+            <li id="updateVideo"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateVideo.html">updateVideo()</a>
+                — Updates an existing video in the video database for a specific user</li>
             <li id="usernameExists"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/usernameExists.html">usernameExists()</a>
                 — Checks if a username is taken in the database</li>
             <li id="verifyDB"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/verifyDB.html">verifyDB()</a>
