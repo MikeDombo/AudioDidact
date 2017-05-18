@@ -72,7 +72,7 @@ class ManualUpload extends SupportedSite{
 		return;
 	}
 
-	private function applyArt(){
+	public function applyArt(){
 		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
 		$ffmpeg_outfile = $path.$this->video->getFilename().".mp3";
 		$ffmpeg_albumArt = $path.$this->video->getThumbnailFilename();
@@ -145,7 +145,6 @@ class ManualUpload extends SupportedSite{
 			return;
 		}
 		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpeg_outfile));
-		$this->applyArt();
 		return;
 	}
 }

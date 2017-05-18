@@ -87,7 +87,9 @@ if(isset($_FILES["yt"])){
 			$download->convert();
 		}
 	}
-
+	if(!$video->isIsVideo()){
+		$download->applyArt();
+	}
 	if(!$dal->inFeed($video, $user)){
 		$dal->addVideo($video, $user);
 	}
