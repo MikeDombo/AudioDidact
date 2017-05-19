@@ -35,6 +35,9 @@ $(document).ready(function (){
 	var options = {
 		beforeSend: function (){
 			$("#progress").width('0%').text("");
+			window.onbeforeunload = function(e) {
+				return "Please make sure the upload has finished before closing this window.";
+			};
 		},
 		uploadProgress: function (event, position, total, percentComplete){
 			$("#progress").width(percentComplete + '%').text(percentComplete + '%');
@@ -44,21 +47,28 @@ $(document).ready(function (){
 		},
 		complete: function (response){
 			console.log(response);
-			var r = JSON.parse(response.responseText);
-			if(r["error"] == false){
-				$("#progress").text("Successfully Uploaded!");
+			try{
+				var r = JSON.parse(response.responseText);
+				if(r["error"] == false){
+					$("#progress").text("Successfully Uploaded!");
+				}
+				else{
+					$('#Error-Modal-Text').html(r['error']);
+					$('#Error-Modal').modal({
+						show: true
+					});
+					$("#progress").text(r["error"]);
+				}
 			}
-			else{
-				$('#Error-Modal-Text').html(r['error']);
-				$('#Error-Modal').modal({
-					show: true
-				});
-				$("#progress").text(r["error"]);
+			catch(e){
+				console.log(e);
 			}
+			window.onbeforeunload = null;
 		},
 		error: function (response){
 			console.log(response);
 			$("#progress").text("ERROR: unable to upload files");
+			window.onbeforeunload = null;
 		}
 	};
 	$("#myForm").ajaxForm(options);
