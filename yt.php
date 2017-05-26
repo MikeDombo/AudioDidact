@@ -122,6 +122,9 @@ function getSupportedSiteClass($url, $id, $isVideo, $podTube){
 	else if(strpos($url, "soundcloud.com") > -1){
 		return new SupportedSites\SoundCloud($url, $isVideo, $podTube);
 	}
+	else if(strlen($id) == 64){
+		return null;
+	}
 	else {
 		error_log("Could not find route for URL: ".$url." or ID: ".$id);
 	}
