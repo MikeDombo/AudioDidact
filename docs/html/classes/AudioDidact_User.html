@@ -86,6 +86,7 @@
                     </li><li>private  <a href="#members">$emailVerificationCodes</a>;
                     </li><li>private  <a href="#members">$passwordRecoveryCodes</a>;
                     </li></ul><ul class="none"><li>// methods</li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/__construct.html">__construct</a>()
+                    </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/signup.html">signup</a>()
                     </li><li>private array <a title="AudioDidact\User" href="../classes/AudioDidact_User/generateRandomCode.html">generateRandomCode</a>()
                     </li><li>public array <a title="AudioDidact\User" href="../classes/AudioDidact_User/addEmailVerificationCode.html">addEmailVerificationCode</a>()
                     </li><li>private bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/verifyCodes.html">verifyCodes</a>()
@@ -101,6 +102,7 @@
                     </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/validateEmail.html">validateEmail</a>()
                     </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/validateName.html">validateName</a>()
                     </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/validateWebID.html">validateWebID</a>()
+                    </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/validatePassword.html">validatePassword</a>()
                     </li><li>public bool <a title="AudioDidact\User" href="../classes/AudioDidact_User/passwdCorrect.html">passwdCorrect</a>()
                     </li><li>public mixed <a title="AudioDidact\User" href="../classes/AudioDidact_User/getUserID.html">getUserID</a>()
                     </li><li>public void <a title="AudioDidact\User" href="../classes/AudioDidact_User/setUserID.html">setUserID</a>()
@@ -270,10 +272,15 @@
                 — Sets username in lowercase</li>
             <li id="setWebID"><a title="AudioDidact\User" href="../classes/AudioDidact_User/setWebID.html">setWebID()</a>
                 — Sets webID</li>
+            <li id="signup">
+              <a title="AudioDidact\User" href="../classes/AudioDidact_User/signup.html">signup()</a>
+            </li>
             <li id="validateEmail"><a title="AudioDidact\User" href="../classes/AudioDidact_User/validateEmail.html">validateEmail()</a>
                 — Validates names and other strings using PHP FILTER_VALIDATE_EMAIL. Returns true if the string is valid</li>
             <li id="validateName"><a title="AudioDidact\User" href="../classes/AudioDidact_User/validateName.html">validateName()</a>
                 — Validates names and other strings using PHP FILTER_SANITIZE_STRING. Returns true if the string is valid</li>
+            <li id="validatePassword"><a title="AudioDidact\User" href="../classes/AudioDidact_User/validatePassword.html">validatePassword()</a>
+                — Validates password for length</li>
             <li id="validateWebID"><a title="AudioDidact\User" href="../classes/AudioDidact_User/validateWebID.html">validateWebID()</a>
                 — Validates webID so it can only contain alphanumerics _,-,@, and $. Returns true if the string is valid</li>
             <li id="verifyEmailVerificationCode"><a title="AudioDidact\User" href="../classes/AudioDidact_User/verifyEmailVerificationCode.html">verifyEmailVerificationCode()</a>
