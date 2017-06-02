@@ -1,0 +1,48 @@
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
+    backupGlobals="true"
+    backupStaticAttributes="false"
+    cacheTokens="false"
+    colors="false"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    forceCoversAnnotation="false"
+    mapTestClassNameToCoveredClassName="false"
+    processIsolation="false"
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnSkipped="false"
+    stopOnRisky="false"
+    timeoutForSmallTests="1"
+    timeoutForMediumTests="10"
+    timeoutForLargeTests="60"
+    verbose="false">
+
+    <testsuites>
+        <testsuite name="My Test Suite">
+            <directory>test/</directory>
+            <file>test/</file>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">classes/</directory>
+            <file>classes/*.php</file>
+            <directory suffix=".php">SupportedSites/</directory>
+            <file>SupportedSites/*.php</file>
+            <exclude>
+                <directory suffix="=.php">Feeds/</directory>
+                <file>Feeds/*.php</file>
+            </exclude>
+            <exclude>
+                <directory suffix="=.php">vendor/</directory>
+                <file>vendor/*.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+
+</phpunit>
