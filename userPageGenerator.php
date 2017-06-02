@@ -8,9 +8,7 @@
  * @return string HTML of User's page from Pug
  */
 function makeUserPage($webID, $edit, $verifyEmail = null){
-	$myDalClass = ChosenDAL;
-	/** @var $dal \AudioDidact\DAL */
-	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$dal = getDAL();
 	$user = $dal->getUserByWebID($webID);
 	if($user == null){
 		echo "<script>alert(\"Invalid User!\");window.location = \"/".SUBDIR."\";</script>";
@@ -76,9 +74,7 @@ function makeUserPage($webID, $edit, $verifyEmail = null){
  * @return array
  */
 function generateStatistics(\AudioDidact\User $user){
-	$myDalClass = ChosenDAL;
-	/** @var $dal \AudioDidact\DAL */
-	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$dal = getDAL();
 	$stats = [];
 	$feed = $dal->getFullFeedHistory($user);
 	$stats["numVids"] = count($feed);
@@ -136,11 +132,10 @@ function secondsToTime($inputSeconds) {
 	$seconds = ceil($remainingSeconds);
 
 	// return the final array
-	$obj = array(
+	return [
 		'd' => (int) $days,
 		'h' => (int) $hours,
 		'm' => (int) $minutes,
 		's' => (int) $seconds,
-	);
-	return $obj;
+	];
 }

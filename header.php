@@ -71,19 +71,14 @@ if(!function_exists("clearSession")){
 }
 
 // Download new User from Db
-if(isset($_SESSION["user"]) && isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
-	$myDalClass = ChosenDAL;
-	/** @var \AudioDidact\DAL $dal */
-	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+if(userIsLoggedIn()){
+	$dal = getDAL();
 	try{
 		$_SESSION["user"] = $dal->getUserByID($_SESSION["user"]->getUserID());
 	}
 	catch(Exception $e){
 		clearSession();
 	}
-}
-else if(isset($_SESSION["user"]) && $_SESSION["user"] == null){
-	clearSession();
 }
 
 if(!function_exists("setCheckRequired")){
@@ -99,8 +94,7 @@ if(!function_exists("setCheckRequired")){
 }
 
 if(CHECK_REQUIRED){
-	$myDalClass = ChosenDAL;
-	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$dal = getDAL();
 	$nextStep = $dal->verifyDB();
 	if($nextStep == 0){
 		setCheckRequired("false");
@@ -139,6 +133,21 @@ function SRIChecksum($input) {
     return "sha256-$hash_base64";
 }
 
+function userLogIn(\AudioDidact\User $user){
+	$_SESSION["loggedIn"] = true;
+	$_SESSION["user"] = $user;
+}
+
+function userLogOut(){
+	$_SESSION["loggedIn"] = false;
+	unset($_SESSION["user"]);
+}
+
+function userIsLoggedIn(){
+	return (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && isset($_SESSION["user"]) && $_SESSION["user"] !=
+		null);
+}
+
 /**
  * Returns Pug (Jade) rendered HTML for a given view and options
  * @param $view string Name of Pug view to be rendered
@@ -151,7 +160,7 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
 	$loggedin = "false";
 	$verified = true;
 	$userData = [];
-	if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && isset($_SESSION["user"]) && $_SESSION["user"] != null){
+	if(userIsLoggedIn()){
 		$loggedin = "true";
 		/** @var \AudioDidact\User $user */
 		$user = $_SESSION["user"];
@@ -191,7 +200,7 @@ function pluralize($word, $num){
 		return $word;
 	}
 	if(substr($word, -1, 1) == "y" && !in_array(substr($word, -2, 1), $vowels, true)){
-		return substr($word, 0, strlen($word)-1)."ies";
+		return substr($word, 0, mb_strlen($word)-1)."ies";
 	}
 	else if(substr($word, -1, 1) == "s"){
 		return $word."es";
@@ -215,4 +224,13 @@ function stringListicle($list){
 		}
 	}
 	return $returnString;
+}
+
+/**
+ * Makes a new DAL class based on values in config.php
+ * @return \AudioDidact\DAL
+ */
+function getDAL(){
+	$myDalClass = ChosenDAL;
+	return new $myDalClass(new \PDO(PDO_STR, DB_USER, DB_PASSWORD));
 }

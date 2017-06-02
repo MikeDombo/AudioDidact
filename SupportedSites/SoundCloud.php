@@ -70,7 +70,7 @@ class SoundCloud extends SupportedSite{
 		preg_match("/var c=([^;]*)/i", $webpage, $matches);
 		$brackets = 0;
 		$firstRun = true;
-		$strlen = strlen($matches[1]);
+		$strlen = mb_strlen($matches[1]);
 		for($i = 0; $i < $strlen; $i++) {
 			if(!$firstRun && $brackets == 0){
 				break;

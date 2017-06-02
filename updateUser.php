@@ -2,10 +2,8 @@
 require_once __DIR__."/header.php";
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 	if(isset($_POST["name"]) && isset($_POST["value"])){
-		if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]){
-			$myDalClass = ChosenDAL;
-			/** @var \AudioDidact\DAL $dal */
-			$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+		if(userIsLoggedIn()){
+			$dal = getDAL();
 			$user = $dal->getUserByID($_SESSION["user"]->getUserID());
 
 			if($_POST["name"] == "fname"){
@@ -109,12 +107,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 }
 else if(isset($_GET["resend"])){
 	echo "<script>";
-	if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] &&
-		!$_SESSION["user"]->isEmailVerified()){
+	if(userIsLoggedIn() && !$_SESSION["user"]->isEmailVerified()){
 		$_SESSION["user"]->addEmailVerificationCode();
-		$myDalClass = ChosenDAL;
-		$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-		/** @var $dal \AudioDidact\DAL */
+		$dal = getDAL();
 		$dal->updateUserEmailPasswordCodes($_SESSION["user"]);
 		AudioDidact\EMail::sendVerificationEmail($_SESSION["user"]);
 		echo 'alert("Verification email resent!");';
@@ -131,8 +126,7 @@ else if(isset($_GET["resend"])){
  * @param \AudioDidact\User $user
  */
 function outputSuccess(\AudioDidact\User $user){
-	$_SESSION["user"] = $user;
-	$_SESSION["loggedIn"] = true;
+	userLogIn($user);
 	echo json_encode(["success"=>true]);
 }
 

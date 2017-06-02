@@ -9,8 +9,7 @@ ob_implicit_flush(true);
 /*
  * Make sure user is logged in, set user variable to the session user.
  */
-if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && isset($_SESSION["user"]) && $_SESSION["user"] instanceof
-	User){
+if(userIsLoggedIn()){
 	/** @var \AudioDidact\User $user */
 	$user = $_SESSION["user"];
 	if(!$user->isEmailVerified()){
@@ -24,10 +23,7 @@ else{
 }
 // Write session to file to prevent concurrency issues
 session_write_close();
-
-$myDalClass = ChosenDAL;
-/** @var $dal \AudioDidact\DAL */
-$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+$dal = getDAL();
 
 // If a video is being requested, then add the video, otherwise just show the current feed
 if(isset($_GET["yt"])){
@@ -122,7 +118,7 @@ function getSupportedSiteClass($url, $id, $isVideo, $podTube){
 	else if(strpos($url, "soundcloud.com") > -1){
 		return new SupportedSites\SoundCloud($url, $isVideo, $podTube);
 	}
-	else if(strlen($id) == 64){
+	else if(mb_strlen($id) == 64){
 		return null;
 	}
 	else {

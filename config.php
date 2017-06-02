@@ -27,11 +27,13 @@ define("DB_HOST", "localhost");
 define("DB_DATABASE", "podtube");
 define("DB_USER", "root");
 define("DB_PASSWORD", "");
+define("PDO_STR", 'mysql:host='.DB_HOST.';dbname='.DB_DATABASE.';charset=utf8');
 
 // SQLite Database Usage
 //define("ChosenDAL", "SQLite");
 // Path to SQLite database file
 //define("DB_HOST", "database.sqlite");
+//define("PDO_STR", 'sqlite:host='.DB_HOST);
 
 
 //

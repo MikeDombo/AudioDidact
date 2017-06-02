@@ -172,7 +172,7 @@ class YouTube extends SupportedSite{
 			return "Error: Unable to find start pattern.";
 		}
 
-		$start = $pattern_idx + strlen($json_start_pattern);
+		$start = $pattern_idx + mb_strlen($json_start_pattern);
 		$html = substr($html, $start);
 
 		$unmatched_brackets_num = 0;

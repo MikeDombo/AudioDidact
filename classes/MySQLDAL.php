@@ -10,61 +10,28 @@ class MySQLDAL extends DAL{
 	protected $userTable = "users";
 	/** @var string Database table for storing feed/video information */
 	protected $feedTable = "feed";
-	/** @var string SQL host */
-	private $host;
-	/** @var string SQL database name */
-	private $db;
-	/** @var string SQL database username */
-	private $username;
-	/** @var string SQL database password */
-	private $password;
 	/** @var array|string SQL database table names */
 	protected $myDBTables;
 	/** @var  array|array array of the correct database table schemas keyed by table name */
 	private $correctSchemas;
 
 	/**
-	 * Function to set the PDO. Used by SQLite
-	 * @param \PDO $PDO
-	 */
-	protected function setPDO(\PDO $PDO){
-		parent::$PDO = $PDO;
-	}
-
-	/**
-	 * Function to get the PDO. Used by SQLite
-	 * @return \PDO $PDO
-	 */
-	protected function getPDO(){
-		return parent::$PDO;
-	}
-
-	/**
 	 * MySQLDAL constructor.
 	 * Sets up parent's PDO object using the parameters that are passed in.
 	 *
-	 * @param string $host The hostname/ip and port of the database
-	 * @param string $db The database name
-	 * @param string $username The username used to connect to the database
-	 * @param string $password The password used to connect to the database
-	 * @throws \PDOException Rethrows any PDO exceptions encountered when connecting to the database
+	 * @param \PDO $pdo
 	 */
-	public function __construct($host, $db, $username, $password){
-		$this->host = $host;
-		$this->db = $db;
-		$this->username = $username;
-		$this->password = $password;
+	public function __construct(\PDO $pdo){
 		$this->myDBTables = [$this->userTable, $this->feedTable];
 		$this->correctSchemas = [$this->userTable => $this->userCorrect, $this->feedTable => $this->feedCorrect];
 
-		if(parent::$PDO == null){
-			try{
-				parent::$PDO = new \PDO('mysql:host='.$host.';dbname='.$db.';charset=utf8', $username, $password);
-				parent::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-			}catch(\PDOException $e){
-				echo 'ERROR: '.$e->getMessage();
-				throw $e;
-			}
+		try{
+			parent::$PDO = $pdo;
+			parent::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+		}
+		catch(\PDOException $e){
+			echo 'ERROR: '.$e->getMessage();
+			throw $e;
 		}
 	}
 
@@ -559,7 +526,7 @@ class MySQLDAL extends DAL{
 				foreach($this->correctSchemas[$tableName] as $column){
 					$sql .= $this->makeColumnSQL($column).",";
 				}
-				$sql = substr($sql, 0, strlen($sql) - 1);
+				$sql = substr($sql, 0, mb_strlen($sql) - 1);
 				$sql .= ") CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;";
 			}
 

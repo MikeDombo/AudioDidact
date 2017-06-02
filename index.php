@@ -16,8 +16,7 @@ $url = array_filter($url);
 // Make the homepage if requested
 if(count($url) == 0 || (count($url) == 1 && $url[1] == "index.php")){
 	// Verify user is logged in and their email has been verified
-	if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && $_SESSION["user"] != null &&
-		$_SESSION["user"]->isEmailVerified()){
+	if(userIsLoggedIn() && $_SESSION["user"]->isEmailVerified()){
 		if(isset($_GET["manual"])){
 			echo generatePug("views/addVideoUpload.pug", "Add Content Manually");
 		}
@@ -46,7 +45,7 @@ else if(count($url) == 1){
 			makePasswordReset($_GET["username"], $_GET["recoveryCode"]);
 			exit(0);
 		}
-		else if(!isset($_SESSION["loggedIn"]) || !$_SESSION["loggedIn"] || $_SESSION["user"] == null){
+		else if(!userIsLoggedIn()){
 			echo generatePug("views/passwordResetRequest.pug", "Request a Password Reset");
 			exit(0);
 		}
@@ -72,7 +71,7 @@ else{
 				exit(0);
 			}
 			else if(!isset($url[$k+2]) || $url[$k+2] == ""){
-				if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && $_SESSION["user"]->getWebID() == $webID){
+				if(userIsLoggedIn() && $_SESSION["user"]->getWebID() == $webID){
 					$edit = true;
 				}
 				else{
@@ -97,9 +96,7 @@ make404();
  * @param $username string Username or Email address of user
  */
 function makePasswordResetRequest($username){
-	$myDalClass = ChosenDAL;
-	/** @var \AudioDidact\DAL $dal */
-	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$dal = getDAL();
 	$possibleUser = $dal->getUserByUsername($username);
 	$possibleUserEmail = $dal->getUserByEmail($username);
 	// Check user based on username
@@ -130,9 +127,7 @@ function makePasswordResetRequest($username){
  * @param $code string password reset code
  */
 function resetPassword($username, $password, $code){
-	$myDalClass = ChosenDAL;
-	/** @var \AudioDidact\DAL $dal */
-	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$dal = getDAL();
 	$user = $dal->getUserByUsername($username);
 	if($user != null){
 		if($user->verifyPasswordRecoveryCode($code)){
@@ -143,8 +138,7 @@ function resetPassword($username, $password, $code){
 			$dal->updateUserPassword($user);
 			$dal->updateUserEmailPasswordCodes($user);
 			// Log the user in with the new credentials
-			$_SESSION["user"] = $user;
-			$_SESSION["loggedIn"] = true;
+			userLogIn($user);
 			\AudioDidact\EMail::sendPasswordWasResetEmail($user);
 			echo "Success!";
 		}
@@ -163,9 +157,7 @@ function resetPassword($username, $password, $code){
  * @param $code
  */
 function makePasswordReset($username, $code){
-	$myDalClass = ChosenDAL;
-	/** @var \AudioDidact\DAL $dal */
-	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
+	$dal = getDAL();
 	$requestedUser = $dal->getUserByUsername($username);
 	if($requestedUser->verifyPasswordRecoveryCode($code)){
 		$options = ["passwordresetcode"=> $code, "user"=>$requestedUser];
@@ -190,10 +182,7 @@ function make404(){
  * @param $webID string WebID of the requested feed
  */
 function printUserFeed($webID){
-	$myDalClass = ChosenDAL;
-	/** @var \AudioDidact\DAL $dal */
-	$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-
+	$dal = getDAL();
 	$requestedUser = $dal->getUserByWebID($webID);
 	if($requestedUser == null){
 		error_log("user ".$webID." not found/is null");

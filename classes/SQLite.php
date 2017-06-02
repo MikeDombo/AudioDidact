@@ -7,27 +7,6 @@ namespace AudioDidact;
  */
 class SQLite extends MySQLDAL{
 	/**
-	 * SQLite constructor.
-	 * Sets up parent's PDO object using the parameters that are passed in.
-	 *
-	 * @param $filepath string The filepath to the SQLite database file
-	 * @throws \PDOException Rethrows any PDO exceptions encountered when connecting to the database
-	 */
-	public function __construct($filepath, $i, $j, $k){
-		if($this->getPDO() == null){
-			try{
-				$this->setPDO(new \PDO('sqlite:'.$filepath));
-				$this->getPDO()->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-			}catch(\PDOException $e){
-				echo 'ERROR: '.$e->getMessage();
-				throw $e;
-			}
-		}
-
-		parent::__construct("","","","");
-	}
-
-	/**
 	 * Function to return a list of database tables
 	 * @return array
 	 */
