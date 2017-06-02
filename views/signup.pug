@@ -1,6 +1,7 @@
 extends template.pug
 block content
     script.
+        var signingUp = false;
         $(function() {
             $("#unameSignup").keypress(function(e) {
                 if(e.which == 10 || e.which == 13) {
@@ -19,14 +20,20 @@ block content
             });
         });
         function signup(){
+            if(signingUp){
+                alert("Please wait until your previous request finishes.");
+                return;
+            }
+            signingUp = true;
             $.post("/#{subdir}signup.php", {uname:$("#unameSignup").val(), passwd:$("#passwdSignup").val(),
                 email:$("#email").val()}, function(data){
-                if(data.indexOf("Success") > -1){
-                    location.assign("/#{subdir}faq");
+                if(data.indexOf("success") > -1){
+                    window.location = "/#{subdir}faq";
                 }
                 else{
                     alert(data);
                 }
+                signingUp = false;
             });
         }
     div.col-sm-8.offset-sm-2

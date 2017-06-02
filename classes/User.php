@@ -52,6 +52,55 @@ class User{
 		$this->emailVerified = false;
 	}
 
+	public function signup($uname, $passwd, $email, DAL $dal){
+		if(trim($uname) == "" || trim($passwd) == "" || trim($email) == ""){
+			return "Sign up failed:\nUsername, password, or email is empty!";
+		}
+		// Disallow spaces in usernames, but automatically correct it
+		$uname = trim($uname);
+
+		if(!$this->validatePassword($passwd)){
+			return "Sign up failed:\nPassword must be greater than 6 characters long!";
+		}
+
+		// Make sure the username and email address are not taken.
+		if($dal->emailExists($email) || $dal->usernameExists($uname)){
+			return "Sign up failed:\nUsername or email already in use!";
+		}
+
+		if(!$this->validateEmail($email)){
+			return "Sign up failed:\nInvalid Email Address!";
+		}
+		if(!$this->validateWebID($uname)){
+			return "Sign up failed:\nUsername contains invalid characters!";
+		}
+
+		$this->setUsername($uname);
+		$this->setEmail($email);
+		$this->setPasswd($passwd);
+		$this->setWebID($uname);
+		$this->setPrivateFeed(false);
+		$this->setFeedLength(25);
+		$podtube = new PodTube($dal, $this);
+		$this->setFeedText($podtube->makeFullFeed(true)->generateFeed());
+		$this->setEmailVerified(0);
+
+		// Add user to db and send email to verify
+		try{
+			$dal->addUser($this);
+			$user = $dal->getUserByUsername($uname);
+			$user->addEmailVerificationCode();
+			$dal->updateUserEmailPasswordCodes($user);
+			EMail::sendVerificationEmail($user);
+		}
+		catch(\Exception $e){
+			error_log($e);
+			return "Sign up failed due to an unknown error.\nPlease contact the developer from the help page.";
+		}
+
+		return "Sign up success!";
+	}
+
 	/**
 	 * returns a dictionary in the form of ["code"=random, "expiration"=24hours from now]
 	 * @return array
@@ -181,7 +230,16 @@ class User{
 	 * @return bool
 	 */
 	public function validateWebID($webID){
-		return $webID == preg_replace("/[^a-zA-Z0-9_\-~@\$]/", "", $webID);
+		return $webID == mb_ereg_replace("[^a-zA-Z0-9_\-~@\$]", "", $webID) && mb_strlen($webID) > 0;
+	}
+
+	/**
+	 * Validates password for length
+	 * @param $password
+	 * @return bool
+	 */
+	public function validatePassword($password){
+		return mb_strlen($password) >= 6;
 	}
 
 	/**
@@ -201,9 +259,7 @@ class User{
 			if($result){
 				$this->setPasswd($passwd);
 				require_once __DIR__."/../config.php";
-				$myDalClass = ChosenDAL;
-				$dal = new $myDalClass(DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD);
-				/** @var $dal \AudioDidact\DAL */
+				$dal = getDAL();
 				$dal->updateUserPassword($this);
 			}
 			return $result;
