@@ -87,15 +87,37 @@ class YouTubeTest extends TestCase{
 	 * @expectedException \Exception
 	 * @expectedExceptionMessage Cannot download channel
 	 */
-	public function testChannel(){
+	public function testChannel1(){
 		$dal = getDAL();
 		$u = new \AudioDidact\User();
 		$podtube = new \AudioDidact\PodTube($dal, $u);
 
 		new YouTube("https://www.youtube.com/user/enyay" ,false, $podtube);
-		new YouTube("https://www.youtube.com/channel/UCCBVCTuk6uJrN3iFV_3vurg" ,false, $podtube);
 		new YouTube("https://www.youtube.com/c/ted" ,false, $podtube);
+	}
 
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Cannot download channel
+	 */
+	public function testChannel2(){
+		$dal = getDAL();
+		$u = new \AudioDidact\User();
+		$podtube = new \AudioDidact\PodTube($dal, $u);
+
+		new YouTube("https://www.youtube.com/channel/UCCBVCTuk6uJrN3iFV_3vurg" ,false, $podtube);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Cannot download channel
+	 */
+	public function testChannel3(){
+		$dal = getDAL();
+		$u = new \AudioDidact\User();
+		$podtube = new \AudioDidact\PodTube($dal, $u);
+
+		new YouTube("https://www.youtube.com/c/ted" ,false, $podtube);
 	}
 
 	public function testDownload(){
@@ -105,6 +127,12 @@ class YouTubeTest extends TestCase{
 
 		$download = new YouTube("oAqEAaSkOhQ", false, $podtube);
 		$video = $download->getVideo();
+
+		// Cleanup in case a previous test run failed before deleting downlaoded files
+		@unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
+		@unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
+		@unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+
 		if(!$download->allDownloaded()){
 			$download->downloadVideo();
 			$download->downloadThumbnail();
