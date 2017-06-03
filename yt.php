@@ -109,13 +109,13 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
  * @return \AudioDidact\SupportedSites\SupportedSite
  */
 function getSupportedSiteClass($url, $id, $isVideo, $podTube){
-	if(strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
+	if(mb_strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
 		return new SupportedSites\YouTube($id, $isVideo, $podTube);
 	}
-	else if(strpos($url, "crtv.com") > -1){
+	else if(mb_strpos($url, "crtv.com") > -1){
 		return new SupportedSites\CRTV($url, $isVideo, $podTube);
 	}
-	else if(strpos($url, "soundcloud.com") > -1){
+	else if(mb_strpos($url, "soundcloud.com") > -1){
 		return new SupportedSites\SoundCloud($url, $isVideo, $podTube);
 	}
 	else if(mb_strlen($id) == 64){

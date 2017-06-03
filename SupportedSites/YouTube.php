@@ -61,11 +61,11 @@ class YouTube extends SupportedSite{
 		// Try and parse the string into a usable ID
 		$tmpId = $this->parseYoutubeURL($str);
 		$vidId = ($tmpId !== false) ? $tmpId : $str;
-		if(strpos($vidId, "/playlist") > -1){
+		if(mb_strpos($vidId, "/playlist") > -1){
 			$this->echoErrorJSON("URL is a playlist. PodTube does not currently support playlists.");
 			throw new \Exception("Cannot download playlist");
 		}
-		if(strpos($vidId, "/c/") > -1 || strpos($vidId, "/channel/") > -1 || strpos($vidId, "/user/") > -1){
+		if(mb_strpos($vidId, "/c/") > -1 || strpos($vidId, "/channel/") > -1 || strpos($vidId, "/user/") > -1){
 			$this->echoErrorJSON("URL is a channel. PodTube does not, and likely will not ever, support downloading of channels.");
 			throw new \Exception("Cannot download channel");
 		}
@@ -131,7 +131,7 @@ class YouTube extends SupportedSite{
 		$videoPath = $path.$videoFilename;
 
 		$url = $this->getDownloadURL($this->video->getID());
-		if(strpos($url, "Error:")>-1){
+		if(mb_strpos($url, "Error:")>-1){
 			$this->echoErrorJSON($url);
 			throw new \Exception("Download Failed!");
 		}
@@ -162,18 +162,18 @@ class YouTube extends SupportedSite{
 		$html = file_get_contents($url);
 		$restriction_pattern = "og:restrictions:age";
 
-		if(strpos($html, $restriction_pattern)>-1){
+		if(mb_strpos($html, $restriction_pattern)>-1){
 			return "Error: Age restricted video. Unable to download.";
 		}
 		$json_start_pattern = "ytplayer.config = ";
-		$pattern_idx = strpos($html, $json_start_pattern);
+		$pattern_idx = mb_strpos($html, $json_start_pattern);
 		// In case video is unable to play
 		if($pattern_idx == -1){
 			return "Error: Unable to find start pattern.";
 		}
 
 		$start = $pattern_idx + mb_strlen($json_start_pattern);
-		$html = substr($html, $start);
+		$html = mb_substr($html, $start);
 
 		$unmatched_brackets_num = 0;
 		$index = 1;
@@ -191,7 +191,7 @@ class YouTube extends SupportedSite{
 		}
 		$offset = $index+$i;
 
-		$json_object = json_decode(substr($html, 0, $offset), true);
+		$json_object = json_decode(mb_substr($html, 0, $offset), true);
 
 		if(isset($json_object["args"]["livestream"]) && $json_object["args"]["livestream"] && (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
 			$this->echoErrorJSON("<h3>Download Failed</h3><h4>This URL is a livestream, try again when the stream has ended</h4>");
@@ -227,8 +227,8 @@ class YouTube extends SupportedSite{
 		$resolution = 999999;
 		// Find lowest quality mp4
 		foreach($downloads as $v){
-			if($v["ext"] == "mp4" && intval(substr($v["res"], 0, -1)) < $resolution){
-				$resolution = intval(substr($v["res"], 0, -1));
+			if($v["ext"] == "mp4" && intval(mb_substr($v["res"], 0, -1)) < $resolution){
+				$resolution = intval(mb_substr($v["res"], 0, -1));
 				$downloadURL = $v["url"];
 			}
 		}
@@ -349,7 +349,7 @@ class YouTube extends SupportedSite{
 		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->video->getID().".txt 2>&1";
 
 		// Check if we're on Windows or *nix
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+		if (strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN') {
 			// Start the command in the background
 			pclose(popen("start /B ".$cmd, "r"));
 		}

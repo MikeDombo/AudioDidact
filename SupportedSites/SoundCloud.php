@@ -23,11 +23,17 @@ class SoundCloud extends SupportedSite{
 
 		// If there is a URL/ID, continue
 		if($str != null){
+			if(!filter_var($str, FILTER_VALIDATE_URL) || !mb_strpos($str, "soundcloud")){
+				throw new \Exception("Soundcloud URL is invalid");
+			}
 			$this->video->setURL($str);
 			$this->video->setIsVideo(false);
 
 			// Set video ID and time to current time
 			$info = $this->getVideoInfo($str);
+			if(!$info){
+				throw new \Exception("Soundcloud URL is invalid");
+			}
 			$this->video->setId($info["ID"]);
 			$this->video->setFilename($this->video->getId());
 			$this->video->setThumbnailFilename($this->video->getFilename().".jpg");
@@ -86,7 +92,7 @@ class SoundCloud extends SupportedSite{
 				$brackets -= 1;
 			}
 		}
-		$json = substr($matches[1], 0, $i);
+		$json = mb_substr($matches[1], 0, $i);
 		$this->audioJSON = json_decode($json, true);
 
 		foreach($this->audioJSON as $a){

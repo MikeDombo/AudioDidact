@@ -555,11 +555,11 @@ abstract class Feed {
     public static function uuid($key = null, $prefix = ''){
         $key = ($key == null) ? uniqid(rand()) : $key;
         $chars = md5($key);
-        $uuid  = substr($chars, 0, 8) . '-';
-        $uuid .= substr($chars, 8, 4) . '-';
-        $uuid .= substr($chars, 12, 4) . '-';
-        $uuid .= substr($chars, 16, 4) . '-';
-        $uuid .= substr($chars, 20, 12);
+        $uuid  = mb_substr($chars, 0, 8) . '-';
+        $uuid .= mb_substr($chars, 8, 4) . '-';
+        $uuid .= mb_substr($chars, 12, 4) . '-';
+        $uuid .= mb_substr($chars, 16, 4) . '-';
+        $uuid .= mb_substr($chars, 20, 12);
 
         return $prefix . $uuid;
     }
@@ -784,7 +784,7 @@ abstract class Feed {
             // In ATOM feeds, strip all ATOM namespace prefixes from the tag name. They are not needed here,
             // because the ATOM namespace name is set as default namespace.
             if ($this->version == Feed::ATOM && strncmp($key, 'atom', 4) == 0) {
-                $key = substr($key, 5);
+                $key = mb_substr($key, 5);
             }
 
             // The channel element can occur multiple times, when the key 'content' is not in the array.
@@ -837,7 +837,7 @@ abstract class Feed {
                 // Strip all ATOM namespace prefixes from tags when feed is an ATOM feed.
                 // Not needed here, because the ATOM namespace name is used as default namespace.
                 if ($this->version == Feed::ATOM && strncmp($name, 'atom', 4) == 0){
-                    $name = substr($name, 5);
+                    $name = mb_substr($name, 5);
 				}
 
                 $out .= $this->makeNode($name, $feedItem['content'], $feedItem['attributes']);

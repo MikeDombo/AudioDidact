@@ -52,7 +52,7 @@ class User{
 		$this->emailVerified = false;
 	}
 
-	public function signup($uname, $passwd, $email, DAL $dal){
+	public function signup($uname, $passwd, $email, DAL $dal, $sendEmail = true){
 		if(trim($uname) == "" || trim($passwd) == "" || trim($email) == ""){
 			return "Sign up failed:\nUsername, password, or email is empty!";
 		}
@@ -83,7 +83,7 @@ class User{
 		$this->setFeedLength(25);
 		$podtube = new PodTube($dal, $this);
 		$this->setFeedText($podtube->makeFullFeed(true)->generateFeed());
-		$this->setEmailVerified(0);
+		$this->setEmailVerified(false);
 
 		// Add user to db and send email to verify
 		try{
@@ -91,7 +91,9 @@ class User{
 			$user = $dal->getUserByUsername($uname);
 			$user->addEmailVerificationCode();
 			$dal->updateUserEmailPasswordCodes($user);
-			EMail::sendVerificationEmail($user);
+			if($sendEmail){
+				EMail::sendVerificationEmail($user);
+			}
 		}
 		catch(\Exception $e){
 			error_log($e);
@@ -249,7 +251,7 @@ class User{
 	 * @return bool
 	 */
 	public function passwdCorrect($passwd){
-		if(strpos($this->getPasswd(), '$2y$12$') !== false){
+		if(mb_strpos($this->getPasswd(), '$2y$12$') !== false){
 			return password_verify($passwd, $this->getPasswd());
 		}
 		else{
@@ -287,7 +289,7 @@ class User{
 	 * @return mixed
 	 */
 	public function getUsername(){
-		return strtolower($this->username);
+		return mb_strtolower($this->username);
 	}
 
 	/**
@@ -295,7 +297,7 @@ class User{
 	 * @param mixed $username
 	 */
 	public function setUsername($username){
-		$username = strtolower($username);
+		$username = mb_strtolower($username);
 		$this->username = $username;
 	}
 
@@ -304,7 +306,7 @@ class User{
 	 * @return mixed
 	 */
 	public function getEmail(){
-		return strtolower($this->email);
+		return mb_strtolower($this->email);
 	}
 
 	/**
@@ -312,7 +314,7 @@ class User{
 	 * @param mixed $email
 	 */
 	public function setEmail($email){
-		$email = strtolower($email);
+		$email = mb_strtolower($email);
 		$this->email = $email;
 	}
 

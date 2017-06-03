@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 		$u = new AudioDidact\User();
 		$statement = $u->signup($_POST["uname"], $_POST["passwd"],  $_POST["email"], $dal);
 		echo $statement;
-		if(strpos($statement, "failed") > -1){
+		if(mb_strpos($statement, "failed") > -1){
 			userLogOut();
 		}
 		else{

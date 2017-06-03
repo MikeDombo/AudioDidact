@@ -154,7 +154,7 @@ class MySQLDAL extends DAL{
 	 * @throws \PDOException
 	 */
 	public function getUserByUsername($username){
-		$username = strtolower($username);
+		$username = mb_strtolower($username);
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE username=:username");
 			$p->bindValue(":username", $username, \PDO::PARAM_STR);
@@ -183,7 +183,7 @@ class MySQLDAL extends DAL{
 	 * @throws \PDOException
 	 */
 	public function getUserByEmail($email){
-		$email = strtolower($email);
+		$email = mb_strtolower($email);
 		try{
 			$p = parent::$PDO->prepare("SELECT * FROM $this->userTable WHERE email=:email");
 			$p->bindValue(":email", $email, \PDO::PARAM_STR);
@@ -526,7 +526,7 @@ class MySQLDAL extends DAL{
 				foreach($this->correctSchemas[$tableName] as $column){
 					$sql .= $this->makeColumnSQL($column).",";
 				}
-				$sql = substr($sql, 0, mb_strlen($sql) - 1);
+				$sql = mb_substr($sql, 0, mb_strlen($sql) - 1);
 				$sql .= ") CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;";
 			}
 

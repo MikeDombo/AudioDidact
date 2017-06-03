@@ -45,7 +45,7 @@ if(isset($_FILES["yt"])){
 
 		$thumbnailFilename = $generatedID.".jpg";
 		// Save art from base64 encoded data
-		if(strpos($_POST["art"], "data:image") > -1){
+		if(mb_strpos($_POST["art"], "data:image") > -1){
 			$thumbnailFilename = save_base64_image($_POST["art"], $generatedID, $output_dir);
 		}
 		// Save art from URL
@@ -100,7 +100,7 @@ if(isset($_FILES["yt"])){
  * @return string Full filename that was written into
  */
 function save_base64_image($base64_image_string, $output_file_without_ext, $path_with_end_slash) {
-	$splited = explode(',', substr($base64_image_string, 5), 2);
+	$splited = explode(',', mb_substr($base64_image_string, 5), 2);
 	$mime = $splited[0];
 	$data = $splited[1];
 	$output_file_with_ext = $output_file_without_ext;

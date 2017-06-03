@@ -141,7 +141,7 @@ class CRTV extends SupportedSite{
 		.$this->video->getID().".txt 2>&1";
 
 		// Check if we're on Windows or *nix
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+		if (strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN') {
 			// Start the command in the background
 			pclose(popen("start /B ".$cmd, "r"));
 		}
@@ -211,7 +211,7 @@ class CRTV extends SupportedSite{
 		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->video->getID().".txt 2>&1";
 
 		// Check if we're on Windows or *nix
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+		if (strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN') {
 			// Start the command in the background
 			pclose(popen("start /B ".$cmd, "r"));
 		}

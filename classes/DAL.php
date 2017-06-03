@@ -134,7 +134,7 @@ abstract class DAL {
 	 * @return bool
 	 */
 	public function usernameExists($username){
-		$username = strtolower($username);
+		$username = mb_strtolower($username);
 		if($this->getUserByUsername($username) != null){
 			return true;
 		}
@@ -159,7 +159,7 @@ abstract class DAL {
 	 * @return bool
 	 */
 	public function emailExists($email){
-		$email = strtolower($email);
+		$email = mb_strtolower($email);
 		if($this->getUserByEmail($email) != null){
 			return true;
 		}

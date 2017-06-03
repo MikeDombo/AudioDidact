@@ -199,10 +199,10 @@ function pluralize($word, $num){
 	if($num == 1){
 		return $word;
 	}
-	if(substr($word, -1, 1) == "y" && !in_array(substr($word, -2, 1), $vowels, true)){
-		return substr($word, 0, mb_strlen($word)-1)."ies";
+	if(mb_substr($word, -1, 1) == "y" && !in_array(mb_substr($word, -2, 1), $vowels, true)){
+		return mb_substr($word, 0, mb_strlen($word)-1)."ies";
 	}
-	else if(substr($word, -1, 1) == "s"){
+	else if(mb_substr($word, -1, 1) == "s"){
 		return $word."es";
 	}
 	else{
