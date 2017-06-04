@@ -7,6 +7,6 @@ php:
   - '7.1'
   - nightly
 install: 
-	- cd src
-	- pwd
-	- composer install
+  - cd src
+  - pwd
+  - composer install
