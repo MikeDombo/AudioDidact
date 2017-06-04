@@ -60,6 +60,67 @@ else if(count($url) == 1){
 			exit(0);
 		}
 	}
+	else if($u == "signup" || $u == "signup.php"){
+		// Check if a user is signing up or needs the sign up webpage
+		if($_SERVER['REQUEST_METHOD'] == "POST"){
+			// Check that required variables are present and are not empty.
+			if(isset($_POST["uname"]) && isset($_POST["passwd"]) && isset($_POST["email"])){
+				$dal = getDAL();
+				$u = new AudioDidact\User();
+				$statement = $u->signup($_POST["uname"], $_POST["passwd"],  $_POST["email"], $dal);
+				echo $statement;
+				if(mb_strpos($statement, "failed") > -1){
+					userLogOut();
+				}
+				else{
+					userLogIn($dal->getUserByUsername($u->getUsername()));
+				}
+			}
+			else{
+				userLogOut();
+				echo "Sign Up Failed!\nNo email, username, or password specified!";
+			}
+		}
+		else{
+			echo generatePug('views/signup.pug', 'Sign Up for AudioDidact');
+		}
+		exit(0);
+	}
+	else if($u == "login" || $u == "login.php" || $u == "logout"){
+		// Check if the user is requesting a logout
+		if((isset($_POST["action"]) && $_POST["action"] == "logout") || $u == "logout"){
+			userLogOut();
+			echo "Logout Success!";
+			exit(0);
+		}
+
+		// Make sure necessary variables are given
+		if(isset($_POST["uname"]) && isset($_POST["passwd"])){
+			// Check login info, set loggedIn to true if the information is correct
+			$dal = getDAL();
+			$possibleUser = $dal->getUserByUsername($_POST["uname"]);
+			$possibleUserEmail = $dal->getUserByEmail($_POST["uname"]);
+			// Check user based on username
+			if($possibleUser != null && $possibleUser->passwdCorrect($_POST["passwd"])){
+				userLogIn($possibleUser);
+				echo "Login Success!";
+			}
+			// Check user based on email
+			else if($possibleUserEmail != null && $possibleUserEmail->passwdCorrect($_POST["passwd"])){
+				userLogIn($possibleUserEmail);
+				echo "Login Success!";
+			}
+			else{
+				userLogOut();
+				echo "Login Failed!";
+			}
+		}
+		else{
+			userLogOut();
+			echo "Login Failed!";
+		}
+		exit(0);
+	}
 }
 // Handle user pages
 else{
@@ -219,7 +280,7 @@ function httpAuthenticate(\AudioDidact\DAL $dal){
 	else{
 		header('WWW-Authenticate: Basic realm="Private User Feed"');
 		header('HTTP/1.0 401 Unauthorized');
-		echo "User must be authenticated to continue";
+		echo "Incorrect username or password.\nUser must be authenticated to continue";
 		return false;
 	}
 }

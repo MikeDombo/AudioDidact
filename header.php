@@ -57,9 +57,6 @@ if(!function_exists("clearSession")){
 	 * Deletes all session variables and the session cookies
 	 */
 	function clearSession(){
-		unset($_SESSION["user"]);
-		$_SESSION["loggedIn"] = false;
-		$_SESSION = [];
 		$params = session_get_cookie_params();
 		setcookie(session_name(), '', time() - 42000,
 			$params["path"], $params["domain"],
@@ -77,7 +74,7 @@ if(userIsLoggedIn()){
 		$_SESSION["user"] = $dal->getUserByID($_SESSION["user"]->getUserID());
 	}
 	catch(Exception $e){
-		clearSession();
+		userLogOut();
 	}
 }
 
@@ -141,6 +138,7 @@ function userLogIn(\AudioDidact\User $user){
 function userLogOut(){
 	$_SESSION["loggedIn"] = false;
 	unset($_SESSION["user"]);
+	clearSession();
 }
 
 function userIsLoggedIn(){

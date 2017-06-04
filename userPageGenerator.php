@@ -16,7 +16,8 @@ function makeUserPage($webID, $edit, $verifyEmail = null){
 	}
 	if($edit){
 		$title = "User Page | $webID | Edit";
-	}else{
+	}
+	else{
 		$title = "User Page | $webID";
 	}
 	$emailVerify = 0;
@@ -111,7 +112,6 @@ function generateStatistics(\AudioDidact\User $user){
  */
 
 function secondsToTime($inputSeconds) {
-
 	$secondsInAMinute = 60;
 	$secondsInAnHour  = 60 * $secondsInAMinute;
 	$secondsInADay    = 24 * $secondsInAnHour;

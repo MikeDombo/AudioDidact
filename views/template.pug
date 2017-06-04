@@ -22,7 +22,7 @@ html(lang="en")
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
                 ga('create', 'UA-83794723-1', 'auto');
-                ga('set', {dimension1: "!{loggedIn}"});
+                ga('set', {dimension1: "#{loggedIn}"});
                 ga('send', 'pageview');}
         title #{title} | AudioDidact
         style.
@@ -54,27 +54,19 @@ html(lang="en")
         script(src="/#{subdir}public/js/tether.min.js")
         script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" crossorigin="anonymous")
         script.
-            function validateLogin(){
-                return $.trim($("#uname").val()) != "" && $.trim($("#passwd").val()) != "";
-            }
             function login(){
-                if(validateLogin()){
-                    $.post("/!{subdir}login.php", {uname:$("#uname").val(), passwd:$("#passwd").val(),action:"login"},
-                    function(data){
-                        if(data.indexOf("Success")>-1){
-                            location.reload();
-                        }
-                        else{
-                            alert("Could not login with those credentials. Please make sure they are correct.");
-                        }
-                    });
-                }
-                else{
-                    alert("Could not validate login information, please check username and password");
-                }
+                $.post("/#{subdir}login", {uname:$("#uname").val(), passwd:$("#passwd").val(),action:"login"},
+                function(data){
+                    if(data.indexOf("Success")>-1){
+                        location.reload();
+                    }
+                    else{
+                        alert("Could not login with those credentials. Please make sure they are correct.");
+                    }
+                });
             }
             function logout(){
-                $.post("/!{subdir}login.php", {action:"logout"}, function(data){
+                $.get("/#{subdir}logout", function(data){
                     if(data.indexOf("Success")>-1){
                         location.reload();
                     }
