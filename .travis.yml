@@ -8,5 +8,6 @@ php:
   - nightly
 install: 
   - cd src
-  - pwd
   - composer install
+before_script:
+  - cd ../
