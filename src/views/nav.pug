@@ -30,19 +30,6 @@ nav.navbar.navbar-toggleable-sm.navbar-inverse.bg-inverse
                     a(href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button"
                     aria-haspopup="true" aria-expanded="false") Login
                     div(style="right:0; min-width:300px;left:initial;").dropdown-menu
-                        script.
-                            $(function() {
-                                $("#uname").keypress(function(e) {
-                                    if(e.which == 10 || e.which == 13) {
-                                        login();
-                                    }
-                                });
-                                $("#passwd").keypress(function(e) {
-                                    if(e.which == 10 || e.which == 13) {
-                                        login();
-                                    }
-                                });
-                            });
                         div.p-2
                             input(id="uname" type="text" class="form-control" placeholder="Username")
                             input(id="passwd" type="password" class="form-control" placeholder="Password")

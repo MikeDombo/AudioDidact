@@ -29,7 +29,6 @@ html(lang="en")
             #main-content {
                 padding-top:1rem;
             }
-        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" crossorigin="anonymous")
         link(rel="apple-touch-icon-precomposed" sizes="57x57" href="/#{subdir}public/img/favicon/apple-touch-icon-57x57.png")
         link(rel="apple-touch-icon-precomposed" sizes="114x114"
         href="/#{subdir}public/img/favicon/apple-touch-icon-114x114.png")
@@ -50,30 +49,10 @@ html(lang="en")
         link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-32x32.png" sizes="32x32")
         link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-16x16.png" sizes="16x16")
         link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-128.png" sizes="128x128")
-        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js")
-        script(src="/#{subdir}public/js/tether.min.js")
-        script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" crossorigin="anonymous")
-        script.
-            function login(){
-                $.post("/#{subdir}login", {uname:$("#uname").val(), passwd:$("#passwd").val(),action:"login"},
-                function(data){
-                    if(data.indexOf("Success")>-1){
-                        location.reload();
-                    }
-                    else{
-                        alert("Could not login with those credentials. Please make sure they are correct.");
-                    }
-                });
-            }
-            function logout(){
-                $.get("/#{subdir}logout", function(data){
-                    if(data.indexOf("Success")>-1){
-                        location.reload();
-                    }
-                });
-            }
     body
         block nav
             include nav.pug
         div.container-fluid#main-content
             block content
+        block footer
+            include footer.pug

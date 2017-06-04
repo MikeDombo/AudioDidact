@@ -1,0 +1,36 @@
+link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" crossorigin="anonymous")
+script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js")
+script(src="/#{subdir}public/js/tether.min.js")
+script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" crossorigin="anonymous")
+block afterJqueryLoad
+script.
+	$(function (){
+		$("#uname").keypress(function (e){
+			if(e.which == 10 || e.which == 13){
+				login();
+			}
+		});
+		$("#passwd").keypress(function (e){
+			if(e.which == 10 || e.which == 13){
+				login();
+			}
+		});
+	});
+	function login(){
+		$.post("/#{subdir}login", {uname: $("#uname").val(), passwd: $("#passwd").val(), action: "login"},
+			function (data){
+				if(data.indexOf("Success") > -1){
+					location.reload();
+				}
+				else{
+					alert("Could not login with those credentials. Please make sure they are correct.");
+				}
+			});
+	}
+	function logout(){
+		$.get("/#{subdir}logout", function (data){
+			if(data.indexOf("Success") > -1){
+				location.reload();
+			}
+		});
+	}
