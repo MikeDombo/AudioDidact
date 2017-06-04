@@ -84,9 +84,9 @@ if(!function_exists("setCheckRequired")){
 	 * @param bool $checkRequired
 	 */
 	function setCheckRequired($checkRequired){
-		$currentConfig = file_get_contents("config.php");
+		$currentConfig = file_get_contents(__DIR__.'/config.php');
 		$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+.*\)/", "define(\"CHECK_REQUIRED\", $checkRequired)", $currentConfig);
-		file_put_contents("config.php", $newConfig);
+		file_put_contents(__DIR__.'/config.php', $newConfig);
 	}
 }
 
