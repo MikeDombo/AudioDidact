@@ -69,10 +69,8 @@ if(isset($_FILES["yt"])){
 		$isVideo = boolval($_POST["audvid"]);
 	}
 
-	$podtube = new PodTube($dal, $user);
-
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
-	$download = new SupportedSites\ManualUpload($data, $isVideo, $podtube);
+	$download = new SupportedSites\ManualUpload($data, $isVideo);
 	$video = $download->getVideo();
 
 	// If not all thumbnail, video, and audio are downloaded, then download them in that order
@@ -89,7 +87,7 @@ if(isset($_FILES["yt"])){
 	if(!$dal->inFeed($video, $user)){
 		$dal->addVideo($video, $user);
 	}
-	$podtube->makeFullFeed();
+	PodTube::makeFullFeed($user, $dal);
 }
 
 /**

@@ -1,6 +1,5 @@
 <?php
 namespace AudioDidact\SupportedSites;
-use AudioDidact\PodTube;
 use AudioDidact\Video;
 
 /**
@@ -18,11 +17,9 @@ class CRTV extends SupportedSite{
 	 *
 	 * @param string $str
 	 * @param boolean $downloadVideo
-	 * @param \AudioDidact\PodTube $podtube
 	 * @throws \Exception
 	 */
-	public function __construct($str, $downloadVideo, PodTube $podtube){
-		parent::$podtube = $podtube;
+	public function __construct($str, $downloadVideo){
 		$this->video = new Video();
 
 		// If there is a URL/ID, continue

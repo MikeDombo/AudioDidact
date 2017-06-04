@@ -17,22 +17,18 @@ use \PHPUnit\Framework\TestCase;
  */
 class YouTubeTest extends TestCase{
 	public function testConstructor(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-
-		$yt1 = new YouTube("https://www.youtube.com/watch?v=oAqEAaSkOhQ" ,true, $podtube);
-		$yt2 = new YouTube("http://www.youtube.com/watch?v=oAqEAaSkOhQ" ,true, $podtube);
-		$yt3 = new YouTube("https://youtube.com/watch?v=oAqEAaSkOhQ" ,true, $podtube);
-		$yt4 = new YouTube("http://youtube.com/watch?v=oAqEAaSkOhQ" ,true, $podtube);
-		$yt5 = new YouTube("https://youtu.be/oAqEAaSkOhQ" ,true, $podtube);
-		$yt6 = new YouTube("http://youtu.be/oAqEAaSkOhQ" ,true, $podtube);
-		$yt7 = new YouTube("https://www.youtube.com/watch?v=oAqEAaSkOhQ" ,false, $podtube);
-		$yt8 = new YouTube("http://www.youtube.com/watch?v=oAqEAaSkOhQ" ,false, $podtube);
-		$yt9 = new YouTube("https://youtube.com/watch?v=oAqEAaSkOhQ" ,false, $podtube);
-		$yt10 = new YouTube("http://youtube.com/watch?v=oAqEAaSkOhQ" ,false, $podtube);
-		$yt11 = new YouTube("https://youtu.be/oAqEAaSkOhQ" ,false, $podtube);
-		$yt12 = new YouTube("http://youtu.be/oAqEAaSkOhQ" ,false, $podtube);
+		$yt1 = new YouTube("https://www.youtube.com/watch?v=oAqEAaSkOhQ" ,true);
+		$yt2 = new YouTube("http://www.youtube.com/watch?v=oAqEAaSkOhQ" ,true);
+		$yt3 = new YouTube("https://youtube.com/watch?v=oAqEAaSkOhQ" ,true);
+		$yt4 = new YouTube("http://youtube.com/watch?v=oAqEAaSkOhQ" ,true);
+		$yt5 = new YouTube("https://youtu.be/oAqEAaSkOhQ" ,true);
+		$yt6 = new YouTube("http://youtu.be/oAqEAaSkOhQ" ,true);
+		$yt7 = new YouTube("https://www.youtube.com/watch?v=oAqEAaSkOhQ" ,false);
+		$yt8 = new YouTube("http://www.youtube.com/watch?v=oAqEAaSkOhQ" ,false);
+		$yt9 = new YouTube("https://youtube.com/watch?v=oAqEAaSkOhQ" ,false);
+		$yt10 = new YouTube("http://youtube.com/watch?v=oAqEAaSkOhQ" ,false);
+		$yt11 = new YouTube("https://youtu.be/oAqEAaSkOhQ" ,false);
+		$yt12 = new YouTube("http://youtu.be/oAqEAaSkOhQ" ,false);
 
 		$this->assertEquals("oAqEAaSkOhQ", $yt1->getVideo()->getId());
 		$this->assertEquals("oAqEAaSkOhQ", $yt2->getVideo()->getId());
@@ -58,16 +54,35 @@ class YouTubeTest extends TestCase{
 	 * @expectedException \Exception
 	 * @expectedExceptionMessage Download Failed!
 	 */
-	public function testBadID(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
+	public function testBadID1(){
+		$yt1 = new YouTube("aaaaaaaaaaa" ,true);
+	}
 
-		$yt1 = new YouTube("aaaaaaaaaaa" ,true, $podtube);
-		$yt1 = new YouTube("aaaaaaa" ,true, $podtube);
-		$yt1 = new YouTube("aaaaaaaaaaa" ,false, $podtube);
-		$yt1 = new YouTube("aaaaaaa" ,false, $podtube);
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Download Failed!
+	 */
+	public function testBadID2(){
+		$yt1 = new YouTube("aaaaaaa" ,true);
+		$yt1 = new YouTube("aaaaaaaaaaa" ,false);
+		$yt1 = new YouTube("aaaaaaa" ,false);
+	}
 
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Download Failed!
+	 */
+	public function testBadID3(){
+		$yt1 = new YouTube("aaaaaaaaaaa" ,false);
+		$yt1 = new YouTube("aaaaaaa" ,false);
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Download Failed!
+	 */
+	public function testBadID4(){
+		$yt1 = new YouTube("aaaaaaa" ,false);
 	}
 
 	/**
@@ -75,12 +90,7 @@ class YouTubeTest extends TestCase{
 	 * @expectedExceptionMessage Cannot download playlist
 	 */
 	public function testPlaylist(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-
-		new YouTube("https://www.youtube.com/playlist?list=PL96C35uN7xGK_y459BdHCtGeftqs5_nff" ,false, $podtube);
-
+		new YouTube("https://www.youtube.com/playlist?list=PL96C35uN7xGK_y459BdHCtGeftqs5_nff" ,false);
 	}
 
 	/**
@@ -88,12 +98,8 @@ class YouTubeTest extends TestCase{
 	 * @expectedExceptionMessage Cannot download channel
 	 */
 	public function testChannel1(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-
-		new YouTube("https://www.youtube.com/user/enyay" ,false, $podtube);
-		new YouTube("https://www.youtube.com/c/ted" ,false, $podtube);
+		new YouTube("https://www.youtube.com/user/enyay" ,false);
+		new YouTube("https://www.youtube.com/c/ted" ,false);
 	}
 
 	/**
@@ -101,11 +107,7 @@ class YouTubeTest extends TestCase{
 	 * @expectedExceptionMessage Cannot download channel
 	 */
 	public function testChannel2(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-
-		new YouTube("https://www.youtube.com/channel/UCCBVCTuk6uJrN3iFV_3vurg" ,false, $podtube);
+		new YouTube("https://www.youtube.com/channel/UCCBVCTuk6uJrN3iFV_3vurg" ,false);
 	}
 
 	/**
@@ -113,19 +115,11 @@ class YouTubeTest extends TestCase{
 	 * @expectedExceptionMessage Cannot download channel
 	 */
 	public function testChannel3(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-
-		new YouTube("https://www.youtube.com/c/ted" ,false, $podtube);
+		new YouTube("https://www.youtube.com/c/ted" ,false);
 	}
 
 	public function testDownload(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-
-		$download = new YouTube("oAqEAaSkOhQ", false, $podtube);
+		$download = new YouTube("oAqEAaSkOhQ", false);
 		$video = $download->getVideo();
 
 		// Cleanup in case a previous test run failed before deleting downlaoded files
@@ -150,7 +144,7 @@ class YouTubeTest extends TestCase{
 		unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
 		unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
 
-		$download = new YouTube("oAqEAaSkOhQ", true, $podtube);
+		$download = new YouTube("oAqEAaSkOhQ", true);
 		$video = $download->getVideo();
 		if(!$download->allDownloaded()){
 			$download->downloadVideo();

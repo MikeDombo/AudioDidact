@@ -2,8 +2,6 @@
 namespace AudioDidact\SupportedSites;
 
 abstract class SupportedSite {
-	/** @var  \AudioDidact\PodTube static \PodTube object */
-	protected static $podtube;
 	/** @var \AudioDidact\Video local video object */
 	protected $video;
 

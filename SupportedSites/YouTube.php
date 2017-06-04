@@ -1,6 +1,5 @@
 <?php
 namespace AudioDidact\SupportedSites;
-use AudioDidact\PodTube;
 use AudioDidact\Video;
 
 /**
@@ -16,11 +15,9 @@ class YouTube extends SupportedSite{
 	 *
 	 * @param string $str
 	 * @param boolean $isVideo
-	 * @param PodTube $podtube
 	 * @throws \Exception
 	 */
-	public function __construct($str, $isVideo, PodTube $podtube){
-		parent::$podtube = $podtube;
+	public function __construct($str, $isVideo){
 		$this->video = new Video();
 
 		// If there is a URL/ID, continue

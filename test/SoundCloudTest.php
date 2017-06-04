@@ -19,14 +19,10 @@ class SoundCloudTest extends TestCase{
 	private $testUrl = "https://soundcloud.com/ravishouse/andy-gruhin-bring-me-down-ravi";
 
 	public function testConstructor(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-
-		$sc = new SoundCloud($this->testUrl, false, $podtube);
+		$sc = new SoundCloud($this->testUrl, false);
 		$this->assertEquals($sc->getVideo()->getURL(), $this->testUrl);
 		$this->assertFalse($sc->getVideo()->isIsVideo());
-		$sc = new SoundCloud($this->testUrl, true, $podtube);
+		$sc = new SoundCloud($this->testUrl, true);
 		$this->assertEquals($sc->getVideo()->getURL(), $this->testUrl);
 		$this->assertFalse($sc->getVideo()->isIsVideo());
 	}
@@ -36,10 +32,7 @@ class SoundCloudTest extends TestCase{
 	 * @expectedExceptionMessage Soundcloud URL is invalid
 	 */
 	public function testNonSoundCloudURL(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-		$sc = new SoundCloud("http://youtube.com/watch?v=12345678911", false, $podtube);
+		$sc = new SoundCloud("http://youtube.com/watch?v=12345678911", false);
 	}
 
 	/**
@@ -47,17 +40,11 @@ class SoundCloudTest extends TestCase{
 	 * @expectedExceptionMessage Soundcloud URL is invalid
 	 */
 	public function testBadURL(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-		$sc = new SoundCloud("http://soundcloud.com/ravishouse/", false, $podtube);
+		$sc = new SoundCloud("http://soundcloud.com/ravishouse/", false);
 	}
 
 	public function testDownload(){
-		$dal = getDAL();
-		$u = new \AudioDidact\User();
-		$podtube = new \AudioDidact\PodTube($dal, $u);
-		$sc = new SoundCloud($this->testUrl, false, $podtube);
+		$sc = new SoundCloud($this->testUrl, false);
 		$video = $sc->getVideo();
 
 		// Cleanup in case a previous test run failed before deleting downlaoded files

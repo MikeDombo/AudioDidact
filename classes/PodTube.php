@@ -8,53 +8,38 @@ use \FeedWriter\RSS2;
  * Class PodTube
  */
 class PodTube{
-	/** @var \AudioDidact\DAL the DAL */
-	private $dal;
-	/** @var \AudioDidact\User the user */
-	private $user;
-
-	/**
-	 * PodTube constructor.
-	 *
-	 * @param \AudioDidact\DAL $dal
-	 * @param \AudioDidact\User $user Current user
-	 */
-	public function __construct(DAL $dal, User $user){
-		$this->dal = $dal;
-
-		// This may need to change in future because it is a bit dangerous. PodTube class should only be called when
-		// there is a valid user.
-		$this->user = $user;
-	}
-
 	/**
 	 * Make the RSS feed from the database
 	 *
+	 * @param \AudioDidact\User $user
+	 * @param \AudioDidact\DAL $dal
 	 * @param bool $emptyFeed true if the generated feed should be empty and not saved to the db directly
 	 * @return \FeedWriter\RSS2|mixed
 	 */
-	public function makeFullFeed($emptyFeed = false){
+	public static function makeFullFeed(User $user, DAL $dal, $emptyFeed = false){
 		// Setup global feed values
-		$fe = $this->makeFeed();
+		$fe = self::makeFeed($user);
 		if(!$emptyFeed){
-			$items = $this->dal->getFeed($this->user);
+			$items = $dal->getFeed($user);
 			foreach($items as $video){
 				/** @var Video $video */
-				$fe = $this->addFeedItem($fe, $video);
+				$fe = self::addFeedItem($fe, $video);
 			}
 
 			// Save the generated feed to the db
-				$this->dal->setFeedText($this->user, $fe->generateFeed());
+			$dal->setFeedText($user, $fe->generateFeed());
 		}
 		return $fe;
 	}
 
 	/**
 	 * Generate the global feed header variables
+	 *
+	 * @param \AudioDidact\User $user
 	 * @return \FeedWriter\RSS2
 	 */
-	private function makeFeed(){
-		$feedDetails = $this->user->getFeedDetails();
+	private static function makeFeed(User $user){
+		$feedDetails = $user->getFeedDetails();
 		$imageURL = $feedDetails["icon"];
 		$itunesAuthor = $feedDetails["itunesAuthor"];
 		$feedTitle = $feedDetails["title"];
@@ -68,7 +53,7 @@ class PodTube{
 
 		$feed->setDate(date(DATE_RSS, time()));
 		$feed->setChannelElement('pubDate', date(DATE_RSS, time()));
-		$feed->setSelfLink(LOCAL_URL."user/".$this->user->getWebID()."/feed/");
+		$feed->setSelfLink(LOCAL_URL."user/".$user->getWebID()."/feed/");
 
 		$feed->addNamespace("media", "http://search.yahoo.com/mrss/");
 		$feed->addNamespace("itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");

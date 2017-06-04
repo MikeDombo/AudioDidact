@@ -1,12 +1,10 @@
 <?php
 namespace AudioDidact\SupportedSites;
-use AudioDidact\PodTube;
 use AudioDidact\Video;
 
 class ManualUpload extends SupportedSite{
 
-	public function __construct($data, $isVideo, PodTube $podtube){
-		parent::$podtube = $podtube;
+	public function __construct($data, $isVideo){
 		$this->video = new Video();
 
 		// If there is a URL/ID, continue

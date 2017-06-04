@@ -29,14 +29,14 @@ $dal = getDAL();
 if(isset($_GET["yt"])){
 	$url = ($_GET["yt"]);
 	$isVideo = false;
-	$podtube = new PodTube($dal, $user);
+
 	if(isset($_GET["videoOnly"]) && $_GET["videoOnly"] == "true"){
 		$isVideo = true;
 	}
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
-		$download = getSupportedSiteClass($url, $url, $isVideo, $podtube);
+		$download = getSupportedSiteClass($url, $url, $isVideo);
 		if($download != null){
 			$video = $download->getVideo();
 
@@ -62,31 +62,29 @@ if(isset($_GET["yt"])){
 	}
 
 	// Before we make the feed, check that every file is downloaded
-	checkFilesExist($dal, $podtube, $user);
-	$podtube->makeFullFeed();
+	checkFilesExist($dal, $user);
+	PodTube::makeFullFeed($user, $dal);
 }
 // If there is no URL set, then just recreate a feed from the existing items in the CSV
 else{
-	$podtube = new PodTube($dal, $user);
 	// Before we make the feed, check that every file is downloaded
-	checkFilesExist($dal, $podtube, $user);
-	$podtube->makeFullFeed()->printFeed();
+	checkFilesExist($dal, $user);
+	PodTube::makeFullFeed($user, $dal)->printFeed();
 }
 
 /**
  * Gets the list of all feed items and makes sure that all of them are downloaded and available
  * @param \AudioDidact\DAL $dal
- * @param \AudioDidact\PodTube $podTube
  * @param \AudioDidact\User $user
  */
-function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
+function checkFilesExist(DAL $dal, User $user){
 	/** @var array|Video $items */
 	$items = $dal->getFeed($user);
 	foreach($items as $video){
 		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$video->getId().".mp3") || !file_exists(DOWNLOAD_PATH
 				.DIRECTORY_SEPARATOR.$video->getId().".jpg")){
 
-			$download = getSupportedSiteClass($video->getURL(), $video->getId(), $video->isIsVideo(), $podTube);
+			$download = getSupportedSiteClass($video->getURL(), $video->getId(), $video->isIsVideo());
 			if($download != null){
 				if(!$download->allDownloaded()){
 					$download->downloadThumbnail();
@@ -105,18 +103,17 @@ function checkFilesExist(DAL $dal, PodTube $podTube, User $user){
  * @param $url
  * @param $id
  * @param boolean $isVideo
- * @param $podTube
  * @return \AudioDidact\SupportedSites\SupportedSite
  */
-function getSupportedSiteClass($url, $id, $isVideo, $podTube){
+function getSupportedSiteClass($url, $id, $isVideo){
 	if(mb_strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
-		return new SupportedSites\YouTube($id, $isVideo, $podTube);
+		return new SupportedSites\YouTube($id, $isVideo);
 	}
 	else if(mb_strpos($url, "crtv.com") > -1){
-		return new SupportedSites\CRTV($url, $isVideo, $podTube);
+		return new SupportedSites\CRTV($url, $isVideo);
 	}
 	else if(mb_strpos($url, "soundcloud.com") > -1){
-		return new SupportedSites\SoundCloud($url, $isVideo, $podTube);
+		return new SupportedSites\SoundCloud($url, $isVideo);
 	}
 	else if(mb_strlen($id) == 64){
 		return null;

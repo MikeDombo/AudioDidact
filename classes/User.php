@@ -81,8 +81,7 @@ class User{
 		$this->setWebID($uname);
 		$this->setPrivateFeed(false);
 		$this->setFeedLength(25);
-		$podtube = new PodTube($dal, $this);
-		$this->setFeedText($podtube->makeFullFeed(true)->generateFeed());
+		$this->setFeedText(PodTube::makeFullFeed($this, $dal, true)->generateFeed());
 		$this->setEmailVerified(false);
 
 		// Add user to db and send email to verify
