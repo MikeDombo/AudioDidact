@@ -16,7 +16,7 @@ mysql:
 before_install:
   - sudo add-apt-repository ppa:mc3man/trusty-media -y
   - sudo apt-get update
-  - sudo apt-dist upgrade
+  - sudo apt-get dist-upgrade
   - sudo apt-get install -y ffmpeg 
 install:
   - cd src
