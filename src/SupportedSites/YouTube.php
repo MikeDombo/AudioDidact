@@ -31,11 +31,15 @@ class YouTube extends SupportedSite{
 			$this->video->setThumbnailFilename($this->video->getFilename().".jpg");
 			$this->video->setTime(time());
 
+			$key = GOOGLE_API_KEY;
+			if($key == "****"){
+				$key = getenv("YouTubeAPIKey");
+			}
 			// Get video author, title, and description from YouTube API
 			$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id="
 				.$this->video->getId().
 				"&fields=items/snippet/description,items/snippet/title,items/snippet/channelTitle&key=".
-				GOOGLE_API_KEY), true);
+				$key), true);
 			// If the lookup fails, send this error to the UI as a JSON array
 			if(!isset($info['items'][0]['snippet'])){
 				$this->echoErrorJSON("ID Inaccessible");

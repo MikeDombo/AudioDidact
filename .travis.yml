@@ -14,6 +14,7 @@ mysql:
   encoding: utf-8
 install: 
   - cd src
+  - composer require phpunit
   - composer install
 before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS podtube;'
