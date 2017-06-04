@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "js-phpize/js-phpize",
-            "version": "1.2.2",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pug-php/js-phpize.git",
-                "reference": "c4111e62a9d63f7917e700b102141c3741c4d256"
+                "reference": "04f1f092e4048b89f63a9b69d322b4c2b43a504c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pug-php/js-phpize/zipball/c4111e62a9d63f7917e700b102141c3741c4d256",
-                "reference": "c4111e62a9d63f7917e700b102141c3741c4d256",
+                "url": "https://api.github.com/repos/pug-php/js-phpize/zipball/04f1f092e4048b89f63a9b69d322b4c2b43a504c",
+                "reference": "04f1f092e4048b89f63a9b69d322b4c2b43a504c",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,7 @@
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "dev-master",
-                "phpunit/phpunit": ">=4.8"
+                "phpunit/phpunit": ">=4.8 <6.0"
             },
             "type": "library",
             "autoload": {
@@ -44,24 +44,67 @@
                 }
             ],
             "description": "Convert js-like syntax to standalone PHP code.",
-            "time": "2017-02-03T19:41:14+00:00"
+            "time": "2017-05-31T09:23:06+00:00"
         },
         {
-            "name": "pug-php/pug",
-            "version": "2.5.3",
+            "name": "nodejs-php-fallback/nodejs-php-fallback",
+            "version": "1.2.8",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pug-php/pug.git",
-                "reference": "339bc73949cea13fc9c89da09368170818efa03e"
+                "url": "https://github.com/kylekatarnls/nodejs-php-fallback.git",
+                "reference": "b7a1e744ec5ad3e642da2c5d20c6fc69047e4b37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pug-php/pug/zipball/339bc73949cea13fc9c89da09368170818efa03e",
-                "reference": "339bc73949cea13fc9c89da09368170818efa03e",
+                "url": "https://api.github.com/repos/kylekatarnls/nodejs-php-fallback/zipball/b7a1e744ec5ad3e642da2c5d20c6fc69047e4b37",
+                "reference": "b7a1e744ec5ad3e642da2c5d20c6fc69047e4b37",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "dev-master",
+                "composer/composer": "^1.2",
+                "phpunit/phpunit": ">=4.8 <6.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "NodejsPhpFallback\\ComposerPlugin"
+            },
+            "autoload": {
+                "psr-0": {
+                    "NodejsPhpFallback\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Kyle",
+                    "email": "kylekatarnls@gmail.com"
+                }
+            ],
+            "description": "Allow you to call node.js module or scripts throught PHP and call a fallback function if node.js is not available",
+            "time": "2017-05-12T10:16:01+00:00"
+        },
+        {
+            "name": "pug-php/pug",
+            "version": "2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pug-php/pug.git",
+                "reference": "403c8c0a3af5e71b6cea8c44a50564caf7052bd6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pug-php/pug/zipball/403c8c0a3af5e71b6cea8c44a50564caf7052bd6",
+                "reference": "403c8c0a3af5e71b6cea8c44a50564caf7052bd6",
                 "shasum": ""
             },
             "require": {
                 "js-phpize/js-phpize": "^1.2",
+                "nodejs-php-fallback/nodejs-php-fallback": "^1.2",
                 "php": ">=5.3.0"
             },
             "replace": {
@@ -69,9 +112,14 @@
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": ">=0.3",
-                "phpunit/phpunit": ">=4.0"
+                "phpunit/phpunit": ">=4.8 <6.0"
             },
             "type": "library",
+            "extra": {
+                "npm": {
+                    "pug-cli": "^1.0.0-alpha6"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Pug\\": "src/",
@@ -202,7 +250,7 @@
                 "pug",
                 "template"
             ],
-            "time": "2017-01-17T11:40:56+00:00"
+            "time": "2017-05-29T14:34:40+00:00"
         }
     ],
     "packages-dev": [],
