@@ -6,7 +6,8 @@
  * Time: 7:42 PM
  */
 
-require_once __DIR__."/../header.php";
+require_once __DIR__."/../src/header.php";
+chdir(__DIR__."/../src/");
 
 use AudioDidact\User;
 use \PHPUnit\Framework\TestCase;

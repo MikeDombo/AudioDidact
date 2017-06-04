@@ -4,11 +4,8 @@
 // Global Constants
 
 /**  Change to your hostname. End with trailing slash */
-define("LOCAL_URL", "https://localhost/podtube/");
 /**  Change to subdirectory if any. End with trailing slash. If no subdirectory, enter "" */
-define("SUBDIR", "podtube/");
 /** Add server key here */
-define("GOOGLE_API_KEY", "****");
 
 /** Set the directory where you want to download the thumbnails, videos, and audio. This must be publicly accessible */
 define("DOWNLOAD_PATH", "temp");
@@ -30,7 +27,6 @@ define("DB_PASSWORD", "");
 define("PDO_STR", 'mysql:host='.DB_HOST.';dbname='.DB_DATABASE.';charset=utf8');
 
 // SQLite Database Usage
-//define("ChosenDAL", "SQLite");
 // Path to SQLite database file
 //define("DB_HOST", "database.sqlite");
 //define("PDO_STR", 'sqlite:host='.DB_HOST);
@@ -42,4 +38,3 @@ define("PDO_STR", 'mysql:host='.DB_HOST.';dbname='.DB_DATABASE.';charset=utf8');
 //
 //
 /** Defines if a database validation is necessary */
-define("CHECK_REQUIRED", true);

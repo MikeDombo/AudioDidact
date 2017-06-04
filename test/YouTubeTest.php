@@ -6,7 +6,8 @@
  * Time: 7:42 PM
  */
 
-require_once __DIR__."/../header.php";
+require_once __DIR__."/../src/header.php";
+chdir(__DIR__."/../src/");
 
 use AudioDidact\SupportedSites\YouTube;
 use \PHPUnit\Framework\TestCase;
@@ -123,9 +124,9 @@ class YouTubeTest extends TestCase{
 		$video = $download->getVideo();
 
 		// Cleanup in case a previous test run failed before deleting downlaoded files
-		@unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		@unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
-		@unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		@unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
+		@unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
+		@unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
 
 		if(!$download->allDownloaded()){
 			$download->downloadVideo();
@@ -135,14 +136,14 @@ class YouTubeTest extends TestCase{
 			}
 		}
 
-		$this->assertFileExists(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		$this->assertFileExists(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
-		$this->assertFileExists(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		$this->assertFileExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
+		$this->assertFileExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
+		$this->assertFileExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
 		$this->assertEquals(52, $video->getDuration());
 
-		unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
-		unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
+		unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
+		unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
 
 		$download = new YouTube("oAqEAaSkOhQ", true);
 		$video = $download->getVideo();
@@ -154,12 +155,12 @@ class YouTubeTest extends TestCase{
 			}
 		}
 
-		$this->assertFileExists(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		$this->assertFileNotExists(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().".mp3");
-		$this->assertFileExists(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		$this->assertFileExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
+		$this->assertFileNotExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().".mp3");
+		$this->assertFileExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
 		$this->assertEquals(52, $video->getDuration());
 
-		unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
+		unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
 	}
 }

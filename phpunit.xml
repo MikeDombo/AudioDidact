@@ -38,13 +38,13 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">classes/</directory>
-            <directory suffix=".php">SupportedSites/</directory>
+            <directory suffix=".php">src/classes/</directory>
+            <directory suffix=".php">src/SupportedSites/</directory>
             <exclude>
-                <directory suffix=".php">Feeds/</directory>
+                <directory suffix=".php">src/Feeds/</directory>
             </exclude>
             <exclude>
-                <directory suffix=".php">vendor/</directory>
+                <directory suffix=".php">src/vendor/</directory>
             </exclude>
         </whitelist>
     </filter>

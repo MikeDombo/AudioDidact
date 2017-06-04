@@ -10,7 +10,7 @@
 	</bootstrap>
 
     <!-- A phpDox project to process, you can have multiple projects in one config file -->
-    <project name="AudioDidact" source="${basedir}" workdir="${basedir}/build/phpdox/xml">
+    <project name="AudioDidact" source="${basedir}/src" workdir="${basedir}/build/phpdox/xml">
         <collector publiconly="false" backend="parser" encoding="auto">
             <!--  @publiconly - Flag to disable/enable processing of non public methods and members -->
             <!--  @backend    - The collector backend to use, currently only shipping with 'parser' -->

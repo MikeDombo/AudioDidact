@@ -7,7 +7,8 @@
  */
 
 
-require_once __DIR__."/../header.php";
+require_once __DIR__."/../src/header.php";
+chdir(__DIR__."/../src/");
 use PHPUnit\Framework\TestCase;
 use AudioDidact\SupportedSites\SoundCloud;
 
@@ -47,9 +48,9 @@ class SoundCloudTest extends TestCase{
 		$sc = new SoundCloud($this->testUrl, false);
 		$video = $sc->getVideo();
 
-		// Cleanup in case a previous test run failed before deleting downlaoded files
-		@unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		@unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		// Cleanup in case a previous test run failed before deleting downloaded files
+		@unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
+		@unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
 
 		if(!$sc->allDownloaded()){
 			$sc->downloadVideo();
@@ -59,13 +60,13 @@ class SoundCloudTest extends TestCase{
 			}
 		}
 
-		$this->assertFileExists(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		$this->assertFileNotExists(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
-		$this->assertFileExists(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		$this->assertFileExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
+		$this->assertFileNotExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
+		$this->assertFileExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
 		$this->assertEquals(52, $video->getDuration());
 
-		unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		unlink(__DIR__."/../".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
+		unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
 	}
 
 }
