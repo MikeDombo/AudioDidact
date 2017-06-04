@@ -14,8 +14,9 @@ mysql:
   database: podtube
   encoding: utf-8
 before_install:
-  - sudo add-apt-repository ppa:mc3man/trusty-media
+  - sudo add-apt-repository ppa:mc3man/trusty-media -y
   - sudo apt-get update
+  - sudo apt-dist upgrade
   - sudo apt-get install -y ffmpeg 
 install:
   - cd src
