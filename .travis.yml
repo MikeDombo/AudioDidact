@@ -6,12 +6,9 @@ php:
   - '7.0'
   - '7.1'
   - nightly
-mysql:
-  database: podtube
-  username: podtube
-  encoding: utf8
 install: 
   - cd src
   - composer install
 before_script:
+  - php -r "require 'header.php'; setCheckRequired('false');"
   - cd ../
