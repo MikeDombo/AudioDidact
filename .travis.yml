@@ -12,7 +12,9 @@ mysql:
   username: podtube
   database: podtube
   encoding: utf-8
-install: 
+before_install:
+  - sudo apt-get install -y ffmpeg 
+ install:
   - cd src
   - composer require phpunit/phpunit
   - composer install
