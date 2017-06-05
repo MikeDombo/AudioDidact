@@ -296,6 +296,7 @@ class YouTube extends SupportedSite{
 		curl_close($ch);
 		if ($data === false) {
 			$this->echoErrorJSON("Download failed, URL tried was ".$url);
+			echo 'cURL error (' . curl_errno($ch) . '): ' . curl_error($ch);
 			throw new \Exception("Download Failed!");
 		}
 
