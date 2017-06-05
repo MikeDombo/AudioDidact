@@ -2,11 +2,10 @@ dist: trusty
 sudo: required
 language: php
 php:
-  - '5.5'
   - '5.6'
   - '7.0'
   - '7.1'
-  - nightly
+  - hhvm
 services:
   - mysql
 mysql:
@@ -24,3 +23,5 @@ install:
 before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS podtube;'
   - cd ../
+script:
+  - php src/vendor/bin/phpunit
