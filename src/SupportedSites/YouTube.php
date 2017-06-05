@@ -144,10 +144,8 @@ class YouTube extends SupportedSite{
 			// Set the video file as publicly accessible
 			@chmod($videoPath, 0775);
 			$this->video->setDuration(SupportedSite::getDurationSeconds($videoPath));
-			return;
 		}
 		catch(\Exception $e){
-			$this->echoErrorJSON($e->getMessage());
 			throw $e;
 		}
 	}
