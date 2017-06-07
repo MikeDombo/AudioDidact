@@ -1,3 +1,7 @@
+[![build status](http://git.home.mikedombrowski.com/mdombrowski/AudioDidact/badges/master/build.svg)](http://git.home.mikedombrowski.com/mdombrowski/AudioDidact/commits/master)
+[![coverage report](http://git.home.mikedombrowski.com/mdombrowski/AudioDidact/badges/master/coverage.svg)](http://git.home.mikedombrowski.com/mdombrowski/AudioDidact/commits/master)
+
+
 # AudioDidact
 Makes an RSS podcast feed from given YouTube, SoundCloud, and CRTV URLs. Also supports manually uploading audio or video, setting the metadata, and uploading album art. 
 
