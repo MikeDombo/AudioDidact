@@ -1,15 +1,21 @@
+stages:
+  - test
+  - stage
+  - deploy
+  
 # Select what we should cache between builds
 cache:
   paths:
   - vendor/
+  - apt-cache/
 
 before_script:
 - echo "deb http://ftp.uk.debian.org/debian jessie-backports main" >> /etc/apt/sources.list
 - apt-get update -yqq
-- apt-get install -yqq git libmcrypt-dev libcurl4-gnutls-dev libvpx-dev libjpeg-dev zlib1g-dev libpng-dev libgmp3-dev libldap2-dev libsqlite3-dev libpcre3-dev ffmpeg
+- apt-get install -o dir::cache::archives="apt-cache" -yqq git libmcrypt-dev libcurl4-gnutls-dev libvpx-dev libjpeg-dev zlib1g-dev libpng-dev libgmp3-dev libldap2-dev libsqlite3-dev libpcre3-dev ffmpeg zip unzip
 - pecl install xdebug
 # Install PHP extensions
-- docker-php-ext-install mbstring mcrypt pdo_mysql pdo_sqlite curl json zip
+- docker-php-ext-install mbstring pdo_mysql pdo_sqlite json
 - docker-php-ext-enable xdebug
 # Install and run Composer
 - curl -sS https://getcomposer.org/installer | php
@@ -31,6 +37,7 @@ variables:
 # Run our tests
 # If Xdebug was installed you can generate a coverage report and see code coverage metrics.
 test:7.1.1:
+  stage: test
   # This file is a template, and might need editing before it works on your project.
   # Select image from https://hub.docker.com/_/php/
   image: php:7.1.1
@@ -38,6 +45,7 @@ test:7.1.1:
   - vendor/bin/phpunit --configuration ../phpunit.xml --coverage-text --colors=never
 
 test:7.0:
+  stage: test
   # This file is a template, and might need editing before it works on your project.
   # Select image from https://hub.docker.com/_/php/
   image: php:7.0
@@ -45,6 +53,7 @@ test:7.0:
   - vendor/bin/phpunit --configuration ../phpunit.xml --coverage-text --colors=never
 
 test:5.6:
+  stage: test
   # This file is a template, and might need editing before it works on your project.
   # Select image from https://hub.docker.com/_/php/
   image: php:5.6
@@ -52,8 +61,42 @@ test:5.6:
   - vendor/bin/phpunit --configuration ../phpunit.xml --coverage-text --colors=never
   
 test:latest:
+  stage: test
   # This file is a template, and might need editing before it works on your project.
   # Select image from https://hub.docker.com/_/php/
   image: php:latest
   script:
   - vendor/bin/phpunit --configuration ../phpunit.xml --coverage-text --colors=never
+  
+stage:
+  stage: stage
+  environment:
+    name: Staging
+  before_script: 
+    - apt-get update -yqq
+    - apt-get install -yqq sshpass openssh-client
+  script: 
+    - find src/ -type d | sed "s/^[^\/]*\///g" | sed '/^\s*$/d' > directories
+    - while IFS='' read -r line || [[ -n "$line" ]]; do sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs-beta/ <<< $"mkdir $line"; sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs-beta/$line <<< $"put src/$line/*"; done < directories
+    - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs-beta/ <<< $"get config.php"
+    - php "src/config-update.php"
+    - mv config.php src/config.php
+    - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs-beta/ <<< $"put src/*"
+
+deploy:
+  stage: deploy
+  before_script: 
+    - apt-get update -yqq
+    - apt-get install -yqq sshpass openssh-client
+  script: 
+    - find src/ -type d | sed "s/^[^\/]*\///g" | sed '/^\s*$/d' > directories
+    - while IFS='' read -r line || [[ -n "$line" ]]; do sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ <<< $"mkdir $line"; sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/$line <<< $"put src/$line/*"; done < directories
+    - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ <<< $"get config.php"
+    - php "src/config-update.php"
+    - mv config.php src/config.php
+    - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ <<< $"put src/*"
+  environment:
+    name: Production
+  when: manual
+  only:
+  - master

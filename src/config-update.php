@@ -5,6 +5,11 @@ $globals = ["LOCAL_URL" => "https://localhost/podtube/src", "SUBDIR" => "podtube
 				"PDO_STR" =>  "mysql:host=mysql;dbname=podtube;charset=utf8", "CHECK_REQUIRED" => true ];
 
 $configFile = "config.php";
+
+if (php_sapi_name() != "cli") {
+	exit(1);
+}
+
 if(file_exists($configFile)){
 	require($configFile);
 	foreach($globals as $k=>$v){
