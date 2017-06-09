@@ -28,7 +28,7 @@ Set hostname to your public ip or domain and subdirectory.
 To update to the latest release on GitHub download or clone the repository to your computer. 
 1. Move all files in the src directory to your current install location, overwrite all existing files **except** for `config.php`
 2. Using the command line, run `php config-update.php` from your web root
- - This command will update `config.php` to have any added constants and will force a database check the next time the site is accessed
+   - This command will update `config.php` to have any added constants and will force a database check the next time the site is accessed
 3. Edit `config.php` to make sure that the settings are correct
 4. Load the site in your browser to force the database check/update and then you're done
 
