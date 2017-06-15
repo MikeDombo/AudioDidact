@@ -200,7 +200,7 @@ function pluralize($word, $num){
 	if(mb_substr($word, -1, 1) == "y" && !in_array(mb_substr($word, -2, 1), $vowels, true)){
 		return mb_substr($word, 0, mb_strlen($word)-1)."ies";
 	}
-	else if(mb_substr($word, -1, 1) == "s"){
+	else if(mb_substr($word, -1, 1) == "s" || mb_substr($word, -1, 1) == "o"){
 		return $word."es";
 	}
 	else{

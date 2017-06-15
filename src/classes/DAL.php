@@ -1,4 +1,5 @@
 <?php
+
 namespace AudioDidact;
 
 /**
@@ -10,6 +11,7 @@ abstract class DAL {
 
 	/**
 	 * Returns User class built from the database
+	 *
 	 * @param string $username
 	 * @return User
 	 */
@@ -17,6 +19,7 @@ abstract class DAL {
 
 	/**
 	 * Returns User class built from the database
+	 *
 	 * @param string $email
 	 * @return User
 	 */
@@ -24,6 +27,7 @@ abstract class DAL {
 
 	/**
 	 * Returns User class built from the database
+	 *
 	 * @param int $id
 	 * @return User
 	 */
@@ -31,6 +35,7 @@ abstract class DAL {
 
 	/**
 	 * Returns User class built from the database
+	 *
 	 * @param string $webID
 	 * @return User
 	 */
@@ -39,6 +44,7 @@ abstract class DAL {
 	/**
 	 * Gets all the videos from the database in the user's current feed
 	 * limited by the max number of items the user has set
+	 *
 	 * @param User $user
 	 * @return mixed
 	 */
@@ -46,6 +52,7 @@ abstract class DAL {
 
 	/**
 	 * Gets all the videos from the database
+	 *
 	 * @param User $user
 	 * @return mixed
 	 */
@@ -53,6 +60,7 @@ abstract class DAL {
 
 	/**
 	 * Gets the full text of the feed from the database
+	 *
 	 * @param User $user
 	 * @return string
 	 */
@@ -60,6 +68,7 @@ abstract class DAL {
 
 	/**
 	 * Puts user into the database
+	 *
 	 * @param User $user
 	 * @return void
 	 */
@@ -67,6 +76,7 @@ abstract class DAL {
 
 	/**
 	 * Adds video into the video database for a specific user
+	 *
 	 * @param Video $vid
 	 * @param User $user
 	 * @return mixed
@@ -75,6 +85,7 @@ abstract class DAL {
 
 	/**
 	 * Updates an existing video in the video database for a specific user
+	 *
 	 * @param Video $vid
 	 * @param User $user
 	 * @return mixed
@@ -83,6 +94,7 @@ abstract class DAL {
 
 	/**
 	 * Sets feed xml text for a user
+	 *
 	 * @param User $user
 	 * @param $feed
 	 * @return mixed
@@ -91,12 +103,14 @@ abstract class DAL {
 
 	/**
 	 * Updates user entry in the database
+	 *
 	 * @param User $user
 	 */
 	abstract public function updateUser(User $user);
 
 	/**
 	 * Updates only a user's password in the database
+	 *
 	 * @param User $user
 	 */
 	abstract public function updateUserPassword(User $user);
@@ -104,12 +118,14 @@ abstract class DAL {
 
 	/**
 	 * Updates only a user's email verification and password recovery codes in the database
+	 *
 	 * @param User $user
 	 */
 	abstract public function updateUserEmailPasswordCodes(User $user);
 
 	/**
 	 * Default slow way to check if a video is in the feed. Override for faster lookup
+	 *
 	 * @param Video $vid
 	 * @param User $user
 	 * @return bool
@@ -125,11 +141,13 @@ abstract class DAL {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
 	/**
 	 * Checks if a username is taken in the database
+	 *
 	 * @param string $username
 	 * @return bool
 	 */
@@ -138,11 +156,13 @@ abstract class DAL {
 		if($this->getUserByUsername($username) != null){
 			return true;
 		}
+
 		return false;
 	}
 
 	/**
 	 * Checks if a webID is taken in the database
+	 *
 	 * @param string $webID
 	 * @return bool
 	 */
@@ -150,11 +170,13 @@ abstract class DAL {
 		if($this->getUserByWebID($webID) != null){
 			return true;
 		}
+
 		return false;
 	}
 
 	/**
 	 * Checks if an email is already in the database
+	 *
 	 * @param string $email
 	 * @return bool
 	 */
@@ -163,11 +185,13 @@ abstract class DAL {
 		if($this->getUserByEmail($email) != null){
 			return true;
 		}
+
 		return false;
 	}
 
 	/**
 	 * Sets up any database necessary
+	 *
 	 * @param int $code
 	 * @return mixed
 	 */
@@ -175,12 +199,14 @@ abstract class DAL {
 
 	/**
 	 * Verifies the database
+	 *
 	 * @return mixed
 	 */
 	abstract public function verifyDB();
 
 	/**
 	 * Returns an array of video IDs that can be safely deleted
+	 *
 	 * @return mixed
 	 */
 	abstract public function getPrunableVideos();

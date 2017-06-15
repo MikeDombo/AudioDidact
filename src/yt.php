@@ -1,6 +1,7 @@
 <?php
+
 namespace AudioDidact;
-require_once __DIR__."/header.php";
+require_once __DIR__ . "/header.php";
 
 // Set some important constants/ini
 ignore_user_abort(true);
@@ -13,12 +14,12 @@ if(userIsLoggedIn()){
 	/** @var \AudioDidact\User $user */
 	$user = $_SESSION["user"];
 	if(!$user->isEmailVerified()){
-		echo json_encode(['stage'=>-1, 'error'=>"Must verify email first!", 'progress'=>0]);
+		echo json_encode(['stage' => -1, 'error' => "Must verify email first!", 'progress' => 0]);
 		exit(1);
 	}
 }
 else{
-	echo json_encode(['stage'=>-1, 'error'=>"Must be logged in to continue!", 'progress'=>0]);
+	echo json_encode(['stage' => -1, 'error' => "Must be logged in to continue!", 'progress' => 0]);
 	exit(1);
 }
 // Write session to file to prevent concurrency issues
@@ -74,6 +75,7 @@ else{
 
 /**
  * Gets the list of all feed items and makes sure that all of them are downloaded and available
+ *
  * @param \AudioDidact\DAL $dal
  * @param \AudioDidact\User $user
  */
@@ -81,8 +83,9 @@ function checkFilesExist(DAL $dal, User $user){
 	/** @var array|Video $items */
 	$items = $dal->getFeed($user);
 	foreach($items as $video){
-		if(!file_exists(DOWNLOAD_PATH.DIRECTORY_SEPARATOR.$video->getId().".mp3") || !file_exists(DOWNLOAD_PATH
-				.DIRECTORY_SEPARATOR.$video->getId().".jpg")){
+		if(!file_exists(DOWNLOAD_PATH . DIRECTORY_SEPARATOR . $video->getId() . ".mp3") || !file_exists(DOWNLOAD_PATH
+				. DIRECTORY_SEPARATOR . $video->getId() . ".jpg")
+		){
 
 			$download = getSupportedSiteClass($video->getURL(), $video->getId(), $video->isIsVideo());
 			if($download != null){
@@ -100,6 +103,7 @@ function checkFilesExist(DAL $dal, User $user){
 
 /**
  * Returns the appropriate SupportedClass to redownload any given content
+ *
  * @param $url
  * @param $id
  * @param boolean $isVideo
@@ -118,11 +122,12 @@ function getSupportedSiteClass($url, $id, $isVideo){
 	else if(mb_strlen($id) == 64){
 		return null;
 	}
-	else {
-		error_log("Could not find route for URL: ".$url." or ID: ".$id);
+	else{
+		error_log("Could not find route for URL: " . $url . " or ID: " . $id);
 	}
 
-	echo json_encode(['stage'=>-1, 'error'=>"Could not find a class to download from that URL.", 'progress'=>0]);
+	echo json_encode(['stage' => -1, 'error' => "Could not find a class to download from that URL.", 'progress' => 0]);
+
 	// Error case or manually uploaded content case
 	return null;
 }

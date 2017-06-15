@@ -1,8 +1,10 @@
 <?php
+
 namespace AudioDidact\SupportedSites;
+
 use AudioDidact\Video;
 
-class ManualUpload extends SupportedSite{
+class ManualUpload extends SupportedSite {
 
 	public function __construct($data, $isVideo){
 		$this->video = new Video();
@@ -30,8 +32,8 @@ class ManualUpload extends SupportedSite{
 	 * @return bool
 	 */
 	public function allDownloaded(){
-		$downloadPath = DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$downloadFilePath = $downloadPath.$this->video->getFilename();
+		$downloadPath = DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
+		$downloadFilePath = $downloadPath . $this->video->getFilename();
 
 		$p = pathinfo($this->video->getURL())["extension"];
 		// If the thumbnail has not been downloaded, go ahead and download it
@@ -39,25 +41,31 @@ class ManualUpload extends SupportedSite{
 			$this->downloadThumbnail();
 		}
 		// If the mp3 and mp4 files exist, check if the mp3 has a duration that is not null
-		if(file_exists($downloadFilePath.".mp3") && SupportedSite::getDuration($downloadFilePath.".mp3")){
+		if(file_exists($downloadFilePath . ".mp3") && SupportedSite::getDuration($downloadFilePath . ".mp3")){
 			if($p == "mp3"){
 				// Before returning true, set the duration since convert will not be run
-				$this->video->setDuration(SupportedSite::getDurationSeconds($downloadFilePath.".mp3"));
+				$this->video->setDuration(SupportedSite::getDurationSeconds($downloadFilePath . ".mp3"));
+
 				return true;
 			}
-			else if(file_exists($downloadFilePath.".mp4") && SupportedSite::getDuration($downloadFilePath.".mp4") ==
-				SupportedSite::getDuration($downloadFilePath.".mp3")){
+			else if(file_exists($downloadFilePath . ".mp4") && SupportedSite::getDuration($downloadFilePath . ".mp4") ==
+				SupportedSite::getDuration($downloadFilePath . ".mp3")
+			){
 				// Before returning true, set the duration since convert will not be run
-				$this->video->setDuration(SupportedSite::getDurationSeconds($downloadFilePath.".mp3"));
+				$this->video->setDuration(SupportedSite::getDurationSeconds($downloadFilePath . ".mp3"));
+
 				return true;
 			}
 		}
 		// If only the mp4 is downloaded (and has a duration) or the mp3 duration is null, then convert the mp4 to mp3
-		if(!$this->video->isIsVideo() && $p != "mp3" && file_exists($downloadFilePath.".mp4") &&
-			SupportedSite::getDuration($downloadFilePath.".mp4")){
+		if(!$this->video->isIsVideo() && $p != "mp3" && file_exists($downloadFilePath . ".mp4") &&
+			SupportedSite::getDuration($downloadFilePath . ".mp4")
+		){
 			$this->convert();
+
 			return true;
 		}
+
 		// If all else fails, return false
 		return false;
 	}
@@ -71,35 +79,36 @@ class ManualUpload extends SupportedSite{
 	}
 
 	public function applyArt(){
-		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$ffmpeg_outfile = $path.$this->video->getFilename().".mp3";
-		$ffmpeg_albumArt = $path.$this->video->getThumbnailFilename();
-		$ffmpeg_tempFile = $path.$this->video->getFilename()."-art.mp3";
+		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
+		$ffmpeg_outfile = $path . $this->video->getFilename() . ".mp3";
+		$ffmpeg_albumArt = $path . $this->video->getThumbnailFilename();
+		$ffmpeg_tempFile = $path . $this->video->getFilename() . "-art.mp3";
 		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
 		rename($ffmpeg_tempFile, $ffmpeg_outfile);
 	}
 
 	public function convert(){
 		$p = pathinfo($this->video->getURL())["extension"];
-		$path = getcwd().DIRECTORY_SEPARATOR.DOWNLOAD_PATH.DIRECTORY_SEPARATOR;
-		$ffmpeg_infile = $path.$this->video->getFilename().".mp4";
-		$ffmpeg_outfile = $path.$this->video->getFilename().".mp3";
+		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
+		$ffmpeg_infile = $path . $this->video->getFilename() . ".mp4";
+		$ffmpeg_outfile = $path . $this->video->getFilename() . ".mp3";
 		if($p != "mp3"){
 			// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
-			$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> ".$this->video->getID().".txt 2>&1";
+			$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> " . $this->video->getID() . ".txt 2>&1";
 
 			// Check if we're on Windows or *nix
 			if(strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN'){
 				// Start the command in the background
-				pclose(popen("start /B ".$cmd, "r"));
-			}else{
-				pclose(popen($cmd." &", "r"));
+				pclose(popen("start /B " . $cmd, "r"));
+			}
+			else{
+				pclose(popen($cmd . " &", "r"));
 			}
 
 			$progress = 0;
 			// Get the conversion progress and output the progress to the UI using a JSON array
 			while($progress != 100){
-				$content = @file_get_contents($this->video->getID().'.txt');
+				$content = @file_get_contents($this->video->getID() . '.txt');
 				// Get the total duration of the file
 				preg_match("/Duration: (.*?), start:/", $content, $matches);
 				// If there is no match, then wait and continue
@@ -139,10 +148,12 @@ class ManualUpload extends SupportedSite{
 				usleep(500000);
 			}
 			// Delete the temporary file that contained the ffmpeg output
-			@unlink($this->video->getID().".txt");
+			@unlink($this->video->getID() . ".txt");
+
 			return;
 		}
 		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpeg_outfile));
+
 		return;
 	}
 }

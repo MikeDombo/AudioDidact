@@ -1,18 +1,19 @@
-<?php 
-$globals = ["LOCAL_URL" => "https://localhost/podtube/src", "SUBDIR" => "podtube/src/", "GOOGLE_API_KEY" => "****", 
-				"DOWNLOAD_PATH" => "temp", "SessionCookieSecure" => true, "EMAIL_FROM" => "\"AudioDidact Administrator\"<michael@mikedombrowski.com>", 
-				"ChosenDAL" => "\\AudioDidact\\MySQLDAL", "DB_USER" => "root", "DB_PASSWORD" => "root", 
-				"PDO_STR" =>  "mysql:host=mysql;dbname=podtube;charset=utf8", "CHECK_REQUIRED" => true ];
+<?php
+$globals = ["LOCAL_URL" => "https://localhost/podtube/src", "SUBDIR" => "podtube/src/", "GOOGLE_API_KEY" => "****",
+	"DOWNLOAD_PATH" => "temp", "SessionCookieSecure" => true,
+	"EMAIL_FROM" => "\"AudioDidact Administrator\"<michael@mikedombrowski.com>",
+	"ChosenDAL" => "\\AudioDidact\\MySQLDAL", "DB_USER" => "root", "DB_PASSWORD" => "root",
+	"PDO_STR" => "mysql:host=mysql;dbname=podtube;charset=utf8", "CHECK_REQUIRED" => true];
 
 $configFile = "config.php";
 
-if (php_sapi_name() != "cli") {
+if(php_sapi_name() != "cli"){
 	exit(1);
 }
 
 if(file_exists($configFile)){
 	require($configFile);
-	foreach($globals as $k=>$v){
+	foreach($globals as $k => $v){
 		if(!defined($k)){
 			file_put_contents($configFile, "\r\ndefine(\"$k\", \"$v\");\r\n", FILE_APPEND);
 		}

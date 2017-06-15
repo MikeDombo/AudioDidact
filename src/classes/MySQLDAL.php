@@ -1,11 +1,12 @@
 <?php
+
 namespace AudioDidact;
 
 /**
  * Class MySQLDAL contains methods for communicating with a SQL database
  *
  */
-class MySQLDAL extends DAL{
+class MySQLDAL extends DAL {
 	/** @var string Database table for storing user information */
 	protected $userTable = "users";
 	/** @var string Database table for storing feed/video information */
@@ -30,13 +31,14 @@ class MySQLDAL extends DAL{
 			parent::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		}
 		catch(\PDOException $e){
-			echo 'ERROR: '.$e->getMessage();
+			echo 'ERROR: ' . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Gets the user by the database user id
+	 *
 	 * @param int $id
 	 * @return null|User
 	 * @throws \PDOException
@@ -58,7 +60,7 @@ class MySQLDAL extends DAL{
 			return $this->setUser($rows);
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
@@ -98,6 +100,7 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * Makes a new video object from a database select command.
+	 *
 	 * @param $row array Database rows retrieved from another method
 	 * @return Video
 	 */
@@ -121,6 +124,7 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * Gets a User object from a webID
+	 *
 	 * @param string $webID
 	 * @return null|User
 	 * @throws \PDOException
@@ -142,13 +146,14 @@ class MySQLDAL extends DAL{
 			return $this->setUser($rows);
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Gets a User from the database based on a username
+	 *
 	 * @param string $username
 	 * @return null|User
 	 * @throws \PDOException
@@ -171,13 +176,14 @@ class MySQLDAL extends DAL{
 			return $this->setUser($rows);
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Gets User from an email
+	 *
 	 * @param string $email
 	 * @return null|User
 	 * @throws \PDOException
@@ -200,13 +206,14 @@ class MySQLDAL extends DAL{
 			return $this->setUser($rows);
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Adds a User object to the database
+	 *
 	 * @param User $user
 	 * @throws \Exception|\PDOException
 	 */
@@ -230,7 +237,7 @@ class MySQLDAL extends DAL{
 				$p->execute();
 			}
 			catch(\PDOException $e){
-				echo 'ERROR: '.$e->getMessage();
+				echo 'ERROR: ' . $e->getMessage();
 				throw $e;
 			}
 		}
@@ -241,6 +248,7 @@ class MySQLDAL extends DAL{
 
 	/**
 	 * Adds a video to the feed table
+	 *
 	 * @param Video $vid
 	 * @param User $user
 	 * @return bool
@@ -281,13 +289,14 @@ class MySQLDAL extends DAL{
 			return true;
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Updates an existing video in the video database for a specific user
+	 *
 	 * @param Video $vid
 	 * @param User $user
 	 * @return mixed
@@ -312,13 +321,14 @@ class MySQLDAL extends DAL{
 			return true;
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Gets full xml feed text from database
+	 *
 	 * @param User $user
 	 * @return mixed
 	 * @throws \PDOException
@@ -328,16 +338,18 @@ class MySQLDAL extends DAL{
 			$p = parent::$PDO->prepare("SELECT feedText FROM $this->userTable WHERE id=:userid");
 			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
 			$p->execute();
+
 			return $p->fetchAll(\PDO::FETCH_ASSOC)[0]["feedText"];
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Returns an array of YouTube IDs that are in the feed
+	 *
 	 * @param User $user
 	 * @return array|null
 	 * @throws \PDOException
@@ -347,7 +359,7 @@ class MySQLDAL extends DAL{
 			// Limit is not able to be a bound parameter, so I take the intval just to make sure nothing can get
 			// injected
 			$p = parent::$PDO->prepare("SELECT * FROM $this->feedTable WHERE userID=:userid ORDER BY orderID DESC LIMIT "
-			.intval($user->getFeedLength()));
+				. intval($user->getFeedLength()));
 			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
 			$p->execute();
 			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
@@ -358,16 +370,18 @@ class MySQLDAL extends DAL{
 			foreach($rows as $row){
 				$returner[] = $this->setVideo($row);
 			}
+
 			return $returner;
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Gets all the videos from the database
+	 *
 	 * @param User $user
 	 * @return mixed
 	 */
@@ -386,16 +400,18 @@ class MySQLDAL extends DAL{
 			foreach($rows as $row){
 				$returner[] = $this->setVideo($row);
 			}
+
 			return $returner;
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Sets full feed text in the feed database
+	 *
 	 * @param User $user
 	 * @param $feed
 	 * @return bool
@@ -407,16 +423,18 @@ class MySQLDAL extends DAL{
 			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
 			$p->bindValue(":feedText", $feed, \PDO::PARAM_STR);
 			$p->execute();
+
 			return true;
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Updates only a user's password in the database
+	 *
 	 * @param User $user
 	 */
 	public function updateUserPassword(User $user){
@@ -427,13 +445,14 @@ class MySQLDAL extends DAL{
 			$p->execute();
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Updates only a user's email verification and password recovery codes in the database
+	 *
 	 * @param User $user
 	 */
 	public function updateUserEmailPasswordCodes(User $user){
@@ -446,13 +465,14 @@ class MySQLDAL extends DAL{
 			$p->execute();
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Updates the user database from a given \User object
+	 *
 	 * @param User $user
 	 * @throws \PDOException
 	 */
@@ -478,7 +498,7 @@ class MySQLDAL extends DAL{
 			$p->execute();
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
@@ -486,11 +506,12 @@ class MySQLDAL extends DAL{
 	/**
 	 * Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not
 	 * Default Key Extra
+	 *
 	 * @param $c array dictionary representing a column's correct schema
 	 * @return string
 	 */
 	private function makeColumnSQL($c){
-		$columnText = "`".$c["Field"]."` ".$c["Type"];
+		$columnText = "`" . $c["Field"] . "` " . $c["Type"];
 		if($c["Null"] == "NO"){
 			$columnText .= " NOT NULL";
 		}
@@ -498,19 +519,21 @@ class MySQLDAL extends DAL{
 			$columnText .= " NULL";
 		}
 		if($c["Default"] != null){
-			$columnText .= " DEFAULT ".$c["Default"];
+			$columnText .= " DEFAULT " . $c["Default"];
 		}
 		if($c["Key"] == "PRI"){
 			$columnText .= " PRIMARY KEY";
 		}
 		if($c["Extra"] != ""){
-			$columnText .= " ".$c["Extra"];
+			$columnText .= " " . $c["Extra"];
 		}
+
 		return $columnText;
 	}
 
 	/**
 	 * Generate the tables in the current database
+	 *
 	 * @param int $code
 	 * @return void
 	 * @throws \PDOException
@@ -524,7 +547,7 @@ class MySQLDAL extends DAL{
 			foreach($this->myDBTables as $tableName){
 				$sql .= "CREATE TABLE `$tableName` (";
 				foreach($this->correctSchemas[$tableName] as $column){
-					$sql .= $this->makeColumnSQL($column).",";
+					$sql .= $this->makeColumnSQL($column) . ",";
 				}
 				$sql = mb_substr($sql, 0, mb_strlen($sql) - 1);
 				$sql .= ") CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;";
@@ -532,12 +555,12 @@ class MySQLDAL extends DAL{
 
 			try{
 				// Execute all the statements
-				$p = parent::$PDO->prepare($generalSetupSQL.$sql);
+				$p = parent::$PDO->prepare($generalSetupSQL . $sql);
 				$p->execute();
 			}
 			catch(\PDOException $e){
-				echo "Database creation failed! ".$e->getMessage();
-				error_log("Database creation failed! ".$e->getMessage());
+				echo "Database creation failed! " . $e->getMessage();
+				error_log("Database creation failed! " . $e->getMessage());
 				throw $e;
 			}
 		}
@@ -558,14 +581,15 @@ class MySQLDAL extends DAL{
 			$p->execute();
 		}
 		catch(\PDOException $e){
-			echo "Database update failed! ".$e->getMessage();
-			error_log("Database update failed! ".$e->getMessage());
+			echo "Database update failed! " . $e->getMessage();
+			error_log("Database update failed! " . $e->getMessage());
 			throw $e;
 		}
 	}
 
 	/**
 	 * Generates SQL query to add missing columns to the given tables
+	 *
 	 * @param $currentTables array dictionary in the form of ["tableName"=>[table_schema]] representing the values
 	 * that are currently existing in the database
 	 * @param $correctTables array dictionary in the form of ["tableName"=>[table_schema]] representing the correct
@@ -575,27 +599,29 @@ class MySQLDAL extends DAL{
 	private function makeAlterQuery($currentTables, $correctTables){
 		$sql = "";
 		// Loop through the given tables
-		foreach($correctTables as $tableName=>$table){
+		foreach($correctTables as $tableName => $table){
 			// Loop through all the columns in a table
-			foreach($table as $i=>$correct){
+			foreach($table as $i => $correct){
 				// Check if the current column is in the existing database table
 				if(!in_array($correct, $currentTables[$tableName], true)){
-					$sql .= "ALTER TABLE `".$tableName."` ADD ".$this->makeColumnSQL($correct);
+					$sql .= "ALTER TABLE `" . $tableName . "` ADD " . $this->makeColumnSQL($correct);
 					if($i == 0){
 						$sql .= " FIRST";
 					}
 					if($i > 0){
-						$sql .= " AFTER `".$table[$i-1]["Field"]."`";
+						$sql .= " AFTER `" . $table[$i - 1]["Field"] . "`";
 					}
 					$sql .= ";";
 				}
 			}
 		}
+
 		return $sql;
 	}
 
 	/**
 	 * Function to return a list of database tables
+	 *
 	 * @return array
 	 */
 	protected function getDatabaseTables(){
@@ -606,64 +632,70 @@ class MySQLDAL extends DAL{
 		foreach($rows as $r){
 			$tables[] = array_values($r)[0];
 		}
+
 		return $tables;
 	}
 
 	/**
 	 * Function to get layout of a specific table
+	 *
 	 * @param $table string Table to get layout of
 	 * @return array
 	 */
 	protected function describeTable($table){
 		$p = parent::$PDO->prepare("DESCRIBE $table");
 		$p->execute();
+
 		return $p->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	/**
 	 * Correct layout of the user table
+	 *
 	 * @var array
 	 */
 	protected $userCorrect = [
-	["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
-	["Field"=>"username", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"password", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"email", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"firstname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"lastname", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"gender", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"webID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"feedText", "Type"=>"longtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"feedLength", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"feedDetails", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"privateFeed", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"emailVerified", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>"0", "Extra"=>""],
-	["Field"=>"emailVerificationCodes", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"passwordRecoveryCodes", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""]
+		["Field" => "ID", "Type" => "int(11)", "Null" => "NO", "Key" => "PRI", "Default" => null, "Extra" => "auto_increment"],
+		["Field" => "username", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "password", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "email", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "firstname", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "lastname", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "gender", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "webID", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "feedText", "Type" => "longtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "feedLength", "Type" => "int(11)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "feedDetails", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "privateFeed", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "emailVerified", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => "0", "Extra" => ""],
+		["Field" => "emailVerificationCodes", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "passwordRecoveryCodes", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""]
 	];
 
 	/**
 	 * Correct layout of the feed table
+	 *
 	 * @var array
 	 */
 	protected $feedCorrect = [
-	["Field"=>"ID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"PRI", "Default"=>null, "Extra"=>"auto_increment"],
-	["Field"=>"userID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"URL", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"orderID", "Type"=>"int(11)", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"filename", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"thumbnailFilename", "Type"=>"mediumtext", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"videoID", "Type"=>"mediumtext", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"videoAuthor", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"description", "Type"=>"text", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"videoTitle", "Type"=>"text", "Null"=>"NO", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"duration", "Type"=>"int(11)", "Null"=>"YES", "Key"=>"", "Default"=>null, "Extra"=>""],
-	["Field"=>"isVideo", "Type"=>"tinyint(1)", "Null"=>"NO", "Key"=>"", "Default"=>"0", "Extra"=>""],
-	["Field"=>"timeAdded", "Type"=>"timestamp", "Null"=>"NO", "Key"=>"", "Default"=>"CURRENT_TIMESTAMP", "Extra"=>""]
+		["Field" => "ID", "Type" => "int(11)", "Null" => "NO", "Key" => "PRI", "Default" => null, "Extra" => "auto_increment"],
+		["Field" => "userID", "Type" => "int(11)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "URL", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "orderID", "Type" => "int(11)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "filename", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "thumbnailFilename", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "videoID", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "videoAuthor", "Type" => "text", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "description", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "videoTitle", "Type" => "text", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "duration", "Type" => "int(11)", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "isVideo", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => "0", "Extra" => ""],
+		["Field" => "timeAdded", "Type" => "timestamp", "Null" => "NO", "Key" => "", "Default" => "CURRENT_TIMESTAMP", "Extra" => ""]
 	];
 
 	/**
 	 * Verifies the currently connected database against the current schema
+	 *
 	 * @return int Returns 0 if all is well, 1 if the user table or feed table do not exist, and 2 if the tables exist
 	 *     but the schema inside is wrong
 	 * @throws \PDOException
@@ -687,13 +719,14 @@ class MySQLDAL extends DAL{
 			return 0;
 		}
 		catch(\PDOException $e){
-			echo "ERROR: ".$e->getMessage();
+			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
 	}
 
 	/**
 	 * Checks if two arrays are equal to test that SQL schemas are compliant
+	 *
 	 * @param $correct
 	 * @param $existing
 	 * @return bool
@@ -701,11 +734,13 @@ class MySQLDAL extends DAL{
 	private function verifySchema($correct, $existing){
 		sort($correct);
 		sort($existing);
+
 		return $correct == $existing;
 	}
 
 	/**
 	 * Returns an array of YouTube video IDs that can be safely deleted
+	 *
 	 * @return array
 	 */
 	public function getPrunableVideos(){
@@ -716,15 +751,15 @@ class MySQLDAL extends DAL{
 							MIN((MaxOrderID-orderID)>=feedLength) AS `isUnNeeded`
 							FROM
 								(SELECT
-								`".$feedTable."`.`userID`,
-								`".$userTable."`.`feedLength`,
+								`" . $feedTable . "`.`userID`,
+								`" . $userTable . "`.`feedLength`,
 								videoID,
 								orderID
 							  FROM
-								`".$feedTable."`
+								`" . $feedTable . "`
 							  INNER JOIN
-								`".$userTable."` ON `".$feedTable."`.`userID` = `".$userTable."`.`ID`) Y
-						    INNER JOIN (SELECT `userID`, MAX(`orderID`) AS MaxOrderID FROM `".$feedTable."` GROUP BY `userID`) AS X
+								`" . $userTable . "` ON `" . $feedTable . "`.`userID` = `" . $userTable . "`.`ID`) Y
+						    INNER JOIN (SELECT `userID`, MAX(`orderID`) AS MaxOrderID FROM `" . $feedTable . "` GROUP BY `userID`) AS X
 						        ON X.userID=Y.`userID`
 						    GROUP BY `videoID`
 						    ORDER BY `isUnNeeded` DESC";
@@ -739,6 +774,7 @@ class MySQLDAL extends DAL{
 				}
 				$pruneArray[] = $r["videoID"];
 			}
+
 			return $pruneArray;
 		}
 		catch(\PDOException $e){

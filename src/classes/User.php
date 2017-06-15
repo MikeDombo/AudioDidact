@@ -1,11 +1,12 @@
 <?php
+
 namespace AudioDidact;
-require_once __DIR__."/../header.php";
+require_once __DIR__ . "/../header.php";
 
 /**
  * Class User stores user specific information
  */
-class User{
+class User {
 	/** @var  string $username is the username */
 	private $username;
 	/** @var  string $email is the email */
@@ -33,20 +34,20 @@ class User{
 	/** @var  bool $emailVerified true when the user has verified their email address */
 	private $emailVerified;
 	/** @var  array $emailVerificationCodes a dictionary of valid email verification response codes
-	  * values are in the form of [["code"=xyz, "expiration"=xyz]]*/
+	 * values are in the form of [["code"=xyz, "expiration"=xyz]]*/
 	private $emailVerificationCodes;
 	/** @var  array $passwordRecoveryCodes a dictionary of valid password recovery response codes
-	  * values are in the form of [["code"=xyz, "expiration"=xyz]]*/
+	 * values are in the form of [["code"=xyz, "expiration"=xyz]]*/
 	private $passwordRecoveryCodes;
 
 	/**
 	 * User constructor.
 	 */
 	public function __construct(){
-		$this->feedDetails = ["title"=>"AudioDidact",
-			"description"=>"Learn by putting audio and video from multiple sources into a portable podcast feed.",
-			"icon"=>LOCAL_URL."public/img/favicon/favicon-512x512.png",
-			"itunesAuthor"=>"Michael Dombrowski"];
+		$this->feedDetails = ["title" => "AudioDidact",
+			"description" => "Learn by putting audio and video from multiple sources into a portable podcast feed.",
+			"icon" => LOCAL_URL . "public/img/favicon/favicon-512x512.png",
+			"itunesAuthor" => "Michael Dombrowski"];
 		$this->emailVerificationCodes = [];
 		$this->passwordRecoveryCodes = [];
 		$this->emailVerified = false;
@@ -96,6 +97,7 @@ class User{
 		}
 		catch(\Exception $e){
 			error_log($e);
+
 			return "Sign up failed due to an unknown error.\nPlease contact the developer from the help page.";
 		}
 
@@ -104,25 +106,29 @@ class User{
 
 	/**
 	 * returns a dictionary in the form of ["code"=random, "expiration"=24hours from now]
+	 *
 	 * @return array
 	 */
 	private function generateRandomCode(){
-		return ["code"=>md5(uniqid(rand(), true)), "expiration"=>time()+(60*60*24)];
+		return ["code" => md5(uniqid(rand(), true)), "expiration" => time() + (60 * 60 * 24)];
 	}
 
 	/**
 	 * Generates a random code and adds it to the list of email verification codes
+	 *
 	 * @return array
 	 */
 	public function addEmailVerificationCode(){
 		// Make a new code and set the expiration for 24 hours
 		$newRandomCode = $this->generateRandomCode();
 		$this->emailVerificationCodes[] = $newRandomCode;
+
 		return $newRandomCode;
 	}
 
 	/**
 	 * Generic function to check that a given code is in a given code set and the expiration has not been exceeded
+	 *
 	 * @param $existingCodes
 	 * @param $toCheck
 	 * @return bool
@@ -133,11 +139,13 @@ class User{
 				return true;
 			}
 		}
+
 		return false;
 	}
 
 	/**
 	 * verifies that a given email verification code is valid for this user
+	 *
 	 * @param $c
 	 * @return bool
 	 */
@@ -147,17 +155,20 @@ class User{
 
 	/**
 	 * Generates a random code and adds it to the list of password recovery codes
+	 *
 	 * @return array
 	 */
 	public function addPasswordRecoveryCode(){
 		// Make a new code and set the expiration for 24 hours
 		$newRandomCode = $this->generateRandomCode();
 		$this->passwordRecoveryCodes[] = $newRandomCode;
+
 		return $newRandomCode;
 	}
 
 	/**
 	 * verifies that a given password recovery code is valid for this user
+	 *
 	 * @param $c
 	 * @return bool
 	 */
@@ -209,6 +220,7 @@ class User{
 
 	/**
 	 * Validates names and other strings using PHP FILTER_VALIDATE_EMAIL. Returns true if the string is valid
+	 *
 	 * @param $email
 	 * @return bool
 	 */
@@ -218,6 +230,7 @@ class User{
 
 	/**
 	 * Validates names and other strings using PHP FILTER_SANITIZE_STRING. Returns true if the string is valid
+	 *
 	 * @param $name
 	 * @return bool
 	 */
@@ -227,6 +240,7 @@ class User{
 
 	/**
 	 * Validates webID so it can only contain alphanumerics _,-,@, and $. Returns true if the string is valid
+	 *
 	 * @param $webID
 	 * @return bool
 	 */
@@ -236,6 +250,7 @@ class User{
 
 	/**
 	 * Validates password for length
+	 *
 	 * @param $password
 	 * @return bool
 	 */
@@ -255,20 +270,22 @@ class User{
 		}
 		else{
 			// Check password using old scheme
-			$result = hash("SHA512", $passwd.$this->username) == $this->getPasswd();
+			$result = hash("SHA512", $passwd . $this->username) == $this->getPasswd();
 			// If the password was correct, then update it to the new bcrypt scheme
 			if($result){
 				$this->setPasswd($passwd);
-				require_once __DIR__."/../config.php";
+				require_once __DIR__ . "/../config.php";
 				$dal = getDAL();
 				$dal->updateUserPassword($this);
 			}
+
 			return $result;
 		}
 	}
 
 	/**
 	 * Gets user ID
+	 *
 	 * @return mixed
 	 */
 	public function getUserID(){
@@ -277,6 +294,7 @@ class User{
 
 	/**
 	 * Sets user ID
+	 *
 	 * @param mixed $userID
 	 */
 	public function setUserID($userID){
@@ -285,6 +303,7 @@ class User{
 
 	/**
 	 * Gets username in lowercase
+	 *
 	 * @return mixed
 	 */
 	public function getUsername(){
@@ -293,6 +312,7 @@ class User{
 
 	/**
 	 * Sets username in lowercase
+	 *
 	 * @param mixed $username
 	 */
 	public function setUsername($username){
@@ -302,6 +322,7 @@ class User{
 
 	/**
 	 * Gets email in lowercase
+	 *
 	 * @return mixed
 	 */
 	public function getEmail(){
@@ -310,6 +331,7 @@ class User{
 
 	/**
 	 * Sets email in lower case
+	 *
 	 * @param mixed $email
 	 */
 	public function setEmail($email){
@@ -319,6 +341,7 @@ class User{
 
 	/**
 	 * Gets first name
+	 *
 	 * @return mixed
 	 */
 	public function getFname(){
@@ -327,6 +350,7 @@ class User{
 
 	/**
 	 * Sets first name
+	 *
 	 * @param mixed $fname
 	 */
 	public function setFname($fname){
@@ -335,6 +359,7 @@ class User{
 
 	/**
 	 * Gets last name
+	 *
 	 * @return mixed
 	 */
 	public function getLname(){
@@ -343,6 +368,7 @@ class User{
 
 	/**
 	 * Sets last name
+	 *
 	 * @param mixed $lname
 	 */
 	public function setLname($lname){
@@ -351,17 +377,20 @@ class User{
 
 	/**
 	 * Gets gender as integer, or if not set, returns 1 (Male)
+	 *
 	 * @return int
 	 */
 	public function getGender(){
 		if($this->gender == ""){
 			return 1;
 		}
+
 		return $this->gender;
 	}
 
 	/**
 	 * Sets gender
+	 *
 	 * @param int $gender
 	 */
 	public function setGender($gender){
@@ -370,6 +399,7 @@ class User{
 
 	/**
 	 * Gets webID
+	 *
 	 * @return mixed
 	 */
 	public function getWebID(){
@@ -378,6 +408,7 @@ class User{
 
 	/**
 	 * Sets webID
+	 *
 	 * @param string $webID
 	 */
 	public function setWebID($webID){
@@ -386,6 +417,7 @@ class User{
 
 	/**
 	 * Gets hashed password
+	 *
 	 * @return mixed
 	 */
 	public function getPasswd(){
@@ -396,7 +428,8 @@ class User{
 	 * Sets hashed password using plaintext password and username
 	 *
 	 * @param string $passwd
-	 * @throws \Exception Username must be set before setting the password because the password is stored as a hash of the plaintext password and the username
+	 * @throws \Exception Username must be set before setting the password because the password is stored as a hash of
+	 *     the plaintext password and the username
 	 */
 	public function setPasswd($passwd){
 		$options = ['cost' => 12];
@@ -414,6 +447,7 @@ class User{
 
 	/**
 	 * Gets feed text
+	 *
 	 * @return string
 	 */
 	public function getFeedText(){
@@ -422,6 +456,7 @@ class User{
 
 	/**
 	 * Sets feed text
+	 *
 	 * @param string $feedText
 	 */
 	public function setFeedText($feedText){
@@ -430,6 +465,7 @@ class User{
 
 	/**
 	 * Gets feed length
+	 *
 	 * @return int
 	 */
 	public function getFeedLength(){
@@ -438,6 +474,7 @@ class User{
 
 	/**
 	 * Sets feed length
+	 *
 	 * @param int $feedLength
 	 */
 	public function setFeedLength($feedLength){
@@ -446,6 +483,7 @@ class User{
 
 	/**
 	 * Gets the feed detail array
+	 *
 	 * @return array
 	 */
 	public function getFeedDetails(){
@@ -454,6 +492,7 @@ class User{
 
 	/**
 	 * Sets the feed detail array
+	 *
 	 * @param array $feedDetails
 	 */
 	public function setFeedDetails($feedDetails){

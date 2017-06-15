@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__."/header.php";
+require_once __DIR__ . "/header.php";
 
 /**
  * Read request url path and split it into subdirectories. If one of the subdirectories is "User" and there is a
@@ -22,7 +22,7 @@ if(count($url) == 0 || (count($url) == 1 && $url[1] == "index.php")){
 		}
 		else{
 			$pageJS = 'public/js/addVideoURL.js';
-			echo generatePug("views/addVideo.pug", "Add Content", ["addUserJSCheck"=>SRIChecksum(file_get_contents($pageJS))]);
+			echo generatePug("views/addVideo.pug", "Add Content", ["addUserJSCheck" => SRIChecksum(file_get_contents($pageJS))]);
 		}
 	}
 	else{
@@ -67,7 +67,7 @@ else if(count($url) == 1){
 			if(isset($_POST["uname"]) && isset($_POST["passwd"]) && isset($_POST["email"])){
 				$dal = getDAL();
 				$u = new AudioDidact\User();
-				$statement = $u->signup($_POST["uname"], $_POST["passwd"],  $_POST["email"], $dal);
+				$statement = $u->signup($_POST["uname"], $_POST["passwd"], $_POST["email"], $dal);
 				echo $statement;
 				if(mb_strpos($statement, "failed") > -1){
 					userLogOut();
@@ -124,14 +124,14 @@ else if(count($url) == 1){
 }
 // Handle user pages
 else{
-	foreach($url as $k=>$u){
-		if($u == "user" && isset($url[$k+1])){
-			$webID = $url[$k+1];
-			if(isset($url[$k+2]) && $url[$k+2] == "feed"){
+	foreach($url as $k => $u){
+		if($u == "user" && isset($url[$k + 1])){
+			$webID = $url[$k + 1];
+			if(isset($url[$k + 2]) && $url[$k + 2] == "feed"){
 				printUserFeed($webID);
 				exit(0);
 			}
-			else if(!isset($url[$k+2]) || $url[$k+2] == ""){
+			else if(!isset($url[$k + 2]) || $url[$k + 2] == ""){
 				if(userIsLoggedIn() && $_SESSION["user"]->getWebID() == $webID){
 					$edit = true;
 				}
@@ -154,6 +154,7 @@ make404();
 
 /**
  * Generates password reset codes and emails link to a verified email address
+ *
  * @param $username string Username or Email address of user
  */
 function makePasswordResetRequest($username){
@@ -183,6 +184,7 @@ function makePasswordResetRequest($username){
 
 /**
  * Verifies given code and changes password for the user
+ *
  * @param $username string username of user to change password of
  * @param $password string password to change to
  * @param $code string password reset code
@@ -214,6 +216,7 @@ function resetPassword($username, $password, $code){
 
 /**
  * Verifies request code and then generates page get the user's new password and reset it
+ *
  * @param $username
  * @param $code
  */
@@ -221,11 +224,11 @@ function makePasswordReset($username, $code){
 	$dal = getDAL();
 	$requestedUser = $dal->getUserByUsername($username);
 	if($requestedUser->verifyPasswordRecoveryCode($code)){
-		$options = ["passwordresetcode"=> $code, "user"=>$requestedUser];
+		$options = ["passwordresetcode" => $code, "user" => $requestedUser];
 		echo generatePug("views/passwordResetPage.pug", "Reset Your Password", $options);
 	}
 	else{
-		echo '<script>location.assign("/'.SUBDIR.'");</script>';
+		echo '<script>location.assign("/' . SUBDIR . '");</script>';
 	}
 }
 
@@ -240,14 +243,16 @@ function make404(){
 
 /**
  * Make the user feed by reading it from the database.
+ *
  * @param $webID string WebID of the requested feed
  */
 function printUserFeed($webID){
 	$dal = getDAL();
 	$requestedUser = $dal->getUserByWebID($webID);
 	if($requestedUser == null){
-		error_log("user ".$webID." not found/is null");
+		error_log("user " . $webID . " not found/is null");
 		http_response_code(404);
+
 		return;
 	}
 	if($requestedUser->isPrivateFeed() && httpAuthenticate($dal)){
@@ -262,25 +267,29 @@ function printUserFeed($webID){
 
 /**
  * Sends HTTP Basic Authentication headers to the user and authenticates against the database
+ *
  * @param \AudioDidact\DAL $dal
  * @return bool
  */
 function httpAuthenticate(\AudioDidact\DAL $dal){
-	if (!isset($_SERVER['PHP_AUTH_USER'])) {
+	if(!isset($_SERVER['PHP_AUTH_USER'])){
 		header('WWW-Authenticate: Basic realm="Private User Feed"');
 		header('HTTP/1.0 401 Unauthorized');
 		echo "User must be authenticated to continue";
+
 		return false;
 	}
 	else if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) &&
-			$dal->usernameExists($_SERVER['PHP_AUTH_USER']) &&
-			$dal->getUserByUsername($_SERVER['PHP_AUTH_USER'])->passwdCorrect($_SERVER['PHP_AUTH_PW'])) {
+		$dal->usernameExists($_SERVER['PHP_AUTH_USER']) &&
+		$dal->getUserByUsername($_SERVER['PHP_AUTH_USER'])->passwdCorrect($_SERVER['PHP_AUTH_PW'])
+	){
 		return true;
 	}
 	else{
 		header('WWW-Authenticate: Basic realm="Private User Feed"');
 		header('HTTP/1.0 401 Unauthorized');
 		echo "Incorrect username or password.\nUser must be authenticated to continue";
+
 		return false;
 	}
 }

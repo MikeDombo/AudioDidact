@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__."/header.php";
+require_once __DIR__ . "/header.php";
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 	if(!isset($_POST["name"]) || !isset($_POST["value"])){
 		outputGenericError();
@@ -124,23 +124,24 @@ else if(isset($_GET["resend"])){
 	else{
 		echo 'alert("Verification email failed.");';
 	}
-	echo 'location.assign("/'.SUBDIR.'");';
+	echo 'location.assign("/' . SUBDIR . '");';
 	echo "</script>";
 }
 
 /**
  * Output json encoded array that success is true
  * Updates the session user variable
+ *
  * @param \AudioDidact\User $user
  */
 function outputSuccess(\AudioDidact\User $user){
 	userLogIn($user);
-	echo json_encode(["success"=>true]);
+	echo json_encode(["success" => true]);
 }
 
 /**
  * Outputs generic json encoded failure
  */
 function outputGenericError(){
-	echo json_encode(["success"=>false, "error"=>"Invalid Data Received!"]);
+	echo json_encode(["success" => false, "error" => "Invalid Data Received!"]);
 }
