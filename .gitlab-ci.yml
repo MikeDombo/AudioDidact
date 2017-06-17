@@ -2,31 +2,20 @@ stages:
   - test
   - stage
   - deploy
-  
-# Select what we should cache between builds
-cache:
-  paths:
-  - vendor/
-  - apt-cache/
 
 before_script:
 - echo "deb http://ftp.uk.debian.org/debian jessie-backports main" >> /etc/apt/sources.list
 - apt-get update -yqq
-- apt-get install -o dir::cache::archives="apt-cache" -yqq git libmcrypt-dev libcurl4-gnutls-dev libvpx-dev libjpeg-dev zlib1g-dev libpng-dev libgmp3-dev libldap2-dev libsqlite3-dev libpcre3-dev ffmpeg zip unzip
+- apt-get install -yqq ffmpeg zip unzip
 - pecl install xdebug
 # Install PHP extensions
-- docker-php-ext-install mbstring pdo_mysql pdo_sqlite json
+- docker-php-ext-install pdo_mysql
 - docker-php-ext-enable xdebug
 # Install and run Composer
 - curl -sS https://getcomposer.org/installer | php
 - cd src
 - php ../composer.phar require phpunit/phpunit
 - php ../composer.phar install
-
-# Bring in any services we need http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
-# See http://docs.gitlab.com/ce/ci/services/README.html for examples.
-services:
-  - mysql:5.7
 
 # Set any variables we need
 variables:
@@ -41,6 +30,8 @@ test:7.1.1:
   # This file is a template, and might need editing before it works on your project.
   # Select image from https://hub.docker.com/_/php/
   image: php:7.1.1
+  services:
+  - mysql:5.7
   script:
   - vendor/bin/phpunit --configuration ../phpunit.xml --coverage-text --colors=never
 
@@ -49,6 +40,8 @@ test:7.0:
   # This file is a template, and might need editing before it works on your project.
   # Select image from https://hub.docker.com/_/php/
   image: php:7.0
+  services:
+  - mysql:5.7
   script:
   - vendor/bin/phpunit --configuration ../phpunit.xml --coverage-text --colors=never
 
@@ -57,6 +50,8 @@ test:5.6:
   # This file is a template, and might need editing before it works on your project.
   # Select image from https://hub.docker.com/_/php/
   image: php:5.6
+  services:
+  - mysql:5.7
   script:
   - vendor/bin/phpunit --configuration ../phpunit.xml --coverage-text --colors=never
   
@@ -65,6 +60,8 @@ test:latest:
   # This file is a template, and might need editing before it works on your project.
   # Select image from https://hub.docker.com/_/php/
   image: php:latest
+  services:
+  - mysql:5.7
   script:
   - vendor/bin/phpunit --configuration ../phpunit.xml --coverage-text --colors=never
   
