@@ -62,9 +62,9 @@ class PodTube {
 		$feed->addNamespace("content", "http://purl.org/rss/1.0/modules/content/");
 		$feed->addNamespace("sy", "http://purl.org/rss/1.0/modules/syndication/");
 
-		$feed->setChannelElement('itunes:image', "", array('href' => $imageURL));
+		$feed->setChannelElement('itunes:image', "", ['href' => $imageURL]);
 		$feed->setChannelElement('itunes:author', $itunesAuthor);
-		$feed->setChannelElement('itunes:category', "", array('text' => 'Technology'));
+		$feed->setChannelElement('itunes:category', "", ['text' => 'Technology']);
 		$feed->setChannelElement('language', 'en-US');
 		$feed->setChannelElement('itunes:explicit', "yes");
 		$feed->setChannelElement('sy:updatePeriod', "hourly");
@@ -109,18 +109,18 @@ class PodTube {
 			\"width=\"100%\" height=\"auto\"/></p><p>$descr</p>");
 
 		if($video->isIsVideo()){
-			$newItem->addElement('media:content', array('media:title' => $title), array('fileSize' => filesize($filePath),
-				'type' => 'video/mp4', 'medium' => 'video', 'url' => $webPath));
+			$newItem->addElement('media:content', ['media:title' => $title], ['fileSize' => filesize($filePath),
+				'type' => 'video/mp4', 'medium' => 'video', 'url' => $webPath]);
 			$newItem->setEnclosure($webPath, filesize($filePath), 'video/mp4');
 		}
 		else{
-			$newItem->addElement('media:content', array('media:title' => $title), array('fileSize' => filesize($filePath),
-				'type' => 'audio/mpeg', 'medium' => 'audio', 'url' => $webPath));
+			$newItem->addElement('media:content', ['media:title' => $title], ['fileSize' => filesize($filePath),
+				'type' => 'audio/mpeg', 'medium' => 'audio', 'url' => $webPath]);
 			$newItem->setEnclosure($webPath, filesize($filePath), 'audio/mpeg');
 		}
 
-		$newItem->addElement('media:thumbnail', null, array('url' => $webThumb), false, true);
-		$newItem->addElement('itunes:image', "", array('href' => $webThumb));
+		$newItem->addElement('media:thumbnail', null, ['url' => $webThumb], false, true);
+		$newItem->addElement('itunes:image', "", ['href' => $webThumb]);
 		$newItem->addElement('itunes:author', $author);
 		$newItem->addElement('itunes:duration', $duration);
 

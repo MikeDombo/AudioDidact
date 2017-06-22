@@ -90,11 +90,11 @@ class ManualUpload extends SupportedSite {
 	public function convert(){
 		$p = pathinfo($this->video->getURL())["extension"];
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
-		$ffmpeg_infile = $path . $this->video->getFilename() . ".mp4";
-		$ffmpeg_outfile = $path . $this->video->getFilename() . ".mp3";
+		$ffmpegInFile = $path . $this->video->getFilename() . ".mp4";
+		$ffmpegOutFile = $path . $this->video->getFilename() . ".mp3";
 		if($p != "mp3"){
 			// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
-			$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> " . $this->video->getID() . ".txt 2>&1";
+			$cmd = "ffmpeg -i \"$ffmpegInFile\" -y -q:a 5 -map a \"$ffmpegOutFile\" 1> " . $this->video->getID() . ".txt 2>&1";
 
 			// Check if we're on Windows or *nix
 			if(strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN'){
@@ -143,7 +143,7 @@ class ManualUpload extends SupportedSite {
 				$progress = round(($time / $duration) * 100);
 
 				// Send progress to UI
-				$response = array('stage' => 1, 'progress' => $progress);
+				$response = ['stage' => 1, 'progress' => $progress];
 				echo json_encode($response);
 				usleep(500000);
 			}
@@ -152,7 +152,7 @@ class ManualUpload extends SupportedSite {
 
 			return;
 		}
-		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpeg_outfile));
+		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpegOutFile));
 
 		return;
 	}

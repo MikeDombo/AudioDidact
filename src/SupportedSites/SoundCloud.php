@@ -6,8 +6,8 @@ use AudioDidact\Video;
 
 class SoundCloud extends SupportedSite {
 	// Setup global variables
-	private $streams_base_url = "https://api.soundcloud.com/tracks/XYZ/streams?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z";
-	private $thumbnail_url;
+	private $streamsBaseURL = "https://api.soundcloud.com/tracks/XYZ/streams?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z";
+	private $thumbnailURL;
 	private $audioJSON;
 
 	/**
@@ -43,15 +43,15 @@ class SoundCloud extends SupportedSite {
 		}
 	}
 
-	private function curl_http_get($url, $ssl = false){
+	private function cURLHTTPGet($url, $ssl = false){
 		$ch = curl_init($url);
-		$headers = array(
+		$headers = [
 			"User-Agent: curl/7.16.3 (i686-pc-cygwin) libcurl/7.16.3 OpenSSL/0.9.8h zlib/1.2.3 libssh2/0.15-CVS",
 			"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 			"Accept-Language: en-us;q=0.5,en;q=0.3",
 			"Keep-Alive: 115",
 			"Connection: keep-alive"
-		);
+		];
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
@@ -62,8 +62,8 @@ class SoundCloud extends SupportedSite {
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 		}
 		$response = curl_exec($ch);
-		$response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		if($response_code != 200 && $response_code != 302 && $response_code != 304){
+		$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if($responseCode != 200 && $responseCode != 302 && $responseCode != 304){
 			$response = false;
 		}
 
@@ -72,7 +72,7 @@ class SoundCloud extends SupportedSite {
 
 	private function getVideoInfo($str){
 		$str = str_replace("http://", "https://", $str);
-		$webpage = $this->curl_http_get($str, true);
+		$webpage = $this->cURLHTTPGet($str, true);
 		preg_match("/var c=([^;]*)/i", $webpage, $matches);
 		$brackets = 0;
 		$firstRun = true;
@@ -104,10 +104,10 @@ class SoundCloud extends SupportedSite {
 				$title = $a["title"];
 				$author = $a["user"]["username"];
 				if(isset($a["artwork_url"]) && $a["artwork_url"] != null){
-					$this->thumbnail_url = str_replace("large.jpg", "t500x500.jpg", $a["artwork_url"]);
+					$this->thumbnailURL = str_replace("large.jpg", "t500x500.jpg", $a["artwork_url"]);
 				}
 				else{
-					$this->thumbnail_url = str_replace("large.jpg", "t500x500.jpg", $a["user"]["avatar_url"]);
+					$this->thumbnailURL = str_replace("large.jpg", "t500x500.jpg", $a["user"]["avatar_url"]);
 				}
 
 				return ["ID" => $videoId, "description" => $description, "title" => $title, "author" => $author];
@@ -149,13 +149,13 @@ class SoundCloud extends SupportedSite {
 	public function downloadThumbnail(){
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
 		$thumbnail = $path . $this->video->getThumbnailFilename();
-		file_put_contents($thumbnail, fopen($this->thumbnail_url, "r"));
+		file_put_contents($thumbnail, fopen($this->thumbnailURL, "r"));
 		// Set the thumbnail file as publicly accessible
 		@chmod($thumbnail, 0775);
 	}
 
 	private function getDownloadURL(){
-		$streamsURL = str_replace("/XYZ/", "/" . $this->video->getId() . "/", $this->streams_base_url);
+		$streamsURL = str_replace("/XYZ/", "/" . $this->video->getId() . "/", $this->streamsBaseURL);
 		$streamsJSON = file_get_contents($streamsURL);
 		$streamsJSON = json_decode($streamsJSON, true);
 
@@ -191,18 +191,18 @@ class SoundCloud extends SupportedSite {
 			$remote = fopen($url, 'r');
 			$local = fopen($videoPath, 'w');
 
-			$read_bytes = 0;
+			$readBytes = 0;
 			// Read until the end of the remote file
 			while(!feof($remote)){
 				// Read 4KB and write them to the local file
 				$buffer = fread($remote, 4096);
 				fwrite($local, $buffer);
-				$read_bytes += 4096;
+				$readBytes += 4096;
 
 				// Get progress percentage from the read bytes and total length
-				$progress = min(100, 100 * $read_bytes / $contentLength);
+				$progress = min(100, 100 * $readBytes / $contentLength);
 				// Print progress to the UI using a JSON array
-				$response = array('stage' => 0, 'progress' => $progress);
+				$response = ['stage' => 0, 'progress' => $progress];
 				echo json_encode($response);
 			}
 			// Close the handles of both files
@@ -227,17 +227,17 @@ class SoundCloud extends SupportedSite {
 
 	public function applyArt(){
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
-		$ffmpeg_albumArt = $path . $this->video->getThumbnailFilename();
-		$ffmpeg_outfile = $path . $this->video->getFilename() . $this->video->getFileExtension();
-		$ffmpeg_tempFile = $path . $this->video->getFilename() . "-art.mp3";
+		$ffmpegAlbumArt = $path . $this->video->getThumbnailFilename();
+		$ffmpegOutFile = $path . $this->video->getFilename() . $this->video->getFileExtension();
+		$ffmpegTempFile = $path . $this->video->getFilename() . "-art.mp3";
 
-		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -acodec copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
-		rename($ffmpeg_tempFile, $ffmpeg_outfile);
+		exec("ffmpeg -i \"$ffmpegOutFile\" -i \"$ffmpegAlbumArt\" -y -acodec copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpegTempFile\"");
+		rename($ffmpegTempFile, $ffmpegOutFile);
 
-		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpeg_outfile));
+		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpegOutFile));
 
 		// Send progress to UI
-		$response = array('stage' => 1, 'progress' => 100);
+		$response = ['stage' => 1, 'progress' => 100];
 		echo json_encode($response);
 
 		return;

@@ -78,7 +78,7 @@ class YouTube extends SupportedSite {
 		// 200 = OK
 		// 301 = Moved Permanently
 		// 302 = Moved Temporarily
-		if($this->curl_httpstatus($url) !== 200 && $this->curl_httpstatus($url) !== 301 && $this->curl_httpstatus($url)
+		if($this->cURLHTTPStatus($url) !== 200 && $this->cURLHTTPStatus($url) !== 301 && $this->cURLHTTPStatus($url)
 			!== 302
 		){
 			throw new \Exception("Invalid Youtube video ID: $vidId");
@@ -170,51 +170,51 @@ class YouTube extends SupportedSite {
 	private function getDownloadURL($id){
 		$url = $this->YouTubeBaseURL . "watch?v=" . $id;
 		$html = file_get_contents($url);
-		$restriction_pattern = "og:restrictions:age";
+		$restrictionPattern = "og:restrictions:age";
 
-		if(mb_strpos($html, $restriction_pattern) > -1){
+		if(mb_strpos($html, $restrictionPattern) > -1){
 			return "Error: Age restricted video. Unable to download.";
 		}
-		$json_start_pattern = "ytplayer.config = ";
-		$pattern_idx = mb_strpos($html, $json_start_pattern);
+		$jsonStartPattern = "ytplayer.config = ";
+		$patternIndex = mb_strpos($html, $jsonStartPattern);
 		// In case video is unable to play
-		if($pattern_idx == -1){
+		if($patternIndex == -1){
 			return "Error: Unable to find start pattern.";
 		}
 
-		$start = $pattern_idx + mb_strlen($json_start_pattern);
+		$start = $patternIndex + mb_strlen($jsonStartPattern);
 		$html = mb_substr($html, $start);
 
-		$unmatched_brackets_num = 0;
+		$unmatchedBracketsCount = 0;
 		$index = 1;
 		$htmlArr = str_split($html);
 		foreach($htmlArr as $i => $ch){
 			if($ch == "{"){
-				$unmatched_brackets_num += 1;
+				$unmatchedBracketsCount += 1;
 			}
 			else if($ch == "}"){
-				$unmatched_brackets_num -= 1;
-				if($unmatched_brackets_num == 0){
+				$unmatchedBracketsCount -= 1;
+				if($unmatchedBracketsCount == 0){
 					break;
 				}
 			}
 		}
 		$offset = $index + $i;
 
-		$json_object = json_decode(mb_substr($html, 0, $offset), true);
+		$youtubeJSONData = json_decode(mb_substr($html, 0, $offset), true);
 
-		if(isset($json_object["args"]["livestream"]) && $json_object["args"]["livestream"] && (!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == "")){
+		if(isset($youtubeJSONData["args"]["livestream"]) && $youtubeJSONData["args"]["livestream"] && (!isset($youtubeJSONData["args"]["url_encoded_fmt_stream_map"]) || $youtubeJSONData["args"]["url_encoded_fmt_stream_map"] == "")){
 			$this->echoErrorJSON("<h3>Download Failed</h3><h4>This URL is a livestream, try again when the stream has ended</h4>");
 			throw new \Exception("Download Failed!");
 		}
-		//isset($json_object["args"]["live_default_broadcast"]) && $json_object["args"]["live_default_broadcast"] == 1
-		if(!isset($json_object["args"]["url_encoded_fmt_stream_map"]) || $json_object["args"]["url_encoded_fmt_stream_map"] == ""){
+
+		if(!isset($youtubeJSONData["args"]["url_encoded_fmt_stream_map"]) || $youtubeJSONData["args"]["url_encoded_fmt_stream_map"] == ""){
 			$this->echoErrorJSON("<h3>Download Failed</h3><h4>Try again later</h4>");
 			throw new \Exception("Download Failed!");
 		}
-		$encoded_stream_map = $json_object["args"]["url_encoded_fmt_stream_map"];
-		$dct = array();
-		$videos = explode(",", $encoded_stream_map);
+		$encodedStreamMap = $youtubeJSONData["args"]["url_encoded_fmt_stream_map"];
+		$dct = [];
+		$videos = explode(",", $encodedStreamMap);
 		foreach($videos as $i => $video){
 			$video = explode("&", $video);
 			foreach($video as $v){
@@ -223,15 +223,15 @@ class YouTube extends SupportedSite {
 				$dct[$key][] = urldecode($value);
 			}
 		}
-		$json_object["args"]["stream_map"] = $dct;
-		$stream_map = $dct;
-		unset($dct, $videos, $html, $htmlArr, $json_object);
+		$youtubeJSONData["args"]["stream_map"] = $dct;
+		$streamMap = $dct;
+		unset($dct, $videos, $html, $htmlArr, $youtubeJSONData);
 
-		$video_urls = $stream_map["url"];
+		$videoURLs = $streamMap["url"];
 		$downloads = [];
-		foreach($video_urls as $i => $vurl){
-			$quality_profile = $this->getQualityProfilesFromURL($vurl);
-			$downloads[] = ["url" => $vurl, "ext" => $quality_profile["extension"], "res" => $quality_profile["resolution"]];
+		foreach($videoURLs as $i => $vurl){
+			$qualityProfile = $this->getQualityProfilesFromURL($vurl);
+			$downloads[] = ["url" => $vurl, "ext" => $qualityProfile["extension"], "res" => $qualityProfile["resolution"]];
 		}
 		$downloadURL = "";
 		$resolution = 999999;
@@ -270,15 +270,15 @@ class YouTube extends SupportedSite {
 			foreach($keys as $k2 => $v){
 				$qp[$k][$v] = $q[$k2];
 			}
-			foreach($qp[$k] as $key => $value){
+			foreach(array_keys($qp[$k]) as $key){
 				if(!in_array($key, $keys, true)){
 					unset($qp[$k][$key]);
 				}
 			}
 		}
 
-		$reg_exp = '/itag=(\d+)/';
-		preg_match_all($reg_exp, $url, $itag);
+		$itagPattern = '/itag=(\d+)/';
+		preg_match_all($itagPattern, $url, $itag);
 		if(isset($itag[1][0]) && intval($itag[1][0]) > -1){
 			$itag = intval($itag[1][0]);
 
@@ -324,18 +324,18 @@ class YouTube extends SupportedSite {
 			$remote = fopen($url, 'r');
 			$local = fopen($localFile, 'w');
 
-			$read_bytes = 0;
+			$readBytes = 0;
 			// Read until the end of the remote file
 			while(!feof($remote)){
 				// Read 4KB and write them to the local file
 				$buffer = fread($remote, 4096);
 				fwrite($local, $buffer);
-				$read_bytes += 4096;
+				$readBytes += 4096;
 
 				// Get progress percentage from the read bytes and total length
-				$progress = min(100, 100 * $read_bytes / $contentLength);
+				$progress = min(100, 100 * $readBytes / $contentLength);
 				// Print progress to the UI using a JSON array
-				$response = array('stage' => 0, 'progress' => $progress);
+				$response = ['stage' => 0, 'progress' => $progress];
 				echo json_encode($response);
 			}
 			// Close the handles of both files
@@ -355,13 +355,13 @@ class YouTube extends SupportedSite {
 	 */
 	public function convert(){
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
-		$ffmpeg_infile = $path . $this->video->getFilename() . ".mp4";
-		$ffmpeg_albumArt = $path . $this->video->getThumbnailFilename();
-		$ffmpeg_outfile = $path . $this->video->getFilename() . $this->video->getFileExtension();
-		$ffmpeg_tempFile = $path . $this->video->getFilename() . "-art.mp3";
+		$ffmpegInFile = $path . $this->video->getFilename() . ".mp4";
+		$ffmpegAlbumArt = $path . $this->video->getThumbnailFilename();
+		$ffmpegOutFile = $path . $this->video->getFilename() . $this->video->getFileExtension();
+		$ffmpegTempFile = $path . $this->video->getFilename() . "-art.mp3";
 
 		// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
-		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> " . $this->video->getID() . ".txt 2>&1";
+		$cmd = "ffmpeg -i \"$ffmpegInFile\" -y -q:a 5 -map a \"$ffmpegOutFile\" 1> " . $this->video->getID() . ".txt 2>&1";
 
 		// Check if we're on Windows or *nix
 		if(strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN'){
@@ -410,14 +410,14 @@ class YouTube extends SupportedSite {
 			$progress = round(($time / $duration) * 100);
 
 			// Send progress to UI
-			$response = array('stage' => 1, 'progress' => $progress);
+			$response = ['stage' => 1, 'progress' => $progress];
 			echo json_encode($response);
 			usleep(500000);
 		}
 		// Delete the temporary file that contained the ffmpeg output
 		@unlink($this->video->getID() . ".txt");
-		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -acodec copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
-		rename($ffmpeg_tempFile, $ffmpeg_outfile);
+		exec("ffmpeg -i \"$ffmpegOutFile\" -i \"$ffmpegAlbumArt\" -y -acodec copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpegTempFile\"");
+		rename($ffmpegTempFile, $ffmpegOutFile);
 
 		return;
 	}
@@ -428,7 +428,7 @@ class YouTube extends SupportedSite {
 	 * @param $url
 	 * @return int
 	 */
-	private function curl_httpstatus($url){
+	private function cURLHTTPStatus($url){
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:11.0) Gecko Firefox/11.0");
 		curl_setopt($ch, CURLOPT_REFERER, $this->YouTubeBaseURL);

@@ -12,7 +12,7 @@ class CRTV extends SupportedSite {
 	/** @var string YouTube URL */
 	private $brightcoveBaseURL = "https://secure.brightcove.com/services/mobile/streaming/index/master.m3u8";
 	private $pubId;
-	private $thumbnail_url;
+	private $thumbnailURL;
 
 	/**
 	 * CRTV constructor. Gets the video information, checks for it in the user's feed.
@@ -45,12 +45,12 @@ class CRTV extends SupportedSite {
 
 	private function getVideoId($str){
 		// Download CRTV video page
-		$crtv_html = file_get_contents($str);
+		$crtvHTML = file_get_contents($str);
 
 		// Setup CRTV webpage parsing objects
 		$doc = new \DOMDocument();
 		libxml_use_internal_errors(true);
-		$doc->loadHTML($crtv_html);
+		$doc->loadHTML($crtvHTML);
 		$finder = new \DomXPath($doc);
 
 		// Get Thumbnail
@@ -62,9 +62,9 @@ class CRTV extends SupportedSite {
 		parse_str(parse_url($tbURL, PHP_URL_QUERY), $query);
 		$videoId = $query["videoId"];
 
-		$this->thumbnail_url = $tbURL;
+		$this->thumbnailURL = $tbURL;
 
-		return ["ID" => $videoId, "html" => $crtv_html];
+		return ["ID" => $videoId, "html" => $crtvHTML];
 	}
 
 	private function getPublisherID($html){
@@ -76,15 +76,15 @@ class CRTV extends SupportedSite {
 	private function getVideoInfo($html){
 		// Get Video Title
 		preg_match('/\<title\>([^\<]*)\<\/title\>/', $html, $matches);
-		$video_title = $matches[1];
-		$video_title = html_entity_decode($video_title, ENT_QUOTES, 'UTF-8');
+		$videoTitle = $matches[1];
+		$videoTitle = html_entity_decode($videoTitle, ENT_QUOTES, 'UTF-8');
 
 		// Get video description
 		preg_match('/\<div class=[\"\']rtf[\'\"]\>\s*\<p\>\s*(.*)\s*\<\/p\>\s*\<\/div\>/', $html, $matches);
 		$desc = $matches[1];
 		$desc = html_entity_decode($desc, ENT_QUOTES, 'UTF-8');
 
-		return ["title" => $video_title, "description" => $desc];
+		return ["title" => $videoTitle, "description" => $desc];
 	}
 
 	/**
@@ -127,7 +127,7 @@ class CRTV extends SupportedSite {
 	public function downloadThumbnail(){
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
 		$thumbnail = $path . $this->video->getThumbnailFilename();
-		file_put_contents($thumbnail, fopen($this->thumbnail_url, "r"));
+		file_put_contents($thumbnail, fopen($this->thumbnailURL, "r"));
 		// Set the thumbnail file as publicly accessible
 		@chmod($thumbnail, 0775);
 	}
@@ -190,7 +190,7 @@ class CRTV extends SupportedSite {
 			$progress = round(($time / $duration) * 100);
 
 			// Send progress to UI
-			$response = array('stage' => 0, 'progress' => $progress);
+			$response = ['stage' => 0, 'progress' => $progress];
 			echo json_encode($response);
 			usleep(500000);
 		}
@@ -205,13 +205,13 @@ class CRTV extends SupportedSite {
 	 */
 	public function convert(){
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
-		$ffmpeg_infile = $path . $this->video->getFilename() . ".mp4";
-		$ffmpeg_albumArt = $path . $this->video->getThumbnailFilename();
-		$ffmpeg_outfile = $path . $this->video->getFilename() . $this->video->getFileExtension();
-		$ffmpeg_tempFile = $path . $this->video->getFilename() . "-art.mp3";
+		$ffmpegInFile = $path . $this->video->getFilename() . ".mp4";
+		$ffmpegAlbumArt = $path . $this->video->getThumbnailFilename();
+		$ffmpegOutFile = $path . $this->video->getFilename() . $this->video->getFileExtension();
+		$ffmpegTempFile = $path . $this->video->getFilename() . "-art.mp3";
 
 		// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
-		$cmd = "ffmpeg -i \"$ffmpeg_infile\" -y -q:a 5 -map a \"$ffmpeg_outfile\" 1> " . $this->video->getID() . ".txt 2>&1";
+		$cmd = "ffmpeg -i \"$ffmpegInFile\" -y -q:a 5 -map a \"$ffmpegOutFile\" 1> " . $this->video->getID() . ".txt 2>&1";
 
 		// Check if we're on Windows or *nix
 		if(strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN'){
@@ -260,14 +260,14 @@ class CRTV extends SupportedSite {
 			$progress = round(($time / $duration) * 100);
 
 			// Send progress to UI
-			$response = array('stage' => 1, 'progress' => $progress);
+			$response = ['stage' => 1, 'progress' => $progress];
 			echo json_encode($response);
 			usleep(500000);
 		}
 		// Delete the temporary file that contained the ffmpeg output
 		@unlink($this->video->getID() . ".txt");
-		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
-		rename($ffmpeg_tempFile, $ffmpeg_outfile);
+		exec("ffmpeg -i \"$ffmpegOutFile\" -i \"$ffmpegAlbumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpegTempFile\"");
+		rename($ffmpegTempFile, $ffmpegOutFile);
 
 		return;
 	}

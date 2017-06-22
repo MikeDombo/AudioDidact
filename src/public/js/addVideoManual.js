@@ -3,13 +3,13 @@ document.getElementById("yt").addEventListener("change", function (event){
 	var file = event.target.files[0];
 	jsmediatags.read(file, {
 		onSuccess: function (tag){
-			if($("#title").val() == ""){
+			if($("#title").val() === ""){
 				$("#title").val(tag.tags.title);
 			}
-			if($("#author").val() == ""){
+			if($("#author").val() === ""){
 				$("#author").val(tag.tags.artist);
 			}
-			if($("#description").val() == ""){
+			if($("#description").val() === ""){
 				$("#description").val(tag.tags.comment.text);
 			}
 			var image = tag.tags.picture;
@@ -35,7 +35,7 @@ $(document).ready(function (){
 	var options = {
 		beforeSend: function (){
 			$("#progress").width('0%').text("");
-			window.onbeforeunload = function(e) {
+			window.onbeforeunload = function (){
 				return "Please make sure the upload has finished before closing this window.";
 			};
 		},
@@ -49,7 +49,7 @@ $(document).ready(function (){
 			console.log(response);
 			try{
 				var r = JSON.parse(response.responseText);
-				if(r["error"] == false){
+				if(r["error"] === false){
 					$("#progress").text("Successfully Uploaded!");
 				}
 				else{
@@ -79,8 +79,7 @@ function getBase64(file){
 	reader.readAsDataURL(file);
 	reader.onload = function (){
 		$("#art").val(reader.result);
-		document.getElementById('picture').setAttribute('src', reader.result);
-		document.getElementById('picture').style.display = "";
+		document.getElementById('picture').setAttribute('src', reader.result).style.display = "";
 	};
 	reader.onerror = function (error){
 		console.log('Error: ', error);
@@ -101,7 +100,7 @@ document.getElementById("albumArtFile").addEventListener("change", function (eve
 }, false);
 
 document.getElementById("albumArtURL").addEventListener("change", function (){
-	if($("#albumArtURL").val() != ""){
+	if($("#albumArtURL").val() !== ""){
 		$("#art").val($("#albumArtURL").val());
 		document.getElementById('picture').setAttribute('src', $("#albumArtURL").val());
 		document.getElementById('picture').style.display = "";

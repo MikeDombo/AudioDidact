@@ -171,18 +171,18 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
 		}
 	}
 
-	$initialOptions = array(
+	$initialOptions = [
 		'title' => $title,
 		'subdir' => SUBDIR,
 		'loggedIn' => $loggedin,
 		'localurl' => LOCAL_URL,
 		'user' => $userData,
 		'verified' => $verified
-	);
+	];
 
 	$options = array_merge($initialOptions, $options);
 
-	$pug = new Pug\Pug(array('prettyprint' => $prettyPrint));
+	$pug = new Pug\Pug(['prettyprint' => $prettyPrint]);
 	return $pug->render($view, $options);
 }
 
