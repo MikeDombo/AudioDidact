@@ -80,11 +80,11 @@ class ManualUpload extends SupportedSite {
 
 	public function applyArt(){
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
-		$ffmpeg_outfile = $path . $this->video->getFilename() . ".mp3";
-		$ffmpeg_albumArt = $path . $this->video->getThumbnailFilename();
-		$ffmpeg_tempFile = $path . $this->video->getFilename() . "-art.mp3";
-		exec("ffmpeg -i \"$ffmpeg_outfile\" -i \"$ffmpeg_albumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpeg_tempFile\"");
-		rename($ffmpeg_tempFile, $ffmpeg_outfile);
+		$ffmpegOutFile = $path . $this->video->getFilename() . ".mp3";
+		$ffmpegAlbumArt = $path . $this->video->getThumbnailFilename();
+		$ffmpegTempFile = $path . $this->video->getFilename() . "-art.mp3";
+		exec("ffmpeg -i \"$ffmpegOutFile\" -i \"$ffmpegAlbumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpegTempFile\"");
+		rename($ffmpegTempFile, $ffmpegOutFile);
 	}
 
 	public function convert(){

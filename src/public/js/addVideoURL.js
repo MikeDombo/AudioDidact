@@ -1,7 +1,7 @@
 var currentlyDownloading = false;
 $("#yt").focus();
 
-function ajax_stream(){
+function ajaxStream(){
 	if(!$("#yt").val()){
 		return;
 	}
@@ -87,7 +87,7 @@ $(function (){
 	$('.input-group').each(function (){
 		$(this).find('input').keypress(function (e){
 			if(e.which === 10 || e.which === 13){
-				ajax_stream();
+				ajaxStream();
 			}
 		});
 	});

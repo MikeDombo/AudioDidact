@@ -139,8 +139,8 @@ class CRTV extends SupportedSite {
 		$videoPath = $path . $videoFilename;
 
 		// Based on gathered information, generate Brightcove query parameters to get the HLS playlist
-		$m3u8_url = $this->brightcoveBaseURL . "?videoId=" . $this->video->getId() . "&pubId=" . $this->pubId . "&secure=true";
-		$cmd = "ffmpeg -i \"" . $m3u8_url . "\" -map 0:p:1 -y -c copy -bsf:a aac_adtstoasc \"" . $videoPath . "\" 1> "
+		$m3u8URL = $this->brightcoveBaseURL . "?videoId=" . $this->video->getId() . "&pubId=" . $this->pubId . "&secure=true";
+		$cmd = "ffmpeg -i \"" . $m3u8URL . "\" -map 0:p:1 -y -c copy -bsf:a aac_adtstoasc \"" . $videoPath . "\" 1> "
 			. $this->video->getID() . ".txt 2>&1";
 
 		// Check if we're on Windows or *nix

@@ -4,7 +4,7 @@
 // Global Constants
 
 /**  Change to your hostname. End with trailing slash */
-define("LOCAL_URL", "https://localhost/podtube/src");
+define("LOCAL_URL", "https://localhost/podtube/src/");
 /**  Change to subdirectory if any. End with trailing slash. If no subdirectory, enter "" */
 define("SUBDIR", "podtube/src/");
 /** Add server key here */
@@ -13,7 +13,7 @@ define("GOOGLE_API_KEY", "****");
 /** Set the directory where you want to download the thumbnails, videos, and audio. This must be publicly accessible */
 define("DOWNLOAD_PATH", "temp");
 /** Set to true if your server is setup for HTTPS (highly recommended); */
-define("SessionCookieSecure", true);
+define("SESSION_COOKIE_SECURE", true);
 /** Set the from and reply-to field of all emails sent from AudioDidact.
  * EX: "\"AudioDidact Administrator\"<michael@mikedombrowski.com>"
  */

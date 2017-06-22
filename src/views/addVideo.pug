@@ -16,7 +16,7 @@ block content
         div(style="margin-top:10px;").progress
             div(role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%; height:25px;").d-flex.justify-content-center.progress-bar.progress-bar-animated.align-middle#progress-stage
         div.pt-2
-            button(onclick="ajax_stream();" class="btn-success btn btn-block-xs-only") Add Content To Feed
+            button(onclick="ajaxStream();" class="btn-success btn btn-block-xs-only") Add Content To Feed
             a(href="/#{subdir}?manual" class="btn-info btn ml-sm-5 btn-block-xs-only" role="button") Switch to Manual Mode
         style.
             @media(max-width: 575px){.btn-block-xs-only{display: block;width: 100%;margin-bottom: .25rem;}}

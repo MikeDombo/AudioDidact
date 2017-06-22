@@ -1,6 +1,6 @@
 <?php
 $globals = ["LOCAL_URL" => "https://localhost/podtube/src", "SUBDIR" => "podtube/src/", "GOOGLE_API_KEY" => "****",
-	"DOWNLOAD_PATH" => "temp", "SessionCookieSecure" => true,
+	"DOWNLOAD_PATH" => "temp", "SESSION_COOKIE_SECURE" => true,
 	"EMAIL_FROM" => "\"AudioDidact Administrator\"<michael@mikedombrowski.com>",
 	"ChosenDAL" => "\\AudioDidact\\MySQLDAL", "DB_USER" => "root", "DB_PASSWORD" => "root",
 	"PDO_STR" => "mysql:host=mysql;dbname=podtube;charset=utf8", "CHECK_REQUIRED" => true];

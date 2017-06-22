@@ -35,7 +35,7 @@ if (session_status() == PHP_SESSION_NONE) {
 		"/",
 		parse_url(LOCAL_URL)["host"],
 		//HTTPS only
-		SessionCookieSecure,
+		SESSION_COOKIE_SECURE,
 		true
 	);
 	session_start();
@@ -126,8 +126,8 @@ if(CHECK_REQUIRED){
 
 function SRIChecksum($input) {
     $hash = hash('sha256', $input, true);
-    $hash_base64 = base64_encode($hash);
-    return "sha256-$hash_base64";
+    $hashBase64 = base64_encode($hash);
+    return "sha256-$hashBase64";
 }
 
 function userLogIn(\AudioDidact\User $user){
