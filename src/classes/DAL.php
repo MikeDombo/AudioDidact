@@ -12,43 +12,10 @@ abstract class DAL {
 	/**
 	 * Returns User class built from the database
 	 *
-	 * @param string $username
-	 * @return User
-	 */
-	abstract public function getUserByUsername($username);
-
-	/**
-	 * Returns User class built from the database
-	 *
-	 * @param string $email
-	 * @return User
-	 */
-	abstract public function getUserByEmail($email);
-
-	/**
-	 * Returns User class built from the database
-	 *
 	 * @param int $id
 	 * @return User
 	 */
 	abstract public function getUserByID($id);
-
-	/**
-	 * Returns User class built from the database
-	 *
-	 * @param string $webID
-	 * @return User
-	 */
-	abstract public function getUserByWebID($webID);
-
-	/**
-	 * Gets all the videos from the database in the user's current feed
-	 * limited by the max number of items the user has set
-	 *
-	 * @param User $user
-	 * @return mixed
-	 */
-	abstract public function getFeed(User $user);
 
 	/**
 	 * Gets all the videos from the database
@@ -115,7 +82,6 @@ abstract class DAL {
 	 */
 	abstract public function updateUserPassword(User $user);
 
-
 	/**
 	 * Updates only a user's email verification and password recovery codes in the database
 	 *
@@ -146,6 +112,15 @@ abstract class DAL {
 	}
 
 	/**
+	 * Gets all the videos from the database in the user's current feed
+	 * limited by the max number of items the user has set
+	 *
+	 * @param User $user
+	 * @return mixed
+	 */
+	abstract public function getFeed(User $user);
+
+	/**
 	 * Checks if a username is taken in the database
 	 *
 	 * @param string $username
@@ -159,6 +134,14 @@ abstract class DAL {
 
 		return false;
 	}
+
+	/**
+	 * Returns User class built from the database
+	 *
+	 * @param string $username
+	 * @return User
+	 */
+	abstract public function getUserByUsername($username);
 
 	/**
 	 * Checks if a webID is taken in the database
@@ -175,6 +158,14 @@ abstract class DAL {
 	}
 
 	/**
+	 * Returns User class built from the database
+	 *
+	 * @param string $webID
+	 * @return User
+	 */
+	abstract public function getUserByWebID($webID);
+
+	/**
 	 * Checks if an email is already in the database
 	 *
 	 * @param string $email
@@ -188,6 +179,14 @@ abstract class DAL {
 
 		return false;
 	}
+
+	/**
+	 * Returns User class built from the database
+	 *
+	 * @param string $email
+	 * @return User
+	 */
+	abstract public function getUserByEmail($email);
 
 	/**
 	 * Sets up any database necessary

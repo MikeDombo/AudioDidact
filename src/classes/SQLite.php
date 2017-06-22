@@ -8,34 +8,48 @@ namespace AudioDidact;
  */
 class SQLite extends MySQLDAL {
 	/**
-	 * Function to return a list of database tables
+	 * Correct layout of the user table
 	 *
-	 * @return array
+	 * @var array
 	 */
-	protected function getDatabaseTables(){
-		$p = parent::$PDO->prepare("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;");
-		$p->execute();
-		$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
-		$tables = [];
-		foreach($rows as $r){
-			$tables[] = array_values($r)[0];
-		}
-
-		return $tables;
-	}
+	protected $userCorrect = [
+		['cid' => '0', 'name' => 'ID', 'type' => 'INTEGER', 'notnull' => '1', 'dflt_value' => null, 'pk' => '1'],
+		['cid' => '1', 'name' => 'username', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '2', 'name' => 'password', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '3', 'name' => 'email', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '4', 'name' => 'firstname', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '5', 'name' => 'lastname', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '6', 'name' => 'gender', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '7', 'name' => 'webID', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '8', 'name' => 'feedText', 'type' => 'longtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '9', 'name' => 'feedLength', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '10', 'name' => 'feedDetails', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '11', 'name' => 'privateFeed', 'type' => 'tinyint(1)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '12', "name" => "emailVerified", "type" => "tinyint(1)", "notnull" => "1", "dflt_value" => "0", "pk" => "0"],
+		['cid' => '13', "name" => "emailVerificationCodes", "type" => "mediumtext", "notnull" => "0", "dflt_value" => null, "pk" => "0"],
+		['cid' => '14', "name" => "passwordRecoveryCodes", "type" => "mediumtext", "notnull" => "0", "dflt_value" => null, "pk" => "0"]
+	];
 
 	/**
-	 * Function to get layout of a specific table
+	 * Correct layout of the feed table
 	 *
-	 * @param $table string table to get layout of
-	 * @return array
+	 * @var array
 	 */
-	protected function describeTable($table){
-		$p = parent::$PDO->prepare("PRAGMA table_info([$table]);");
-		$p->execute();
-
-		return $p->fetchAll(\PDO::FETCH_ASSOC);
-	}
+	protected $feedCorrect = [
+		['cid' => '0', 'name' => 'ID', 'type' => 'INTEGER', 'notnull' => '1', 'dflt_value' => null, 'pk' => '1'],
+		['cid' => '1', 'name' => 'userID', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '2', 'name' => 'orderID', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '3', "name" => "filename", "type" => "mediumtext", "notnull" => "0", "dflt_value" => null, "pk" => "0"],
+		['cid' => '4', "name" => "thumbnailFilename", "type" => "mediumtext", "notnull" => "0", "dflt_value" => null, "pk" => "0"],
+		['cid' => '5', 'name' => 'URL', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '6', 'name' => 'videoID', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '7', 'name' => 'videoAuthor', 'type' => 'text', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '8', 'name' => 'description', 'type' => 'text', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '9', 'name' => 'videoTitle', 'type' => 'text', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
+		['cid' => '10', 'name' => 'duration', 'type' => 'int(11)', 'notnull' => '0', 'dflt_value' => 'null', 'pk' => '0'],
+		['cid' => '11', "name" => "isVideo", "type" => "tinyint(1)", "notnull" => "1", "dflt_value" => "0", "pk" => "0"],
+		['cid' => '12', 'name' => 'timeAdded', 'type' => 'timestamp', 'notnull' => '1', 'dflt_value' => 'CURRENT_TIMESTAMP', 'pk' => '0']
+	];
 
 	/**
 	 * Generate the tables in the current database
@@ -66,6 +80,36 @@ class SQLite extends MySQLDAL {
 		else if($code == 2){
 			$this->updateDBSchema();
 		}
+	}
+
+	/**
+	 * Function to return a list of database tables
+	 *
+	 * @return array
+	 */
+	protected function getDatabaseTables(){
+		$p = parent::$PDO->prepare("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;");
+		$p->execute();
+		$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
+		$tables = [];
+		foreach($rows as $r){
+			$tables[] = array_values($r)[0];
+		}
+
+		return $tables;
+	}
+
+	/**
+	 * Function to get layout of a specific table
+	 *
+	 * @param $table string table to get layout of
+	 * @return array
+	 */
+	protected function describeTable($table){
+		$p = parent::$PDO->prepare("PRAGMA table_info([$table]);");
+		$p->execute();
+
+		return $p->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -121,49 +165,5 @@ class SQLite extends MySQLDAL {
 
 		return $columnText;
 	}
-
-	/**
-	 * Correct layout of the user table
-	 *
-	 * @var array
-	 */
-	protected $userCorrect = [
-		['cid' => '0', 'name' => 'ID', 'type' => 'INTEGER', 'notnull' => '1', 'dflt_value' => null, 'pk' => '1'],
-		['cid' => '1', 'name' => 'username', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '2', 'name' => 'password', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '3', 'name' => 'email', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '4', 'name' => 'firstname', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '5', 'name' => 'lastname', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '6', 'name' => 'gender', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '7', 'name' => 'webID', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '8', 'name' => 'feedText', 'type' => 'longtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '9', 'name' => 'feedLength', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '10', 'name' => 'feedDetails', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '11', 'name' => 'privateFeed', 'type' => 'tinyint(1)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '12', "name" => "emailVerified", "type" => "tinyint(1)", "notnull" => "1", "dflt_value" => "0", "pk" => "0"],
-		['cid' => '13', "name" => "emailVerificationCodes", "type" => "mediumtext", "notnull" => "0", "dflt_value" => null, "pk" => "0"],
-		['cid' => '14', "name" => "passwordRecoveryCodes", "type" => "mediumtext", "notnull" => "0", "dflt_value" => null, "pk" => "0"]
-	];
-
-	/**
-	 * Correct layout of the feed table
-	 *
-	 * @var array
-	 */
-	protected $feedCorrect = [
-		['cid' => '0', 'name' => 'ID', 'type' => 'INTEGER', 'notnull' => '1', 'dflt_value' => null, 'pk' => '1'],
-		['cid' => '1', 'name' => 'userID', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '2', 'name' => 'orderID', 'type' => 'int(11)', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '3', "name" => "filename", "type" => "mediumtext", "notnull" => "0", "dflt_value" => null, "pk" => "0"],
-		['cid' => '4', "name" => "thumbnailFilename", "type" => "mediumtext", "notnull" => "0", "dflt_value" => null, "pk" => "0"],
-		['cid' => '5', 'name' => 'URL', 'type' => 'mediumtext', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '6', 'name' => 'videoID', 'type' => 'mediumtext', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '7', 'name' => 'videoAuthor', 'type' => 'text', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '8', 'name' => 'description', 'type' => 'text', 'notnull' => '0', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '9', 'name' => 'videoTitle', 'type' => 'text', 'notnull' => '1', 'dflt_value' => null, 'pk' => '0'],
-		['cid' => '10', 'name' => 'duration', 'type' => 'int(11)', 'notnull' => '0', 'dflt_value' => 'null', 'pk' => '0'],
-		['cid' => '11', "name" => "isVideo", "type" => "tinyint(1)", "notnull" => "1", "dflt_value" => "0", "pk" => "0"],
-		['cid' => '12', 'name' => 'timeAdded', 'type' => 'timestamp', 'notnull' => '1', 'dflt_value' => 'CURRENT_TIMESTAMP', 'pk' => '0']
-	];
 
 }

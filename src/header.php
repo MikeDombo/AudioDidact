@@ -1,35 +1,35 @@
 <?php
-require_once __DIR__.'/config.php';
+require_once __DIR__ . '/config.php';
 require __DIR__ . '/vendor/autoload.php';
 ini_set('max_execution_time', 1200);
 // Disable output buffering
-if (ob_get_level()){
-   ob_end_clean();
+if(ob_get_level()){
+	ob_end_clean();
 }
 
 spl_autoload_register(function($class){
 	$classes = explode("\\", $class);
 	$class = end($classes);
-	if(file_exists(__DIR__.'/'.$class.".php")){
-		require_once __DIR__.'/'.$class.'.php';
+	if(file_exists(__DIR__ . '/' . $class . ".php")){
+		require_once __DIR__ . '/' . $class . '.php';
 	}
-	else if(file_exists(__DIR__.'/classes/'.$class.".php")){
-		require_once __DIR__.'/classes/'.$class.'.php';
+	else if(file_exists(__DIR__ . '/classes/' . $class . ".php")){
+		require_once __DIR__ . '/classes/' . $class . '.php';
 	}
-	else if(file_exists(__DIR__.'/SupportedSites/'.$class.".php")){
-		require_once __DIR__.'/SupportedSites/'.$class.'.php';
+	else if(file_exists(__DIR__ . '/SupportedSites/' . $class . ".php")){
+		require_once __DIR__ . '/SupportedSites/' . $class . '.php';
 	}
-	else if(file_exists(__DIR__.'/Feeds/'.$class.".php")){
-		require_once __DIR__.'/Feeds/'.$class.'.php';
+	else if(file_exists(__DIR__ . '/Feeds/' . $class . ".php")){
+		require_once __DIR__ . '/Feeds/' . $class . '.php';
 	}
 	else{
-		error_log("Class ".$class." could not be found!");
+		error_log("Class " . $class . " could not be found!");
 	}
 });
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
 
-if (session_status() == PHP_SESSION_NONE) {
+if(session_status() == PHP_SESSION_NONE){
 	session_set_cookie_params(
 		2678400,
 		"/",
@@ -41,13 +41,13 @@ if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 // Update session cookie and push expiration into the future
-setcookie(session_name(), session_id(), time()+2678400, "/", session_get_cookie_params()["domain"],
+setcookie(session_name(), session_id(), time() + 2678400, "/", session_get_cookie_params()["domain"],
 	session_get_cookie_params()["secure"], session_get_cookie_params()["httponly"]);
 
 // Make download folder if it does not exist and write htaccess file to cache content
-if(!file_exists(__DIR__."/".DOWNLOAD_PATH)){
-	mkdir(__DIR__."/".DOWNLOAD_PATH);
-	file_put_contents(__DIR__."/".DOWNLOAD_PATH."/.htaccess", "<filesMatch \".(png|jpg|mp3|mp4)$\">
+if(!file_exists(__DIR__ . "/" . DOWNLOAD_PATH)){
+	mkdir(__DIR__ . "/" . DOWNLOAD_PATH);
+	file_put_contents(__DIR__ . "/" . DOWNLOAD_PATH . "/.htaccess", "<filesMatch \".(png|jpg|mp3|mp4)$\">
 	Header set Cache-Control \"max-age=604800, public\"
 	</filesMatch>");
 }
@@ -81,12 +81,13 @@ if(userIsLoggedIn()){
 if(!function_exists("setCheckRequired")){
 	/**
 	 * Sets the CHECK_REQUIRED flag in the config file
+	 *
 	 * @param bool $checkRequired
 	 */
 	function setCheckRequired($checkRequired){
-		$currentConfig = file_get_contents(__DIR__.'/config.php');
+		$currentConfig = file_get_contents(__DIR__ . '/config.php');
 		$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+.*\)/", "define(\"CHECK_REQUIRED\", $checkRequired)", $currentConfig);
-		file_put_contents(__DIR__.'/config.php', $newConfig);
+		file_put_contents(__DIR__ . '/config.php', $newConfig);
 	}
 }
 
@@ -104,7 +105,7 @@ if(CHECK_REQUIRED){
 			setCheckRequired("false");
 		}
 		else{
-			error_log("Database creation error, verifyDB output: ".$dal->verifyDB());
+			error_log("Database creation error, verifyDB output: " . $dal->verifyDB());
 		}
 	}
 	else if($nextStep == 2){
@@ -116,18 +117,19 @@ if(CHECK_REQUIRED){
 			setCheckRequired("false");
 		}
 		else{
-			error_log("Database updating error, verifyDB output: ".$dal->verifyDB());
+			error_log("Database updating error, verifyDB output: " . $dal->verifyDB());
 		}
 	}
 	else{
-		error_log("Unknown database error: ".$nextStep);
+		error_log("Unknown database error: " . $nextStep);
 	}
 }
 
-function SRIChecksum($input) {
-    $hash = hash('sha256', $input, true);
-    $hashBase64 = base64_encode($hash);
-    return "sha256-$hashBase64";
+function SRIChecksum($input){
+	$hash = hash('sha256', $input, true);
+	$hashBase64 = base64_encode($hash);
+
+	return "sha256-$hashBase64";
 }
 
 function userLogIn(\AudioDidact\User $user){
@@ -148,6 +150,7 @@ function userIsLoggedIn(){
 
 /**
  * Returns Pug (Jade) rendered HTML for a given view and options
+ *
  * @param $view string Name of Pug view to be rendered
  * @param $title string Title of the webpage
  * @param array $options Additional options needed to render the view
@@ -183,11 +186,13 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
 	$options = array_merge($initialOptions, $options);
 
 	$pug = new Pug\Pug(['prettyprint' => $prettyPrint]);
+
 	return $pug->render($view, $options);
 }
 
 /**
  * Returns the correct plural or singular form of the given word
+ *
  * @param $word String singular form of the word
  * @param $num int number of things the word is referring to
  * @return string correct form of the given word for the input number
@@ -198,37 +203,40 @@ function pluralize($word, $num){
 		return $word;
 	}
 	if(mb_substr($word, -1, 1) == "y" && !in_array(mb_substr($word, -2, 1), $vowels, true)){
-		return mb_substr($word, 0, mb_strlen($word)-1)."ies";
+		return mb_substr($word, 0, mb_strlen($word) - 1) . "ies";
 	}
 	else if(mb_substr($word, -1, 1) == "s" || mb_substr($word, -1, 1) == "o"){
-		return $word."es";
+		return $word . "es";
 	}
 	else{
-		return $word."s";
+		return $word . "s";
 	}
 }
 
 function stringListicle($list){
 	$returnString = "";
 	if(count($list) == 2){
-		return $list[0]." and ".$list[1];
+		return $list[0] . " and " . $list[1];
 	}
-	foreach($list as $i=>$item){
+	foreach($list as $i => $item){
 		if($i == count($list) - 1){
-			$returnString .= "and ".$item;
+			$returnString .= "and " . $item;
 		}
 		else{
-			$returnString .= $item.", ";
+			$returnString .= $item . ", ";
 		}
 	}
+
 	return $returnString;
 }
 
 /**
  * Makes a new DAL class based on values in config.php
+ *
  * @return \AudioDidact\DAL
  */
 function getDAL(){
 	$myDalClass = ChosenDAL;
+
 	return new $myDalClass(new \PDO(PDO_STR, DB_USER, DB_PASSWORD));
 }

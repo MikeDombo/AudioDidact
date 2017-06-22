@@ -3,7 +3,7 @@
 namespace AudioDidact;
 // Include RSS feed generation library and other classes that are used.
 require_once __DIR__ . "/../header.php";
-use \FeedWriter\RSS2;
+use FeedWriter\RSS2;
 
 /**
  * Class PodTube

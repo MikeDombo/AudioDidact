@@ -303,9 +303,9 @@ class MySQLDAL extends DAL {
 	 */
 	public function updateVideo(Video $vid, User $user){
 		try{
-			$p = parent::$PDO->prepare("UPDATE $this->feedTable SET videoAuthor = :videoAuthor,
-            description = :description, videoTitle = :videoTitle, duration = :duration, filename = :filename, 
-            thumbnailFilename = :thumbnailFilename, isVideo = :isVideo WHERE videoID = :videoID AND userID = :userID");
+			$p = parent::$PDO->prepare("UPDATE $this->feedTable SET videoAuthor = :videoAuthor,"
+				. "description = :description, videoTitle = :videoTitle, duration = :duration, filename = :filename,"
+				. "thumbnailFilename = :thumbnailFilename, isVideo = :isVideo WHERE videoID = :videoID AND userID = :userID");
 
 			$p->bindValue(":userID", $user->getUserID(), \PDO::PARAM_INT);
 			$p->bindValue(":videoID", $vid->getId(), \PDO::PARAM_STR);

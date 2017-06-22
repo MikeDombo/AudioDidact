@@ -105,12 +105,33 @@ class User {
 	}
 
 	/**
-	 * returns a dictionary in the form of ["code"=random, "expiration"=24hours from now]
+	 * Validates password for length
 	 *
-	 * @return array
+	 * @param $password
+	 * @return bool
 	 */
-	private function generateRandomCode(){
-		return ["code" => md5(uniqid(rand(), true)), "expiration" => time() + (60 * 60 * 24)];
+	public function validatePassword($password){
+		return mb_strlen($password) >= 6;
+	}
+
+	/**
+	 * Validates names and other strings using PHP FILTER_VALIDATE_EMAIL. Returns true if the string is valid
+	 *
+	 * @param $email
+	 * @return bool
+	 */
+	public function validateEmail($email){
+		return filter_var($email, FILTER_VALIDATE_EMAIL);
+	}
+
+	/**
+	 * Validates webID so it can only contain alphanumerics _,-,@, and $. Returns true if the string is valid
+	 *
+	 * @param $webID
+	 * @return bool
+	 */
+	public function validateWebID($webID){
+		return $webID == mb_ereg_replace("[^a-zA-Z0-9_\-~@\$]", "", $webID) && mb_strlen($webID) > 0;
 	}
 
 	/**
@@ -124,6 +145,25 @@ class User {
 		$this->emailVerificationCodes[] = $newRandomCode;
 
 		return $newRandomCode;
+	}
+
+	/**
+	 * returns a dictionary in the form of ["code"=random, "expiration"=24hours from now]
+	 *
+	 * @return array
+	 */
+	private function generateRandomCode(){
+		return ["code" => md5(uniqid(rand(), true)), "expiration" => time() + (60 * 60 * 24)];
+	}
+
+	/**
+	 * verifies that a given email verification code is valid for this user
+	 *
+	 * @param $c
+	 * @return bool
+	 */
+	public function verifyEmailVerificationCode($c){
+		return $this->verifyCodes($this->emailVerificationCodes, $c);
 	}
 
 	/**
@@ -141,16 +181,6 @@ class User {
 		}
 
 		return false;
-	}
-
-	/**
-	 * verifies that a given email verification code is valid for this user
-	 *
-	 * @param $c
-	 * @return bool
-	 */
-	public function verifyEmailVerificationCode($c){
-		return $this->verifyCodes($this->emailVerificationCodes, $c);
 	}
 
 	/**
@@ -219,16 +249,6 @@ class User {
 	}
 
 	/**
-	 * Validates names and other strings using PHP FILTER_VALIDATE_EMAIL. Returns true if the string is valid
-	 *
-	 * @param $email
-	 * @return bool
-	 */
-	public function validateEmail($email){
-		return filter_var($email, FILTER_VALIDATE_EMAIL);
-	}
-
-	/**
 	 * Validates names and other strings using PHP FILTER_SANITIZE_STRING. Returns true if the string is valid
 	 *
 	 * @param $name
@@ -236,26 +256,6 @@ class User {
 	 */
 	public function validateName($name){
 		return filter_var($name, FILTER_SANITIZE_STRING) == $name;
-	}
-
-	/**
-	 * Validates webID so it can only contain alphanumerics _,-,@, and $. Returns true if the string is valid
-	 *
-	 * @param $webID
-	 * @return bool
-	 */
-	public function validateWebID($webID){
-		return $webID == mb_ereg_replace("[^a-zA-Z0-9_\-~@\$]", "", $webID) && mb_strlen($webID) > 0;
-	}
-
-	/**
-	 * Validates password for length
-	 *
-	 * @param $password
-	 * @return bool
-	 */
-	public function validatePassword($password){
-		return mb_strlen($password) >= 6;
 	}
 
 	/**
@@ -281,6 +281,27 @@ class User {
 
 			return $result;
 		}
+	}
+
+	/**
+	 * Gets hashed password
+	 *
+	 * @return mixed
+	 */
+	public function getPasswd(){
+		return $this->passwd;
+	}
+
+	/**
+	 * Sets hashed password using plaintext password and username
+	 *
+	 * @param string $passwd
+	 * @throws \Exception Username must be set before setting the password because the password is stored as a hash of
+	 *     the plaintext password and the username
+	 */
+	public function setPasswd($passwd){
+		$options = ['cost' => 12];
+		$this->passwd = password_hash($passwd, PASSWORD_BCRYPT, $options);
 	}
 
 	/**
@@ -413,27 +434,6 @@ class User {
 	 */
 	public function setWebID($webID){
 		$this->webID = $webID;
-	}
-
-	/**
-	 * Gets hashed password
-	 *
-	 * @return mixed
-	 */
-	public function getPasswd(){
-		return $this->passwd;
-	}
-
-	/**
-	 * Sets hashed password using plaintext password and username
-	 *
-	 * @param string $passwd
-	 * @throws \Exception Username must be set before setting the password because the password is stored as a hash of
-	 *     the plaintext password and the username
-	 */
-	public function setPasswd($passwd){
-		$options = ['cost' => 12];
-		$this->passwd = password_hash($passwd, PASSWORD_BCRYPT, $options);
 	}
 
 	/**

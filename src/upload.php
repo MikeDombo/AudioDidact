@@ -2,7 +2,7 @@
 
 namespace AudioDidact;
 require_once "header.php";
-$output_dir = DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
+$outputDir = DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
 
 // Set some important constants/ini
 ignore_user_abort(true);
@@ -39,19 +39,19 @@ if(isset($_FILES["yt"])){
 			echo json_encode(['error' => 'Unsupported Extension!']);
 			exit(1);
 		}
-		move_uploaded_file($_FILES["yt"]["tmp_name"], $output_dir . $_FILES["yt"]["name"]);
-		$generatedID = hash_file("sha256", $output_dir . $_FILES["yt"]["name"]);
-		rename($output_dir . $_FILES["yt"]["name"], $output_dir . $generatedID . "." . $extension);
+		move_uploaded_file($_FILES["yt"]["tmp_name"], $outputDir . $_FILES["yt"]["name"]);
+		$generatedID = hash_file("sha256", $outputDir . $_FILES["yt"]["name"]);
+		rename($outputDir . $_FILES["yt"]["name"], $outputDir . $generatedID . "." . $extension);
 
 		$thumbnailFilename = $generatedID . ".jpg";
 		// Save art from base64 encoded data
 		if(mb_strpos($_POST["art"], "data:image") > -1){
-			$thumbnailFilename = save_base64_image($_POST["art"], $generatedID, $output_dir);
+			$thumbnailFilename = saveBase64Image($_POST["art"], $generatedID, $outputDir);
 		}
 		// Save art from URL
 		else{
 			$content = file_get_contents($_POST["art"]);
-			$fp = fopen($output_dir . $generatedID . ".jpg", "w");
+			$fp = fopen($outputDir . $generatedID . ".jpg", "w");
 			fwrite($fp, $content);
 			fclose($fp);
 		}
@@ -93,21 +93,21 @@ if(isset($_FILES["yt"])){
 /**
  * Saves a given base64 encoded image to a jpg file
  *
- * @param $base64_image_string string base64 encoded image
- * @param $output_file_without_ext string output filename without an extension specified
- * @param $path_with_end_slash string path of where to save the file without a trailing slash
+ * @param $base64ImageString string base64 encoded image
+ * @param $outputFileNoExt string output filename without an extension specified
+ * @param $pathEndSlash string path of where to save the file without a trailing slash
  * @return string Full filename that was written into
  */
-function save_base64_image($base64_image_string, $output_file_without_ext, $path_with_end_slash){
-	$splited = explode(',', mb_substr($base64_image_string, 5), 2);
+function saveBase64Image($base64ImageString, $outputFileNoExt, $pathEndSlash){
+	$splited = explode(',', mb_substr($base64ImageString, 5), 2);
 	$mime = $splited[0];
 	$data = $splited[1];
-	$output_file_with_ext = $output_file_without_ext;
+	$outputFileWithExt = $outputFileNoExt;
 
-	$mime_split_without_base64 = explode(';', $mime, 2);
-	$mime_split = explode('/', $mime_split_without_base64[0], 2);
-	if(count($mime_split) == 2){
-		$extension = $mime_split[1];
+	$mimeSplitWithoutBase64 = explode(';', $mime, 2);
+	$mimeSplit = explode('/', $mimeSplitWithoutBase64[0], 2);
+	if(count($mimeSplit) == 2){
+		$extension = $mimeSplit[1];
 		if($extension == 'jpeg'){
 			$extension = 'jpg';
 		}
@@ -115,9 +115,9 @@ function save_base64_image($base64_image_string, $output_file_without_ext, $path
 			$extension = "png";
 		}
 
-		$output_file_with_ext .= '.' . $extension;
+		$outputFileWithExt .= '.' . $extension;
 	}
-	file_put_contents($path_with_end_slash . $output_file_with_ext, base64_decode($data));
+	file_put_contents($pathEndSlash . $outputFileWithExt, base64_decode($data));
 
-	return $output_file_with_ext;
+	return $outputFileWithExt;
 }
