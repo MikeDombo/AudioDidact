@@ -139,7 +139,7 @@ else{
 					$edit = false;
 				}
 				require_once "userPageGenerator.php";
-				if(isset($_GET["verifyEmail"]) && $edit){
+				if(isset($_GET["verifyEmail"])){
 					echo makeUserPage($webID, $edit, $_GET["verifyEmail"]);
 				}
 				else{

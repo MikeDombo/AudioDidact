@@ -15,7 +15,13 @@ if(file_exists($configFile)){
 	require($configFile);
 	foreach($globals as $k => $v){
 		if(!defined($k)){
-			file_put_contents($configFile, "\r\ndefine(\"$k\", \"$v\");\r\n", FILE_APPEND);
+			if(is_bool($v)){
+				$v = $v ? "true" : "false";
+				file_put_contents($configFile, "\r\ndefine(\"$k\", $v);\r\n", FILE_APPEND);
+			}
+			else{
+				file_put_contents($configFile, "\r\ndefine(\"$k\", \"$v\");\r\n", FILE_APPEND);
+			}
 		}
 	}
 	if(defined("CHECK_REQUIRED") && !CHECK_REQUIRED){

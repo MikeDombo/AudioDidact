@@ -215,6 +215,12 @@ function pluralize($word, $num){
 
 function stringListicle($list){
 	$returnString = "";
+	if(count($list) == 0){
+		return $returnString;
+	}
+	if(count($list) == 1){
+		return $list[0];
+	}
 	if(count($list) == 2){
 		return $list[0] . " and " . $list[1];
 	}
