@@ -144,6 +144,7 @@ class YouTube extends SupportedSite {
 		$url = $this->getDownloadURL($this->video->getID());
 		if(mb_strpos($url, "Error:") > -1){
 			$this->echoErrorJSON($url);
+			error_log("$url");
 			throw new \Exception("Download Failed!");
 		}
 		try{
@@ -187,7 +188,7 @@ class YouTube extends SupportedSite {
 
 		$unmatchedBracketsCount = 0;
 		$index = 1;
-		$htmlArr = str_split($html);
+		$htmlArr = mb_str_split($html);
 		foreach($htmlArr as $i => $ch){
 			if($ch == "{"){
 				$unmatchedBracketsCount += 1;
@@ -202,6 +203,10 @@ class YouTube extends SupportedSite {
 		$offset = $index + $i;
 
 		$youtubeJSONData = json_decode(mb_substr($html, 0, $offset), true);
+		if($youtubeJSONData == null){
+			$this->echoErrorJSON("<h3>Download Failed</h3><h4>Unable to find JSON data from YouTube</h4>");
+			throw new \Exception("Download Failed!");
+		}
 
 		if(isset($youtubeJSONData["args"]["livestream"]) && $youtubeJSONData["args"]["livestream"] && (!isset($youtubeJSONData["args"]["url_encoded_fmt_stream_map"]) || $youtubeJSONData["args"]["url_encoded_fmt_stream_map"] == "")){
 			$this->echoErrorJSON("<h3>Download Failed</h3><h4>This URL is a livestream, try again when the stream has ended</h4>");
@@ -210,6 +215,8 @@ class YouTube extends SupportedSite {
 
 		if(!isset($youtubeJSONData["args"]["url_encoded_fmt_stream_map"]) || $youtubeJSONData["args"]["url_encoded_fmt_stream_map"] == ""){
 			$this->echoErrorJSON("<h3>Download Failed</h3><h4>Try again later</h4>");
+			error_log("Couldn't download ".$id." because could not find url_encoded_fmt_stream_map");
+			error_log(json_encode($youtubeJSONData));
 			throw new \Exception("Download Failed!");
 		}
 		$encodedStreamMap = $youtubeJSONData["args"]["url_encoded_fmt_stream_map"];
