@@ -1,6 +1,8 @@
 <?php
 
 namespace AudioDidact;
+use AudioDidact\SupportedSites\SupportedSite;
+
 require_once __DIR__ . "/header.php";
 
 // Set some important constants/ini
@@ -59,6 +61,7 @@ if(isset($_GET["yt"])){
 		}
 	}
 	catch(\Exception $e){
+		SupportedSite::echoErrorJSON($e->getMessage());
 		exit();
 	}
 
@@ -110,20 +113,25 @@ function checkFilesExist(DAL $dal, User $user){
  * @return \AudioDidact\SupportedSites\SupportedSite
  */
 function getSupportedSiteClass($url, $id, $isVideo){
-	if(mb_strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
-		return new SupportedSites\YouTube($id, $isVideo);
+	try{
+		if(mb_strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
+			return new SupportedSites\YouTube($id, $isVideo);
+		}
+		else if(mb_strpos($url, "crtv.com") > -1){
+			return new SupportedSites\CRTV($url, $isVideo);
+		}
+		else if(mb_strpos($url, "soundcloud.com") > -1){
+			return new SupportedSites\SoundCloud($url, $isVideo);
+		}
+		else if(mb_strlen($id) == 64){
+			return null;
+		}
+		else{
+			error_log("Could not find route for URL: " . $url . " or ID: " . $id);
+		}
 	}
-	else if(mb_strpos($url, "crtv.com") > -1){
-		return new SupportedSites\CRTV($url, $isVideo);
-	}
-	else if(mb_strpos($url, "soundcloud.com") > -1){
-		return new SupportedSites\SoundCloud($url, $isVideo);
-	}
-	else if(mb_strlen($id) == 64){
-		return null;
-	}
-	else{
-		error_log("Could not find route for URL: " . $url . " or ID: " . $id);
+	catch(\Exception $e){
+		throw $e;
 	}
 
 	echo json_encode(['stage' => -1, 'error' => "Could not find a class to download from that URL.", 'progress' => 0]);

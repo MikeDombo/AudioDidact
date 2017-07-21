@@ -7,6 +7,7 @@ use AudioDidact\Video;
 class SoundCloud extends SupportedSite {
 	// Setup global variables
 	private $streamsBaseURL = "https://api.soundcloud.com/tracks/XYZ/streams?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z";
+	private $invalidURLMessage = "Invalid SoundCloud URL Entered.<br/>Valid URLs look like https://soundcloud.com/user_name/xxxxxxxxxxxx";
 	private $thumbnailURL;
 	private $audioJSON;
 
@@ -23,7 +24,7 @@ class SoundCloud extends SupportedSite {
 		// If there is a URL/ID, continue
 		if($str != null){
 			if(!filter_var($str, FILTER_VALIDATE_URL) || !mb_strpos($str, "soundcloud")){
-				throw new \Exception("Soundcloud URL is invalid");
+				throw new \Exception($this->invalidURLMessage);
 			}
 			$this->video->setURL($str);
 			$this->video->setIsVideo(false);
@@ -31,7 +32,7 @@ class SoundCloud extends SupportedSite {
 			// Set video ID and time to current time
 			$info = $this->getVideoInfo($str);
 			if(!$info){
-				throw new \Exception("Soundcloud URL is invalid");
+				throw new \Exception($this->invalidURLMessage);
 			}
 			$this->video->setId($info["ID"]);
 			$this->video->setFilename($this->video->getId());
@@ -94,6 +95,9 @@ class SoundCloud extends SupportedSite {
 		}
 		$json = mb_substr($matches[1], 0, $i);
 		$this->audioJSON = json_decode($json, true);
+		if(empty($this->audioJSON)){
+			return false;
+		}
 
 		foreach($this->audioJSON as $a){
 			$a = $a["data"][0];

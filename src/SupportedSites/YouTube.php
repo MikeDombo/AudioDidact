@@ -44,8 +44,7 @@ class YouTube extends SupportedSite {
 				$key), true);
 			// If the lookup fails, send this error to the UI as a JSON array
 			if(!isset($info['items'][0]['snippet'])){
-				$this->echoErrorJSON("ID Inaccessible");
-				throw new \Exception("Download Failed!");
+				throw new \Exception("ID Inaccessible");
 			}
 			$info = $info['items'][0]['snippet'];
 			$this->video->setTitle($info["title"]);
@@ -66,12 +65,10 @@ class YouTube extends SupportedSite {
 		$tmpId = $this->parseYoutubeURL($str);
 		$vidId = ($tmpId !== false) ? $tmpId : $str;
 		if(mb_strpos($vidId, "/playlist") > -1){
-			$this->echoErrorJSON("URL is a playlist. AudioDidact does not currently support playlists.");
-			throw new \Exception("Cannot download playlist");
+			throw new \Exception("URL is a playlist. AudioDidact does not currently support playlists.");
 		}
 		if(mb_strpos($vidId, "/c/") > -1 || strpos($vidId, "/channel/") > -1 || strpos($vidId, "/user/") > -1){
-			$this->echoErrorJSON("URL is a channel. AudioDidact does not, and likely will not ever, support downloading of channels.");
-			throw new \Exception("Cannot download channel");
+			throw new \Exception("URL is a channel. AudioDidact does not, and likely will not ever, support downloading of channels.");
 		}
 		$url = sprintf($this->YouTubeBaseURL . "watch?v=%s", $vidId);
 		// Get HTTP status of the video url and make sure that it is
@@ -143,9 +140,8 @@ class YouTube extends SupportedSite {
 
 		$url = $this->getDownloadURL($this->video->getID());
 		if(mb_strpos($url, "Error:") > -1){
-			$this->echoErrorJSON($url);
 			error_log("$url");
-			throw new \Exception("Download Failed!");
+			throw new \Exception($url);
 		}
 		try{
 			/* Actually download the video from the url and print the
@@ -204,20 +200,17 @@ class YouTube extends SupportedSite {
 
 		$youtubeJSONData = json_decode(mb_substr($html, 0, $offset), true);
 		if($youtubeJSONData == null){
-			$this->echoErrorJSON("<h3>Download Failed</h3><h4>Unable to find JSON data from YouTube</h4>");
-			throw new \Exception("Download Failed!");
+			throw new \Exception("<h3>Download Failed</h3><h4>Unable to find JSON data from YouTube</h4>");
 		}
 
 		if(isset($youtubeJSONData["args"]["livestream"]) && $youtubeJSONData["args"]["livestream"] && (!isset($youtubeJSONData["args"]["url_encoded_fmt_stream_map"]) || $youtubeJSONData["args"]["url_encoded_fmt_stream_map"] == "")){
-			$this->echoErrorJSON("<h3>Download Failed</h3><h4>This URL is a livestream, try again when the stream has ended</h4>");
-			throw new \Exception("Download Failed!");
+			throw new \Exception("<h3>Download Failed</h3><h4>This URL is a livestream, try again when the stream has ended</h4>");
 		}
 
 		if(!isset($youtubeJSONData["args"]["url_encoded_fmt_stream_map"]) || $youtubeJSONData["args"]["url_encoded_fmt_stream_map"] == ""){
-			$this->echoErrorJSON("<h3>Download Failed</h3><h4>Try again later</h4>");
 			error_log("Couldn't download ".$id." because could not find url_encoded_fmt_stream_map");
 			error_log(json_encode($youtubeJSONData));
-			throw new \Exception("Download Failed!");
+			throw new \Exception("<h3>Download Failed</h3><h4>Try again later</h4>");
 		}
 		$encodedStreamMap = $youtubeJSONData["args"]["url_encoded_fmt_stream_map"];
 		$dct = [];
@@ -314,9 +307,8 @@ class YouTube extends SupportedSite {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		$data = curl_exec($ch);
 		if($data === false){
-			$this->echoErrorJSON("Download failed, URL tried was " . $url . "\n" . 'cURL error (' . curl_errno($ch) . '): '
+			throw new \Exception("Download failed, URL tried was " . $url . "\n" . 'cURL error (' . curl_errno($ch) . '): '
 				. curl_error($ch));
-			throw new \Exception("Download Failed!");
 		}
 		curl_close($ch);
 

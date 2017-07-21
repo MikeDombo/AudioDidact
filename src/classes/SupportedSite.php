@@ -69,7 +69,7 @@ abstract class SupportedSite {
 		return $this->video;
 	}
 
-	protected function echoErrorJSON($message){
+	public static function echoErrorJSON($message){
 		echo json_encode(['stage' => -1, 'progress' => 0, 'error' => $message]);
 	}
 }
