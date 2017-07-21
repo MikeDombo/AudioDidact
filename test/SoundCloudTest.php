@@ -30,7 +30,7 @@ class SoundCloudTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Soundcloud URL is invalid
+	 * @expectedExceptionMessage Invalid SoundCloud URL Entered.
 	 */
 	public function testNonSoundCloudURL(){
 		$sc = new SoundCloud("http://youtube.com/watch?v=12345678911", false);
@@ -38,7 +38,7 @@ class SoundCloudTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Soundcloud URL is invalid
+	 * @expectedExceptionMessage Invalid SoundCloud URL Entered.
 	 */
 	public function testBadURL(){
 		$sc = new SoundCloud("http://soundcloud.com/ravishouse/", false);

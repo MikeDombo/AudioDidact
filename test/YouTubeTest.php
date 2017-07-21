@@ -53,7 +53,7 @@ class YouTubeTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Download Failed!
+	 * @expectedExceptionMessage ID Inaccessible
 	 */
 	public function testBadID1(){
 		$yt1 = new YouTube("aaaaaaaaaaa" ,true);
@@ -61,7 +61,7 @@ class YouTubeTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Download Failed!
+	 * @expectedExceptionMessage ID Inaccessible
 	 */
 	public function testBadID2(){
 		$yt1 = new YouTube("aaaaaaa" ,true);
@@ -71,7 +71,7 @@ class YouTubeTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Download Failed!
+	 * @expectedExceptionMessage ID Inaccessible
 	 */
 	public function testBadID3(){
 		$yt1 = new YouTube("aaaaaaaaaaa" ,false);
@@ -80,7 +80,7 @@ class YouTubeTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Download Failed!
+	 * @expectedExceptionMessage ID Inaccessible
 	 */
 	public function testBadID4(){
 		$yt1 = new YouTube("aaaaaaa" ,false);
@@ -88,7 +88,7 @@ class YouTubeTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Cannot download playlist
+	 * @expectedExceptionMessage URL is a playlist. AudioDidact does not currently support playlists
 	 */
 	public function testPlaylist(){
 		new YouTube("https://www.youtube.com/playlist?list=PL96C35uN7xGK_y459BdHCtGeftqs5_nff" ,false);
@@ -96,7 +96,7 @@ class YouTubeTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Cannot download channel
+	 * @expectedExceptionMessage URL is a channel
 	 */
 	public function testChannel1(){
 		new YouTube("https://www.youtube.com/user/enyay" ,false);
@@ -105,7 +105,7 @@ class YouTubeTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Cannot download channel
+	 * @expectedExceptionMessage URL is a channel
 	 */
 	public function testChannel2(){
 		new YouTube("https://www.youtube.com/channel/UCCBVCTuk6uJrN3iFV_3vurg" ,false);
@@ -113,7 +113,7 @@ class YouTubeTest extends TestCase{
 
 	/**
 	 * @expectedException \Exception
-	 * @expectedExceptionMessage Cannot download channel
+	 * @expectedExceptionMessage URL is a channel
 	 */
 	public function testChannel3(){
 		new YouTube("https://www.youtube.com/c/ted" ,false);
