@@ -3,7 +3,8 @@
 
 
 # AudioDidact
-Makes an RSS podcast feed from given YouTube, SoundCloud, and CRTV URLs. Also supports manually uploading audio or video, setting the metadata, and uploading album art. 
+Makes an RSS podcast feed from given YouTube, Vimeo, SoundCloud, and CRTV URLs. Also supports manually uploading audio
+ or video, setting the metadata, and uploading album art. 
 
 # Get Started Immediately
 To get started immediately, make an account [https://ytpod.mikedombrowski.com](https://ytpod.mikedombrowski.com), add content, and subscribe to the generated feed with your favorite podcast player.
@@ -40,6 +41,7 @@ PHP API documentation is available [here](https://md100play.github.io/AudioDidac
 - More statistics. Possibly a GitHub style punchcard.
 
 ## Completed Tasks
+- Add Vimeo support
 - Easier updating using config-update.php
 - Enable choice between audio and video download
 - Add manual upload

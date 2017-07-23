@@ -2,7 +2,7 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:pu="http://schema.phpunit.de/coverage/1.0" lang="en">
   <head>
-    <title>phpDox - AudioDidact\SupportedSites\YouTube::convert</title>
+    <title>phpDox - AudioDidact\SupportedSites\SupportedSite::downloadWithPercentage</title>
     <link rel="stylesheet" type="text/css" href="../../css/style.css" media="screen"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   </head>
@@ -39,9 +39,9 @@
             <a href="../../classes.html#AudioDidact_SupportedSites">AudioDidact\SupportedSites</a>
           </li>
           <li class="separator">
-            <a title="AudioDidact\SupportedSites\YouTube" href="../../classes/AudioDidact_SupportedSites_YouTube.html">YouTube</a>
+            <a title="AudioDidact\SupportedSites\SupportedSite" href="../../classes/AudioDidact_SupportedSites_SupportedSite.html">SupportedSite</a>
           </li>
-          <li class="separator">convert</li>
+          <li class="separator">downloadWithPercentage</li>
         </ul>
       </div>
       <nav class="box">
@@ -53,31 +53,58 @@
             <a href="#synopsis">Synopsis</a>
           </li>
           <li>
-            <a href="#overrides">Overrides</a>
+            <a href="#parameter">Parameter</a>
           </li>
           <li>
-            <a href="../../source/SupportedSites/YouTube.php.html#line356">Source</a>
+            <a href="#return">Return</a>
+          </li>
+          <li>
+            <a href="#throws">Throws</a>
+          </li>
+          <li>
+            <a href="../../source/classes/SupportedSite.php.html#line169">Source</a>
           </li>
         </ul>
       </nav>
       <section>
-        <h1><small>AudioDidact\SupportedSites\YouTube::</small>convert</h1>
-        <h4>Converts mp4 video to mp3 audio using ffmpeg</h4>
+        <h1><small>AudioDidact\SupportedSites\SupportedSite::</small>downloadWithPercentage</h1>
+        <h4>Download the video to $localFile with a given $url While downloading output progress to UI as JSON array</h4>
         <p/>
         <ul/>
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
-          <code>public function convert()
+          <code>protected function downloadWithPercentage(
+        $url,
+            
+        $localFile )
             </code>
         </div>
-        <h2 id="overrides">Parent Implementation</h2>
-        <ul class="styled">
-          <li>
+        <h2 id="parameterlist">Parameters</h2>
+        <dl class="styled">
+          <dt><code>$url</code>
+                —
+                </dt>
+          <dd/>
+          <dt><code>$localFile</code>
+                —
+                </dt>
+          <dd/>
+        </dl>
+        <h2 id="return">Returns</h2>
+        <dl class="styled">
+          <dt>bool</dt>
+          <dd><br/>
+        </dd>
+        </dl>
+        <h2 id="throws">Errors/Exceptions</h2>
+        <dl class="styled">
+          <dt>
             <code>
-              <a title="AudioDidact\SupportedSites\SupportedSite" href="../../classes/AudioDidact_SupportedSites_SupportedSite/convert.html">SupportedSite</a>
+              <a title="\Exception" href="../../classes/_Exception.html">Exception</a>
             </code>
-          </li>
-        </ul>
+          </dt>
+          <dd/>
+        </dl>
       </section>
     </div>
     <footer>

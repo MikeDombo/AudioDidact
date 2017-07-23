@@ -49,8 +49,15 @@ if(isset($_FILES["yt"])){
 			$thumbnailFilename = saveBase64Image($_POST["art"], $generatedID, $outputDir);
 		}
 		// Save art from URL
-		else{
+		else if(!empty($_POST["art"])){
 			$content = file_get_contents($_POST["art"]);
+			$fp = fopen($outputDir . $generatedID . ".jpg", "w");
+			fwrite($fp, $content);
+			fclose($fp);
+		}
+		// If no art is provided, use "no image available" from wikimedia
+		else{
+			$content = file_get_contents("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png");
 			$fp = fopen($outputDir . $generatedID . ".jpg", "w");
 			fwrite($fp, $content);
 			fclose($fp);

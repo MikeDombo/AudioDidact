@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>phpDox - AudioDidact\SupportedSites\Vimeo</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css" media="screen"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  </head>
+  <body>
+    <nav class="topnav">
+      <ul>
+        <li>
+          <div class="logo"><span>/**</span>phpDox</div>
+        </li>
+        <li class="separator">
+          <a href="../index.html">Overview</a>
+        </li>
+        <li class="separator">
+          <a href="../namespaces.html">Namespaces</a>
+        </li>
+        <li>
+          <a href="../classes.html">Classes</a>
+        </li>
+        <li class="separator">
+          <a href="../source/index.html">Source</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="mainstage">
+      <div class="box">
+        <ul class="breadcrumb">
+          <li>
+            <a href="../index.html">Overview</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html">Classes</a>
+          </li>
+          <li class="separator">
+            <a href="../classes.html#AudioDidact_SupportedSites">AudioDidact\SupportedSites</a>
+          </li>
+          <li class="separator">Vimeo</li>
+        </ul>
+      </div>
+      <nav class="box">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#synopsis">Synopsis</a>
+          </li>
+          <li>
+            <a href="#hierarchy">Hierarchy</a>
+          </li>
+          <li>
+            <a href="#members">Members</a>
+          </li>
+          <li>
+            <a href="#methods">Methods</a>
+          </li>
+          <li>
+            <a href="#history">History</a>
+          </li>
+          <li>
+            <a href="../source/SupportedSites/Vimeo.php.html#line12">Source</a>
+          </li>
+        </ul>
+      </nav>
+      <section>
+        <h1 id="introduction"><small>AudioDidact\SupportedSites\</small>Vimeo</h1>
+        <h4/>
+        <p/>
+        <h2 id="synopsis">Synopsis</h2>
+        <div class="synopsis">class Vimeo
+                extends <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite.html">SupportedSite</a>
+            {<br/><ul class="none"><li>// members</li><li>private string <a href="#members">$vimeoConfigBaseURL</a> =
+                        "https://player.vimeo.com/video/";
+                    </li><li>private string <a href="#members">$vimeoBaseURL</a> =
+                        "https://vimeo.com/";
+                    </li><li>private string <a href="#members">$downloadURL</a> =
+                        "";
+                    </li><li>private string <a href="#members">$thumbnailURL</a> =
+                        "";
+                    </li></ul><ul class="none"><li>// Inherited members from <span title="AudioDidact\SupportedSites\SupportedSite">SupportedSite</span></li><li>protected <span title="\AudioDidact\Video">Video</span> <a href="#members">$video</a>;
+                        </li></ul><ul class="none"><li>// methods</li><li>public void <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/__construct.html">__construct</a>()
+                    </li><li>private void <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/getInfo.html">getInfo</a>()
+                    </li><li>private bool <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/setVimeoID.html">setVimeoID</a>()
+                    </li><li>public void <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/downloadThumbnail.html">downloadThumbnail</a>()
+                    </li><li>public void <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/downloadVideo.html">downloadVideo</a>()
+                    </li></ul><ul class="none"><li>// Inherited methods from <span title="AudioDidact\SupportedSites\SupportedSite">SupportedSite</span></li><li>public static bool|string <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDuration.html">getDuration</a>()
+                        </li><li>public static bool|string <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDurationSeconds.html">getDurationSeconds</a>()
+                        </li><li>public bool <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded</a>()
+                        </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadThumbnail.html">downloadThumbnail</a>()
+                        </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadVideo.html">downloadVideo</a>()
+                        </li><li>public void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/convert.html">convert</a>()
+                        </li><li>protected bool <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadWithPercentage.html">downloadWithPercentage</a>()
+                        </li><li>public Video <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getVideo.html">getVideo</a>()
+                        </li><li>public static void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/echoErrorJSON.html">echoErrorJSON</a>()
+                        </li></ul>
+
+            }<br/></div>
+        <h2 id="hierarchy">Hierarchy</h2>
+        <div class="styled">
+          <h4>Extends</h4>
+          <ul>
+            <li>
+              <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite.html">AudioDidact\SupportedSites\SupportedSite</a>
+            </li>
+          </ul>
+        </div>
+        <h2 id="members">Members</h2>
+        <div class="styled members">
+          <h4>private</h4>
+          <ul class="members">
+            <li id="downloadURL">
+              <strong>$downloadURL</strong>
+            </li>
+            <li id="thumbnailURL">
+              <strong>$thumbnailURL</strong>
+            </li>
+            <li id="vimeoBaseURL">
+              <strong>$vimeoBaseURL</strong>
+            </li>
+            <li id="vimeoConfigBaseURL"><strong>$vimeoConfigBaseURL</strong>
+                —
+                string</li>
+          </ul>
+          <h4>protected</h4>
+          <ul class="members">
+            <li id="video"><strong>$video</strong>
+                —
+                <a title="\AudioDidact\Video" href="../classes/_AudioDidact_Video.html">\AudioDidact\Video</a></li>
+          </ul>
+        </div>
+        <h2 id="methods">Methods</h2>
+        <div class="styled">
+          <h4>private</h4>
+          <ul>
+            <li id="getInfo">
+              <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/getInfo.html">getInfo()</a>
+            </li>
+            <li id="setVimeoID"><a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/setVimeoID.html">setVimeoID()</a>
+                — Set YouTube ID from a given string using parseYoutubeURL</li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="__construct"><a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/__construct.html">__construct()</a>
+                — YouTube constructor. Gets the video information, checks for it in the user's feed.</li>
+            <li id="downloadThumbnail"><a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/downloadThumbnail.html">downloadThumbnail()</a>
+                — Download thumbnail using videoID from YouTube's image server</li>
+            <li id="downloadVideo"><a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/downloadVideo.html">downloadVideo()</a>
+                — Download video using download URL from Python script and then call downloadWithPercentage to actually download the video</li>
+          </ul>
+          <h3>Inherited from <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite.html">AudioDidact\SupportedSites\SupportedSite</a></h3>
+          <h4>protected</h4>
+          <ul>
+            <li id="downloadWithPercentage"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadWithPercentage.html">downloadWithPercentage()</a>
+                — Download the video to $localFile with a given $url While downloading output progress to UI as JSON array</li>
+          </ul>
+          <h4>public</h4>
+          <ul>
+            <li id="allDownloaded"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded()</a>
+                — Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)</li>
+            <li id="convert"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/convert.html">convert()</a>
+                — Converts mp4 video to mp3 audio using ffmpeg</li>
+            <li id="downloadThumbnail">
+              <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadThumbnail.html">downloadThumbnail()</a>
+            </li>
+            <li id="downloadVideo">
+              <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadVideo.html">downloadVideo()</a>
+            </li>
+            <li id="echoErrorJSON">
+              <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/echoErrorJSON.html">echoErrorJSON()</a>
+            </li>
+            <li id="getDuration"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDuration.html">getDuration()</a>
+                — Get duration of media file from ffmpeg</li>
+            <li id="getDurationSeconds"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDurationSeconds.html">getDurationSeconds()</a>
+                — Get duration in seconds of media file from ffmpeg</li>
+            <li id="getVideo"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getVideo.html">getVideo()</a>
+                — Returns the current Video object</li>
+          </ul>
+        </div>
+        <h2 id="history">History</h2>
+        <ul class="styled history"/>
+      </section>
+    </div>
+    <footer>
+      <span>Generated using phpDox 0.9.0 - Copyright (C) 2010 - 2017 by Arne Blankerts</span>
+    </footer>
+  </body>
+</html>

@@ -123,6 +123,9 @@ function getSupportedSiteClass($url, $id, $isVideo){
 		else if(mb_strpos($url, "soundcloud.com") > -1){
 			return new SupportedSites\SoundCloud($url, $isVideo);
 		}
+		else if(mb_strpos($url, "vimeo.com") > -1){
+			return new SupportedSites\Vimeo($url, $isVideo);
+		}
 		else if(mb_strlen($id) == 64){
 			return null;
 		}

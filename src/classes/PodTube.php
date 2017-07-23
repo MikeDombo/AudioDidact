@@ -81,7 +81,7 @@ class PodTube {
 	 * @param $video Video
 	 * @return mixed
 	 */
-	private function addFeedItem($feed, $video){
+	private static function addFeedItem($feed, $video){
 		$title = $video->getTitle();
 		$author = $video->getAuthor();
 		$descr = $video->getDesc();
