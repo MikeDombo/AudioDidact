@@ -29,6 +29,7 @@ class MySQLDAL extends DAL {
 		try{
 			parent::$PDO = $pdo;
 			parent::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+			parent::$PDO->query("SET time_zone = \"+00:00\";");
 		}
 		catch(\PDOException $e){
 			echo 'ERROR: ' . $e->getMessage();
@@ -270,8 +271,8 @@ class MySQLDAL extends DAL {
 
 			// Add the new Video to the user's feed
 			$p = parent::$PDO->prepare("INSERT INTO $this->feedTable (userID, URL, videoID, videoAuthor, description,
-			videoTitle, duration, orderID, timeAdded, filename, thumbnailFilename, isVideo) VALUES (:userID,:url,:videoID,
-			:videoAuthor, :description, :videoTitle,:duration, :orderID, :time, :filename, :thumbnailFilename, :isVideo)");
+			videoTitle, duration, orderID, filename, thumbnailFilename, isVideo) VALUES (:userID,:url,:videoID,
+			:videoAuthor, :description, :videoTitle,:duration, :orderID, :filename, :thumbnailFilename, :isVideo)");
 			$p->bindValue(":userID", $user->getUserID(), \PDO::PARAM_INT);
 			$p->bindValue(":videoID", $vid->getId(), \PDO::PARAM_STR);
 			$p->bindValue(":url", $vid->getURL(), \PDO::PARAM_STR);
@@ -280,7 +281,6 @@ class MySQLDAL extends DAL {
 			$p->bindValue(":videoTitle", $vid->getTitle(), \PDO::PARAM_STR);
 			$p->bindValue(":duration", $vid->getDuration(), \PDO::PARAM_STR);
 			$p->bindValue(":orderID", $order, \PDO::PARAM_INT);
-			$p->bindValue(":time", date("Y-m-d H:i:s", time()), \PDO::PARAM_STR);
 			$p->bindValue(":filename", $vid->getFilename(), \PDO::PARAM_STR);
 			$p->bindValue(":thumbnailFilename", $vid->getThumbnailFilename(), \PDO::PARAM_STR);
 			$p->bindValue(":isVideo", $vid->isIsVideo(), \PDO::PARAM_BOOL);
