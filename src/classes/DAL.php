@@ -26,14 +26,6 @@ abstract class DAL {
 	abstract public function getFullFeedHistory(User $user);
 
 	/**
-	 * Gets the full text of the feed from the database
-	 *
-	 * @param User $user
-	 * @return string
-	 */
-	abstract public function getFeedText(User $user);
-
-	/**
 	 * Puts user into the database
 	 *
 	 * @param User $user

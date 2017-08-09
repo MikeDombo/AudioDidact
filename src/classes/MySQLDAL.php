@@ -14,20 +14,21 @@ class MySQLDAL extends DAL {
 	/** @var array|string SQL database table names */
 	protected $myDBTables;
 	/** @var  array|array array of the correct database table schemas keyed by table name */
-	private $correctSchemas;
+	protected $correctSchemas;
 
 	/**
 	 * MySQLDAL constructor.
 	 * Sets up parent's PDO object using the parameters that are passed in.
 	 *
-	 * @param \PDO $pdo
+	 * @param $pdoStr
+	 * @internal param \PDO $pdo
 	 */
-	public function __construct(\PDO $pdo){
+	public function __construct($pdoStr){
 		$this->myDBTables = [$this->userTable, $this->feedTable];
 		$this->correctSchemas = [$this->userTable => $this->userCorrect, $this->feedTable => $this->feedCorrect];
 
 		try{
-			parent::$PDO = $pdo;
+			parent::$PDO = new \PDO($pdoStr, DB_USER, DB_PASSWORD);
 			parent::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 			parent::$PDO->query("SET time_zone = \"+00:00\";");
 		}
@@ -326,26 +327,6 @@ class MySQLDAL extends DAL {
 		}
 	}
 
-	/**
-	 * Gets full xml feed text from database
-	 *
-	 * @param User $user
-	 * @return mixed
-	 * @throws \PDOException
-	 */
-	public function getFeedText(User $user){
-		try{
-			$p = parent::$PDO->prepare("SELECT feedText FROM $this->userTable WHERE id=:userid");
-			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
-			$p->execute();
-
-			return $p->fetchAll(\PDO::FETCH_ASSOC)[0]["feedText"];
-		}
-		catch(\PDOException $e){
-			echo "ERROR: " . $e->getMessage();
-			throw $e;
-		}
-	}
 
 	/**
 	 * Returns an array of YouTube IDs that are in the feed
@@ -510,7 +491,7 @@ class MySQLDAL extends DAL {
 	 * @param $c array dictionary representing a column's correct schema
 	 * @return string
 	 */
-	private function makeColumnSQL($c){
+	protected function makeColumnSQL($c){
 		$columnText = "`" . $c["Field"] . "` " . $c["Type"];
 		if($c["Null"] == "NO"){
 			$columnText .= " NOT NULL";
@@ -577,8 +558,8 @@ class MySQLDAL extends DAL {
 				$alterSQL .= $this->makeAlterQuery([$tableName => $currentSchema],
 					[$tableName => $this->correctSchemas[$tableName]]);
 			}
-			$p = parent::$PDO->prepare($alterSQL);
-			$p->execute();
+
+			parent::$PDO->exec($alterSQL);
 		}
 		catch(\PDOException $e){
 			echo "Database update failed! " . $e->getMessage();
@@ -596,7 +577,7 @@ class MySQLDAL extends DAL {
 	 * values
 	 * @return string
 	 */
-	private function makeAlterQuery($currentTables, $correctTables){
+	protected function makeAlterQuery($currentTables, $correctTables){
 		$sql = "";
 		// Loop through the given tables
 		foreach($correctTables as $tableName => $table){

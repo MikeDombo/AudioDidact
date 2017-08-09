@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "cefc8bad75a12b1e6149b36c322af3ff",
+    "content-hash": "5a65593a7afcccd0589e058205e6a7af",
     "packages": [
         {
             "name": "js-phpize/js-phpize",
-            "version": "1.4.1",
+            "version": "1.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pug-php/js-phpize.git",
-                "reference": "04f1f092e4048b89f63a9b69d322b4c2b43a504c"
+                "reference": "7b1570d213d648676c2580e2cb470c0b062b7624"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pug-php/js-phpize/zipball/04f1f092e4048b89f63a9b69d322b4c2b43a504c",
-                "reference": "04f1f092e4048b89f63a9b69d322b4c2b43a504c",
+                "url": "https://api.github.com/repos/pug-php/js-phpize/zipball/7b1570d213d648676c2580e2cb470c0b062b7624",
+                "reference": "7b1570d213d648676c2580e2cb470c0b062b7624",
                 "shasum": ""
             },
             "require": {
@@ -44,20 +44,78 @@
                 }
             ],
             "description": "Convert js-like syntax to standalone PHP code.",
-            "time": "2017-05-31T09:23:06+00:00"
+            "time": "2017-07-22T22:45:44+00:00"
         },
         {
-            "name": "nodejs-php-fallback/nodejs-php-fallback",
-            "version": "1.2.8",
+            "name": "mongodb/mongodb",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kylekatarnls/nodejs-php-fallback.git",
-                "reference": "b7a1e744ec5ad3e642da2c5d20c6fc69047e4b37"
+                "url": "https://github.com/mongodb/mongo-php-library.git",
+                "reference": "a307dd60e71e1291c60927ea4f3a1905146063f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kylekatarnls/nodejs-php-fallback/zipball/b7a1e744ec5ad3e642da2c5d20c6fc69047e4b37",
-                "reference": "b7a1e744ec5ad3e642da2c5d20c6fc69047e4b37",
+                "url": "https://api.github.com/repos/mongodb/mongo-php-library/zipball/a307dd60e71e1291c60927ea4f3a1905146063f5",
+                "reference": "a307dd60e71e1291c60927ea4f3a1905146063f5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mongodb": "^1.2.0",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MongoDB\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Mikola",
+                    "email": "jmikola@gmail.com"
+                },
+                {
+                    "name": "Hannes Magnusson",
+                    "email": "bjori@mongodb.com"
+                },
+                {
+                    "name": "Derick Rethans",
+                    "email": "github@derickrethans.nl"
+                }
+            ],
+            "description": "MongoDB driver library",
+            "homepage": "https://jira.mongodb.org/browse/PHPLIB",
+            "keywords": [
+                "database",
+                "driver",
+                "mongodb",
+                "persistence"
+            ],
+            "time": "2017-02-16T18:40:32+00:00"
+        },
+        {
+            "name": "nodejs-php-fallback/nodejs-php-fallback",
+            "version": "1.2.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kylekatarnls/nodejs-php-fallback.git",
+                "reference": "e29adb2d6c712504f17fcaee33f60158cc4f711d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kylekatarnls/nodejs-php-fallback/zipball/e29adb2d6c712504f17fcaee33f60158cc4f711d",
+                "reference": "e29adb2d6c712504f17fcaee33f60158cc4f711d",
                 "shasum": ""
             },
             "require": {
@@ -79,6 +137,9 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Kyle",
@@ -86,20 +147,20 @@
                 }
             ],
             "description": "Allow you to call node.js module or scripts throught PHP and call a fallback function if node.js is not available",
-            "time": "2017-05-12T10:16:01+00:00"
+            "time": "2017-07-25T11:53:15+00:00"
         },
         {
             "name": "pug-php/pug",
-            "version": "2.6.0",
+            "version": "2.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pug-php/pug.git",
-                "reference": "403c8c0a3af5e71b6cea8c44a50564caf7052bd6"
+                "reference": "f5e09dafe80043f6eda825488d7a202b0c74b98f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pug-php/pug/zipball/403c8c0a3af5e71b6cea8c44a50564caf7052bd6",
-                "reference": "403c8c0a3af5e71b6cea8c44a50564caf7052bd6",
+                "url": "https://api.github.com/repos/pug-php/pug/zipball/f5e09dafe80043f6eda825488d7a202b0c74b98f",
+                "reference": "f5e09dafe80043f6eda825488d7a202b0c74b98f",
                 "shasum": ""
             },
             "require": {
@@ -250,7 +311,7 @@
                 "pug",
                 "template"
             ],
-            "time": "2017-05-29T14:34:40+00:00"
+            "time": "2017-07-31T10:53:39+00:00"
         }
     ],
     "packages-dev": [],

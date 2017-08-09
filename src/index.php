@@ -69,15 +69,11 @@ else if(count($url) == 1){
 				$u = new AudioDidact\User();
 				$statement = $u->signup($_POST["uname"], $_POST["passwd"], $_POST["email"], $dal);
 				echo $statement;
-				if(mb_strpos($statement, "failed") > -1){
-					userLogOut();
-				}
-				else{
+				if(!mb_strpos($statement, "failed")){
 					userLogIn($dal->getUserByUsername($u->getUsername()));
 				}
 			}
 			else{
-				userLogOut();
 				echo "Sign Up Failed!\nNo email, username, or password specified!";
 			}
 		}
@@ -257,11 +253,11 @@ function printUserFeed($webID){
 	}
 	if($requestedUser->isPrivateFeed() && httpAuthenticate($dal)){
 		header('Content-Type: application/xml; charset=utf-8');
-		echo $dal->getFeedText($requestedUser);
+		echo $requestedUser->getFeedText();
 	}
 	else if(!$requestedUser->isPrivateFeed()){
 		header('Content-Type: application/xml; charset=utf-8');
-		echo $dal->getFeedText($requestedUser);
+		echo $requestedUser->getFeedText();
 	}
 }
 

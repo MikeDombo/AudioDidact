@@ -52,19 +52,17 @@ if(!file_exists(__DIR__ . "/" . DOWNLOAD_PATH)){
 	</filesMatch>");
 }
 
-if(!function_exists("clearSession")){
-	/**
-	 * Deletes all session variables and the session cookies
-	 */
-	function clearSession(){
-		$params = session_get_cookie_params();
-		setcookie(session_name(), '', time() - 42000,
-			$params["path"], $params["domain"],
-			$params["secure"], $params["httponly"]
-		);
-		session_destroy();
-		session_write_close();
-	}
+/**
+ * Deletes all session variables and the session cookies
+ */
+function clearSession(){
+	$params = session_get_cookie_params();
+	setcookie(session_name(), '', time() - 42000,
+		$params["path"], $params["domain"],
+		$params["secure"], $params["httponly"]
+	);
+	session_destroy();
+	session_write_close();
 }
 
 // Download new User from Db
@@ -249,6 +247,5 @@ function mb_str_split($string){
  */
 function getDAL(){
 	$myDalClass = ChosenDAL;
-
-	return new $myDalClass(new \PDO(PDO_STR, DB_USER, DB_PASSWORD));
+	return new $myDalClass(PDO_STR);
 }
