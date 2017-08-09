@@ -79,7 +79,7 @@
                     </li><li>protected string <a href="#members">$feedTable</a> =
                         "feed";
                     </li><li>protected <span title="AudioDidact\array|string">array|string</span> <a href="#members">$myDBTables</a>;
-                    </li><li>private <span title="AudioDidact\array|array">array|array</span> <a href="#members">$correctSchemas</a>;
+                    </li><li>protected <span title="AudioDidact\array|array">array|array</span> <a href="#members">$correctSchemas</a>;
                     </li><li>protected array <a href="#members">$userCorrect</a> =
                         ;
                     </li><li>protected array <a href="#members">$feedCorrect</a> =
@@ -95,17 +95,16 @@
                     </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/addUser.html">addUser</a>()
                     </li><li>public bool <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/addVideo.html">addVideo</a>()
                     </li><li>public mixed <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateVideo.html">updateVideo</a>()
-                    </li><li>public mixed <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeedText.html">getFeedText</a>()
                     </li><li>public array|null <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeed.html">getFeed</a>()
                     </li><li>public mixed <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFullFeedHistory.html">getFullFeedHistory</a>()
                     </li><li>public bool <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setFeedText.html">setFeedText</a>()
                     </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserPassword.html">updateUserPassword</a>()
                     </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUserEmailPasswordCodes.html">updateUserEmailPasswordCodes</a>()
                     </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateUser.html">updateUser</a>()
-                    </li><li>private string <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeColumnSQL.html">makeColumnSQL</a>()
+                    </li><li>protected string <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeColumnSQL.html">makeColumnSQL</a>()
                     </li><li>public void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeDB.html">makeDB</a>()
                     </li><li>protected void <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateDBSchema.html">updateDBSchema</a>()
-                    </li><li>private string <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeAlterQuery.html">makeAlterQuery</a>()
+                    </li><li>protected string <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeAlterQuery.html">makeAlterQuery</a>()
                     </li><li>protected array <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getDatabaseTables.html">getDatabaseTables</a>()
                     </li><li>protected array <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/describeTable.html">describeTable</a>()
                     </li><li>public int <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/verifyDB.html">verifyDB</a>()
@@ -113,7 +112,6 @@
                     </li><li>public array <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getPrunableVideos.html">getPrunableVideos</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="AudioDidact\DAL">DAL</span></li><li>public abstract User <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getUserByID.html">getUserByID</a>()
                         </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFullFeedHistory.html">getFullFeedHistory</a>()
-                        </li><li>public abstract string <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFeedText.html">getFeedText</a>()
                         </li><li>public abstract void <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/addUser.html">addUser</a>()
                         </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/addVideo.html">addVideo</a>()
                         </li><li>public abstract mixed <a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/updateVideo.html">updateVideo</a>()
@@ -146,17 +144,14 @@
         </div>
         <h2 id="members">Members</h2>
         <div class="styled members">
-          <h4>private</h4>
-          <ul class="members">
-            <li id="correctSchemas"><strong>$correctSchemas</strong>
-                —
-                <a title="AudioDidact\array|array" href="../classes/AudioDidact_array|array.html">AudioDidact\array|array</a></li>
-          </ul>
           <h4>protected</h4>
           <ul class="members">
             <li id="PDO"><strong>$PDO</strong>
                 —
                 <a title="\PDO" href="../classes/_PDO.html">\PDO</a></li>
+            <li id="correctSchemas"><strong>$correctSchemas</strong>
+                —
+                <a title="AudioDidact\array|array" href="../classes/AudioDidact_array|array.html">AudioDidact\array|array</a></li>
             <li id="feedCorrect"><strong>$feedCorrect</strong>
                 —
                 array<br/><span class="indent">Correct layout of the feed table</span></li>
@@ -178,10 +173,6 @@
         <div class="styled">
           <h4>private</h4>
           <ul>
-            <li id="makeAlterQuery"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeAlterQuery.html">makeAlterQuery()</a>
-                — Generates SQL query to add missing columns to the given tables</li>
-            <li id="makeColumnSQL"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeColumnSQL.html">makeColumnSQL()</a>
-                — Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not Default Key Extra</li>
             <li id="setUser"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setUser.html">setUser()</a>
                 — Makes a new user object from a database select command.</li>
             <li id="setVideo"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/setVideo.html">setVideo()</a>
@@ -195,6 +186,10 @@
                 — Function to get layout of a specific table</li>
             <li id="getDatabaseTables"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getDatabaseTables.html">getDatabaseTables()</a>
                 — Function to return a list of database tables</li>
+            <li id="makeAlterQuery"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeAlterQuery.html">makeAlterQuery()</a>
+                — Generates SQL query to add missing columns to the given tables</li>
+            <li id="makeColumnSQL"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/makeColumnSQL.html">makeColumnSQL()</a>
+                — Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not Default Key Extra</li>
             <li id="updateDBSchema">
               <a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/updateDBSchema.html">updateDBSchema()</a>
             </li>
@@ -209,8 +204,6 @@
                 — Adds a video to the feed table</li>
             <li id="getFeed"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeed.html">getFeed()</a>
                 — Returns an array of YouTube IDs that are in the feed</li>
-            <li id="getFeedText"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFeedText.html">getFeedText()</a>
-                — Gets full xml feed text from database</li>
             <li id="getFullFeedHistory"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getFullFeedHistory.html">getFullFeedHistory()</a>
                 — Gets all the videos from the database</li>
             <li id="getPrunableVideos"><a title="AudioDidact\MySQLDAL" href="../classes/AudioDidact_MySQLDAL/getPrunableVideos.html">getPrunableVideos()</a>
@@ -249,8 +242,6 @@
                 — Checks if an email is already in the database</li>
             <li id="getFeed"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFeed.html">getFeed()</a>
                 — Gets all the videos from the database in the user's current feed limited by the max number of items the user has set</li>
-            <li id="getFeedText"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFeedText.html">getFeedText()</a>
-                — Gets the full text of the feed from the database</li>
             <li id="getFullFeedHistory"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getFullFeedHistory.html">getFullFeedHistory()</a>
                 — Gets all the videos from the database</li>
             <li id="getPrunableVideos"><a title="AudioDidact\DAL" href="../classes/AudioDidact_DAL/getPrunableVideos.html">getPrunableVideos()</a>
