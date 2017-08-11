@@ -6,13 +6,9 @@ if(php_sapi_name() != "cli"){
 }
 
 if(file_exists($configFile)){
-	require($configFile);
-	if(defined("CHECK_REQUIRED") && !CHECK_REQUIRED){
-		$currentConfig = file_get_contents($configFile);
-		$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+.*\)/", "define(\"CHECK_REQUIRED\", true)", $currentConfig);
-		file_put_contents($configFile, $newConfig);
-	}
+	$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+.*\)/", "define(\"CHECK_REQUIRED\", true)", $currentConfig);
+	file_put_contents($configFile, $newConfig);
 }
 else{
-	die("config.php does not exist, cannot update what does not exist!");
+	die("$configFile does not exist, cannot update what does not exist!");
 }

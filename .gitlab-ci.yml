@@ -76,8 +76,10 @@ stage:
     - find src/ -type d | sed "s/^[^\/]*\///g" | sed '/^\s*$/d' > directories
     - while IFS='' read -r line || [[ -n "$line" ]]; do sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod-beta/ <<< $"mkdir $line"; sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod-beta/$line <<< $"put src/$line/*"; done < directories
     - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod-beta/ <<< $"get config.php"
+    - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod-beta/ <<< $"get config.yml"
     - php "src/config-update.php"
     - mv config.php src/config.php
+    - mv config.yml src/config.yml
     - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod-beta/ <<< $"put src/*"
 
 deploy:
@@ -89,8 +91,10 @@ deploy:
     - find src/ -type d | sed "s/^[^\/]*\///g" | sed '/^\s*$/d' > directories
     - while IFS='' read -r line || [[ -n "$line" ]]; do sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod/ <<< $"mkdir $line"; sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod/$line <<< $"put src/$line/*"; done < directories
     - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod/ <<< $"get config.php"
+    - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod/ <<< $"get config.yml"
     - php "src/config-update.php"
     - mv config.php src/config.php
+    - mv config.yml src/config.yml
     - sshpass -p "" sftp -o StrictHostKeyChecking=no user@192.168.0.12:htdocs/ytpod/ <<< $"put src/*"
   environment:
     name: Production
