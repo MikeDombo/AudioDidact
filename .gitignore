@@ -12,6 +12,7 @@ build/
 build/*
 vendor/
 vendor/*
+composer.lock
 
 # Windows image file caches
 Thumbs.db

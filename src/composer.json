@@ -1,5 +1,6 @@
 {
     "require": {
-        "pug-php/pug": "^2.5"
+        "pug-php/pug": "^2.5",
+        "symfony/yaml": "^3.3"
     }
 }

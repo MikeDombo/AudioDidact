@@ -16,21 +16,29 @@ Subscribe to the generated feed using the URL shown on the Add a Video page to r
 
 # Running Your Own Server
 ## Configuration
-Download this repository and then edit `config.php` to add your [Google API server key.](https://console.developers.google.com/apis/credentials)
+Download this repository and then edit `config.yml` to add your [Google API server key.](https://console.developers.google.com/apis/credentials)
 Set hostname to your public ip or domain and subdirectory.
 
-![config.php](https://raw.githubusercontent.com/md100play/PodTube/master/README-images/config-php.PNG)
-
-- Set database configuration, also in `config.php`.
-- Install pug-php using composer
+- Set database configuration, also in `config.yml`.
+- Install pug-php, symfony/yaml, and mongodb/mongodb (optional) using composer
 - Set `batchProcess.php` to run as often as you like using the Windows Task Sheduler or cron on linux. This script is used to delete files once they are kicked out of every user's feed. If you have lots of disk space, then you may not want to run this script ever, so that the audio and thumbnails are always available.
+
+### Configuration With Evironment Variables
+Instead of editing `config.yml`, you can choose to set the options through environment variables. For this to work PHP 
+must have environment variables enabled (check php.ini).
+
+Set variables in the following format `AD_<NAME OR GROUP NAME>_<NAME IF WITHIN GROUP>`
+Ex.
+  - subdirectory = AD_SUBDIRECTORY
+  - download-directory = AD_DOWNLOAD-DIRECTORY
+  - api-keys: google = AD_API-KEYS_GOOGLE
+  - database: connection-string = AD_DATABASE_CONNECTION-STRING
 
 ## Updating
 To update to the latest release on GitHub download or clone the repository to your computer. 
-1. Move all files in the src directory to your current install location, overwrite all existing files **except** for `config.php`
+1. Move all files in the src directory to your current install location, overwrite all existing files **except** for `config.yml`
 2. Using the command line, run `php config-update.php` from your web root
-   - This command will update `config.php` to have any added constants and will force a database check the next time the site is accessed
-3. Edit `config.php` to make sure that the settings are correct
+3. Edit `config.yml` to make sure that the settings are correct
 4. Load the site in your browser to force the database check/update and then you're done
 
 
@@ -41,6 +49,7 @@ PHP API documentation is available [here](https://md100play.github.io/AudioDidac
 - More statistics. Possibly a GitHub style punchcard.
 
 ## Completed Tasks
+- Moved configuration into yaml
 - Add Vimeo support
 - Easier updating using config-update.php
 - Enable choice between audio and video download

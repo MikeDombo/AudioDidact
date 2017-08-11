@@ -1,0 +1,52 @@
+####################################################
+# Add your configuration details only in this file #
+####################################################
+
+
+# Change to your hostname. End with trailing slash
+local-url: "https://localhost/podtube/src/"
+
+# Change to subdirectory if any. End with trailing slash. If no subdirectory, enter ""
+subdirectory: "podtube/src/"
+
+# Set the directory where you want to download the thumbnails, videos, and audio. This must be publicly accessible
+download-directory: "temp"
+
+# Enter your Google Server API Key Here
+api-keys:
+  google: "****"
+
+# Set to true if your server is setup for HTTPS (highly recommended)
+session-cookie-secure: true
+
+# Set the from and reply-to field of all emails sent from AudioDidact.
+# EX: "\"AudioDidact Administrator\"<michael@mikedombrowski.com>"
+email:
+  from: "\"AudioDidact Administrator\"<michael@mikedombrowski.com>"
+
+database:
+  ##### MySQL #####
+
+  driver: "mysql"
+  user: "root"
+  password: ""
+  connection-string: "mysql:host=localhost;dbname=podtube;charset=utf8"
+
+  ##### END MySQL #####
+
+
+  ##### SQLite #####
+
+  #driver: "sqlite"
+  #connection-string: "sqlite:database.sqlite"
+
+  ##### END SQLite #####
+
+
+  ##### MongoDB #####
+
+  #driver: "mongodb"
+  #connection-string: "mongodb://localhost:27017"
+  #database-name: "podtube"
+
+  ##### END MongoDB #####

@@ -34,9 +34,7 @@ class YouTube extends SupportedSite {
 			$this->video->setTime(time());
 
 			$key = GOOGLE_API_KEY;
-			if($key == "****"){
-				$key = getenv("YouTubeAPIKey");
-			}
+
 			// Get video author, title, and description from YouTube API
 			$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id="
 				. $this->video->getId() .
