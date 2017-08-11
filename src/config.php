@@ -15,6 +15,7 @@ $configVariableNames = ["AD_LOCAL-URL" => ["name" => "local-url", "type" => "str
 	"AD_DATABASE_DRIVER" => ["name" => "database_driver", "type" => "string"],
 	"AD_DATABASE_CONNECTION_STRING" => ["name" => "database_connection-string", "type" => "string"],
 	"AD_DATABASE_USER" => ["name" => "database_user", "type" => "string"],
+	"AD_DATABASE_PASSWORD" => ["name" => "database_password", "type" => "string"],
 	"AD_DATABASE_DATABASE_NAME" => ["name" => "database-name", "type" => "string"]
 ];
 
@@ -40,6 +41,9 @@ foreach($configVariableNames as $k => $v){
 					break;
 				case("AD_DATABASE_USER"):
 					$ymlConfig["database"]["user"] = $e;
+					break;
+				case("AD_DATABASE_PASSWORD"):
+					$ymlConfig["database"]["password"] = $e;
 					break;
 				case("AD_DATABASE_DATABASE-NAME"):
 					$ymlConfig["database"]["database-name"] = $e;
