@@ -6,7 +6,7 @@ use Symfony\Component\Yaml\Parser;
 $yaml = new Parser();
 $ymlConfig = $yaml->parse(file_get_contents(__DIR__.'/config.yml'));
 
-$configVariableNames = ["AD_LOCAL-URL" => ["name" => "local-url", "type" => "string"],
+$configVariableNames = ["AD_LOCAL_URL" => ["name" => "local-url", "type" => "string"],
 	"AD_SUBDIRECTORY" => ["name" => "subdirectory", "type" => "string"],
 	"AD_API_KEYS_GOOGLE" => ["name" => "api-keys_google", "type" => "string"],
 	"AD_DOWNLOAD_DIRECTORY" => ["name" => "download-directory", "type" => "string"],
@@ -25,9 +25,9 @@ foreach($configVariableNames as $k => $v){
 		if($v["type"] == "boolean"){
 			$e = boolval($e);
 		}
-		if(mb_strpos($k, "DATABASE") > -1 || mb_strpos($k, "EMAIL") > -1 || mb_strpos($k, "API-KEYS") > -1){
+		if(mb_strpos($k, "DATABASE") > -1 || mb_strpos($k, "EMAIL") > -1 || mb_strpos($k, "API_KEYS") > -1){
 			switch($k){
-				case("AD_API-KEYS_GOOGLE"):
+				case("AD_API_KEYS_GOOGLE"):
 					$ymlConfig["api-keys"]["google"] = $e;
 					break;
 				case("AD_EMAIL_FROM"):
@@ -36,7 +36,7 @@ foreach($configVariableNames as $k => $v){
 				case("AD_DATABASE_DRIVER"):
 					$ymlConfig["database"]["driver"] = $e;
 					break;
-				case("AD_DATABASE_CONNECTION-STRING"):
+				case("AD_DATABASE_CONNECTION_STRING"):
 					$ymlConfig["database"]["connection-string"] = $e;
 					break;
 				case("AD_DATABASE_USER"):
@@ -45,7 +45,7 @@ foreach($configVariableNames as $k => $v){
 				case("AD_DATABASE_PASSWORD"):
 					$ymlConfig["database"]["password"] = $e;
 					break;
-				case("AD_DATABASE_DATABASE-NAME"):
+				case("AD_DATABASE_DATABASE_NAME"):
 					$ymlConfig["database"]["database-name"] = $e;
 					break;
 				default:
@@ -92,4 +92,4 @@ switch(strtolower($dbData["driver"])){
 //
 //
 /** Defines if a database validation is necessary */
-define("CHECK_REQUIRED", true);
+define("CHECK_REQUIRED", false);
