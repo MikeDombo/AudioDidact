@@ -72,3 +72,4 @@ Temporary Items
 .idea/codeStyleSettings.xml
 .idea/PodTube.iml
 *.phar
+src/composer.lock
