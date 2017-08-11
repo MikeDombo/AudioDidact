@@ -8,14 +8,14 @@ $ymlConfig = $yaml->parse(file_get_contents('config.yml'));
 
 $configVariableNames = ["AD_LOCAL-URL" => ["name" => "local-url", "type" => "string"],
 	"AD_SUBDIRECTORY" => ["name" => "subdirectory", "type" => "string"],
-	"AD_API-KEYS_GOOGLE" => ["name" => "api-keys_google", "type" => "string"],
-	"AD_DOWNLOAD-DIRECTORY" => ["name" => "download-directory", "type" => "string"],
-	"AD_SESSION-COOKIE-SECURE" => ["name" => "session-cookie-secure", "type" => "boolean"],
+	"AD_API_KEYS_GOOGLE" => ["name" => "api-keys_google", "type" => "string"],
+	"AD_DOWNLOAD_DIRECTORY" => ["name" => "download-directory", "type" => "string"],
+	"AD_SESSION_COOKIE_SECURE" => ["name" => "session-cookie-secure", "type" => "boolean"],
 	"AD_EMAIL_FROM" => ["name" => "email_from", "type" => "string"],
 	"AD_DATABASE_DRIVER" => ["name" => "database_driver", "type" => "string"],
-	"AD_DATABASE_CONNECTION-STRING" => ["name" => "database_connection-string", "type" => "string"],
+	"AD_DATABASE_CONNECTION_STRING" => ["name" => "database_connection-string", "type" => "string"],
 	"AD_DATABASE_USER" => ["name" => "database_user", "type" => "string"],
-	"AD_DATABASE_DATABASE-NAME" => ["name" => "database-name", "type" => "string"]
+	"AD_DATABASE_DATABASE_NAME" => ["name" => "database-name", "type" => "string"]
 ];
 
 foreach($configVariableNames as $k => $v){

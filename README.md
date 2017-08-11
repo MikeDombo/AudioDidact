@@ -30,9 +30,9 @@ must have environment variables enabled (check php.ini).
 Set variables in the following format `AD_<NAME OR GROUP NAME>_<NAME IF WITHIN GROUP>`
 Ex.
   - subdirectory = AD_SUBDIRECTORY
-  - download-directory = AD_DOWNLOAD-DIRECTORY
-  - api-keys: google = AD_API-KEYS_GOOGLE
-  - database: connection-string = AD_DATABASE_CONNECTION-STRING
+  - download-directory = AD_DOWNLOAD_DIRECTORY
+  - api-keys: google = AD_API_KEYS_GOOGLE
+  - database: connection-string = AD_DATABASE_CONNECTION_STRING
 
 ## Updating
 To update to the latest release on GitHub download or clone the repository to your computer. 
