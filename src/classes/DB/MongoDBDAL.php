@@ -6,7 +6,11 @@
  * Time: 8:08 PM
  */
 
-namespace AudioDidact;
+namespace AudioDidact\DB;
+
+use AudioDidact\User;
+use AudioDidact\Video;
+use MongoDB\Client;
 
 class MongoDBDAL extends DAL {
 	private $feeds;
@@ -18,7 +22,7 @@ class MongoDBDAL extends DAL {
 	 * @param $connectionString
 	 */
 	public function __construct($connectionString){
-		$client = new \MongoDB\Client($connectionString);
+		$client = new Client($connectionString);
 		$db = $client->selectDatabase(DB_DATABASE);
 		$this->feeds = $db->selectCollection("feeds");
 		$this->users = $db->selectCollection("users");
@@ -83,6 +87,25 @@ class MongoDBDAL extends DAL {
 		}
 	}
 
+	private function makeUserArrayMongo(User $user){
+		return [
+			"username" => $user->getUsername(),
+			"password" => $user->getPasswd(),
+			"email" => $user->getEmail(),
+			"firstname" => $user->getFname(),
+			"lastname" => $user->getLname(),
+			"gender" => $user->getGender(),
+			"webID" => $user->getWebID(),
+			"feedText" => $user->getFeedText(),
+			"feedLength" => $user->getFeedLength(),
+			"feedDetails" => $user->getFeedDetails(),
+			"privateFeed" => $user->isPrivateFeed(),
+			"emailVerified" => $user->isEmailVerified(),
+			"emailVerificationCodes" => $user->getEmailVerificationCodes(),
+			"passwordRecoveryCodes" => $user->getPasswordRecoveryCodes()
+		];
+	}
+
 	/**
 	 * Adds video into the video database for a specific user
 	 *
@@ -124,25 +147,6 @@ class MongoDBDAL extends DAL {
 		];
 	}
 
-	private function makeUserArrayMongo(User $user){
-		return [
-			"username" => $user->getUsername(),
-			"password" => $user->getPasswd(),
-			"email" => $user->getEmail(),
-			"firstname" => $user->getFname(),
-			"lastname" => $user->getLname(),
-			"gender" => $user->getGender(),
-			"webID" => $user->getWebID(),
-			"feedText" => $user->getFeedText(),
-			"feedLength" => $user->getFeedLength(),
-			"feedDetails" => $user->getFeedDetails(),
-			"privateFeed" => $user->isPrivateFeed(),
-			"emailVerified" => $user->isEmailVerified(),
-			"emailVerificationCodes" => $user->getEmailVerificationCodes(),
-			"passwordRecoveryCodes" => $user->getPasswordRecoveryCodes()
-		];
-	}
-
 	/**
 	 * Updates an existing video in the video database for a specific user
 	 *
@@ -153,6 +157,7 @@ class MongoDBDAL extends DAL {
 	public function updateVideo(Video $vid, User $user){
 		$this->feeds->findOneAndReplace(["userID" => $user->getUserID(), "videoID" => $vid->getId(), "orderID" =>
 			$vid->getOrder()], $this->makeVideoArrayMongo($vid, $user));
+		return true;
 	}
 
 	/**
@@ -164,6 +169,7 @@ class MongoDBDAL extends DAL {
 	 */
 	public function setFeedText(User $user, $feed){
 		$this->users->findOneAndUpdate(["_id" => $user->getUserID()], ['$set' => ["feedText" => $feed]]);
+		return true;
 	}
 
 	/**
@@ -202,28 +208,8 @@ class MongoDBDAL extends DAL {
 	 * @return mixed
 	 */
 	public function getFeed(User $user){
-		$rows = $this->feeds->find(["userID" => $user->getUserID()], ["sort" => ["orderID" => -1], "limit" =>intval
+		$rows = $this->feeds->find(["userID" => $user->getUserID()], ["sort" => ["orderID" => -1], "limit" => intval
 		($user->getFeedLength())]);
-		if($rows == null){
-			return null;
-		}
-
-		$returner = [];
-		foreach($rows as $row){
-			$returner[] = $this->setVideo($row);
-		}
-
-		return $returner;
-	}
-
-	/**
-	 * Gets all the videos from the database
-	 *
-	 * @param User $user
-	 * @return mixed
-	 */
-	public function getFullFeedHistory(User $user){
-		$rows = $this->feeds->find(["userID" => $user->getUserID()], ["sort" => ["orderID" => -1]]);
 		if($rows == null){
 			return null;
 		}
@@ -258,6 +244,26 @@ class MongoDBDAL extends DAL {
 		$vid->setThumbnailFilename($row["thumbnailFilename"]);
 
 		return $vid;
+	}
+
+	/**
+	 * Gets all the videos from the database
+	 *
+	 * @param User $user
+	 * @return mixed
+	 */
+	public function getFullFeedHistory(User $user){
+		$rows = $this->feeds->find(["userID" => $user->getUserID()], ["sort" => ["orderID" => -1]]);
+		if($rows == null){
+			return null;
+		}
+
+		$returner = [];
+		foreach($rows as $row){
+			$returner[] = $this->setVideo($row);
+		}
+
+		return $returner;
 	}
 
 	/**
@@ -310,7 +316,49 @@ class MongoDBDAL extends DAL {
 		return 0;
 	}
 
+	/**
+	 * Returns an array of video IDs that can be safely deleted
+	 *
+	 * @return array
+	 */
 	public function getPrunableVideos(){
-		// TODO: Implement getPrunableVideos() method.
+		// Get maximum order ID for each user
+		$cursor = $this->feeds->aggregate([['$group' =>
+			['_id' => '$userID',
+				'maxOrderID' => ['$max' => '$orderID']]]]);
+		$usersAndMaxOrderIDs = [];
+		foreach($cursor as $a){
+			$usersAndMaxOrderIDs[$a["_id"]->__toString()] = $a["maxOrderID"];
+		}
+
+		// Get feed length for each user and set the order ID for the latest video that is out of their feed
+		$usersAndMaxOutOfFeed = [];
+		foreach($usersAndMaxOrderIDs as $userID => $maxOrderID){
+			$result = $this->users->findOne(["_id" => $userID],
+				["projection" => ["feedLength" => 1]]);
+			$usersAndMaxOutOfFeed[$userID] = $maxOrderID - $result["feedLength"];
+		}
+
+		$videosInFeeds = [];
+		$videosOutOfFeeds = [];
+		foreach($usersAndMaxOutOfFeed as $userID => $maxOrderID){
+			$userVideos = $this->feeds->find(["userID" => $userID],
+				["projection" => ["videoID" => 1, "orderID" => 1, "userID" => 1]])->toArray();
+			foreach($userVideos as $video){
+				if($video["orderID"] < $maxOrderID){
+					if(!in_array($video["videoID"], $videosOutOfFeeds, true)){
+						$videosOutOfFeeds[] = $video["videoID"];
+					}
+				}
+				else{
+					if(!in_array($video["videoID"], $videosInFeeds, true)){
+						$videosInFeeds[] = $video["videoID"];
+					}
+				}
+			}
+		}
+
+		// Remove all videos that are in people's feeds from the list of videos out of people's feeds
+		return array_diff($videosOutOfFeeds, $videosInFeeds);
 	}
 }

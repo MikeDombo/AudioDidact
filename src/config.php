@@ -68,17 +68,17 @@ define("EMAIL_FROM", $ymlConfig["email"]["from"]);
 $dbData = $ymlConfig["database"];
 switch(strtolower($dbData["driver"])){
 	case("mysql"):
-		define("ChosenDAL", "\\AudioDidact\\MySQLDAL");
+		define("ChosenDAL", "\\AudioDidact\\DB\\MySQLDAL");
 		define("DB_USER", $dbData["user"]);
 		define("DB_PASSWORD", $dbData["password"]);
 		define("PDO_STR", $dbData["connection-string"]);
 		break;
 	case("sqlite"):
-		define("ChosenDAL", "\\AudioDidact\\SQLite");
+		define("ChosenDAL", "\\AudioDidact\\DB\\SQLite");
 		define("PDO_STR", $dbData["connection-string"]);
 		break;
 	case("mongodb"):
-		define("ChosenDAL", "\\AudioDidact\\MongoDBDAL");
+		define("ChosenDAL", "\\AudioDidact\\DB\\MongoDBDAL");
 		define("DB_DATABASE", $dbData["database-name"]);
 		define("PDO_STR", $dbData["connection-string"]);
 		break;

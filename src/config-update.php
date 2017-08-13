@@ -6,6 +6,7 @@ if(php_sapi_name() != "cli"){
 }
 
 if(file_exists($configFile)){
+	$currentConfig = file_get_contents($configFile);
 	$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+.*\)/", "define(\"CHECK_REQUIRED\", true)", $currentConfig);
 	file_put_contents($configFile, $newConfig);
 }

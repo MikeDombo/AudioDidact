@@ -15,6 +15,9 @@ spl_autoload_register(function($class){
 	else if(file_exists(__DIR__ . '/classes/' . $class . ".php")){
 		require_once __DIR__ . '/classes/' . $class . '.php';
 	}
+	else if(file_exists(__DIR__ . '/classes/DB/' . $class . ".php")){
+		require_once __DIR__ . '/classes/DB/' . $class . '.php';
+	}
 	else if(file_exists(__DIR__ . '/SupportedSites/' . $class . ".php")){
 		require_once __DIR__ . '/SupportedSites/' . $class . '.php';
 	}
@@ -236,13 +239,13 @@ function stringListicle($list){
 function mb_str_split($string){ 
     # Split at all position not after the start: ^ 
     # and not before the end: $ 
-    return preg_split('/(?<!^)(?!$)/u', $string); 
+    return preg_split('/(?<!^)(?!$)/u', $string);
 } 
 
 /**
  * Makes a new DAL class based on values in config.php
  *
- * @return \AudioDidact\DAL
+ * @return \AudioDidact\DB\DAL
  */
 function getDAL(){
 	$myDalClass = ChosenDAL;

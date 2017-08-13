@@ -1,6 +1,9 @@
 <?php
 
-namespace AudioDidact;
+namespace AudioDidact\DB;
+
+use AudioDidact\User;
+use AudioDidact\Video;
 
 /**
  * Class MySQLDAL contains methods for communicating with a SQL database
@@ -15,6 +18,48 @@ class MySQLDAL extends DAL {
 	protected $myDBTables;
 	/** @var  array|array array of the correct database table schemas keyed by table name */
 	protected $correctSchemas;
+	/**
+	 * Correct layout of the user table
+	 *
+	 * @var array
+	 */
+	protected $userCorrect = [
+		["Field" => "ID", "Type" => "int(11)", "Null" => "NO", "Key" => "PRI", "Default" => null, "Extra" => "auto_increment"],
+		["Field" => "username", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "password", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "email", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "firstname", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "lastname", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "gender", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "webID", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "feedText", "Type" => "longtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "feedLength", "Type" => "int(11)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "feedDetails", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "privateFeed", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "emailVerified", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => "0", "Extra" => ""],
+		["Field" => "emailVerificationCodes", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "passwordRecoveryCodes", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""]
+	];
+	/**
+	 * Correct layout of the feed table
+	 *
+	 * @var array
+	 */
+	protected $feedCorrect = [
+		["Field" => "ID", "Type" => "int(11)", "Null" => "NO", "Key" => "PRI", "Default" => null, "Extra" => "auto_increment"],
+		["Field" => "userID", "Type" => "int(11)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "URL", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "orderID", "Type" => "int(11)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "filename", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "thumbnailFilename", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "videoID", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "videoAuthor", "Type" => "text", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "description", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "videoTitle", "Type" => "text", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "duration", "Type" => "int(11)", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
+		["Field" => "isVideo", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => "0", "Extra" => ""],
+		["Field" => "timeAdded", "Type" => "timestamp", "Null" => "NO", "Key" => "", "Default" => "CURRENT_TIMESTAMP", "Extra" => ""]
+	];
 
 	/**
 	 * MySQLDAL constructor.
@@ -98,30 +143,6 @@ class MySQLDAL extends DAL {
 		$user->setEmailVerified($row["emailVerified"]);
 
 		return $user;
-	}
-
-	/**
-	 * Makes a new video object from a database select command.
-	 *
-	 * @param $row array Database rows retrieved from another method
-	 * @return Video
-	 */
-	private function setVideo($row){
-		$vid = new Video();
-
-		$vid->setAuthor($row["videoAuthor"]);
-		$vid->setDesc($row["description"]);
-		$vid->setId($row["videoID"]);
-		$vid->setTime(strtotime($row["timeAdded"]));
-		$vid->setDuration(intval($row["duration"]));
-		$vid->setTitle($row["videoTitle"]);
-		$vid->setOrder($row["orderID"]);
-		$vid->setURL($row["URL"]);
-		$vid->setIsVideo($row["isVideo"]);
-		$vid->setFilename($row["filename"]);
-		$vid->setThumbnailFilename($row["thumbnailFilename"]);
-
-		return $vid;
 	}
 
 	/**
@@ -327,7 +348,6 @@ class MySQLDAL extends DAL {
 		}
 	}
 
-
 	/**
 	 * Returns an array of YouTube IDs that are in the feed
 	 *
@@ -358,6 +378,30 @@ class MySQLDAL extends DAL {
 			echo "ERROR: " . $e->getMessage();
 			throw $e;
 		}
+	}
+
+	/**
+	 * Makes a new video object from a database select command.
+	 *
+	 * @param $row array Database rows retrieved from another method
+	 * @return Video
+	 */
+	private function setVideo($row){
+		$vid = new Video();
+
+		$vid->setAuthor($row["videoAuthor"]);
+		$vid->setDesc($row["description"]);
+		$vid->setId($row["videoID"]);
+		$vid->setTime(strtotime($row["timeAdded"]));
+		$vid->setDuration(intval($row["duration"]));
+		$vid->setTitle($row["videoTitle"]);
+		$vid->setOrder($row["orderID"]);
+		$vid->setURL($row["URL"]);
+		$vid->setIsVideo($row["isVideo"]);
+		$vid->setFilename($row["filename"]);
+		$vid->setThumbnailFilename($row["thumbnailFilename"]);
+
+		return $vid;
 	}
 
 	/**
@@ -485,34 +529,6 @@ class MySQLDAL extends DAL {
 	}
 
 	/**
-	 * Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not
-	 * Default Key Extra
-	 *
-	 * @param $c array dictionary representing a column's correct schema
-	 * @return string
-	 */
-	protected function makeColumnSQL($c){
-		$columnText = "`" . $c["Field"] . "` " . $c["Type"];
-		if($c["Null"] == "NO"){
-			$columnText .= " NOT NULL";
-		}
-		else{
-			$columnText .= " NULL";
-		}
-		if($c["Default"] != null){
-			$columnText .= " DEFAULT " . $c["Default"];
-		}
-		if($c["Key"] == "PRI"){
-			$columnText .= " PRIMARY KEY";
-		}
-		if($c["Extra"] != ""){
-			$columnText .= " " . $c["Extra"];
-		}
-
-		return $columnText;
-	}
-
-	/**
 	 * Generate the tables in the current database
 	 *
 	 * @param int $code
@@ -550,6 +566,34 @@ class MySQLDAL extends DAL {
 		}
 	}
 
+	/**
+	 * Generates SQL query to make a column. Returns something in the form of `columnName` columnType NULL/Not
+	 * Default Key Extra
+	 *
+	 * @param $c array dictionary representing a column's correct schema
+	 * @return string
+	 */
+	protected function makeColumnSQL($c){
+		$columnText = "`" . $c["Field"] . "` " . $c["Type"];
+		if($c["Null"] == "NO"){
+			$columnText .= " NOT NULL";
+		}
+		else{
+			$columnText .= " NULL";
+		}
+		if($c["Default"] != null){
+			$columnText .= " DEFAULT " . $c["Default"];
+		}
+		if($c["Key"] == "PRI"){
+			$columnText .= " PRIMARY KEY";
+		}
+		if($c["Extra"] != ""){
+			$columnText .= " " . $c["Extra"];
+		}
+
+		return $columnText;
+	}
+
 	protected function updateDBSchema(){
 		try{
 			$alterSQL = "";
@@ -566,6 +610,19 @@ class MySQLDAL extends DAL {
 			error_log("Database update failed! " . $e->getMessage());
 			throw $e;
 		}
+	}
+
+	/**
+	 * Function to get layout of a specific table
+	 *
+	 * @param $table string Table to get layout of
+	 * @return array
+	 */
+	protected function describeTable($table){
+		$p = parent::$PDO->prepare("DESCRIBE $table");
+		$p->execute();
+
+		return $p->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -601,80 +658,6 @@ class MySQLDAL extends DAL {
 	}
 
 	/**
-	 * Function to return a list of database tables
-	 *
-	 * @return array
-	 */
-	protected function getDatabaseTables(){
-		$p = parent::$PDO->prepare("SHOW TABLES");
-		$p->execute();
-		$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
-		$tables = [];
-		foreach($rows as $r){
-			$tables[] = array_values($r)[0];
-		}
-
-		return $tables;
-	}
-
-	/**
-	 * Function to get layout of a specific table
-	 *
-	 * @param $table string Table to get layout of
-	 * @return array
-	 */
-	protected function describeTable($table){
-		$p = parent::$PDO->prepare("DESCRIBE $table");
-		$p->execute();
-
-		return $p->fetchAll(\PDO::FETCH_ASSOC);
-	}
-
-	/**
-	 * Correct layout of the user table
-	 *
-	 * @var array
-	 */
-	protected $userCorrect = [
-		["Field" => "ID", "Type" => "int(11)", "Null" => "NO", "Key" => "PRI", "Default" => null, "Extra" => "auto_increment"],
-		["Field" => "username", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "password", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "email", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "firstname", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "lastname", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "gender", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "webID", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "feedText", "Type" => "longtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "feedLength", "Type" => "int(11)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "feedDetails", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "privateFeed", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "emailVerified", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => "0", "Extra" => ""],
-		["Field" => "emailVerificationCodes", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "passwordRecoveryCodes", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""]
-	];
-
-	/**
-	 * Correct layout of the feed table
-	 *
-	 * @var array
-	 */
-	protected $feedCorrect = [
-		["Field" => "ID", "Type" => "int(11)", "Null" => "NO", "Key" => "PRI", "Default" => null, "Extra" => "auto_increment"],
-		["Field" => "userID", "Type" => "int(11)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "URL", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "orderID", "Type" => "int(11)", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "filename", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "thumbnailFilename", "Type" => "mediumtext", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "videoID", "Type" => "mediumtext", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "videoAuthor", "Type" => "text", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "description", "Type" => "text", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "videoTitle", "Type" => "text", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "duration", "Type" => "int(11)", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
-		["Field" => "isVideo", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => "0", "Extra" => ""],
-		["Field" => "timeAdded", "Type" => "timestamp", "Null" => "NO", "Key" => "", "Default" => "CURRENT_TIMESTAMP", "Extra" => ""]
-	];
-
-	/**
 	 * Verifies the currently connected database against the current schema
 	 *
 	 * @return int Returns 0 if all is well, 1 if the user table or feed table do not exist, and 2 if the tables exist
@@ -706,6 +689,23 @@ class MySQLDAL extends DAL {
 	}
 
 	/**
+	 * Function to return a list of database tables
+	 *
+	 * @return array
+	 */
+	protected function getDatabaseTables(){
+		$p = parent::$PDO->prepare("SHOW TABLES");
+		$p->execute();
+		$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
+		$tables = [];
+		foreach($rows as $r){
+			$tables[] = array_values($r)[0];
+		}
+
+		return $tables;
+	}
+
+	/**
 	 * Checks if two arrays are equal to test that SQL schemas are compliant
 	 *
 	 * @param $correct
@@ -720,7 +720,7 @@ class MySQLDAL extends DAL {
 	}
 
 	/**
-	 * Returns an array of YouTube video IDs that can be safely deleted
+	 * Returns an array of video IDs that can be safely deleted
 	 *
 	 * @return array
 	 */

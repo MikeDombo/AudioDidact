@@ -1,6 +1,9 @@
 <?php
 
 namespace AudioDidact;
+
+use AudioDidact\DB\DAL;
+
 require_once __DIR__ . "/../header.php";
 
 /**

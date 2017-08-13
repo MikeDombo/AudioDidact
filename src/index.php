@@ -264,10 +264,10 @@ function printUserFeed($webID){
 /**
  * Sends HTTP Basic Authentication headers to the user and authenticates against the database
  *
- * @param \AudioDidact\DAL $dal
+ * @param \AudioDidact\DB\DAL $dal
  * @return bool
  */
-function httpAuthenticate(\AudioDidact\DAL $dal){
+function httpAuthenticate(\AudioDidact\DB\DAL $dal){
 	if(!isset($_SERVER['PHP_AUTH_USER'])){
 		header('WWW-Authenticate: Basic realm="Private User Feed"');
 		header('HTTP/1.0 401 Unauthorized');

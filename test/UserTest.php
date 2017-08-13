@@ -101,7 +101,7 @@ class UserTest extends TestCase{
 	}
 }
 
-class fakeDAL extends \AudioDidact\DAL{
+class fakeDAL extends \AudioDidact\DB\DAL{
 	private $user;
 
 	/**

@@ -171,55 +171,14 @@ class SoundCloud extends SupportedSite {
 		$videoPath = $path . $this->video->getFilename() . $this->video->getFileExtension();
 		$url = $this->getDownloadURL();
 
-		$ch = curl_init($url);
-		curl_setopt($ch, CURLOPT_NOBODY, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HEADER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		$data = curl_exec($ch);
-		curl_close($ch);
-		if($data === false){
-			$this->echoErrorJSON("Download failed, URL tried was " . $url);
-			throw new \Exception("Download Failed!");
+		if($this->downloadWithPercentage($url, $videoPath)){
+			$this->applyArt();
+			// Send progress to UI
+			$response = ['stage' => 1, 'progress' => 100];
+			echo json_encode($response);
+			return true;
 		}
-
-		// Get content length in bytes
-		$contentLength = 'unknown';
-		if(preg_match_all('/Content-Length: (\d+)/', $data, $matches)){
-			$contentLength = (int)$matches[count($matches) - 1][count($matches[count($matches) - 1]) - 1];
-		}
-
-		if(intval($contentLength) > 0){
-			// Open local and remote files for write and read respectively
-			$remote = fopen($url, 'r');
-			$local = fopen($videoPath, 'w');
-
-			$readBytes = 0;
-			// Read until the end of the remote file
-			while(!feof($remote)){
-				// Read 4KB and write them to the local file
-				$buffer = fread($remote, 4096);
-				fwrite($local, $buffer);
-				$readBytes += 4096;
-
-				// Get progress percentage from the read bytes and total length
-				$progress = min(100, 100 * $readBytes / $contentLength);
-				// Print progress to the UI using a JSON array
-				$response = ['stage' => 0, 'progress' => $progress];
-				echo json_encode($response);
-			}
-			// Close the handles of both files
-			fclose($remote);
-			fclose($local);
-		}
-		else{
-			error_log("Content length was 0 for URL: " . $url);
-			throw new \Exception("Downloaded audio length was 0, please try again later");
-		}
-		$this->applyArt();
-
-		return true;
+		return false;
 	}
 
 	/**
@@ -227,23 +186,5 @@ class SoundCloud extends SupportedSite {
 	 */
 	public function convert(){
 
-	}
-
-	public function applyArt(){
-		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
-		$ffmpegAlbumArt = $path . $this->video->getThumbnailFilename();
-		$ffmpegOutFile = $path . $this->video->getFilename() . $this->video->getFileExtension();
-		$ffmpegTempFile = $path . $this->video->getFilename() . "-art.mp3";
-
-		exec("ffmpeg -i \"$ffmpegOutFile\" -i \"$ffmpegAlbumArt\" -y -acodec copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpegTempFile\"");
-		rename($ffmpegTempFile, $ffmpegOutFile);
-
-		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpegOutFile));
-
-		// Send progress to UI
-		$response = ['stage' => 1, 'progress' => 100];
-		echo json_encode($response);
-
-		return;
 	}
 }

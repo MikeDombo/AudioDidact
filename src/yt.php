@@ -1,6 +1,7 @@
 <?php
 
 namespace AudioDidact;
+use AudioDidact\DB\DAL;
 use AudioDidact\SupportedSites\SupportedSite;
 
 require_once __DIR__ . "/header.php";
@@ -49,6 +50,7 @@ if(isset($_GET["yt"])){
 				$download->downloadThumbnail();
 				if(!$video->isIsVideo()){
 					$download->convert();
+					$download->applyArt();
 				}
 			}
 
@@ -79,7 +81,7 @@ else{
 /**
  * Gets the list of all feed items and makes sure that all of them are downloaded and available
  *
- * @param \AudioDidact\DAL $dal
+ * @param \AudioDidact\DB\DAL $dal
  * @param \AudioDidact\User $user
  */
 function checkFilesExist(DAL $dal, User $user){
@@ -111,6 +113,7 @@ function checkFilesExist(DAL $dal, User $user){
  * @param $id
  * @param boolean $isVideo
  * @return \AudioDidact\SupportedSites\SupportedSite
+ * @throws \Exception
  */
 function getSupportedSiteClass($url, $id, $isVideo){
 	try{

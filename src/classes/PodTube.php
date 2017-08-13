@@ -3,6 +3,8 @@
 namespace AudioDidact;
 // Include RSS feed generation library and other classes that are used.
 require_once __DIR__ . "/../header.php";
+
+use AudioDidact\DB\DAL;
 use FeedWriter\RSS2;
 
 /**
@@ -13,7 +15,7 @@ class PodTube {
 	 * Make the RSS feed from the database
 	 *
 	 * @param \AudioDidact\User $user
-	 * @param \AudioDidact\DAL $dal
+	 * @param \AudioDidact\DB\DAL $dal
 	 * @param bool $emptyFeed true if the generated feed should be empty and not saved to the db directly
 	 * @return \FeedWriter\RSS2|mixed
 	 */
@@ -106,7 +108,7 @@ class PodTube {
 		// Set description to be the title, author, thumbnail, and then the original video description
 		$newItem->setDescription("<h1>$title</h1><h2>$author</h2>
 			<p><img class=\"alignleft size-medium\" src=\"$webThumb\" alt=\"" . htmlentities($title) . " -- " . htmlentities($author) . "
-			\"width=\"100%\" height=\"auto\"/></p><p>$descr</p>");
+			\" width=\"100%\" height=\"auto\"/></p><p>$descr</p>");
 
 		if($video->isIsVideo()){
 			$newItem->addElement('media:content', ['media:title' => $title], ['fileSize' => filesize($filePath),

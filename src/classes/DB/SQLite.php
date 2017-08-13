@@ -1,6 +1,6 @@
 <?php
 
-namespace AudioDidact;
+namespace AudioDidact\DB;
 
 /**
  * Class SQLite contains methods for communicating with a SQLite database stored on a filesystem
@@ -55,6 +55,8 @@ class SQLite extends MySQLDAL {
 
 	/**
 	 * SQLite constructor.
+	 *
+	 * @param $pdoStr
 	 */
 	public function __construct($pdoStr){
 		$this->myDBTables = [$this->userTable, $this->feedTable];

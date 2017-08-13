@@ -85,15 +85,27 @@ abstract class SupportedSite {
 
 	abstract public function downloadVideo();
 
+	public function applyArt(){
+		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
+		$ffmpegAlbumArt = $path . $this->video->getThumbnailFilename();
+		$ffmpegOutFile = $path . $this->video->getFilename() . $this->video->getFileExtension();
+		$ffmpegTempFile = $path . $this->video->getFilename() . "-art.mp3";
+
+		exec("ffmpeg -i \"$ffmpegOutFile\" -i \"$ffmpegAlbumArt\" -y -acodec copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpegTempFile\"");
+		rename($ffmpegTempFile, $ffmpegOutFile);
+
+		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpegOutFile));
+
+		return;
+	}
+
 	/**
 	 * Converts mp4 video to mp3 audio using ffmpeg
 	 */
 	public function convert(){
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
 		$ffmpegInFile = $path . $this->video->getFilename() . ".mp4";
-		$ffmpegAlbumArt = $path . $this->video->getThumbnailFilename();
 		$ffmpegOutFile = $path . $this->video->getFilename() . $this->video->getFileExtension();
-		$ffmpegTempFile = $path . $this->video->getFilename() . "-art.mp3";
 
 		// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
 		$cmd = "ffmpeg -i \"$ffmpegInFile\" -y -q:a 5 -map a \"$ffmpegOutFile\" 1> " . $this->video->getID() . ".txt 2>&1";
@@ -149,12 +161,11 @@ abstract class SupportedSite {
 			echo json_encode($response);
 			usleep(500000);
 		}
+
 		// Delete the temporary file that contained the ffmpeg output
 		@unlink($this->video->getID() . ".txt");
-		exec("ffmpeg -i \"$ffmpegOutFile\" -i \"$ffmpegAlbumArt\" -y -acodec copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpegTempFile\"");
-		rename($ffmpegTempFile, $ffmpegOutFile);
 
-		return;
+		return $ffmpegOutFile;
 	}
 
 	/**
@@ -212,7 +223,7 @@ abstract class SupportedSite {
 		}
 		else{
 			error_log("Content length was 0 for URL: " . $url);
-			throw new \Exception("Downloaded video length was 0, please try again later");
+			throw new \Exception("Downloaded file length was 0, please try again later");
 		}
 
 		return true;

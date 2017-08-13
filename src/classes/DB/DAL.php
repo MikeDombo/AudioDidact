@@ -1,6 +1,9 @@
 <?php
 
-namespace AudioDidact;
+namespace AudioDidact\DB;
+
+use AudioDidact\User;
+use AudioDidact\Video;
 
 /**
  * Class DAL
