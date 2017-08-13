@@ -1,29 +1,35 @@
 extends template
 block content
-    div.col-sm-12
-        h1.display-2.hidden-sm-down AudioDidact
-        h1.display-3.hidden-md-up.hidden-xs-down AudioDidact
-        h1.display-4.hidden-sm-up AudioDidact
-        hr
-        div(style="margin-bottom:20px; width:100%;").input-group
-            input(type="text").form-control#yt
-        div.form-check.form-check-inline
-            label.form-check-label
-                input.form-check-input(type="checkbox" name="audio-vid" value="true")
-                | &nbsp;Add as Video
-        div.progress
-            div(role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%; height:25px;").d-flex.justify-content-center.progress-bar.progress-bar-animated.align-middle#progress-total
-        div(style="margin-top:10px;").progress
-            div(role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%; height:25px;").d-flex.justify-content-center.progress-bar.progress-bar-animated.align-middle#progress-stage
-        div.pt-2
-            button(onclick="ajaxStream();" class="btn-success btn btn-block-xs-only") Add Content To Feed
-            a(href="/#{subdir}?manual" class="btn-info btn ml-sm-5 btn-block-xs-only" role="button") Switch to Manual Mode
-        style.
-            @media(max-width: 575px){.btn-block-xs-only{display: block;width: 100%;margin-bottom: .25rem;}}
-        include errorModal.pug
-    div.col-sm-12
-        h2 Feed Subscription URL:
-            a(href="#{localurl}user/#{user.webID}/feed") #{localurl}user/#{user.webID}/feed/
+	div.col-sm-12
+		h1.display-2.hidden-sm-down AudioDidact
+		h1.display-3.hidden-md-up.hidden-xs-down AudioDidact
+		h1.display-4.hidden-sm-up AudioDidact
+		hr
+		div(style="margin-bottom:20px; width:100%;").input-group
+			input(type="text").form-control#yt
+		div.form-check.form-check-inline
+			label.form-check-label
+				input.form-check-input(type="checkbox" name="audio-vid" value="true")
+				| &nbsp;Add as Video
+		div.progress
+			div(role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%; height:25px;").d-flex.justify-content-center.progress-bar.progress-bar-animated.align-middle#progress-total
+		div(style="margin-top:10px;").progress
+			div(role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%; height:25px;").d-flex.justify-content-center.progress-bar.progress-bar-animated.align-middle#progress-stage
+		div.pt-2
+			button(onclick="ajaxStream();" class="btn-success btn btn-block-xs-only") Add Content To Feed
+			a(href="/#{subdir}?manual" class="btn-info btn ml-sm-5 btn-block-xs-only" role="button") Switch to Manual Mode
+		style.
+			@media (max-width: 575px) {
+				.btn-block-xs-only {
+					display: block;
+					width: 100%;
+					margin-bottom: .25rem;
+				}
+			}
+		include errorModal.pug
+	div.col-sm-12
+		h2 Feed Subscription URL:
+			a(href="#{localurl}user/#{user.webID}/feed") #{localurl}user/#{user.webID}/feed/
 
 block afterJqueryLoad
-    script(src="/#{subdir}public/js/addVideoURL.js" integrity="#{addUserJSCheck}")
+	script(src="/#{subdir}public/js/addVideoURL.js" integrity="#{addUserJSCheck}")

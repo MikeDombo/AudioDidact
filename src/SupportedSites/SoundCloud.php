@@ -176,8 +176,10 @@ class SoundCloud extends SupportedSite {
 			// Send progress to UI
 			$response = ['stage' => 1, 'progress' => 100];
 			echo json_encode($response);
+
 			return true;
 		}
+
 		return false;
 	}
 

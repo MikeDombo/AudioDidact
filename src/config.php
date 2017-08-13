@@ -4,7 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 use Symfony\Component\Yaml\Parser;
 
 $yaml = new Parser();
-$ymlConfig = $yaml->parse(file_get_contents(__DIR__.'/config.yml'));
+$ymlConfig = $yaml->parse(file_get_contents(__DIR__ . '/config.yml'));
 
 $configVariableNames = ["AD_LOCAL_URL" => ["name" => "local-url", "type" => "string"],
 	"AD_SUBDIRECTORY" => ["name" => "subdirectory", "type" => "string"],

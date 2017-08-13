@@ -1,47 +1,47 @@
 nav.navbar.navbar-toggleable-sm.navbar-inverse.bg-inverse
-    button(type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault"
-    aria-expanded="false" aria-label="Toggle navigation").navbar-toggler.navbar-toggler-right
-        span.navbar-toggler-icon
-    a(class="navbar-brand" href="/#{subdir}") AudioDidact
-    div.collapse.navbar-collapse#navbarDefault
-        ul.navbar-nav.mr-auto
-            li.nav-item.p-1
-                if title == "Home"
-                    a(href="/#{subdir}").nav-link.active Home
-                else if title == "Add Content"
-                    a(href="/#{subdir}").nav-link.active Home
-                else if title == "Add Content Manually"
-                    a(href="/#{subdir}").nav-link.active Home
-                else
-                    a(href="/#{subdir}").nav-link Home
-            li.nav-item.p-1
-                if title == "FAQ"
-                    a(href="/#{subdir}faq").nav-link.active FAQ
-                else
-                    a(href="/#{subdir}faq").nav-link FAQ
-            li.nav-item.p-1
-                if title == "Help"
-                    a(href="/#{subdir}help").nav-link.active Help
-                else
-                    a(href="/#{subdir}help").nav-link Help
-        ul.navbar-nav
-            if loggedIn == "false"
-                li.nav-item.dropdown.p-1
-                    a(href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false") Login
-                    div(style="right:0; min-width:300px;left:initial;").dropdown-menu
-                        div.p-2
-                            input(id="uname" type="text" class="form-control" placeholder="Username")
-                            input(id="passwd" type="password" class="form-control" placeholder="Password")
-                        div.dropdown-divider
-                        div.p-2
-                            a(class="btn btn-success" style="color:#FFFFFF;width:100%;" href="#" onclick="login();") Login
-                            a(href="/#{subdir}forgot") Forgot Password
-                li.nav-item.p-1
-                    a(class="btn btn-success nav-link" href="/#{subdir}signup" style="color:#FFFFFF;").
-                        Sign Up!
-            else
-                li.nav-item.p-1
-                    a(href="#" onclick="logout()").nav-link Logout
-                li.nav-item.p-1
-                    a(class="btn btn-success nav-link" href="/#{subdir}user/#{user.webID}" style="color:#FFFFFF;") Account
+	button(type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault"
+	aria-expanded="false" aria-label="Toggle navigation").navbar-toggler.navbar-toggler-right
+		span.navbar-toggler-icon
+	a(class="navbar-brand" href="/#{subdir}") AudioDidact
+	div.collapse.navbar-collapse#navbarDefault
+		ul.navbar-nav.mr-auto
+			li.nav-item.p-1
+				if title == "Home"
+					a(href="/#{subdir}").nav-link.active Home
+				else if title == "Add Content"
+					a(href="/#{subdir}").nav-link.active Home
+				else if title == "Add Content Manually"
+					a(href="/#{subdir}").nav-link.active Home
+				else
+					a(href="/#{subdir}").nav-link Home
+			li.nav-item.p-1
+				if title == "FAQ"
+					a(href="/#{subdir}faq").nav-link.active FAQ
+				else
+					a(href="/#{subdir}faq").nav-link FAQ
+			li.nav-item.p-1
+				if title == "Help"
+					a(href="/#{subdir}help").nav-link.active Help
+				else
+					a(href="/#{subdir}help").nav-link Help
+		ul.navbar-nav
+			if loggedIn == "false"
+				li.nav-item.dropdown.p-1
+					a(href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button"
+					aria-haspopup="true" aria-expanded="false") Login
+					div(style="right:0; min-width:300px;left:initial;").dropdown-menu
+						div.p-2
+							input(id="uname" type="text" class="form-control" placeholder="Username")
+							input(id="passwd" type="password" class="form-control" placeholder="Password")
+						div.dropdown-divider
+						div.p-2
+							a(class="btn btn-success" style="color:#FFFFFF;width:100%;" href="#" onclick="login();") Login
+							a(href="/#{subdir}forgot") Forgot Password
+				li.nav-item.p-1
+					a(class="btn btn-success nav-link" href="/#{subdir}signup" style="color:#FFFFFF;").
+						Sign Up!
+			else
+				li.nav-item.p-1
+					a(href="#" onclick="logout()").nav-link Logout
+				li.nav-item.p-1
+					a(class="btn btn-success nav-link" href="/#{subdir}user/#{user.webID}" style="color:#FFFFFF;") Account

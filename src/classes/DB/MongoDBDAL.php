@@ -157,6 +157,7 @@ class MongoDBDAL extends DAL {
 	public function updateVideo(Video $vid, User $user){
 		$this->feeds->findOneAndReplace(["userID" => $user->getUserID(), "videoID" => $vid->getId(), "orderID" =>
 			$vid->getOrder()], $this->makeVideoArrayMongo($vid, $user));
+
 		return true;
 	}
 
@@ -169,6 +170,7 @@ class MongoDBDAL extends DAL {
 	 */
 	public function setFeedText(User $user, $feed){
 		$this->users->findOneAndUpdate(["_id" => $user->getUserID()], ['$set' => ["feedText" => $feed]]);
+
 		return true;
 	}
 

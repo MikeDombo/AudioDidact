@@ -7,6 +7,7 @@
  */
 
 namespace AudioDidact\SupportedSites;
+
 use AudioDidact\Video;
 
 class Vimeo extends SupportedSite {
@@ -46,7 +47,7 @@ class Vimeo extends SupportedSite {
 	}
 
 	private function getInfo(){
-		$configJSON = file_get_contents($this->vimeoConfigBaseURL.$this->video->getId()."/config");
+		$configJSON = file_get_contents($this->vimeoConfigBaseURL . $this->video->getId() . "/config");
 		$config = json_decode($configJSON, true);
 		if($config == false){
 			throw new \Exception("Unable to parse vimeo JSON");
@@ -59,7 +60,7 @@ class Vimeo extends SupportedSite {
 		$info["author"] = $config["video"]["owner"]["name"];
 		$info["title"] = $config["video"]["title"];
 
-		$videoHTML = file_get_contents($this->vimeoBaseURL.$this->video->getId());
+		$videoHTML = file_get_contents($this->vimeoBaseURL . $this->video->getId());
 		$doc = new \DOMDocument();
 		libxml_use_internal_errors(true);
 		$doc->loadHTML($videoHTML);
@@ -88,7 +89,7 @@ class Vimeo extends SupportedSite {
 		if($tmpId > 0 && count($vidId) == 2){
 			return $vidId[1];
 		}
-		error_log("unable to parse vimeo URL ".$str);
+		error_log("unable to parse vimeo URL " . $str);
 		throw new \Exception("Could not parse that vimeo URL");
 	}
 

@@ -173,7 +173,7 @@ class YouTube extends SupportedSite {
 		}
 
 		if(!isset($youtubeJSONData["args"]["url_encoded_fmt_stream_map"]) || $youtubeJSONData["args"]["url_encoded_fmt_stream_map"] == ""){
-			error_log("Couldn't download ".$id." because could not find url_encoded_fmt_stream_map");
+			error_log("Couldn't download " . $id . " because could not find url_encoded_fmt_stream_map");
 			error_log(json_encode($youtubeJSONData));
 			throw new \Exception("<h3>Download Failed</h3><h4>Try again later</h4>");
 		}

@@ -1,6 +1,7 @@
 <?php
 
 namespace AudioDidact;
+
 use AudioDidact\DB\DAL;
 use AudioDidact\SupportedSites\SupportedSite;
 

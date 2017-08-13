@@ -85,10 +85,12 @@ class ManualUpload extends SupportedSite {
 		$ffmpegOutFile = $path . $this->video->getFilename() . ".mp3";
 		if($p != "mp3"){
 			parent::convert();
+
 			return;
 		}
 
 		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpegOutFile));
+
 		return;
 	}
 }

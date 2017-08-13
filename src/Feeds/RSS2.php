@@ -1,4 +1,5 @@
 <?php
+
 namespace FeedWriter;
 
 /*
@@ -25,11 +26,11 @@ namespace FeedWriter;
  *
  * @package     UniversalFeedWriter
  */
-class RSS2 extends Feed{
-    /**
-    * {@inheritdoc}
-    */
-    public function __construct(){
-        parent::__construct(Feed::RSS2);
-    }
+class RSS2 extends Feed {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct(){
+		parent::__construct(Feed::RSS2);
+	}
 }
