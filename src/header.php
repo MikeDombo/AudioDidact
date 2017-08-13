@@ -236,11 +236,9 @@ function stringListicle($list){
 	return $returnString;
 }
 
-function mb_str_split($string){ 
-    # Split at all position not after the start: ^ 
-    # and not before the end: $ 
-    return preg_split('/(?<!^)(?!$)/u', $string);
-} 
+function mb_str_split($string){
+	return preg_split('/(?<!^)(?!$)/u', $string);
+}
 
 /**
  * Makes a new DAL class based on values in config.php
@@ -249,5 +247,6 @@ function mb_str_split($string){
  */
 function getDAL(){
 	$myDalClass = ChosenDAL;
+
 	return new $myDalClass(PDO_STR);
 }

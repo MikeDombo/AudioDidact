@@ -18,7 +18,6 @@
 
             <!--  <include / exclude filter for filelist generator, mask must follow fnmatch() requirements  -->
             <!--  Multiple elements can be added to define more than one mask per filter -->
-			<exclude mask="**/config.php" />
 			<exclude mask="**vendor**" />
             <include mask="*.php" />
 
