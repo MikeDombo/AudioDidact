@@ -6,6 +6,10 @@ abstract class SupportedSite {
 	/** @var \AudioDidact\Video local video object */
 	protected $video;
 
+	public static function supportsURL($url){
+		return false;
+	}
+
 	/**
 	 * Get duration of media file from ffmpeg
 	 *

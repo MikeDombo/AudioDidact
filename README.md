@@ -46,11 +46,11 @@ To update to the latest release on GitHub download or clone the repository to yo
 PHP API documentation is available [here](https://md100play.github.io/AudioDidact/html/index.html).
 
 ## Future Tasks
-- Dynamically find all SupportedSites so that new ones can simply be placed in the correct folder and will not require other code changes
 - Join sessions if the same user is logged in on multiple computers. Possibly move sessions into DB, or just keep on filesystem since that's working fine.
 - More statistics. Possibly a GitHub style punchcard.
 
 ## Completed Tasks
+- Dynamically find all SupportedSites so that new ones can simply be placed in the correct folder and will not require other code changes
 - Moved configuration into yaml
 - Add Vimeo support
 - Easier updating using config-update.php

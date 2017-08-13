@@ -131,4 +131,9 @@ class Vimeo extends SupportedSite {
 			throw $e;
 		}
 	}
+
+	public static function supportsURL($url){
+		return mb_strpos($url, "vimeo.com") > -1;
+	}
+
 }

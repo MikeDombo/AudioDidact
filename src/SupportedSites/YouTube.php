@@ -298,4 +298,10 @@ class YouTube extends SupportedSite {
 
 		return (isset($matches[1])) ? $matches[1] : false;
 	}
+
+	public static function supportsURL($url){
+		return (mb_strpos($url, "youtube") > -1) || (mb_strpos($url, "youtu.be") > -1);
+	}
+
+
 }

@@ -4,6 +4,8 @@ namespace AudioDidact;
 
 use AudioDidact\DB\DAL;
 use AudioDidact\SupportedSites\SupportedSite;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 require_once __DIR__ . "/header.php";
 
@@ -41,7 +43,7 @@ if(isset($_GET["yt"])){
 
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
-		$download = getSupportedSiteClass($url, $url, $isVideo);
+		$download = getSupportedSiteClass($url, $isVideo);
 		if($download != null){
 			$video = $download->getVideo();
 
@@ -93,7 +95,7 @@ function checkFilesExist(DAL $dal, User $user){
 				. DIRECTORY_SEPARATOR . $video->getId() . ".jpg")
 		){
 
-			$download = getSupportedSiteClass($video->getURL(), $video->getId(), $video->isIsVideo());
+			$download = getSupportedSiteClass($video->getURL(), $video->isIsVideo());
 			if($download != null){
 				if(!$download->allDownloaded()){
 					$download->downloadThumbnail();
@@ -108,40 +110,43 @@ function checkFilesExist(DAL $dal, User $user){
 }
 
 /**
- * Returns the appropriate SupportedClass to redownload any given content
+ * Returns the appropriate SupportedSite to download any given content based on the URL
  *
  * @param $url
- * @param $id
  * @param boolean $isVideo
  * @return \AudioDidact\SupportedSites\SupportedSite
- * @throws \Exception
  */
-function getSupportedSiteClass($url, $id, $isVideo){
-	try{
-		if(mb_strpos($url, "youtube") > -1 || mb_strpos($url, "youtu.be") > -1){
-			return new SupportedSites\YouTube($id, $isVideo);
-		}
-		else if(mb_strpos($url, "crtv.com") > -1){
-			return new SupportedSites\CRTV($url, $isVideo);
-		}
-		else if(mb_strpos($url, "soundcloud.com") > -1){
-			return new SupportedSites\SoundCloud($url, $isVideo);
-		}
-		else if(mb_strpos($url, "vimeo.com") > -1){
-			return new SupportedSites\Vimeo($url, $isVideo);
-		}
-		else if(mb_strlen($id) == 64){
-			return null;
-		}
-		else{
-			error_log("Could not find route for URL: " . $url . " or ID: " . $id);
+function getSupportedSiteClass($url, $isVideo){
+	// List all files in SupportedSites to find all the possible classes
+	$iter = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator(__DIR__ . '/SupportedSites/', RecursiveDirectoryIterator::SKIP_DOTS),
+		RecursiveIteratorIterator::SELF_FIRST,
+		RecursiveIteratorIterator::CATCH_GET_CHILD // Ignore "Permission denied"
+	);
+
+	// Make an array of all php files from the directory
+	$supportedSitesClasses = [];
+	foreach ($iter as $path => $file) {
+		$pathInfo = pathinfo($path);
+		if(mb_strpos($pathInfo["extension"], "php") > -1){
+			$name = $pathInfo["filename"];
+			if(!in_array($name, $supportedSitesClasses, true)){
+				$supportedSitesClasses[] = $name;
+			}
 		}
 	}
-	catch(\Exception $e){
-		throw $e;
+
+	// Check each SupportedSite to see if it supports the given URL
+	foreach($supportedSitesClasses as $className){
+		$className = "\\AudioDidact\\SupportedSites\\" . $className;
+		/** @var $className \AudioDidact\SupportedSites\SupportedSite */
+		if($className::supportsURL($url)){
+			return new $className($url, $isVideo);
+		}
 	}
 
 	echo json_encode(['stage' => -1, 'error' => "Could not find a class to download from that URL.", 'progress' => 0]);
+	error_log("Unable to find class for URL " . $url);
 
 	// Error case or manually uploaded content case
 	return null;

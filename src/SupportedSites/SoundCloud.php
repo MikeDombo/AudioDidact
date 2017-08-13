@@ -189,4 +189,10 @@ class SoundCloud extends SupportedSite {
 	public function convert(){
 
 	}
+
+	public static function supportsURL($url){
+		return mb_strpos($url, "soundcloud.com") > -1;
+	}
+
+
 }

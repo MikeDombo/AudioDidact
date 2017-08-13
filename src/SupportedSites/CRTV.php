@@ -165,4 +165,8 @@ class CRTV extends SupportedSite {
 
 		$this->video->setDuration(SupportedSite::getDurationSeconds($videoPath));
 	}
+
+	public static function supportsURL($url){
+		return mb_strpos($url, "crtv.com") > -1;
+	}
 }
