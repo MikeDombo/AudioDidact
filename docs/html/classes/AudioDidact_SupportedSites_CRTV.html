@@ -83,15 +83,14 @@
                     </li><li>private void <a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/getVideoId.html">getVideoId</a>()
                     </li><li>private void <a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/getPublisherID.html">getPublisherID</a>()
                     </li><li>private void <a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/getVideoInfo.html">getVideoInfo</a>()
-                    </li><li>public bool <a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/allDownloaded.html">allDownloaded</a>()
                     </li><li>public void <a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/downloadThumbnail.html">downloadThumbnail</a>()
                     </li><li>public void <a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/downloadVideo.html">downloadVideo</a>()
-                    </li><li>public void <a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/convert.html">convert</a>()
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="AudioDidact\SupportedSites\SupportedSite">SupportedSite</span></li><li>public static bool|string <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDuration.html">getDuration</a>()
                         </li><li>public static bool|string <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDurationSeconds.html">getDurationSeconds</a>()
                         </li><li>public bool <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded</a>()
                         </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadThumbnail.html">downloadThumbnail</a>()
                         </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadVideo.html">downloadVideo</a>()
+                        </li><li>public void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/applyArt.html">applyArt</a>()
                         </li><li>public void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/convert.html">convert</a>()
                         </li><li>protected bool <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadWithPercentage.html">downloadWithPercentage</a>()
                         </li><li>public Video <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getVideo.html">getVideo</a>()
@@ -147,10 +146,6 @@
           <ul>
             <li id="__construct"><a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/__construct.html">__construct()</a>
                 — CRTV constructor. Gets the video information, checks for it in the user's feed.</li>
-            <li id="allDownloaded"><a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/allDownloaded.html">allDownloaded()</a>
-                — Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)</li>
-            <li id="convert"><a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/convert.html">convert()</a>
-                — Converts mp4 video to mp3 audio using ffmpeg</li>
             <li id="downloadThumbnail"><a title="AudioDidact\SupportedSites\CRTV" href="../classes/AudioDidact_SupportedSites_CRTV/downloadThumbnail.html">downloadThumbnail()</a>
                 — Download thumbnail using videoID from Brightcove</li>
             <li id="downloadVideo">
@@ -167,6 +162,9 @@
           <ul>
             <li id="allDownloaded"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded()</a>
                 — Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)</li>
+            <li id="applyArt">
+              <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/applyArt.html">applyArt()</a>
+            </li>
             <li id="convert"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/convert.html">convert()</a>
                 — Converts mp4 video to mp3 audio using ffmpeg</li>
             <li id="downloadThumbnail">

@@ -117,7 +117,7 @@ function checkFilesExist(DAL $dal, User $user){
  */
 function getSupportedSiteClass($url, $id, $isVideo){
 	try{
-		if(mb_strpos($url, "youtube") > -1 || strpos($url, "youtu.be") > -1){
+		if(mb_strpos($url, "youtube") > -1 || mb_strpos($url, "youtu.be") > -1){
 			return new SupportedSites\YouTube($id, $isVideo);
 		}
 		else if(mb_strpos($url, "crtv.com") > -1){
