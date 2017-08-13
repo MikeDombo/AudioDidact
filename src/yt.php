@@ -102,6 +102,7 @@ function checkFilesExist(DAL $dal, User $user){
 					$download->downloadVideo();
 					if(!$video->isIsVideo()){
 						$download->convert();
+						$download->applyArt();
 					}
 				}
 			}
@@ -126,7 +127,7 @@ function getSupportedSiteClass($url, $isVideo){
 
 	// Make an array of all php files from the directory
 	$supportedSitesClasses = [];
-	foreach ($iter as $path => $file) {
+	foreach($iter as $path => $file){
 		$pathInfo = pathinfo($path);
 		if(mb_strpos($pathInfo["extension"], "php") > -1){
 			$name = $pathInfo["filename"];
