@@ -463,7 +463,7 @@ class User {
 	 * @param string $feedText
 	 */
 	public function setFeedText($feedText){
-		$this->feedText = intval($feedText);
+		$this->feedText = $feedText;
 	}
 
 	/**
@@ -481,7 +481,7 @@ class User {
 	 * @param int $feedLength
 	 */
 	public function setFeedLength($feedLength){
-		$this->feedLength = $feedLength;
+		$this->feedLength = intval($feedLength);
 	}
 
 	/**
