@@ -65,7 +65,7 @@ function makeUserPage($webID, $edit, $verifyEmail = null){
 		}
 	}
 
-	$options = ["edit" => $edit, "episodes" => $episodeData, "emailverify" => $emailVerify, "user" => $userData,
+	$options = ["edit" => $edit, "episodes" => $episodeData, "emailverify" => $emailVerify, "pageUser" => $userData,
 		"stats" => generateStatistics($user)];
 
 	return generatePug("views/userPage.pug", $title, $options);

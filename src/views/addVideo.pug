@@ -1,9 +1,8 @@
 extends template
 block content
 	div.col-sm-12
-		h1.display-2.hidden-sm-down AudioDidact
-		h1.display-3.hidden-md-up.hidden-xs-down AudioDidact
-		h1.display-4.hidden-sm-up AudioDidact
+		include mixins.pug
+		+responsiveAudioDidact
 		hr
 		div(style="margin-bottom:20px; width:100%;").input-group
 			input(type="text").form-control#yt

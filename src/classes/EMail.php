@@ -25,7 +25,7 @@ class EMail {
 		$subject = 'Reset your AudioDidact Password';
 		$message = "<html><head><title>$subject</title></head><body>"
 			. "<p>Click the link below to reset your AudioDidact password.</p>"
-			. " < p><a href = \"$verificationURL\">$verificationURL</a></p>"
+			. " <p><a href = \"$verificationURL\">$verificationURL</a></p>"
 			. "</body></html>";
 		self::mail($subject, $message, $user);
 	}

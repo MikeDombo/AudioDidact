@@ -220,7 +220,7 @@ class User {
 	 * @param bool $emailVerified
 	 */
 	public function setEmailVerified($emailVerified){
-		$this->emailVerified = $emailVerified;
+		$this->emailVerified = boolval($emailVerified);
 	}
 
 	/**
@@ -463,7 +463,7 @@ class User {
 	 * @param string $feedText
 	 */
 	public function setFeedText($feedText){
-		$this->feedText = $feedText;
+		$this->feedText = intval($feedText);
 	}
 
 	/**
@@ -516,7 +516,7 @@ class User {
 	 * @param boolean $privateFeed
 	 */
 	public function setPrivateFeed($privateFeed){
-		$this->privateFeed = $privateFeed;
+		$this->privateFeed = boolval($privateFeed);
 	}
 
 }

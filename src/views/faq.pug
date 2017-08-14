@@ -4,8 +4,8 @@ block content
 		div.col-xl-6.col-lg-8
 			div.card.mb-1
 				h3.card-header How do I access my feed?
-				div.card-block
-					if loggedIn == "false"
+				div.card-body
+					if loggedIn === "false"
 						p.card-text Your personal feed is located at #{localurl}user/username/feed
 					else
 						p.card-text Your personal feed is located at #{localurl}user/#{user.webID}/feed
@@ -15,9 +15,10 @@ block content
 			div.card.mb-1
 				h3.card-header.
 					Why the name <em>AudioDidact?</em>
-				div.card-block
+				div.card-body
 					p.card-text It comes from the word autodidact.
-					p.blockquote <strong>au·to·di·dact</strong> /ˌɔ toʊˈdaɪ dækt/ <br/>Noun - A self-taught person
+					blockquote.blockquote <strong>au·to·di·dact</strong> /ˌɔ toʊˈdaɪ dækt/ <br/>Noun - A self-taught
+					person
 					p.card-text.
 						I created AudioDidact to help me learn from the best thinkers online today,
 						and from history. It started with only supporting YouTube videos, which I used to download TED
@@ -26,7 +27,7 @@ block content
 			div.card.mb-1
 				h3.card-header.
 					What sites does AudioDidact support?
-				div.card-block
+				div.card-body
 					p.card-text AudioDidact currently supports the following services:
 						ul.list-group
 							li.list-group-item <a target="_blank" href="https://youtube.com">YouTube</a>
@@ -39,7 +40,7 @@ block content
 			div.card.mb-1
 				h3.card-header.
 					How can I modify my feed settings?
-				div.card-block
+				div.card-body
 					p.card-text.
 						Your feed settings can be changed on your user account page. The settings
 						that you can change include: podcast title, podcast icon, podcast author, podcast description,
@@ -48,7 +49,7 @@ block content
 				h3.card-header.
 					I don't want everyone to see what I'm listening to, can I keep
 					my feed private?
-				div.card-block
+				div.card-body
 					p.card-text.
 						Your feed can absolutely be private. Simply click on the switch on your
 						account page labeled "Feed is Private", which is off by default. When your feed is private

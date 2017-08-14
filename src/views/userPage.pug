@@ -1,9 +1,9 @@
 extends template.pug
 block content
-	if emailverify == 1
+	if emailverify === 1
 		div(role="alert").alert.alert-success
 			div.alert-text Successfully verified email.
-	else if emailverify == 2
+	else if emailverify === 2
 		div(role="alert").alert.alert-danger
 			div.alert-text Failed to verify email!
 	if edit
@@ -125,7 +125,7 @@ block afterJqueryLoad
 					}
 				});
 				$('#gender').editable({
-					value: #{user.gender},
+					value: #{pageUser.gender},
 					source: [
 						{value: 1, text: 'Male'},
 						{value: 2, text: 'Female'},

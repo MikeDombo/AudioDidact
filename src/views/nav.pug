@@ -1,4 +1,4 @@
-nav.navbar.navbar-toggleable-sm.navbar-inverse.bg-inverse
+nav.navbar.navbar-expand-sm.navbar-dark.bg-dark
 	button(type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault"
 	aria-expanded="false" aria-label="Toggle navigation").navbar-toggler.navbar-toggler-right
 		span.navbar-toggler-icon
@@ -6,26 +6,26 @@ nav.navbar.navbar-toggleable-sm.navbar-inverse.bg-inverse
 	div.collapse.navbar-collapse#navbarDefault
 		ul.navbar-nav.mr-auto
 			li.nav-item.p-1
-				if title == "Home"
+				if title === "Home"
 					a(href="/#{subdir}").nav-link.active Home
-				else if title == "Add Content"
+				else if title === "Add Content"
 					a(href="/#{subdir}").nav-link.active Home
-				else if title == "Add Content Manually"
+				else if title === "Add Content Manually"
 					a(href="/#{subdir}").nav-link.active Home
 				else
 					a(href="/#{subdir}").nav-link Home
 			li.nav-item.p-1
-				if title == "FAQ"
+				if title === "FAQ"
 					a(href="/#{subdir}faq").nav-link.active FAQ
 				else
 					a(href="/#{subdir}faq").nav-link FAQ
 			li.nav-item.p-1
-				if title == "Help"
+				if title === "Help"
 					a(href="/#{subdir}help").nav-link.active Help
 				else
 					a(href="/#{subdir}help").nav-link Help
 		ul.navbar-nav
-			if loggedIn == "false"
+			if loggedIn === "false"
 				li.nav-item.dropdown.p-1
 					a(href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button"
 					aria-haspopup="true" aria-expanded="false") Login

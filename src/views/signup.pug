@@ -1,37 +1,28 @@
 extends template.pug
 block content
-	div.col-sm-8.offset-sm-2
-		form.navbar-form.navbar-left
-			div.form-group.row
-				label(for="email" class="col-form-label col-sm-2") Email Address:
-				div.col-sm-10
-					input(id="email" type="text" class="form-control" placeholder="Email Address")
-			div.form-group.row
-				label(for="unameSignup" class="col-form-label col-sm-2") Username:
-				div.col-sm-10
-					input(id="unameSignup" type="text" class="form-control" placeholder="Username")
-			div.form-group.row
-				label(for="passwdSignup" class="col-form-label col-sm-2") Password:
-				div.col-sm-10
-					input(id="passwdSignup" type="password" class="form-control" placeholder="Password")
-			a(class="btn btn-success form-control" style="color:#FFFFFF" href="#" onclick="signup();") Sign Up
+	div.row.justify-content-sm-center
+		div.col-md-8
+			form.navbar-form.navbar-left
+				div.form-group.row
+					label(for="email" class="col-form-label col-sm-2") Email Address:
+					div.col-sm-10
+						input(id="email" type="text" class="form-control" placeholder="Email Address")
+				div.form-group.row
+					label(for="unameSignup" class="col-form-label col-sm-2") Username:
+					div.col-sm-10
+						input(id="unameSignup" type="text" class="form-control" placeholder="Username")
+				div.form-group.row
+					label(for="passwdSignup" class="col-form-label col-sm-2") Password:
+					div.col-sm-10
+						input(id="passwdSignup" type="password" class="form-control" placeholder="Password")
+				a(class="btn btn-success form-control" style="color:#FFFFFF" href="#" onclick="signup();") Sign Up
 
 block afterJqueryLoad
 	script.
 		var signingUp = false;
 		$(function (){
-			$("#unameSignup").keypress(function (e){
-				if(e.which == 10 || e.which == 13){
-					signup();
-				}
-			});
-			$("#passwdSignup").keypress(function (e){
-				if(e.which == 10 || e.which == 13){
-					signup();
-				}
-			});
-			$("#email").keypress(function (e){
-				if(e.which == 10 || e.which == 13){
+			$("#passwdSignup, #unameSignup, #email").keypress(function (e){
+				if(e.which === 10 || e.which === 13){
 					signup();
 				}
 			});
