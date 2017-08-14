@@ -6,8 +6,8 @@
  * Time: 7:42 PM
  */
 
-require_once __DIR__."/../src/header.php";
-chdir(__DIR__."/../src/");
+require_once __DIR__ . "/../../src/header.php";
+chdir(__DIR__ . "/../../src/");
 
 use AudioDidact\User;
 use \PHPUnit\Framework\TestCase;
@@ -98,6 +98,58 @@ class UserTest extends TestCase{
 
 		$ret = $u->signup("NEW_USER", "new_password", "myemail@mydomain.com", $dal, false);
 		$this->assertEquals("Sign up failed:\nUsername or email already in use!", $ret);
+	}
+
+	public function testGettersAndSetters(){
+		$u = new User();
+		$u->setEmailVerificationCodes(["ABC"]);
+		$this->assertEquals(["ABC"], $u->getEmailVerificationCodes());
+
+		$u->setPasswordRecoveryCodes(["ABC"]);
+		$this->assertEquals(["ABC"], $u->getPasswordRecoveryCodes());
+
+		$this->assertTrue($u->validateName("Michael"));
+		$this->assertTrue($u->validateName("Michael-"));
+		$this->assertTrue($u->validateName("Michael-D"));
+		$this->assertTrue($u->validateName("Michael\$"));
+		$this->assertFalse($u->validateName("\"Michael\""));
+		$this->assertFalse($u->validateName("'Michael'"));
+		$this->assertTrue($u->validateName("`Michael`"));
+
+		$u->setUserID("1");
+		$this->assertEquals("1", $u->getUserID());
+
+		$u->setUsername("MICHAEL");
+		$this->assertEquals("michael", $u->getUsername());
+		$u->setUsername("michael");
+		$this->assertEquals("michael", $u->getUsername());
+
+		$u->setFname("Michael");
+		$this->assertEquals("Michael", $u->getFname());
+		$u->setLname("Michael");
+		$this->assertEquals("Michael", $u->getLname());
+
+		$this->assertEquals(1, $u->getGender());
+		$u->setGender(2);
+		$this->assertEquals(2, $u->getGender());
+
+		$u->setPasswdDB("ABC");
+		$this->assertEquals("ABC", $u->getPasswd());
+
+		$u->setFeedText("ABC");
+		$this->assertEquals("ABC", $u->getFeedText());
+
+		$u->setFeedLength(0);
+		$this->assertEquals(0, $u->getFeedLength());
+
+		$this->assertFalse($u->isPrivateFeed());
+		$u->setPrivateFeed(true);
+		$this->assertTrue($u->isPrivateFeed());
+		$u->setPrivateFeed(false);
+		$this->assertFalse($u->isPrivateFeed());
+
+		$u->setFeedDetails([]);
+		$this->assertEquals([], $u->getFeedDetails());
 	}
 }
 

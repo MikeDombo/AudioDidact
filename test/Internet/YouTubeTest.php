@@ -6,8 +6,8 @@
  * Time: 7:42 PM
  */
 
-require_once __DIR__."/../src/header.php";
-chdir(__DIR__."/../src/");
+require_once __DIR__ . "/../../src/header.php";
+chdir(__DIR__ . "/../../src/");
 
 use AudioDidact\SupportedSites\YouTube;
 use \PHPUnit\Framework\TestCase;
@@ -133,6 +133,7 @@ class YouTubeTest extends TestCase{
 			$download->downloadThumbnail();
 			if(!$video->isIsVideo()){
 				$download->convert();
+				$download->applyArt();
 			}
 		}
 
@@ -152,6 +153,7 @@ class YouTubeTest extends TestCase{
 			$download->downloadThumbnail();
 			if(!$video->isIsVideo()){
 				$download->convert();
+				$download->applyArt();
 			}
 		}
 

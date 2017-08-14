@@ -90,17 +90,10 @@ function generateStatistics(\AudioDidact\User $user){
 
 	$timeConversion = secondsToTime($time);
 	$timeList = [];
-	if($timeConversion["d"] > 0){
-		$timeList[] = $timeConversion["d"] . " " . pluralize("day", $timeConversion["d"]);
-	}
-	if($timeConversion["h"] > 0){
-		$timeList[] = $timeConversion["h"] . " " . pluralize("hour", $timeConversion["h"]);
-	}
-	if($timeConversion["m"] > 0){
-		$timeList[] = $timeConversion["m"] . " " . pluralize("minute", $timeConversion["m"]);
-	}
-	if($timeConversion["s"] >= 0){
-		$timeList[] = $timeConversion["s"] . " " . pluralize("second", $timeConversion["s"]);
+	foreach($timeConversion as $unit => $value){
+		if($value > 0){
+			$timeList[] = $value . " " . pluralize($unit, $value);
+		}
 	}
 	$stats["totalTime"] = stringListicle($timeList);
 
@@ -114,32 +107,39 @@ function generateStatistics(\AudioDidact\User $user){
  * @param integer $inputSeconds Number of seconds to parse
  * @return array
  */
-
 function secondsToTime($inputSeconds){
-	$secondsInAMinute = 60;
-	$secondsInAnHour = 60 * $secondsInAMinute;
-	$secondsInADay = 24 * $secondsInAnHour;
+	$conversion = ["second" => ["second" => 1],
+		"minute" => ["second" => 60],
+		"hour" => ["minute" => 60],
+		"day" => ["hour" => 24],
+		"week" => ["day" => 7],
+		"month" => ["week" => 4],
+		"year" => ["day" => 365]];
 
-	// extract days
-	$days = floor($inputSeconds / $secondsInADay);
+	$baseUnit = "";
+	$newConversion = [];
+	foreach($conversion as $unit => $convertArr){
+		if(array_key_exists($unit, $convertArr) && $convertArr[$unit] == 1){
+			$baseUnit = $unit;
+		}
+		foreach($convertArr as $conversionUnit => $conversionFactor){
+			$conversion[$unit][$baseUnit] = $conversion[$conversionUnit][$baseUnit] * $conversionFactor;
+			$newConversion[$unit] = $conversion[$conversionUnit][$baseUnit] * $conversionFactor;
+		}
+	}
 
-	// extract hours
-	$hourSeconds = $inputSeconds % $secondsInADay;
-	$hours = floor($hourSeconds / $secondsInAnHour);
+	// Reverse sort so that the largest units are iterated through first
+	arsort($newConversion);
 
-	// extract minutes
-	$minuteSeconds = $hourSeconds % $secondsInAnHour;
-	$minutes = floor($minuteSeconds / $secondsInAMinute);
+	$remainingSeconds = $inputSeconds;
+	$outputArray = [];
+	foreach($newConversion as $unit => $conversionFactor){
+		$val = intval(floor($remainingSeconds / $conversionFactor));
+		if($val > 0){
+			$outputArray[$unit] = $val;
+		}
+		$remainingSeconds = $remainingSeconds % $conversionFactor;
+	}
 
-	// extract the remaining seconds
-	$remainingSeconds = $minuteSeconds % $secondsInAMinute;
-	$seconds = ceil($remainingSeconds);
-
-	// return the final array
-	return [
-		'd' => (int)$days,
-		'h' => (int)$hours,
-		'm' => (int)$minutes,
-		's' => (int)$seconds,
-	];
+	return $outputArray;
 }

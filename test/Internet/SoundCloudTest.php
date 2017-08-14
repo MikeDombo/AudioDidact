@@ -7,8 +7,8 @@
  */
 
 
-require_once __DIR__."/../src/header.php";
-chdir(__DIR__."/../src/");
+require_once __DIR__ . "/../../src/header.php";
+chdir(__DIR__ . "/../../src/");
 use PHPUnit\Framework\TestCase;
 use AudioDidact\SupportedSites\SoundCloud;
 
@@ -57,6 +57,7 @@ class SoundCloudTest extends TestCase{
 			$sc->downloadThumbnail();
 			if(!$video->isIsVideo()){
 				$sc->convert();
+				$sc->applyArt();
 			}
 		}
 

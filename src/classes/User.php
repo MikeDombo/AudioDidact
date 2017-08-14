@@ -506,6 +506,9 @@ class User {
 	 * @return boolean
 	 */
 	public function isPrivateFeed(){
+		if(empty($this->privateFeed)){
+			return false;
+		}
 		return $this->privateFeed;
 	}
 

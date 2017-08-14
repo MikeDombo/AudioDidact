@@ -22,11 +22,14 @@
     verbose="false">
 
     <testsuites>
-        <testsuite name="My Test Suite">
-            <directory suffix="Test.php">test/</directory>
+        <testsuite name="Local">
+            <directory suffix="Test.php">test/Local/</directory>
+        </testsuite>
+        <testsuite name="Internet">
+            <directory suffix="Test.php">test/Internet/</directory>
         </testsuite>
     </testsuites>
-	
+
 	<logging>
 		<log type="coverage-html" target="build/logs/coverage/html" title="phpDox"
 			 charset="UTF-8" yui="true" highlight="true"
@@ -37,13 +40,13 @@
 	</logging>
 
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist processUncoveredFilesFromWhitelist="false">
             <directory suffix=".php">src/classes/</directory>
+            <directory suffix=".php">src/classes/DB/</directory>
             <directory suffix=".php">src/SupportedSites/</directory>
+            <directory suffix=".php">src/</directory>
             <exclude>
                 <directory suffix=".php">src/Feeds/</directory>
-            </exclude>
-            <exclude>
                 <directory suffix=".php">src/vendor/</directory>
             </exclude>
         </whitelist>

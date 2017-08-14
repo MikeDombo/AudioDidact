@@ -62,7 +62,7 @@
             <a href="#history">History</a>
           </li>
           <li>
-            <a href="../source/SupportedSites/Vimeo.php.html#line12">Source</a>
+            <a href="../source/SupportedSites/Vimeo.php.html#line13">Source</a>
           </li>
         </ul>
       </nav>
@@ -87,11 +87,14 @@
                     </li><li>private bool <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/setVimeoID.html">setVimeoID</a>()
                     </li><li>public void <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/downloadThumbnail.html">downloadThumbnail</a>()
                     </li><li>public void <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/downloadVideo.html">downloadVideo</a>()
-                    </li></ul><ul class="none"><li>// Inherited methods from <span title="AudioDidact\SupportedSites\SupportedSite">SupportedSite</span></li><li>public static bool|string <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDuration.html">getDuration</a>()
+                    </li><li>public static void <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/supportsURL.html">supportsURL</a>()
+                    </li></ul><ul class="none"><li>// Inherited methods from <span title="AudioDidact\SupportedSites\SupportedSite">SupportedSite</span></li><li>public static void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/supportsURL.html">supportsURL</a>()
+                        </li><li>public static bool|string <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDuration.html">getDuration</a>()
                         </li><li>public static bool|string <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDurationSeconds.html">getDurationSeconds</a>()
                         </li><li>public bool <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded</a>()
                         </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadThumbnail.html">downloadThumbnail</a>()
                         </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadVideo.html">downloadVideo</a>()
+                        </li><li>public void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/applyArt.html">applyArt</a>()
                         </li><li>public void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/convert.html">convert</a>()
                         </li><li>protected bool <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadWithPercentage.html">downloadWithPercentage</a>()
                         </li><li>public Video <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getVideo.html">getVideo</a>()
@@ -150,6 +153,9 @@
                 — Download thumbnail using videoID from YouTube's image server</li>
             <li id="downloadVideo"><a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/downloadVideo.html">downloadVideo()</a>
                 — Download video using download URL from Python script and then call downloadWithPercentage to actually download the video</li>
+            <li id="supportsURL">
+              <a title="AudioDidact\SupportedSites\Vimeo" href="../classes/AudioDidact_SupportedSites_Vimeo/supportsURL.html">supportsURL()</a>
+            </li>
           </ul>
           <h3>Inherited from <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite.html">AudioDidact\SupportedSites\SupportedSite</a></h3>
           <h4>protected</h4>
@@ -161,6 +167,9 @@
           <ul>
             <li id="allDownloaded"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded()</a>
                 — Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)</li>
+            <li id="applyArt">
+              <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/applyArt.html">applyArt()</a>
+            </li>
             <li id="convert"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/convert.html">convert()</a>
                 — Converts mp4 video to mp3 audio using ffmpeg</li>
             <li id="downloadThumbnail">
@@ -178,10 +187,33 @@
                 — Get duration in seconds of media file from ffmpeg</li>
             <li id="getVideo"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getVideo.html">getVideo()</a>
                 — Returns the current Video object</li>
+            <li id="supportsURL">
+              <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/supportsURL.html">supportsURL()</a>
+            </li>
           </ul>
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2017-08-13T16:54:57+02:00 (commit #<span title="ad35d173bc3703dd7b64d617b73b5e53fcf10fc4">ad35d17</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Make finding SupportedSites dynamic</pre>
+            </div>
+          </li>
+          <li>
+            <h3>2017-08-13T05:42:15+02:00 (commit #<span title="d9d08d15c76f735a50a5e4540b8f102b4f75d526">d9d08d1</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
+                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
+                    </p>
+              <pre class="wrapped">Automatic reformatting</pre>
+            </div>
+          </li>
           <li>
             <h3>2017-07-23T19:18:08+02:00 (commit #<span title="edc327c01989207714ab3f5fea0df8510397c62d">edc327c</span>)</h3>
             <div>

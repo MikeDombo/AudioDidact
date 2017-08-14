@@ -78,17 +78,15 @@ if(userIsLoggedIn()){
 	}
 }
 
-if(!function_exists("setCheckRequired")){
-	/**
-	 * Sets the CHECK_REQUIRED flag in the config file
-	 *
-	 * @param bool $checkRequired
-	 */
-	function setCheckRequired($checkRequired){
-		$currentConfig = file_get_contents(__DIR__ . '/config.php');
-		$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+.*\)/", "define(\"CHECK_REQUIRED\", $checkRequired)", $currentConfig);
-		file_put_contents(__DIR__ . '/config.php', $newConfig);
-	}
+/**
+ * Sets the CHECK_REQUIRED flag in the config file
+ *
+ * @param bool $checkRequired
+ */
+function setCheckRequired($checkRequired){
+	$currentConfig = file_get_contents(__DIR__ . '/config.php');
+	$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+.*\)/", "define(\"CHECK_REQUIRED\", $checkRequired)", $currentConfig);
+	file_put_contents(__DIR__ . '/config.php', $newConfig);
 }
 
 if(CHECK_REQUIRED){
