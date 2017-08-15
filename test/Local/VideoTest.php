@@ -9,6 +9,13 @@
 use AudioDidact\Video;
 use PHPUnit\Framework\TestCase;
 
+require_once __DIR__ . "/../../src/header.php";
+chdir(__DIR__ . "/../../src/");
+
+/**
+ * @covers \AudioDidact\Video
+ * Class VideoTest
+ */
 class VideoTest extends TestCase {
 	public function testConstructor(){
 		$v = new Video();

@@ -6,17 +6,17 @@
  * Time: 7:31 PM
  */
 
-
 require_once __DIR__ . "/../../src/header.php";
 chdir(__DIR__ . "/../../src/");
-use PHPUnit\Framework\TestCase;
+
 use AudioDidact\SupportedSites\SoundCloud;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers AudioDidact\SupportedSites\SoundCloud
  * Class SoundCloudTest
  */
-class SoundCloudTest extends TestCase{
+class SoundCloudTest extends TestCase {
 	private $testUrl = "https://soundcloud.com/ravishouse/andy-gruhin-bring-me-down-ravi";
 
 	public function testConstructor(){
@@ -49,8 +49,8 @@ class SoundCloudTest extends TestCase{
 		$video = $sc->getVideo();
 
 		// Cleanup in case a previous test run failed before deleting downloaded files
-		@unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		@unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		@unlink(getcwd() . "/" . DOWNLOAD_PATH . "/" . $video->getFilename() . $video->getFileExtension());
+		@unlink(getcwd() . "/" . DOWNLOAD_PATH . "/" . $video->getThumbnailFilename());
 
 		if(!$sc->allDownloaded()){
 			$sc->downloadVideo();
@@ -61,13 +61,13 @@ class SoundCloudTest extends TestCase{
 			}
 		}
 
-		$this->assertFileExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		$this->assertFileNotExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().".mp4");
-		$this->assertFileExists(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		$this->assertFileExists(getcwd() . "/" . DOWNLOAD_PATH . "/" . $video->getFilename() . $video->getFileExtension());
+		$this->assertFileNotExists(getcwd() . "/" . DOWNLOAD_PATH . "/" . $video->getFilename() . ".mp4");
+		$this->assertFileExists(getcwd() . "/" . DOWNLOAD_PATH . "/" . $video->getThumbnailFilename());
 		$this->assertEquals(52, $video->getDuration());
 
-		unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getFilename().$video->getFileExtension());
-		unlink(getcwd()."/".DOWNLOAD_PATH."/".$video->getThumbnailFilename());
+		unlink(getcwd() . "/" . DOWNLOAD_PATH . "/" . $video->getFilename() . $video->getFileExtension());
+		unlink(getcwd() . "/" . DOWNLOAD_PATH . "/" . $video->getThumbnailFilename());
 	}
 
 }

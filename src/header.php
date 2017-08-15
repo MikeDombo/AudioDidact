@@ -24,9 +24,6 @@ spl_autoload_register(function($class){
 	else if(file_exists(__DIR__ . '/Feeds/' . $class . ".php")){
 		require_once __DIR__ . '/Feeds/' . $class . '.php';
 	}
-	else{
-		error_log("Class " . $class . " could not be found!");
-	}
 });
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");

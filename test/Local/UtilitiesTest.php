@@ -8,10 +8,12 @@
 
 use PHPUnit\Framework\TestCase;
 
+require_once __DIR__ . "/../../src/header.php";
+chdir(__DIR__ . "/../../src/");
+
+
 class UtilitiesTest extends TestCase {
 	public function testPluralize(){
-		require_once __DIR__ . '/../../src/header.php';
-
 		$this->pluralizeTestHelper("word", "words");
 		$this->pluralizeTestHelper("battery", "batteries");
 		$this->pluralizeTestHelper("test", "tests");
@@ -29,7 +31,7 @@ class UtilitiesTest extends TestCase {
 
 	public function testSecondsToTime(){
 		require_once __DIR__ . '/../../src/userPageGenerator.php';
-		
+
 		$output = secondsToTime(0);
 		$this->assertEquals([], $output);
 
