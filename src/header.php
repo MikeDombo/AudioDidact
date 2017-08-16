@@ -177,6 +177,13 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
 		'emailEnabled' => EMAIL_ENABLED
 	];
 
+	// Allow overwriting keys, but log the problem
+	$overWrittenKeys = array_intersect_key($initialOptions, $options);
+	if(count($overWrittenKeys) > 0){
+		error_log("You are overwriting " . count($overWrittenKeys) . " keys in the Pug options! "
+			. implode(", ", array_keys($overWrittenKeys)));
+	}
+
 	$options = array_merge($initialOptions, $options);
 
 	$pug = new Pug\Pug(['prettyprint' => $prettyPrint]);
