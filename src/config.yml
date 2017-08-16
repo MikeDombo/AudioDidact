@@ -22,6 +22,7 @@ session-cookie-secure: true
 # Set the from and reply-to field of all emails sent from AudioDidact.
 # EX: "\"AudioDidact Administrator\"<michael@mikedombrowski.com>"
 email:
+  enabled: true
   from: "\"AudioDidact Administrator\"<michael@mikedombrowski.com>"
 
 database:

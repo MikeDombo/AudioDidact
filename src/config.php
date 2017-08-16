@@ -12,7 +12,9 @@ $configVariableNames = ["AD_LOCAL_URL" => ["name" => "local-url", "type" => "str
 	"AD_DOWNLOAD_DIRECTORY" => ["name" => "download-directory", "type" => "string"],
 	"AD_SESSION_COOKIE_SECURE" => ["name" => "session-cookie-secure", "type" => "boolean"],
 	"AD_EMAIL_FROM" => ["name" => "email_from", "type" => "string"],
+	"AD_EMAIL_ENABLED" => ["name" => "email_enabled", "type" => "boolean"],
 	"AD_DATABASE_DRIVER" => ["name" => "database_driver", "type" => "string"],
+	"AD_DATABASE_ALWAYS_CHECK" => ["name" => "database_always-check", "type" => "boolean"],
 	"AD_DATABASE_CONNECTION_STRING" => ["name" => "database_connection-string", "type" => "string"],
 	"AD_DATABASE_USER" => ["name" => "database_user", "type" => "string"],
 	"AD_DATABASE_PASSWORD" => ["name" => "database_password", "type" => "string"],
@@ -33,8 +35,14 @@ foreach($configVariableNames as $k => $v){
 				case("AD_EMAIL_FROM"):
 					$ymlConfig["email"]["from"] = $e;
 					break;
+				case("AD_EMAIL_ENABLED"):
+					$ymlConfig["email"]["enabled"] = $e;
+					break;
 				case("AD_DATABASE_DRIVER"):
 					$ymlConfig["database"]["driver"] = $e;
+					break;
+				case("AD_DATABASE_ALWAYS_CHECK"):
+					$ymlConfig["database"]["always-check"] = $e;
 					break;
 				case("AD_DATABASE_CONNECTION_STRING"):
 					$ymlConfig["database"]["connection-string"] = $e;
@@ -64,6 +72,7 @@ define("GOOGLE_API_KEY", $ymlConfig["api-keys"]["google"]);
 define("DOWNLOAD_PATH", $ymlConfig["download-directory"]);
 define("SESSION_COOKIE_SECURE", $ymlConfig["session-cookie-secure"]);
 define("EMAIL_FROM", $ymlConfig["email"]["from"]);
+define("EMAIL_ENABLED", $ymlConfig["email"]["enabled"]);
 
 $dbData = $ymlConfig["database"];
 switch(strtolower($dbData["driver"])){
@@ -92,4 +101,9 @@ switch(strtolower($dbData["driver"])){
 //
 //
 /** Defines if a database validation is necessary */
-define("CHECK_REQUIRED", false);
+if($ymlConfig["database"]["always-check"]){
+	define("CHECK_REQUIRED", $ymlConfig["database"]["always-check"]);
+}
+else{
+	define("CHECK_REQUIRED", true);
+}

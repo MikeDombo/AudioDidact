@@ -82,7 +82,7 @@ if(userIsLoggedIn()){
  */
 function setCheckRequired($checkRequired){
 	$currentConfig = file_get_contents(__DIR__ . '/config.php');
-	$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+.*\)/", "define(\"CHECK_REQUIRED\", $checkRequired)", $currentConfig);
+	$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+(true|false)\)/", "define(\"CHECK_REQUIRED\", $checkRequired)", $currentConfig);
 	file_put_contents(__DIR__ . '/config.php', $newConfig);
 }
 

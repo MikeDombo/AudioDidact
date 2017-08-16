@@ -14,6 +14,7 @@ use \PHPUnit\Framework\TestCase;
 
 /**
  * @covers AudioDidact\SupportedSites\YouTube
+ * @covers AudioDidact\SupportedSites\SupportedSite
  * Class YouTubeTest
  */
 class YouTubeTest extends TestCase{

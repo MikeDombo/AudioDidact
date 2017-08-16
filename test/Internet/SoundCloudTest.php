@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers AudioDidact\SupportedSites\SoundCloud
+ * @covers AudioDidact\SupportedSites\SupportedSite
  * Class SoundCloudTest
  */
 class SoundCloudTest extends TestCase {
