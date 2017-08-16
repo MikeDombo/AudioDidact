@@ -6,6 +6,9 @@ use Symfony\Component\Yaml\Parser;
 $yaml = new Parser();
 $ymlConfig = $yaml->parse(file_get_contents(__DIR__ . '/config.yml'));
 
+date_default_timezone_set('UTC');
+mb_internal_encoding("UTF-8");
+
 $configVariableNames = ["AD_LOCAL_URL" => ["name" => "local-url", "type" => "string"],
 	"AD_SUBDIRECTORY" => ["name" => "subdirectory", "type" => "string"],
 	"AD_API_KEYS_GOOGLE" => ["name" => "api-keys_google", "type" => "string"],

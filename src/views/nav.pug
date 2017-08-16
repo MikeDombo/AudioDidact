@@ -25,7 +25,7 @@ nav.navbar.navbar-expand-sm.navbar-dark.bg-dark
 				else
 					a(href="/#{subdir}help").nav-link Help
 		ul.navbar-nav
-			if loggedIn === "false"
+			if $loggedIn === "false"
 				li.nav-item.dropdown.p-1
 					a(href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button"
 					aria-haspopup="true" aria-expanded="false") Login
@@ -36,7 +36,8 @@ nav.navbar.navbar-expand-sm.navbar-dark.bg-dark
 						div.dropdown-divider
 						div.p-2
 							a(class="btn btn-success" style="color:#FFFFFF;width:100%;" href="#" onclick="login();") Login
-							a(href="/#{subdir}forgot") Forgot Password
+							if $emailEnabled
+								a(href="/#{subdir}forgot") Forgot Password
 				li.nav-item.p-1
 					a(class="btn btn-success nav-link" href="/#{subdir}signup" style="color:#FFFFFF;").
 						Sign Up!

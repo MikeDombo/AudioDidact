@@ -25,8 +25,6 @@ spl_autoload_register(function($class){
 		require_once __DIR__ . '/Feeds/' . $class . '.php';
 	}
 });
-date_default_timezone_set('UTC');
-mb_internal_encoding("UTF-8");
 
 if(session_status() == PHP_SESSION_NONE){
 	session_set_cookie_params(
