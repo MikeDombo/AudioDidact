@@ -175,7 +175,8 @@ function generatePug($view, $title, $options = [], $prettyPrint = false){
 		'loggedIn' => $loggedin,
 		'localurl' => LOCAL_URL,
 		'user' => $userData,
-		'verified' => $verified
+		'verified' => $verified,
+		'emailEnabled' => EMAIL_ENABLED
 	];
 
 	$options = array_merge($initialOptions, $options);

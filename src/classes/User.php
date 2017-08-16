@@ -94,7 +94,7 @@ class User {
 			$user = $dal->getUserByUsername($uname);
 			$user->addEmailVerificationCode();
 			$dal->updateUserEmailPasswordCodes($user);
-			if($sendEmail){
+			if($sendEmail && EMAIL_ENABLED){
 				EMail::sendVerificationEmail($user);
 			}
 		}

@@ -16,7 +16,7 @@ $url = array_filter($url);
 // Make the homepage if requested
 if(count($url) == 0 || (count($url) == 1 && $url[1] == "index.php")){
 	// Verify user is logged in and their email has been verified
-	if(userIsLoggedIn() && $_SESSION["user"]->isEmailVerified()){
+	if(userIsLoggedIn() && ($_SESSION["user"]->isEmailVerified() || !EMAIL_ENABLED)){
 		if(isset($_GET["manual"])){
 			echo generatePug("views/addVideoUpload.pug", "Add Content Manually");
 		}
@@ -40,7 +40,7 @@ else if(count($url) == 1){
 		echo generatePug("views/help.pug", "Help");
 		exit(0);
 	}
-	else if($u == "forgot"){
+	else if($u == "forgot" && EMAIL_ENABLED){
 		if(isset($_GET["recoveryCode"]) && isset($_GET["username"])){
 			makePasswordReset($_GET["username"], $_GET["recoveryCode"]);
 			exit(0);
@@ -50,12 +50,12 @@ else if(count($url) == 1){
 			exit(0);
 		}
 	}
-	else if($u == "resetpassword"){
+	else if($u == "resetpassword" && EMAIL_ENABLED){
 		if(isset($_GET["uname"]) && isset($_GET["code"]) && isset($_GET["passwd"])){
 			resetPassword($_GET["uname"], $_GET["passwd"], $_GET["code"]);
 			exit(0);
 		}
-		else if(isset($_GET["uname"])){
+		else if(isset($_GET["uname"]) && EMAIL_ENABLED){
 			makePasswordResetRequest($_GET["uname"]);
 			exit(0);
 		}

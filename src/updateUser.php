@@ -114,7 +114,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 }
 else if(isset($_GET["resend"])){
 	echo "<script>";
-	if(userIsLoggedIn() && !$_SESSION["user"]->isEmailVerified()){
+	if(userIsLoggedIn() && !$_SESSION["user"]->isEmailVerified() && EMAIL_ENABLED){
 		$_SESSION["user"]->addEmailVerificationCode();
 		$dal = getDAL();
 		$dal->updateUserEmailPasswordCodes($_SESSION["user"]);

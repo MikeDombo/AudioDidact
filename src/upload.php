@@ -14,7 +14,7 @@ ob_implicit_flush(true);
 if(userIsLoggedIn()){
 	/** @var \AudioDidact\User $user */
 	$user = $_SESSION["user"];
-	if(!$user->isEmailVerified()){
+	if(!$user->isEmailVerified() && EMAIL_ENABLED){
 		echo json_encode(['stage' => -1, 'error' => "Must verify email first!", 'progress' => 0]);
 		exit(1);
 	}

@@ -101,7 +101,7 @@ switch(strtolower($dbData["driver"])){
 //
 //
 /** Defines if a database validation is necessary */
-if($ymlConfig["database"]["always-check"]){
+if(!empty($ymlConfig["database"]["always-check"])){
 	define("CHECK_REQUIRED", $ymlConfig["database"]["always-check"]);
 }
 else{
