@@ -14,7 +14,7 @@ before_script:
 # Install and run Composer
 - curl -sS https://getcomposer.org/installer | php
 - cd src
-- php ../composer.phar require --no-update phpunit/phpunit:~5.7:
+- php ../composer.phar require --no-update phpunit/phpunit:^5.7
 - php ../composer.phar install --no-dev --ignore-platform-reqs
 
 # Set any variables we need
@@ -25,15 +25,6 @@ variables:
 
 # Run our tests
 # If Xdebug was installed you can generate a coverage report and see code coverage metrics.
-test:7.1.1:
-  stage: test
-  # This file is a template, and might need editing before it works on your project.
-  # Select image from https://hub.docker.com/_/php/
-  image: php:7.1.1
-  services:
-  - mysql:5.7
-  script:
-  - vendor/bin/phpunit --configuration ../phpunit.xml --coverage-text --colors=never
 
 test:7.0:
   stage: test
