@@ -6,12 +6,12 @@ block afterJqueryLoad
 script.
 	$(function (){
 		$("#uname").keypress(function (e){
-			if(e.which == 10 || e.which == 13){
+			if(e.key === "Enter"){
 				login();
 			}
 		});
 		$("#passwd").keypress(function (e){
-			if(e.which == 10 || e.which == 13){
+			if(e.key === "Enter"){
 				login();
 			}
 		});

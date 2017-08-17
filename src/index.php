@@ -1,4 +1,5 @@
 <?php
+use \AudioDidact\GlobalFunctions;
 require_once __DIR__ . "/header.php";
 
 /**
@@ -16,28 +17,30 @@ $url = array_filter($url);
 // Make the homepage if requested
 if(count($url) == 0 || (count($url) == 1 && $url[1] == "index.php")){
 	// Verify user is logged in and their email has been verified
-	if(userIsLoggedIn() && ($_SESSION["user"]->isEmailVerified() || !EMAIL_ENABLED)){
+	if(GlobalFunctions::userIsLoggedIn() && ($_SESSION["user"]->isEmailVerified() || !EMAIL_ENABLED)){
 		if(isset($_GET["manual"])){
-			echo generatePug("views/addVideoUpload.pug", "Add Content Manually");
+			echo GlobalFunctions::generatePug("views/addVideoUpload.pug", "Add Content Manually");
 		}
 		else{
 			$pageJS = 'public/js/addVideoURL.js';
-			echo generatePug("views/addVideo.pug", "Add Content", ["addUserJSCheck" => SRIChecksum(file_get_contents($pageJS))]);
+			echo GlobalFunctions::generatePug("views/addVideo.pug",
+				"Add Content",
+				["addUserJSCheck" => GlobalFunctions::SRIChecksum(file_get_contents($pageJS))]);
 		}
 	}
 	else{
-		echo generatePug("views/homepage.pug", "Home");
+		echo GlobalFunctions::generatePug("views/homepage.pug", "Home");
 	}
 	exit(0);
 }
 else if(count($url) == 1){
 	$u = $url[1];
 	if($u == "faq"){
-		echo generatePug("views/faq.pug", "FAQ");
+		echo GlobalFunctions::generatePug("views/faq.pug", "FAQ");
 		exit(0);
 	}
 	else if($u == "help"){
-		echo generatePug("views/help.pug", "Help");
+		echo GlobalFunctions::generatePug("views/help.pug", "Help");
 		exit(0);
 	}
 	else if($u == "forgot" && EMAIL_ENABLED){
@@ -45,8 +48,8 @@ else if(count($url) == 1){
 			makePasswordReset($_GET["username"], $_GET["recoveryCode"]);
 			exit(0);
 		}
-		else if(!userIsLoggedIn()){
-			echo generatePug("views/passwordResetRequest.pug", "Request a Password Reset");
+		else if(!GlobalFunctions::userIsLoggedIn()){
+			echo GlobalFunctions::generatePug("views/passwordResetRequest.pug", "Request a Password Reset");
 			exit(0);
 		}
 	}
@@ -65,12 +68,12 @@ else if(count($url) == 1){
 		if($_SERVER['REQUEST_METHOD'] == "POST"){
 			// Check that required variables are present and are not empty.
 			if(isset($_POST["uname"]) && isset($_POST["passwd"]) && isset($_POST["email"])){
-				$dal = getDAL();
+				$dal = GlobalFunctions::getDAL();
 				$u = new AudioDidact\User();
 				$statement = $u->signup($_POST["uname"], $_POST["passwd"], $_POST["email"], $dal);
 				echo $statement;
 				if(!mb_strpos($statement, "failed")){
-					userLogIn($dal->getUserByUsername($u->getUsername()));
+					GlobalFunctions::userLogIn($dal->getUserByUsername($u->getUsername()));
 				}
 			}
 			else{
@@ -78,14 +81,14 @@ else if(count($url) == 1){
 			}
 		}
 		else{
-			echo generatePug('views/signup.pug', 'Sign Up for AudioDidact');
+			echo GlobalFunctions::generatePug('views/signup.pug', 'Sign Up for AudioDidact');
 		}
 		exit(0);
 	}
 	else if($u == "login" || $u == "login.php" || $u == "logout"){
 		// Check if the user is requesting a logout
 		if((isset($_POST["action"]) && $_POST["action"] == "logout") || $u == "logout"){
-			userLogOut();
+			GlobalFunctions::userLogOut();
 			echo "Logout Success!";
 			exit(0);
 		}
@@ -93,26 +96,26 @@ else if(count($url) == 1){
 		// Make sure necessary variables are given
 		if(isset($_POST["uname"]) && isset($_POST["passwd"])){
 			// Check login info, set loggedIn to true if the information is correct
-			$dal = getDAL();
+			$dal = GlobalFunctions::getDAL();
 			$possibleUser = $dal->getUserByUsername($_POST["uname"]);
 			$possibleUserEmail = $dal->getUserByEmail($_POST["uname"]);
 			// Check user based on username
 			if($possibleUser != null && $possibleUser->passwdCorrect($_POST["passwd"])){
-				userLogIn($possibleUser);
+				GlobalFunctions::userLogIn($possibleUser);
 				echo "Login Success!";
 			}
 			// Check user based on email
 			else if($possibleUserEmail != null && $possibleUserEmail->passwdCorrect($_POST["passwd"])){
-				userLogIn($possibleUserEmail);
+				GlobalFunctions::userLogIn($possibleUserEmail);
 				echo "Login Success!";
 			}
 			else{
-				userLogOut();
+				GlobalFunctions::userLogOut();
 				echo "Login Failed!";
 			}
 		}
 		else{
-			userLogOut();
+			GlobalFunctions::userLogOut();
 			echo "Login Failed!";
 		}
 		exit(0);
@@ -128,7 +131,7 @@ else{
 				exit(0);
 			}
 			else if(!isset($url[$k + 2]) || $url[$k + 2] == ""){
-				if(userIsLoggedIn() && $_SESSION["user"]->getWebID() == $webID){
+				if(GlobalFunctions::userIsLoggedIn() && $_SESSION["user"]->getWebID() == $webID){
 					$edit = true;
 				}
 				else{
@@ -154,7 +157,7 @@ make404();
  * @param $username string Username or Email address of user
  */
 function makePasswordResetRequest($username){
-	$dal = getDAL();
+	$dal = GlobalFunctions::getDAL();
 	$possibleUser = $dal->getUserByUsername($username);
 	$possibleUserEmail = $dal->getUserByEmail($username);
 	// Check user based on username
@@ -186,7 +189,7 @@ function makePasswordResetRequest($username){
  * @param $code string password reset code
  */
 function resetPassword($username, $password, $code){
-	$dal = getDAL();
+	$dal = GlobalFunctions::getDAL();
 	$user = $dal->getUserByUsername($username);
 	if($user != null){
 		if($user->verifyPasswordRecoveryCode($code)){
@@ -197,7 +200,7 @@ function resetPassword($username, $password, $code){
 			$dal->updateUserPassword($user);
 			$dal->updateUserEmailPasswordCodes($user);
 			// Log the user in with the new credentials
-			userLogIn($user);
+			GlobalFunctions::userLogIn($user);
 			\AudioDidact\EMail::sendPasswordWasResetEmail($user);
 			echo "Success!";
 		}
@@ -217,11 +220,11 @@ function resetPassword($username, $password, $code){
  * @param $code
  */
 function makePasswordReset($username, $code){
-	$dal = getDAL();
+	$dal = GlobalFunctions::getDAL();
 	$requestedUser = $dal->getUserByUsername($username);
 	if($requestedUser->verifyPasswordRecoveryCode($code)){
 		$options = ["passwordresetcode" => $code, "user" => $requestedUser];
-		echo generatePug("views/passwordResetPage.pug", "Reset Your Password", $options);
+		echo GlobalFunctions::generatePug("views/passwordResetPage.pug", "Reset Your Password", $options);
 	}
 	else{
 		echo '<script>location.assign("/' . SUBDIR . '");</script>';
@@ -243,7 +246,7 @@ function make404(){
  * @param $webID string WebID of the requested feed
  */
 function printUserFeed($webID){
-	$dal = getDAL();
+	$dal = GlobalFunctions::getDAL();
 	$requestedUser = $dal->getUserByWebID($webID);
 	if($requestedUser == null){
 		error_log("user " . $webID . " not found/is null");

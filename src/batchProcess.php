@@ -1,7 +1,10 @@
 <?php
+
+use AudioDidact\GlobalFunctions;
+
 require_once __DIR__ . "/header.php";
 
-$dal = getDAL();
+$dal = GlobalFunctions::getDAL();
 $pruneVids = $dal->getPrunableVideos();
 foreach($pruneVids as $v){
 	$downloadPath = DOWNLOAD_PATH . DIRECTORY_SEPARATOR . $v;

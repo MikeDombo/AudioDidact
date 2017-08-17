@@ -16,7 +16,7 @@ ob_implicit_flush(true);
 /*
  * Make sure user is logged in, set user variable to the session user.
  */
-if(userIsLoggedIn()){
+if(GlobalFunctions::userIsLoggedIn()){
 	/** @var \AudioDidact\User $user */
 	$user = $_SESSION["user"];
 	if(!$user->isEmailVerified() && EMAIL_ENABLED){
@@ -30,7 +30,7 @@ else{
 }
 // Write session to file to prevent concurrency issues
 session_write_close();
-$dal = getDAL();
+$dal = GlobalFunctions::getDAL();
 
 // If a video is being requested, then add the video, otherwise just show the current feed
 if(isset($_GET["yt"])){

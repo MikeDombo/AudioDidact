@@ -7,11 +7,15 @@
  */
 
 use PHPUnit\Framework\TestCase;
+use AudioDidact\GlobalFunctions;
 
 require_once __DIR__ . "/../../src/header.php";
 chdir(__DIR__ . "/../../src/");
 
-
+/**
+ * @covers \AudioDidact\GlobalFunctions
+ * Class UtilitiesTest
+ */
 class UtilitiesTest extends TestCase {
 	public function testPluralize(){
 		$this->pluralizeTestHelper("word", "words");
@@ -22,11 +26,11 @@ class UtilitiesTest extends TestCase {
 	}
 
 	public function testStringListicle(){
-		$this->assertEquals("", stringListicle([]));
-		$this->assertEquals("one", stringListicle(["one"]));
-		$this->assertEquals("one and two", stringListicle(["one", "two"]));
-		$this->assertEquals("one, two, and three", stringListicle(["one", "two", "three"]));
-		$this->assertEquals("one, two, three, and four", stringListicle(["one", "two", "three", "four"]));
+		$this->assertEquals("", GlobalFunctions::stringListicle([]));
+		$this->assertEquals("one", GlobalFunctions::stringListicle(["one"]));
+		$this->assertEquals("one and two", GlobalFunctions::stringListicle(["one", "two"]));
+		$this->assertEquals("one, two, and three", GlobalFunctions::stringListicle(["one", "two", "three"]));
+		$this->assertEquals("one, two, three, and four", GlobalFunctions::stringListicle(["one", "two", "three", "four"]));
 	}
 
 	public function testSecondsToTime(){
@@ -79,10 +83,10 @@ class UtilitiesTest extends TestCase {
 	}
 
 	private function pluralizeTestHelper($wordSingular, $wordPlural){
-		$this->assertEquals($wordPlural, pluralize($wordSingular, 0));
-		$this->assertEquals($wordSingular, pluralize($wordSingular, 1));
-		$this->assertEquals($wordPlural, pluralize($wordSingular, 2));
-		$this->assertEquals($wordPlural, pluralize($wordSingular, -1));
-		$this->assertEquals($wordPlural, pluralize($wordSingular, -2));
+		$this->assertEquals($wordPlural, GlobalFunctions::pluralize($wordSingular, 0));
+		$this->assertEquals($wordSingular, GlobalFunctions::pluralize($wordSingular, 1));
+		$this->assertEquals($wordPlural, GlobalFunctions::pluralize($wordSingular, 2));
+		$this->assertEquals($wordPlural, GlobalFunctions::pluralize($wordSingular, -1));
+		$this->assertEquals($wordPlural, GlobalFunctions::pluralize($wordSingular, -2));
 	}
 }

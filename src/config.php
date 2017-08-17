@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/classes/GlobalFunctions.php';
 
 use Symfony\Component\Yaml\Parser;
 
@@ -21,51 +22,17 @@ $configVariableNames = ["AD_LOCAL_URL" => ["name" => "local-url", "type" => "str
 	"AD_DATABASE_CONNECTION_STRING" => ["name" => "database_connection-string", "type" => "string"],
 	"AD_DATABASE_USER" => ["name" => "database_user", "type" => "string"],
 	"AD_DATABASE_PASSWORD" => ["name" => "database_password", "type" => "string"],
-	"AD_DATABASE_DATABASE_NAME" => ["name" => "database-name", "type" => "string"]
+	"AD_DATABASE_DATABASE_NAME" => ["name" => "database_database-name", "type" => "string"]
 ];
 
 foreach($configVariableNames as $k => $v){
+	$kk = explode("_", $v["name"]);
 	$e = getenv($k);
 	if($e != false){
 		if($v["type"] == "boolean"){
-			$e = boolval($e);
+			$e = mb_strtolower($e) == "true" ? true : false;
 		}
-		if(mb_strpos($k, "DATABASE") > -1 || mb_strpos($k, "EMAIL") > -1 || mb_strpos($k, "API_KEYS") > -1){
-			switch($k){
-				case("AD_API_KEYS_GOOGLE"):
-					$ymlConfig["api-keys"]["google"] = $e;
-					break;
-				case("AD_EMAIL_FROM"):
-					$ymlConfig["email"]["from"] = $e;
-					break;
-				case("AD_EMAIL_ENABLED"):
-					$ymlConfig["email"]["enabled"] = $e;
-					break;
-				case("AD_DATABASE_DRIVER"):
-					$ymlConfig["database"]["driver"] = $e;
-					break;
-				case("AD_DATABASE_ALWAYS_CHECK"):
-					$ymlConfig["database"]["always-check"] = $e;
-					break;
-				case("AD_DATABASE_CONNECTION_STRING"):
-					$ymlConfig["database"]["connection-string"] = $e;
-					break;
-				case("AD_DATABASE_USER"):
-					$ymlConfig["database"]["user"] = $e;
-					break;
-				case("AD_DATABASE_PASSWORD"):
-					$ymlConfig["database"]["password"] = $e;
-					break;
-				case("AD_DATABASE_DATABASE_NAME"):
-					$ymlConfig["database"]["database-name"] = $e;
-					break;
-				default:
-					break;
-			}
-		}
-		else{
-			$ymlConfig[$v["name"]] = $e;
-		}
+		$ymlConfig = \AudioDidact\GlobalFunctions::deepSetDictionaryValues($ymlConfig, $kk, $e);
 	}
 }
 

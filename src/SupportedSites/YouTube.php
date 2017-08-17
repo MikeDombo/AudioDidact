@@ -3,6 +3,7 @@
 namespace AudioDidact\SupportedSites;
 
 use AudioDidact\Video;
+use AudioDidact\GlobalFunctions;
 
 /**
  * Class YouTube
@@ -148,7 +149,7 @@ class YouTube extends SupportedSite {
 
 		$unmatchedBracketsCount = 0;
 		$index = 1;
-		$htmlArr = mb_str_split($html);
+		$htmlArr = GlobalFunctions::mb_str_split($html);
 		$i = 0;
 		foreach($htmlArr as $i => $ch){
 			if($ch == "{"){

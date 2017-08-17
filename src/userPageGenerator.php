@@ -1,5 +1,7 @@
 <?php
 
+use AudioDidact\GlobalFunctions;
+
 /**
  * Returns Pug rendered HTML for the User page, either view or edit
  *
@@ -9,7 +11,7 @@
  * @return string HTML of User's page from Pug
  */
 function makeUserPage($webID, $edit, $verifyEmail = null){
-	$dal = getDAL();
+	$dal = GlobalFunctions::getDAL();
 	$user = $dal->getUserByWebID($webID);
 	if($user == null){
 		echo "<script>alert(\"Invalid User!\");window.location = \"/" . SUBDIR . "\";</script>";
@@ -68,7 +70,7 @@ function makeUserPage($webID, $edit, $verifyEmail = null){
 	$options = ["edit" => $edit, "episodes" => $episodeData, "emailverify" => $emailVerify, "pageUser" => $userData,
 		"stats" => generateStatistics($user)];
 
-	return generatePug("views/userPage.pug", $title, $options);
+	return GlobalFunctions::generatePug("views/userPage.pug", $title, $options);
 }
 
 /**
@@ -78,7 +80,7 @@ function makeUserPage($webID, $edit, $verifyEmail = null){
  * @return array
  */
 function generateStatistics(\AudioDidact\User $user){
-	$dal = getDAL();
+	$dal = GlobalFunctions::getDAL();
 	$stats = [];
 	$feed = $dal->getFullFeedHistory($user);
 	$stats["numVids"] = count($feed);
@@ -92,10 +94,10 @@ function generateStatistics(\AudioDidact\User $user){
 	$timeList = [];
 	foreach($timeConversion as $unit => $value){
 		if($value > 0){
-			$timeList[] = $value . " " . pluralize($unit, $value);
+			$timeList[] = $value . " " . GlobalFunctions::pluralize($unit, $value);
 		}
 	}
-	$stats["totalTime"] = stringListicle($timeList);
+	$stats["totalTime"] = GlobalFunctions::stringListicle($timeList);
 
 	return $stats;
 }

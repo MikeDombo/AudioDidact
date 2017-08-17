@@ -1,15 +1,18 @@
 <?php
+
+use AudioDidact\GlobalFunctions;
+
 require_once __DIR__ . "/header.php";
 if($_SERVER['REQUEST_METHOD'] == "POST"){
 	if(!isset($_POST["name"]) || !isset($_POST["value"])){
 		outputGenericError();
 	}
 	else{
-		if(!userIsLoggedIn()){
+		if(!GlobalFunctions::userIsLoggedIn()){
 			echo json_encode(["success" => false, "error" => "Must be logged in to change data!"]);
 		}
 		else{
-			$dal = getDAL();
+			$dal = GlobalFunctions::getDAL();
 			$user = $dal->getUserByID($_SESSION["user"]->getUserID());
 			$changeSuccess = true;
 			switch($_POST["name"]){
@@ -114,9 +117,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 }
 else if(isset($_GET["resend"])){
 	echo "<script>";
-	if(userIsLoggedIn() && !$_SESSION["user"]->isEmailVerified() && EMAIL_ENABLED){
+	if(GlobalFunctions::userIsLoggedIn() && !$_SESSION["user"]->isEmailVerified() && EMAIL_ENABLED){
 		$_SESSION["user"]->addEmailVerificationCode();
-		$dal = getDAL();
+		$dal = GlobalFunctions::getDAL();
 		$dal->updateUserEmailPasswordCodes($_SESSION["user"]);
 		AudioDidact\EMail::sendVerificationEmail($_SESSION["user"]);
 		echo 'alert("Verification email resent!");';
@@ -135,7 +138,7 @@ else if(isset($_GET["resend"])){
  * @param \AudioDidact\User $user
  */
 function outputSuccess(\AudioDidact\User $user){
-	userLogIn($user);
+	GlobalFunctions::userLogIn($user);
 	echo json_encode(["success" => true]);
 }
 

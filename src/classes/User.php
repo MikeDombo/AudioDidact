@@ -278,7 +278,7 @@ class User {
 			if($result){
 				$this->setPasswd($passwd);
 				require_once __DIR__ . "/../config.php";
-				$dal = getDAL();
+				$dal = GlobalFunctions::getDAL();
 				$dal->updateUserPassword($this);
 			}
 
