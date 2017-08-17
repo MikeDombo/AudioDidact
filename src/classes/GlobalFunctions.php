@@ -11,6 +11,55 @@ namespace AudioDidact;
 require_once __DIR__ . '/../header.php';
 
 class GlobalFunctions {
+
+	/**
+	 * Convert number of seconds into hours, minutes and seconds
+	 * and return an array containing those values
+	 *
+	 * @param integer $inputSeconds Number of seconds to parse
+	 * @return array
+	 */
+	public static function secondsToTime($inputSeconds){
+		$conversion = ["second" => ["second" => 1],
+			"minute" => ["second" => 60],
+			"hour" => ["minute" => 60],
+			"day" => ["hour" => 24],
+			"week" => ["day" => 7],
+			"month" => ["week" => 4],
+			"year" => ["day" => 365]];
+
+		return self::modularUnitExpansion($inputSeconds, $conversion);
+	}
+
+	public static function modularUnitExpansion($value, $conversionTable){
+		$baseUnit = "";
+		$newConversion = [];
+		foreach($conversionTable as $unit => $convertArr){
+			if(array_key_exists($unit, $convertArr) && $convertArr[$unit] == 1){
+				$baseUnit = $unit;
+			}
+			foreach($convertArr as $conversionUnit => $conversionFactor){
+				$conversionTable[$unit][$baseUnit] = $conversionTable[$conversionUnit][$baseUnit] * $conversionFactor;
+				$newConversion[$unit] = $conversionTable[$conversionUnit][$baseUnit] * $conversionFactor;
+			}
+		}
+
+		// Reverse sort so that the largest units are iterated through first
+		arsort($newConversion);
+
+		$remainingUnits = $value;
+		$outputArray = [];
+		foreach($newConversion as $unit => $conversionFactor){
+			$val = intval(floor($remainingUnits / $conversionFactor));
+			if($val > 0){
+				$outputArray[$unit] = $val;
+			}
+			$remainingUnits = $remainingUnits % $conversionFactor;
+		}
+
+		return $outputArray;
+	}
+
 	/**
 	 * Deletes all session variables and the session cookies
 	 */
@@ -136,12 +185,13 @@ class GlobalFunctions {
 		if(count($list) == 0){
 			return $returnString;
 		}
-		if(count($list) == 1){
+		else if(count($list) == 1){
 			return $list[0];
 		}
-		if(count($list) == 2){
+		else if(count($list) == 2){
 			return $list[0] . " and " . $list[1];
 		}
+
 		foreach($list as $i => $item){
 			if($i == count($list) - 1){
 				$returnString .= "and " . $item;
@@ -182,7 +232,7 @@ class GlobalFunctions {
 		$o = &$dict;
 		for($i = 0; $i < count($keyHierarchy) - 1; $i++){
 			$subKeyAtI = $keyHierarchy[$i];
-			if(isset($o[$subKeyAtI])){
+			if(array_key_exists($subKeyAtI, $o)){
 				$o = &$o[$subKeyAtI];
 			}
 			else{

@@ -90,7 +90,7 @@ function generateStatistics(\AudioDidact\User $user){
 		$time += $v->getDuration();
 	}
 
-	$timeConversion = secondsToTime($time);
+	$timeConversion = GlobalFunctions::secondsToTime($time);
 	$timeList = [];
 	foreach($timeConversion as $unit => $value){
 		if($value > 0){
@@ -100,48 +100,4 @@ function generateStatistics(\AudioDidact\User $user){
 	$stats["totalTime"] = GlobalFunctions::stringListicle($timeList);
 
 	return $stats;
-}
-
-/**
- * Convert number of seconds into hours, minutes and seconds
- * and return an array containing those values
- *
- * @param integer $inputSeconds Number of seconds to parse
- * @return array
- */
-function secondsToTime($inputSeconds){
-	$conversion = ["second" => ["second" => 1],
-		"minute" => ["second" => 60],
-		"hour" => ["minute" => 60],
-		"day" => ["hour" => 24],
-		"week" => ["day" => 7],
-		"month" => ["week" => 4],
-		"year" => ["day" => 365]];
-
-	$baseUnit = "";
-	$newConversion = [];
-	foreach($conversion as $unit => $convertArr){
-		if(array_key_exists($unit, $convertArr) && $convertArr[$unit] == 1){
-			$baseUnit = $unit;
-		}
-		foreach($convertArr as $conversionUnit => $conversionFactor){
-			$conversion[$unit][$baseUnit] = $conversion[$conversionUnit][$baseUnit] * $conversionFactor;
-			$newConversion[$unit] = $conversion[$conversionUnit][$baseUnit] * $conversionFactor;
-		}
-	}
-
-	// Reverse sort so that the largest units are iterated through first
-	arsort($newConversion);
-
-	$remainingSeconds = $inputSeconds;
-	$outputArray = [];
-	foreach($newConversion as $unit => $conversionFactor){
-		$val = intval(floor($remainingSeconds / $conversionFactor));
-		if($val > 0){
-			$outputArray[$unit] = $val;
-		}
-		$remainingSeconds = $remainingSeconds % $conversionFactor;
-	}
-
-	return $outputArray;
 }
