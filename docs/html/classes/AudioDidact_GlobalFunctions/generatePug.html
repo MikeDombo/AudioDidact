@@ -2,7 +2,7 @@
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:pu="http://schema.phpunit.de/coverage/1.0" lang="en">
   <head>
-    <title>phpDox - AudioDidact\SupportedSites\YouTube::supportsURL</title>
+    <title>phpDox - AudioDidact\GlobalFunctions::generatePug</title>
     <link rel="stylesheet" type="text/css" href="../../css/style.css" media="screen"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
   </head>
@@ -36,12 +36,12 @@
             <a href="../../classes.html">Classes</a>
           </li>
           <li class="separator">
-            <a href="../../classes.html#AudioDidact_SupportedSites">AudioDidact\SupportedSites</a>
+            <a href="../../classes.html#AudioDidact">AudioDidact</a>
           </li>
           <li class="separator">
-            <a title="AudioDidact\SupportedSites\YouTube" href="../../classes/AudioDidact_SupportedSites_YouTube.html">YouTube</a>
+            <a title="AudioDidact\GlobalFunctions" href="../../classes/AudioDidact_GlobalFunctions.html">GlobalFunctions</a>
           </li>
-          <li class="separator">supportsURL</li>
+          <li class="separator">generatePug</li>
         </ul>
       </div>
       <nav class="box">
@@ -56,38 +56,54 @@
             <a href="#parameter">Parameter</a>
           </li>
           <li>
-            <a href="#overrides">Overrides</a>
+            <a href="#return">Return</a>
           </li>
           <li>
-            <a href="../../source/SupportedSites/YouTube.php.html#line303">Source</a>
+            <a href="../../source/classes/GlobalFunctions.php.html#line70">Source</a>
           </li>
         </ul>
       </nav>
       <section>
-        <h1><small>AudioDidact\SupportedSites\YouTube::</small>supportsURL</h1>
-        <h4/>
+        <h1><small>AudioDidact\GlobalFunctions::</small>generatePug</h1>
+        <h4>Returns Pug (Jade) rendered HTML for a given view and options</h4>
         <p/>
+        <ul/>
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
-          <code>public function supportsURL(
-        $url )
+          <code>public function generatePug(string
+        $view,
+            string
+        $title,
+            [array
+        $options = ,
+            [boolean
+        $prettyPrint = false]] )
             </code>
         </div>
         <h2 id="parameterlist">Parameters</h2>
         <dl class="styled">
-          <dt><code>$url</code>
+          <dt><code>$view</code>
                 —
-                </dt>
-          <dd/>
+                string</dt>
+          <dd>Name of Pug view to be rendered</dd>
+          <dt><code>$title</code>
+                —
+                string</dt>
+          <dd>Title of the webpage</dd>
+          <dt><code>$options</code>
+                —
+                array</dt>
+          <dd>Additional options needed to render the view</dd>
+          <dt><code>$prettyPrint</code>
+                —
+                boolean</dt>
+          <dd>If prettyPrint is false, all HTML is on a single line<br/><br/><br/>      </dd>
         </dl>
-        <h2 id="overrides">Parent Implementation</h2>
-        <ul class="styled">
-          <li>
-            <code>
-              <a title="AudioDidact\SupportedSites\SupportedSite" href="../../classes/AudioDidact_SupportedSites_SupportedSite/supportsURL.html">SupportedSite</a>
-            </code>
-          </li>
-        </ul>
+        <h2 id="return">Returns</h2>
+        <dl class="styled">
+          <dt>string</dt>
+          <dd>Pug generated HTML</dd>
+        </dl>
       </section>
     </div>
     <footer>
