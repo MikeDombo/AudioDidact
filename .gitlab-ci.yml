@@ -14,7 +14,7 @@ before_script:
 # Install and run Composer
 - curl -sS https://getcomposer.org/installer | php
 - cd src
-- php ../composer.phar require --no-update phpunit/phpunit
+- php ../composer.phar require --no-update phpunit/phpunit:~5.7:
 - php ../composer.phar install --no-dev --ignore-platform-reqs
 
 # Set any variables we need
