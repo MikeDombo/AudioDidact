@@ -166,13 +166,18 @@ class GlobalFunctions {
 	 */
 	public static function pluralize($word, $num){
 		$vowels = ["a", "e", "i", "o", "u"];
+		$lastCharExceptions = ["s", "o", "x"];
+		$lastTwoCharExceptions = ["sh", "ch"];
 		if($num == 1){
 			return $word;
 		}
-		if(mb_substr($word, -1, 1) == "y" && !in_array(mb_substr($word, -2, 1), $vowels, true)){
+		$lastChar = mb_substr($word, -1, 1);
+		$lastTwoChars = mb_substr($word, -2, 2);
+		if($lastChar == "y" && !in_array(mb_substr($word, -2, 1), $vowels, true)){
 			return mb_substr($word, 0, mb_strlen($word) - 1) . "ies";
 		}
-		else if(mb_substr($word, -1, 1) == "s" || mb_substr($word, -1, 1) == "o"){
+		else if(in_array($lastChar, $lastCharExceptions, true)
+			|| in_array($lastTwoChars, $lastTwoCharExceptions, true)){
 			return $word . "es";
 		}
 		else{
@@ -180,28 +185,19 @@ class GlobalFunctions {
 		}
 	}
 
-	public static function stringListicle($list){
-		$returnString = "";
-		if(count($list) == 0){
-			return $returnString;
-		}
-		else if(count($list) == 1){
-			return $list[0];
-		}
-		else if(count($list) == 2){
-			return $list[0] . " and " . $list[1];
-		}
+	public static function arrayToCommaSeparatedString($list){
+		$frontOfList = array_slice($list, 0, -1);
+		$lastElement = array_slice($list, -1, 1);
 
-		foreach($list as $i => $item){
-			if($i == count($list) - 1){
-				$returnString .= "and " . $item;
-			}
-			else{
-				$returnString .= $item . ", ";
+		$prependConjunction = "";
+		if(count($frontOfList) > 0){
+			$prependConjunction = " and ";
+			if(count($frontOfList) > 1){
+				$prependConjunction = "," . $prependConjunction;
 			}
 		}
 
-		return $returnString;
+		return implode(", ", $frontOfList) . $prependConjunction . (count($lastElement) == 0 ? "" : $lastElement[0]);
 	}
 
 	public static function mb_str_split($string){

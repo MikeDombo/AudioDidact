@@ -23,14 +23,18 @@ class UtilitiesTest extends TestCase {
 		$this->pluralizeTestHelper("test", "tests");
 		$this->pluralizeTestHelper("cache", "caches");
 		$this->pluralizeTestHelper("potato", "potatoes");
+		$this->pluralizeTestHelper("box", "boxes");
+		$this->pluralizeTestHelper("class", "classes");
+		$this->pluralizeTestHelper("branch", "branches");
+		$this->pluralizeTestHelper("brush", "brushes");
 	}
 
 	public function testStringListicle(){
-		$this->assertEquals("", GlobalFunctions::stringListicle([]));
-		$this->assertEquals("one", GlobalFunctions::stringListicle(["one"]));
-		$this->assertEquals("one and two", GlobalFunctions::stringListicle(["one", "two"]));
-		$this->assertEquals("one, two, and three", GlobalFunctions::stringListicle(["one", "two", "three"]));
-		$this->assertEquals("one, two, three, and four", GlobalFunctions::stringListicle(["one", "two", "three", "four"]));
+		$this->assertEquals("", GlobalFunctions::arrayToCommaSeparatedString([]));
+		$this->assertEquals("one", GlobalFunctions::arrayToCommaSeparatedString(["one"]));
+		$this->assertEquals("one and two", GlobalFunctions::arrayToCommaSeparatedString(["one", "two"]));
+		$this->assertEquals("one, two, and three", GlobalFunctions::arrayToCommaSeparatedString(["one", "two", "three"]));
+		$this->assertEquals("one, two, three, and four", GlobalFunctions::arrayToCommaSeparatedString(["one", "two", "three", "four"]));
 	}
 
 	public function testSecondsToTime(){

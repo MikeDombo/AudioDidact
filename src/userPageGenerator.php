@@ -97,7 +97,7 @@ function generateStatistics(\AudioDidact\User $user){
 			$timeList[] = $value . " " . GlobalFunctions::pluralize($unit, $value);
 		}
 	}
-	$stats["totalTime"] = GlobalFunctions::stringListicle($timeList);
+	$stats["totalTime"] = GlobalFunctions::arrayToCommaSeparatedString($timeList);
 
 	return $stats;
 }
