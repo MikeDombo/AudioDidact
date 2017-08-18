@@ -8,26 +8,6 @@ if(ob_get_level()){
 	ob_end_clean();
 }
 
-spl_autoload_register(function($class){
-	$classes = explode("\\", $class);
-	$class = end($classes);
-	if(file_exists(__DIR__ . '/' . $class . ".php")){
-		require_once __DIR__ . '/' . $class . '.php';
-	}
-	else if(file_exists(__DIR__ . '/classes/' . $class . ".php")){
-		require_once __DIR__ . '/classes/' . $class . '.php';
-	}
-	else if(file_exists(__DIR__ . '/classes/DB/' . $class . ".php")){
-		require_once __DIR__ . '/classes/DB/' . $class . '.php';
-	}
-	else if(file_exists(__DIR__ . '/SupportedSites/' . $class . ".php")){
-		require_once __DIR__ . '/SupportedSites/' . $class . '.php';
-	}
-	else if(file_exists(__DIR__ . '/Feeds/' . $class . ".php")){
-		require_once __DIR__ . '/Feeds/' . $class . '.php';
-	}
-});
-
 if(session_status() == PHP_SESSION_NONE){
 	session_set_cookie_params(
 		2678400,

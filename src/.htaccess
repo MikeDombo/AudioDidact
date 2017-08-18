@@ -1,12 +1,17 @@
 # Redirect non-existing files or folders to index
 <IfModule mod_rewrite.c>
-  RewriteEngine On 
+  RewriteEngine on
+  # If not HTTPS, then redirect to secure site
   RewriteCond %{HTTPS} off
   RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule .* index.php [L]
 </IfModule>
+<Files "config.yml">
+Order Allow,Deny
+Deny from all
+</Files>
 <IfModule mod_deflate.c>
   # Compress HTML, CSS, JavaScript, Text, XML and fonts
   AddOutputFilterByType DEFLATE application/javascript

@@ -1,31 +1,61 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
-require_once __DIR__ . '/classes/GlobalFunctions.php';
+spl_autoload_register(function($class){
+	$classes = explode("\\", $class);
+	$class = end($classes);
+	if(file_exists(__DIR__ . '/' . $class . ".php")){
+		require_once __DIR__ . '/' . $class . '.php';
+	}
+	else if(file_exists(__DIR__ . '/classes/' . $class . ".php")){
+		require_once __DIR__ . '/classes/' . $class . '.php';
+	}
+	else if(file_exists(__DIR__ . '/classes/DB/' . $class . ".php")){
+		require_once __DIR__ . '/classes/DB/' . $class . '.php';
+	}
+	else if(file_exists(__DIR__ . '/SupportedSites/' . $class . ".php")){
+		require_once __DIR__ . '/SupportedSites/' . $class . '.php';
+	}
+	else if(file_exists(__DIR__ . '/Feeds/' . $class . ".php")){
+		require_once __DIR__ . '/Feeds/' . $class . '.php';
+	}
+});
 
 use Symfony\Component\Yaml\Parser;
 
 $yaml = new Parser();
-$ymlConfig = $yaml->parse(file_get_contents(__DIR__ . '/config.yml'));
+$configFile = __DIR__ . '/config.yml';
+$configFile2 = __DIR__ . '/../config.yml';
+if(!file_exists($configFile)){
+	if(file_exists($configFile2)){
+		$configFile = $configFile2;
+	}
+	else{
+		die("Unable to load config.yml. Please check that the config file is located in the right place.");
+	}
+}
+$ymlConfig = $yaml->parse(file_get_contents($configFile));
 
 date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
 
-$configVariableNames = ["AD_LOCAL_URL" => ["name" => "local-url", "type" => "string"],
-	"AD_SUBDIRECTORY" => ["name" => "subdirectory", "type" => "string"],
-	"AD_API_KEYS_GOOGLE" => ["name" => "api-keys_google", "type" => "string"],
-	"AD_DOWNLOAD_DIRECTORY" => ["name" => "download-directory", "type" => "string"],
-	"AD_SESSION_COOKIE_SECURE" => ["name" => "session-cookie-secure", "type" => "boolean"],
-	"AD_EMAIL_FROM" => ["name" => "email_from", "type" => "string"],
-	"AD_EMAIL_ENABLED" => ["name" => "email_enabled", "type" => "boolean"],
-	"AD_DATABASE_DRIVER" => ["name" => "database_driver", "type" => "string"],
-	"AD_DATABASE_ALWAYS_CHECK" => ["name" => "database_always-check", "type" => "boolean"],
-	"AD_DATABASE_CONNECTION_STRING" => ["name" => "database_connection-string", "type" => "string"],
-	"AD_DATABASE_USER" => ["name" => "database_user", "type" => "string"],
-	"AD_DATABASE_PASSWORD" => ["name" => "database_password", "type" => "string"],
-	"AD_DATABASE_DATABASE_NAME" => ["name" => "database_database-name", "type" => "string"]
+$environmentVariablePrefix = "AD_";
+$configVariableNames = ["LOCAL_URL" => ["name" => "local-url", "type" => "string"],
+	"SUBDIRECTORY" => ["name" => "subdirectory", "type" => "string"],
+	"API_KEYS_GOOGLE" => ["name" => "api-keys_google", "type" => "string"],
+	"DOWNLOAD_DIRECTORY" => ["name" => "download-directory", "type" => "string"],
+	"SESSION_COOKIE_SECURE" => ["name" => "session-cookie-secure", "type" => "boolean"],
+	"EMAIL_FROM" => ["name" => "email_from", "type" => "string"],
+	"EMAIL_ENABLED" => ["name" => "email_enabled", "type" => "boolean"],
+	"DATABASE_DRIVER" => ["name" => "database_driver", "type" => "string"],
+	"DATABASE_ALWAYS_CHECK" => ["name" => "database_always-check", "type" => "boolean"],
+	"DATABASE_CONNECTION_STRING" => ["name" => "database_connection-string", "type" => "string"],
+	"DATABASE_USER" => ["name" => "database_user", "type" => "string"],
+	"DATABASE_PASSWORD" => ["name" => "database_password", "type" => "string"],
+	"DATABASE_DATABASE_NAME" => ["name" => "database_database-name", "type" => "string"]
 ];
 
 foreach($configVariableNames as $k => $v){
+	$k = $environmentVariablePrefix . $k;
 	$kk = explode("_", $v["name"]);
 	$e = getenv($k);
 	if($e != false){
