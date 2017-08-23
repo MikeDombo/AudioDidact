@@ -16,6 +16,10 @@ download-directory: "temp"
 api-keys:
   google: "****"
 
+supported-sites:
+  # Set this to the value of the CRTV nllinktoken cookie which is set after logging in
+  crtv: "****"
+
 # Set to true if your server is setup for HTTPS (highly recommended)
 session-cookie-secure: true
 
@@ -26,7 +30,7 @@ email:
   from: "\"AudioDidact Administrator\"<michael@mikedombrowski.com>"
 
 database:
-  always-check: false
+  always-check: true
   ##### MySQL #####
 
   driver: "mysql"

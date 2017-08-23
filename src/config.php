@@ -51,7 +51,8 @@ $configVariableNames = ["LOCAL_URL" => ["name" => "local-url", "type" => "string
 	"DATABASE_CONNECTION_STRING" => ["name" => "database_connection-string", "type" => "string"],
 	"DATABASE_USER" => ["name" => "database_user", "type" => "string"],
 	"DATABASE_PASSWORD" => ["name" => "database_password", "type" => "string"],
-	"DATABASE_DATABASE_NAME" => ["name" => "database_database-name", "type" => "string"]
+	"DATABASE_DATABASE_NAME" => ["name" => "database_database-name", "type" => "string"],
+	"SUPPORTED_SITES_CRTV" => ["name" => "supported-sites_crtv", "type" => "string"]
 ];
 
 foreach($configVariableNames as $k => $v){
@@ -73,6 +74,7 @@ define("DOWNLOAD_PATH", $ymlConfig["download-directory"]);
 define("SESSION_COOKIE_SECURE", $ymlConfig["session-cookie-secure"]);
 define("EMAIL_FROM", $ymlConfig["email"]["from"]);
 define("EMAIL_ENABLED", $ymlConfig["email"]["enabled"]);
+define("SUPPORTED_SITES_CRTV", $ymlConfig["supported-sites"]["crtv"]);
 
 $dbData = $ymlConfig["database"];
 switch(strtolower($dbData["driver"])){

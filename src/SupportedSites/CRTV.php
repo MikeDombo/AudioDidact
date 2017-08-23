@@ -9,9 +9,6 @@ use AudioDidact\Video;
  */
 class CRTV extends SupportedSite {
 	// Setup global variables
-	/** @var string YouTube URL */
-	private $brightcoveBaseURL = "https://secure.brightcove.com/services/mobile/streaming/index/master.m3u8";
-	private $pubId;
 	private $thumbnailURL;
 
 	/**
@@ -30,61 +27,36 @@ class CRTV extends SupportedSite {
 			$this->video->setIsVideo($downloadVideo);
 
 			// Set video ID and time to current time
-			$d = $this->getVideoId($str);
-			$this->video->setId($d["ID"]);
+			$info = $this->getVideoInfo($str);
+			$this->video->setId($info["ID"]);
 			$this->video->setFilename($this->video->getId());
 			$this->video->setThumbnailFilename($this->video->getFilename() . ".jpg");
 			$this->video->setTime(time());
-			$this->getPublisherID($d["html"]);
-			$info = $this->getVideoInfo($d["html"]);
 			$this->video->setTitle($info["title"]);
 			$this->video->setAuthor("CRTV");
 			$this->video->setDesc($info["description"]);
 		}
 	}
 
-	private function getVideoId($str){
+	/**
+	 * @param $str
+	 * @return array
+	 * @throws \Exception
+	 */
+	private function getVideoInfo($str){
 		// Download CRTV video page
 		$crtvHTML = file_get_contents($str);
-
-		// Setup CRTV webpage parsing objects
-		$doc = new \DOMDocument();
-		libxml_use_internal_errors(true);
-		$doc->loadHTML($crtvHTML);
-		$finder = new \DomXPath($doc);
-
-		// Get Thumbnail
-		$tbURL = "";
-		$nodes = $finder->query("//meta[@property='og:image']");
-		foreach($nodes as $i){
-			$tbURL = $i->getAttribute('content');
+		$videoJSON = [];
+		$vidFound = mb_eregi("var\s+video\s*=\s*({[^}]*});", $crtvHTML, $videoJSON);
+		if($vidFound == false || count($videoJSON) != 2){
+			throw new \Exception("Unable to find JSON for that video.");
 		}
-		parse_str(parse_url($tbURL, PHP_URL_QUERY), $query);
-		$videoId = $query["videoId"];
 
-		$this->thumbnailURL = $tbURL;
+		$videoJSON = mb_eregi_replace("(\w+):\s*\"", "\"\\1\":\"", $videoJSON[1]);
+		$videoInfo = json_decode($videoJSON, true);
+		$this->thumbnailURL = $videoInfo["image"];
 
-		return ["ID" => $videoId, "html" => $crtvHTML];
-	}
-
-	private function getPublisherID($html){
-		// Get Brightcove Publisher/Account ID
-		preg_match('/dataAc{1,2}ountId:\s+[\'\"](\d+)[\'\"]/', $html, $matches);
-		$this->pubId = $matches[1];
-	}
-
-	private function getVideoInfo($html){
-		// Get Video Title
-		preg_match('/\<title\>([^\<]*)\<\/title\>/', $html, $matches);
-		$videoTitle = $matches[1];
-		$videoTitle = html_entity_decode($videoTitle, ENT_QUOTES, 'UTF-8');
-
-		// Get video description
-		preg_match('/\<div class=[\"\']rtf[\'\"]\>\s*\<p\>\s*(.*)\s*\<\/p\>\s*\<\/div\>/', $html, $matches);
-		$desc = $matches[1];
-		$desc = html_entity_decode($desc, ENT_QUOTES, 'UTF-8');
-
-		return ["title" => $videoTitle, "description" => $desc];
+		return ["ID" => $videoInfo["id"], "title" => $videoInfo["name"], "description" => $videoInfo["description"]];
 	}
 
 	/**
@@ -104,9 +76,8 @@ class CRTV extends SupportedSite {
 		$videoFilename = $this->video->getFilename() . ".mp4";
 		$videoPath = $path . $videoFilename;
 
-		// Based on gathered information, generate Brightcove query parameters to get the HLS playlist
-		$m3u8URL = $this->brightcoveBaseURL . "?videoId=" . $this->video->getId() . "&pubId=" . $this->pubId . "&secure=true";
-		$cmd = "ffmpeg -i \"" . $m3u8URL . "\" -map 0:p:1 -y -c copy -bsf:a aac_adtstoasc \"" . $videoPath . "\" 1> "
+		$m3u8URL = $this->getM3U8Playlist($this->video->getId());
+		$cmd = "ffmpeg -i \"" . $m3u8URL . "\" -map 0:p:0 -y -c copy -bsf:a aac_adtstoasc \"" . $videoPath . "\" 1> "
 			. $this->video->getID() . ".txt 2>&1";
 
 		// Check if we're on Windows or *nix
@@ -168,5 +139,30 @@ class CRTV extends SupportedSite {
 
 	public static function supportsURL($url){
 		return mb_strpos($url, "crtv.com") > -1;
+	}
+
+	private function getM3U8Playlist($getId){
+		$ch = curl_init();
+
+		$formParams = ["id" => $getId, "format" => "json", "type" => "video"];
+		curl_setopt_array($ch, [
+			CURLOPT_URL => "https://www.crtv.com/service/publishpoint",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_SSL_VERIFYPEER => false,
+			CURLOPT_SSL_VERIFYHOST => false,
+			CURLOPT_CUSTOMREQUEST => "POST",
+			CURLOPT_POSTFIELDS => http_build_query($formParams),
+			CURLOPT_HTTPHEADER => [
+				"cache-control: no-cache",
+				"content-type: application/x-www-form-urlencoded",
+				"origin: https://neulionms-a.akamaihd.net",
+				"cookie: nllinktoken=" . SUPPORTED_SITES_CRTV
+			],
+		]);
+
+		$response = curl_exec($ch);
+		curl_close($ch);
+
+		return json_decode($response, true)["path"];
 	}
 }
