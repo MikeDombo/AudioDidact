@@ -364,10 +364,12 @@ class MySQLDAL extends DAL {
 			$p->bindValue(":userid", $user->getUserID(), \PDO::PARAM_INT);
 			$p->execute();
 			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
-			if(count($rows) < 1){
-				return null;
-			}
+
 			$returner = [];
+			if(count($rows) < 1){
+				return $returner;
+			}
+
 			foreach($rows as $row){
 				$returner[] = $this->setVideo($row);
 			}

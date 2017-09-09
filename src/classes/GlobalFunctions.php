@@ -103,8 +103,10 @@ class GlobalFunctions {
 	}
 
 	public static function userIsLoggedIn(){
-		return (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] && isset($_SESSION["user"]) && $_SESSION["user"] !=
-			null);
+		return (isset($_SESSION["loggedIn"])
+			&& $_SESSION["loggedIn"]
+			&& isset($_SESSION["user"])
+			&& $_SESSION["user"] != null);
 	}
 
 	/**
