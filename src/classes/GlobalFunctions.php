@@ -117,11 +117,18 @@ class GlobalFunctions {
 	 * @return string Pug generated HTML
 	 */
 	public static function generatePug($view, $title, $options = [], $prettyPrint = false){
-		$loggedin = "false";
 		$verified = true;
-		$userData = [];
+
+		$initialOptions = [
+			'title' => $title,
+			'subdir' => SUBDIR,
+			'loggedIn' => "false",
+			'localurl' => LOCAL_URL,
+			'emailEnabled' => EMAIL_ENABLED
+		];
+
 		if(self::userIsLoggedIn()){
-			$loggedin = "true";
+			$initialOptions["loggedIn"] = "true";
 			/** @var User $user */
 			$user = $_SESSION["user"];
 			$userData = ["privateFeed" => $user->isPrivateFeed(), "fName" => $user->getFname(), "lName" => $user->getLname(),
@@ -131,17 +138,11 @@ class GlobalFunctions {
 			if(!$user->isEmailVerified()){
 				$verified = false;
 			}
+
+			$initialOptions["user"] = $userData;
 		}
 
-		$initialOptions = [
-			'title' => $title,
-			'subdir' => SUBDIR,
-			'loggedIn' => $loggedin,
-			'localurl' => LOCAL_URL,
-			'user' => $userData,
-			'verified' => $verified,
-			'emailEnabled' => EMAIL_ENABLED
-		];
+		$initialOptions["verified"] = $verified;
 
 		// Allow overwriting keys, but log the problem
 		$overWrittenKeys = array_intersect_key($initialOptions, $options);
