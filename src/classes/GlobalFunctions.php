@@ -158,7 +158,7 @@ class GlobalFunctions {
 		 * Using native pug is faster for the first render, but when caching is enabled,
 		 * the php version becomes faster for subsequent renders.
 		 *
-		 * To use native pug add the follwing to the Pug constructor options array
+		 * To use native pug add the following to the Pug constructor options array
 		 * "pugjs" => true, 'localsJsonFile' => true,
 		 */
 
