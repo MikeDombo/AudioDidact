@@ -149,7 +149,18 @@ class GlobalFunctions {
 
 		$options = array_merge($initialOptions, $options);
 
-		$pug = new \Pug\Pug(['pretty' => $prettyPrint, 'strict' => true, 'expressionLanguage' => 'js']);
+		$pug = new \Pug\Pug(['pretty' => $prettyPrint, 'strict' => true, "expressionLanguage" => "js",
+			"cache" => getcwd()."/pug-cache"
+		]);
+
+		/*
+		 * Pug-php 3 is significantly slower than previous versions for the first render.
+		 * Using native pug is faster for the first render, but when caching is enabled,
+		 * the php version becomes faster for subsequent renders.
+		 *
+		 * To use native pug add the follwing to the Pug constructor options array
+		 * "pugjs" => true, 'localsJsonFile' => true,
+		 */
 
 		return $pug->renderFile($view, $options);
 	}

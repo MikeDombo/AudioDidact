@@ -13,6 +13,7 @@ build/*
 vendor/
 vendor/*
 **/composer.lock
+**/pug-cache
 
 # Windows image file caches
 Thumbs.db
