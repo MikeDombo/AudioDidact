@@ -53,7 +53,7 @@ block content
 		include errorModal.pug
 	div.col-sm-12.pt-2
 		h2 Feed Subscription URL:
-			a(href=""+localurl+"user/"+user.webID+"/feed") #{localurl}user/#{user.webID}/feed/
+			a(href=localurl+"user/"+user.webID+"/feed") #{localurl}user/#{user.webID}/feed/
 
 block afterJqueryLoad
 	script(src="/"+subdir+"public/js/jquery.form.js")
