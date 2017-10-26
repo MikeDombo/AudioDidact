@@ -4,7 +4,7 @@ block content
 		include mixins.pug
 		+responsiveAudioDidact
 		hr
-		form(action="/#{subdir}upload.php" method="post" enctype="multipart/form-data" name="myForm").navbar-form.navbar-left.col-xl-8#myForm
+		form(action="/"+subdir+"upload.php" method="post" enctype="multipart/form-data" name="myForm").navbar-form.navbar-left.col-xl-8#myForm
 			div.form-group.row
 				label(for="yt").col-form-label.col-lg-2 File:
 				div.col-lg-10
@@ -39,7 +39,7 @@ block content
 
 			div.pt-2.pb-2
 				button(type="submit" class="btn-success btn btn-block-xs-only" form="myForm") Add Content To Feed
-				a(href="/#{subdir}" class="btn-info btn ml-sm-5 btn-block-xs-only" role="button") Switch to URL Mode
+				a(href="/"+subdir class="btn-info btn ml-sm-5 btn-block-xs-only" role="button") Switch to URL Mode
 			style.
 				@media (max-width: 575px) {
 					.btn-block-xs-only {
@@ -53,9 +53,9 @@ block content
 		include errorModal.pug
 	div.col-sm-12.pt-2
 		h2 Feed Subscription URL:
-			a(href="#{localurl}user/#{user.webID}/feed") #{localurl}user/#{user.webID}/feed/
+			a(href=""+localurl+"user/"+user.webID+"/feed") #{localurl}user/#{user.webID}/feed/
 
 block afterJqueryLoad
-	script(src="/#{subdir}public/js/jquery.form.js")
-	script(src="/#{subdir}public/js/jsmediatags.min.js")
-	script(src="/#{subdir}public/js/addVideoManual.js")
+	script(src="/"+subdir+"public/js/jquery.form.js")
+	script(src="/"+subdir+"public/js/jsmediatags.min.js")
+	script(src="/"+subdir+"public/js/addVideoManual.js")

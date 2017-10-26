@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Mike
- * Date: 8/16/2017
- * Time: 10:24 PM
- */
 
 namespace AudioDidact;
 
@@ -155,9 +149,9 @@ class GlobalFunctions {
 
 		$options = array_merge($initialOptions, $options);
 
-		$pug = new \Pug\Pug(['prettyprint' => $prettyPrint]);
+		$pug = new \Pug\Pug(['pretty' => $prettyPrint, 'strict' => true, 'expressionLanguage' => 'js']);
 
-		return $pug->render($view, $options);
+		return $pug->renderFile($view, $options);
 	}
 
 	/**

@@ -5,7 +5,7 @@ html(lang="en")
 		meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
 		meta(name="description" content="AudioDidact, a service to create a custom RSS Podcast feed from your favorite online sources")
 		meta(name="og:title" content="AudioDidact")
-		meta(name="og:image" content="/#{subdir}public/img/favicon/favicon-512x512.png")
+		meta(name="og:image" content="/"+subdir+"public/img/favicon/favicon-512x512.png")
 		meta(name="og:description" content="AudioDidact, a service to create a custom RSS Podcast feed from your favorite online sources")
 		style.
 			body {
@@ -49,26 +49,27 @@ html(lang="en")
 			#main-content {
 				padding-top: 1rem;
 			}
-		link(rel="apple-touch-icon-precomposed" sizes="57x57" href="/#{subdir}public/img/favicon/apple-touch-icon-57x57.png")
+		link(rel="apple-touch-icon-precomposed" sizes="57x57"
+		href="/"+subdir+"public/img/favicon/apple-touch-icon-57x57.png")
 		link(rel="apple-touch-icon-precomposed" sizes="114x114"
-		href="/#{subdir}public/img/favicon/apple-touch-icon-114x114.png")
+		href="/"+subdir+"public/img/favicon/apple-touch-icon-114x114.png")
 		link(rel="apple-touch-icon-precomposed" sizes="72x72"
-		href="/#{subdir}public/img/favicon/apple-touch-icon-72x72.png")
+		href="/"+subdir+"public/img/favicon/apple-touch-icon-72x72.png")
 		link(rel="apple-touch-icon-precomposed" sizes="144x144"
-		href="/#{subdir}public/img/favicon/apple-touch-icon-144x144.png")
+		href="/"+subdir+"public/img/favicon/apple-touch-icon-144x144.png")
 		link(rel="apple-touch-icon-precomposed" sizes="60x60"
-		href="/#{subdir}public/img/favicon/apple-touch-icon-60x60.png")
+		href="/"+subdir+"public/img/favicon/apple-touch-icon-60x60.png")
 		link(rel="apple-touch-icon-precomposed" sizes="120x120"
-		href="/#{subdir}public/img/favicon/apple-touch-icon-120x120.png")
+		href="/"+subdir+"public/img/favicon/apple-touch-icon-120x120.png")
 		link(rel="apple-touch-icon-precomposed" sizes="76x76"
-		href="/#{subdir}public/img/favicon/apple-touch-icon-76x76.png")
+		href="/"+subdir+"public/img/favicon/apple-touch-icon-76x76.png")
 		link(rel="apple-touch-icon-precomposed" sizes="152x152"
-		href="/#{subdir}public/img/favicon/apple-touch-icon-152x152.png")
-		link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-196x196.png" sizes="196x196")
-		link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-96x96.png" sizes="96x96")
-		link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-32x32.png" sizes="32x32")
-		link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-16x16.png" sizes="16x16")
-		link(rel="icon" type="image/png" href="/#{subdir}public/img/favicon/favicon-128.png" sizes="128x128")
+		href="/"+subdir+"public/img/favicon/apple-touch-icon-152x152.png")
+		link(rel="icon" type="image/png" href="/"+subdir+"public/img/favicon/favicon-196x196.png" sizes="196x196")
+		link(rel="icon" type="image/png" href="/"+subdir+"public/img/favicon/favicon-96x96.png" sizes="96x96")
+		link(rel="icon" type="image/png" href="/"+subdir+"public/img/favicon/favicon-32x32.png" sizes="32x32")
+		link(rel="icon" type="image/png" href="/"+subdir+"public/img/favicon/favicon-16x16.png" sizes="16x16")
+		link(rel="icon" type="image/png" href="/"+subdir+"public/img/favicon/favicon-128.png" sizes="128x128")
 	body
 		block nav
 			include nav.pug

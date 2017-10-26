@@ -6,61 +6,64 @@ div.col-sm-12
 			div.form-group
 				label(for="webID") Custom URL:
 				span #{localurl}user/
-				a(href="#" id="webID" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php" data-title="Enter Custom URL")
+				a(href="#" id="webID" data-type="text" data-pk="1" data-url="/"+subdir+"updateUser.php"
+				data-title="Enter Custom URL")
 					| #{pageUser.webID}
 				span /
 			div.form-group
 				label(for="fname") Firstname:
-				a(href="#" id="fname" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php"
+				a(href="#" id="fname" data-type="text" data-pk="1" data-url="/"+subdir+"updateUser.php"
 				data-title="Enter Firstname")
 					| #{pageUser.fName}
 				label(for="lname") Lastname:
-				a(href="#" id="lname" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php"
+				a(href="#" id="lname" data-type="text" data-pk="1" data-url="/"+subdir+"updateUser.php"
 				data-title="Enter Lastname")
 					| #{pageUser.lName}
 			div.form-group
 				label(for="gender") Gender:
-				a(href="#" id="gender" data-type="select" data-pk="1" data-url="/#{subdir}updateUser.php"
+				a(href="#" id="gender" data-type="select" data-pk="1" data-url="/"+subdir+"updateUser.php"
 				data-title="Select Gender")
 			div.form-group
 				label(for="email") Email:
-				a(href="#" id="email" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php"
+				a(href="#" id="email" data-type="text" data-pk="1" data-url="/"+subdir+"updateUser.php"
 				data-title="Enter Email")
 					| #{pageUser.email}
 			div.form-group
-				label(for="feedLen") Number of Items in Feed:
-				a(href="#" id="feedLen" data-type="number" data-pk="1" data-url="/#{subdir}updateUser.php"
+				label(for="feedLen")
+					| Number of Items in Feed:
+				a(href="#" id="feedLen" data-type="number" data-pk="1" data-url="/"+subdir+"updateUser.php"
 				data-title="Enter # of Items in Feed (Max 50)" data-min="1" data-max="50")
 					| #{pageUser.feedLength}
 			div.form-group
-				label(for="privateFeed") Feed is Private:
+				label(for="privateFeed")
+					| Feed is Private:
 				if pageUser.privateFeed
-					input(id="privateFeed" type="checkbox" checked data-toggle="toggle")
+					input(type="checkbox" checked data-toggle="toggle")#privateFeed
 				else
-					input(id="privateFeed" type="checkbox" data-toggle="toggle")
+					input(id="" type="checkbox" data-toggle="toggle")#privateFeed
 		div.col-md-6
 			div.form-group
 				img(id="feedIcoImg" style="max-height: 150px; max-width: 150px;")
 			div.form-group
 				label(for="feedTitle") Feed Title:
-				a(href="#" id="feedTitle" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php")
+				a(href="#" id="feedTitle" data-type="text" data-pk="1" data-url="/"+subdir+"updateUser.php")
 					| #{pageUser.feedDetails.title}
 			div.form-group
 				label(for="feedDesc") Feed Description:
-				a(href="#" id="feedDesc" data-type="textarea" data-pk="1" data-url="/#{subdir}updateUser.php")
+				a(href="#" id="feedDesc" data-type="textarea" data-pk="1" data-url="/"+subdir+"updateUser.php")
 					| #{pageUser.feedDetails.description}
 			div.form-group
 				label(for="feedIco") Feed Icon:
-				a(href="#" id="feedIco" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php"
+				a(href="#" id="feedIco" data-type="text" data-pk="1" data-url="/"+subdir+"updateUser.php"
 				data-tpl="<input type='text' size='100' style='width:100%;'>")
 					| #{pageUser.feedDetails.icon}
 			div.form-group
-				label(for="itunesAuthor")iTunes Author:
-				a(href="#" id="itunesAuthor" data-type="text" data-pk="1" data-url="/#{subdir}updateUser.php")
+				label(for="itunesAuthor") iTunes Author:
+				a(href="#" data-type="text" data-pk="1" data-url="/"+subdir+"updateUser.php")#itunesAuthor
 					| #{pageUser.feedDetails.itunesAuthor}
 
-include errorModal.pug
+//include errorModal.pug
 div.col-sm-12
-	include userPageStats.pug
+	//include userPageStats.pug
 	hr
-include userFeed.pug
+//include userFeed.pug
