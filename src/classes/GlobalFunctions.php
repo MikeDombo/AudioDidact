@@ -150,7 +150,7 @@ class GlobalFunctions {
 		$options = array_merge($initialOptions, $options);
 
 		$pug = new \Pug\Pug(['pretty' => $prettyPrint, 'strict' => true, "expressionLanguage" => "js",
-			"cache" => getcwd()."/pug-cache"
+			"cache" => getcwd()."/pug-cache", "upToDateCheck" => true,
 		]);
 
 		/*
