@@ -34,7 +34,7 @@ $dal = GlobalFunctions::getDAL();
 
 // If a video is being requested, then add the video, otherwise just show the current feed
 if(isset($_GET["yt"])){
-	$url = ($_GET["yt"]);
+	$url = $_GET["yt"];
 	$isVideo = false;
 
 	if(isset($_GET["videoOnly"]) && $_GET["videoOnly"] == "true"){
@@ -44,26 +44,7 @@ if(isset($_GET["yt"])){
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
 		$download = getSupportedSiteClass($url, $isVideo);
-		if($download != null){
-			$video = $download->getVideo();
-
-			// If not all thumbnail, video, and audio are downloaded, then download them in that order
-			if(!$download->allDownloaded()){
-				$download->downloadVideo();
-				$download->downloadThumbnail();
-				if(!$video->isIsVideo()){
-					$download->convert();
-					$download->applyArt();
-				}
-			}
-
-			if(!$dal->inFeed($video, $user)){
-				$dal->addVideo($video, $user);
-			}
-			else{
-				$dal->updateVideo($video, $user);
-			}
-		}
+		downloadAllAndUpdateDB($download, $user, $dal, true);
 	}
 	catch(\Exception $e){
 		SupportedSite::echoErrorJSON($e->getMessage());
@@ -91,21 +72,37 @@ function checkFilesExist(DAL $dal, User $user){
 	/** @var array|Video $items */
 	$items = $dal->getFeed($user);
 	foreach($items as $video){
-		if(!file_exists(DOWNLOAD_PATH . DIRECTORY_SEPARATOR . $video->getId() . ".mp3") || !file_exists(DOWNLOAD_PATH
-				. DIRECTORY_SEPARATOR . $video->getId() . ".jpg")
-		){
+		$download = getSupportedSiteClass($video->getURL(), $video->isIsVideo());
+		downloadAllAndUpdateDB($download, $user, $dal, false);
+	}
+}
 
-			$download = getSupportedSiteClass($video->getURL(), $video->isIsVideo());
-			if($download != null){
-				if(!$download->allDownloaded()){
-					$download->downloadThumbnail();
-					$download->downloadVideo();
-					if(!$video->isIsVideo()){
-						$download->convert();
-						$download->applyArt();
-					}
-				}
+/**
+ * Download the video if not downloaded and add or update the feed DB
+ *
+ * @param \AudioDidact\SupportedSites\SupportedSite $download
+ * @param \AudioDidact\User $user
+ * @param \AudioDidact\DB\DAL $dal
+ * @param bool $update
+ */
+function downloadAllAndUpdateDB(SupportedSite $download, User $user, DAL $dal, bool $update){
+	if($download != null){
+		$video = $download->getVideo();
+		// If not all thumbnail, video, and audio are downloaded, then download them in that order
+		if(!$download->allDownloaded()){
+			$download->downloadVideo();
+			$download->downloadThumbnail();
+			if(!$video->isIsVideo()){
+				$download->convert();
+				$download->applyArt();
 			}
+		}
+
+		if(!$dal->inFeed($video, $user)){
+			$dal->addVideo($video, $user);
+		}
+		else if($update){
+			$dal->updateVideo($video, $user);
 		}
 	}
 }

@@ -77,7 +77,7 @@ class CRTV extends SupportedSite {
 		$videoPath = $path . $videoFilename;
 
 		$m3u8URL = $this->getM3U8Playlist($this->video->getId());
-		$cmd = "ffmpeg -i \"" . $m3u8URL . "\" -map 0:p:0 -y -c copy -bsf:a aac_adtstoasc \"" . $videoPath . "\" 1> "
+		$cmd = "ffmpeg -i \"" . $m3u8URL . "\" -map 0:p:0 -y -c copy -bsf:a aac_adtstoasc \"" . $videoPath . "\" > "
 			. $this->video->getID() . ".txt 2>&1";
 
 		// Check if we're on Windows or *nix

@@ -71,9 +71,11 @@ abstract class SupportedSite {
 
 			return true;
 		}
-		else if(file_exists($downloadFilePath . ".mp3") && file_exists($downloadFilePath . ".mp4") &&
+		else if(file_exists($downloadFilePath . ".mp3") &&
+			file_exists($downloadFilePath . ".mp4") &&
 			SupportedSite::getDuration($downloadFilePath . ".mp3") &&
-			SupportedSite::getDuration($downloadFilePath . ".mp4") == SupportedSite::getDuration($downloadFilePath . ".mp3")
+			abs(SupportedSite::getDurationSeconds($downloadFilePath . ".mp4") - SupportedSite::getDurationSeconds
+			($downloadFilePath . ".mp3")) <= 5
 		){
 			// Before returning true, set the duration since convert will not be run
 			$this->video->setDuration(SupportedSite::getDurationSeconds($fullDownloadPath));
@@ -112,7 +114,7 @@ abstract class SupportedSite {
 		$ffmpegOutFile = $path . $this->video->getFilename() . $this->video->getFileExtension();
 
 		// Use ffmpeg to convert the audio in the background and save output to a file called videoID.txt
-		$cmd = "ffmpeg -i \"$ffmpegInFile\" -y -q:a 5 -map a \"$ffmpegOutFile\" 1> " . $this->video->getID() . ".txt 2>&1";
+		$cmd = "ffmpeg -i \"$ffmpegInFile\" -y -q:a 5 -map a \"$ffmpegOutFile\" > " . $this->video->getID() . ".txt 2>&1";
 
 		// Check if we're on Windows or *nix
 		if(strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN'){
