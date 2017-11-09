@@ -54,20 +54,17 @@ abstract class SupportedSite {
 	/**
 	 * Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)
 	 *
+	 * @param \AudioDidact\Video $vid
 	 * @return bool
 	 */
-	public function allDownloaded(){
+	public static function allDownloadedVideo(\AudioDidact\Video $vid){
 		$downloadPath = DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
-		$downloadFilePath = $downloadPath . $this->video->getFilename();
-		$fullDownloadPath = $downloadFilePath . $this->video->getFileExtension();
+		$downloadFilePath = $downloadPath . $vid->getFilename();
+		$fullDownloadPath = $downloadFilePath . $vid->getFileExtension();
 
-		// If the thumbnail has not been downloaded, go ahead and download it
-		if(!file_exists($downloadPath . $this->video->getThumbnailFilename())){
-			$this->downloadThumbnail();
-		}
-		if($this->video->isIsVideo() && file_exists($fullDownloadPath) && SupportedSite::getDuration($fullDownloadPath)){
+		if($vid->isIsVideo() && file_exists($fullDownloadPath) && SupportedSite::getDuration($fullDownloadPath)){
 			// If only the mp4 is downloaded (and has a duration)
-			$this->video->setDuration(SupportedSite::getDurationSeconds($fullDownloadPath));
+			$vid->setDuration(SupportedSite::getDurationSeconds($fullDownloadPath));
 
 			return true;
 		}
@@ -78,13 +75,21 @@ abstract class SupportedSite {
 			($downloadFilePath . ".mp3")) <= 5
 		){
 			// Before returning true, set the duration since convert will not be run
-			$this->video->setDuration(SupportedSite::getDurationSeconds($fullDownloadPath));
+			$vid->setDuration(SupportedSite::getDurationSeconds($fullDownloadPath));
 
 			return true;
 		}
 
 		// If all else fails, return false
 		return false;
+	}
+
+	public function allDownloaded(){
+		// If the thumbnail has not been downloaded, go ahead and download it
+		if(!file_exists(DOWNLOAD_PATH . DIRECTORY_SEPARATOR . $this->video->getThumbnailFilename())){
+			$this->downloadThumbnail();
+		}
+		return self::allDownloadedVideo($this->video);
 	}
 
 	abstract public function downloadThumbnail();

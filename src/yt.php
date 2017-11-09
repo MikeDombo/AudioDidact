@@ -44,7 +44,7 @@ if(isset($_GET["yt"])){
 	// Try to download all the files, but if an error occurs, do not add the video to the feed
 	try{
 		$download = getSupportedSiteClass($url, $isVideo);
-		downloadAllAndUpdateDB($download, $user, $dal, true);
+		downloadAllAndUpdateDB($download, $user, $dal);
 	}
 	catch(\Exception $e){
 		SupportedSite::echoErrorJSON($e->getMessage());
@@ -72,8 +72,10 @@ function checkFilesExist(DAL $dal, User $user){
 	/** @var array|Video $items */
 	$items = $dal->getFeed($user);
 	foreach($items as $video){
-		$download = getSupportedSiteClass($video->getURL(), $video->isIsVideo());
-		downloadAllAndUpdateDB($download, $user, $dal, false);
+		if(!SupportedSite::allDownloadedVideo($video)){
+			$download = getSupportedSiteClass($video->getURL(), $video->isIsVideo());
+			downloadAllAndUpdateDB($download, $user, $dal);
+		}
 	}
 }
 
@@ -83,9 +85,8 @@ function checkFilesExist(DAL $dal, User $user){
  * @param \AudioDidact\SupportedSites\SupportedSite $download
  * @param \AudioDidact\User $user
  * @param \AudioDidact\DB\DAL $dal
- * @param bool $update
  */
-function downloadAllAndUpdateDB(SupportedSite $download, User $user, DAL $dal, bool $update){
+function downloadAllAndUpdateDB(SupportedSite $download, User $user, DAL $dal){
 	if($download != null){
 		$video = $download->getVideo();
 		// If not all thumbnail, video, and audio are downloaded, then download them in that order
@@ -101,7 +102,7 @@ function downloadAllAndUpdateDB(SupportedSite $download, User $user, DAL $dal, b
 		if(!$dal->inFeed($video, $user)){
 			$dal->addVideo($video, $user);
 		}
-		else if($update){
+		else{
 			$dal->updateVideo($video, $user);
 		}
 	}
