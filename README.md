@@ -70,7 +70,7 @@ To update to the latest release on GitHub download or clone the repository to yo
 
 ## Documentation
 
-PHP API documentation is available [here](https://md100play.github.io/AudioDidact/html/index.html).
+PHP API documentation is available [here](https://MikeDombo.github.io/AudioDidact/html/index.html).
 
 ## Future Tasks
 
