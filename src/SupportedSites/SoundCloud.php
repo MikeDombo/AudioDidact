@@ -6,7 +6,8 @@ use AudioDidact\Video;
 
 class SoundCloud extends SupportedSite {
 	// Setup global variables
-	private $streamsBaseURL = "https://api.soundcloud.com/tracks/XYZ/streams?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z";
+	private $streamsBaseURL = "https://api.soundcloud.com/tracks/XYZ/streams?client_id=";
+	private $clientID;
 	private $invalidURLMessage = "Invalid SoundCloud URL Entered.<br/>Valid URLs look like https://soundcloud.com/user_name/xxxxxxxxxxxx";
 	private $thumbnailURL;
 	private $audioJSON;
@@ -74,6 +75,15 @@ class SoundCloud extends SupportedSite {
 	private function getVideoInfo($str){
 		$str = str_replace("http://", "https://", $str);
 		$webpage = $this->cURLHTTPGet($str, true);
+
+		// Find javascript URLs to get a client ID
+		preg_match_all("/<script.*src=\"(.*app-.*)\"\s*>/i", $webpage, $jsURLs);
+		$jsURL = $jsURLs[1][0];
+		// Grab the client ID from te javascript
+		$jsFile = file_get_contents($jsURL);
+		preg_match_all("/\Wclient_id:\"(.*)\"/iU", $jsFile, $clientIDs);
+		$this->clientID = $clientIDs[1][0];
+
 		preg_match("/var c=([^;]*)/i", $webpage, $matches);
 		$brackets = 0;
 		$firstRun = true;
@@ -160,7 +170,7 @@ class SoundCloud extends SupportedSite {
 
 	private function getDownloadURL(){
 		$streamsURL = str_replace("/XYZ/", "/" . $this->video->getId() . "/", $this->streamsBaseURL);
-		$streamsJSON = file_get_contents($streamsURL);
+		$streamsJSON = file_get_contents($streamsURL.$this->clientID);
 		$streamsJSON = json_decode($streamsJSON, true);
 
 		return $streamsJSON["http_mp3_128_url"];
