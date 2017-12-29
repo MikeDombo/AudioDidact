@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0129d2fa862524739e042de0e75822a1",
+    "content-hash": "663e3469b42850ea673900e0cd926432",
     "packages": [
         {
             "name": "js-phpize/js-phpize",
@@ -1216,6 +1216,7 @@
         },
         {
             "name": "symfony/yaml",
+<<<<<<< HEAD
             "version": "v4.0.1",
             "source": {
                 "type": "git",
@@ -1226,6 +1227,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/yaml/zipball/873417cb9949f07be8852d41e3be5ab6f09e1218",
                 "reference": "873417cb9949f07be8852d41e3be5ab6f09e1218",
+=======
+            "version": "v4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "a5ee52d155f06ad23b19eb63c31228ff56ad1116"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/a5ee52d155f06ad23b19eb63c31228ff56ad1116",
+                "reference": "a5ee52d155f06ad23b19eb63c31228ff56ad1116",
+>>>>>>> ddb99f7587688bf6f35248d96e06b5e50922a688
                 "shasum": ""
             },
             "require": {
@@ -1270,7 +1283,11 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2017-12-04T18:34:52+00:00"
+=======
+            "time": "2017-12-12T08:41:51+00:00"
+>>>>>>> ddb99f7587688bf6f35248d96e06b5e50922a688
         }
     ],
     "packages-dev": [
@@ -1899,6 +1916,7 @@
         },
         {
             "name": "phpunit/phpunit",
+<<<<<<< HEAD
             "version": "5.7.25",
             "source": {
                 "type": "git",
@@ -1909,6 +1927,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4b1c822a68ae6577df38a59eb49b046712ec0f6a",
                 "reference": "4b1c822a68ae6577df38a59eb49b046712ec0f6a",
+=======
+            "version": "5.7.26",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/phpunit.git",
+                "reference": "7fbc25c13309de0c4c9bb48b7361f1eca34c7fbd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7fbc25c13309de0c4c9bb48b7361f1eca34c7fbd",
+                "reference": "7fbc25c13309de0c4c9bb48b7361f1eca34c7fbd",
+>>>>>>> ddb99f7587688bf6f35248d96e06b5e50922a688
                 "shasum": ""
             },
             "require": {
@@ -1977,7 +2007,11 @@
                 "testing",
                 "xunit"
             ],
+<<<<<<< HEAD
             "time": "2017-11-14T14:50:51+00:00"
+=======
+            "time": "2017-12-17T06:14:38+00:00"
+>>>>>>> ddb99f7587688bf6f35248d96e06b5e50922a688
         },
         {
             "name": "phpunit/phpunit-mock-objects",
