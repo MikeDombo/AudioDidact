@@ -138,6 +138,9 @@ class CRTV extends SupportedSite {
 	}
 
 	public static function supportsURL($url){
+		if(empty(SUPPORTED_SITES_CRTV)){
+			return false;
+		}
 		return mb_strpos($url, "crtv.com") > -1;
 	}
 
