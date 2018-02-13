@@ -53,9 +53,6 @@
             <a href="#hierarchy">Hierarchy</a>
           </li>
           <li>
-            <a href="#coverage">Coverage</a>
-          </li>
-          <li>
             <a href="#members">Members</a>
           </li>
           <li>
@@ -77,7 +74,8 @@
         <div class="synopsis">class SoundCloud
                 extends <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite.html">SupportedSite</a>
             {<br/><ul class="none"><li>// members</li><li>private string <a href="#members">$streamsBaseURL</a> =
-                        "https://api.soundcloud.com/tracks/XYZ/streams?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z";
+                        "https://api.soundcloud.com/tracks/XYZ/streams?client_id=";
+                    </li><li>private  <a href="#members">$clientID</a>;
                     </li><li>private string <a href="#members">$invalidURLMessage</a> =
                         "Invalid SoundCloud URL Entered.&lt;br/&gt;Valid URLs look like https://soundcloud.com/user_name/xxxxxxxxxxxx";
                     </li><li>private  <a href="#members">$thumbnailURL</a>;
@@ -95,7 +93,8 @@
                     </li></ul><ul class="none"><li>// Inherited methods from <span title="AudioDidact\SupportedSites\SupportedSite">SupportedSite</span></li><li>public static void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/supportsURL.html">supportsURL</a>()
                         </li><li>public static bool|string <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDuration.html">getDuration</a>()
                         </li><li>public static bool|string <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/getDurationSeconds.html">getDurationSeconds</a>()
-                        </li><li>public bool <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded</a>()
+                        </li><li>public static bool <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloadedVideo.html">allDownloadedVideo</a>()
+                        </li><li>public void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded</a>()
                         </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadThumbnail.html">downloadThumbnail</a>()
                         </li><li>public abstract void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/downloadVideo.html">downloadVideo</a>()
                         </li><li>public void <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/applyArt.html">applyArt</a>()
@@ -115,25 +114,15 @@
             </li>
           </ul>
         </div>
-        <h2 id="coverage">Coverage</h2>
-        <table class="styled">
-          <tr>
-            <td>Methods</td>
-            <td class="percent">0%</td>
-            <td class="nummeric">0 / 9</td>
-          </tr>
-          <tr>
-            <td>Lines</td>
-            <td class="percent">0%</td>
-            <td class="nummeric">0 / 125</td>
-          </tr>
-        </table>
         <h2 id="members">Members</h2>
         <div class="styled members">
           <h4>private</h4>
           <ul class="members">
             <li id="audioJSON">
               <strong>$audioJSON</strong>
+            </li>
+            <li id="clientID">
+              <strong>$clientID</strong>
             </li>
             <li id="invalidURLMessage">
               <strong>$invalidURLMessage</strong>
@@ -191,7 +180,10 @@
           </ul>
           <h4>public</h4>
           <ul>
-            <li id="allDownloaded"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded()</a>
+            <li id="allDownloaded">
+              <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloaded.html">allDownloaded()</a>
+            </li>
+            <li id="allDownloadedVideo"><a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/allDownloadedVideo.html">allDownloadedVideo()</a>
                 — Checks if all thumbnail, video, and mp3 are downloaded and have a length (ie. video or audio are not null)</li>
             <li id="applyArt">
               <a title="AudioDidact\SupportedSites\SupportedSite" href="../classes/AudioDidact_SupportedSites_SupportedSite/applyArt.html">applyArt()</a>
@@ -220,6 +212,16 @@
         </div>
         <h2 id="history">History</h2>
         <ul class="styled history">
+          <li>
+            <h3>2017-12-29T22:55:01+01:00 (commit #<span title="7601b396b36be0de3cb80b577ef1f58c0eff3e52">7601b39</span>)</h3>
+            <div>
+              <p>
+                        Author: Michael Dombrowski (mikepi3.14@gmail.com) /
+                        Commiter: Michael Dombrowski (mikepi3.14@gmail.com)
+                    </p>
+              <pre class="wrapped">Add automatic getting SoundCloud client ID</pre>
+            </div>
+          </li>
           <li>
             <h3>2017-08-13T16:54:57+02:00 (commit #<span title="ad35d173bc3703dd7b64d617b73b5e53fcf10fc4">ad35d17</span>)</h3>
             <div>
@@ -370,21 +372,11 @@
               <pre class="wrapped">update client_id for soundcloud download</pre>
             </div>
           </li>
-          <li>
-            <h3>2017-04-07T20:03:25+02:00 (commit #<span title="aa524858efc8e1de105efde92a6f4ab06979d0b2">aa52485</span>)</h3>
-            <div>
-              <p>
-                        Author: Michael Dombrowski (Michael@mikedombrowski.com) /
-                        Commiter: Michael Dombrowski (Michael@mikedombrowski.com)
-                    </p>
-              <pre class="wrapped">Add files into namespaces</pre>
-            </div>
-          </li>
         </ul>
       </section>
     </div>
     <footer>
-      <span>Generated using phpDox 0.10.1 - Copyright (C) 2010 - 2017 by Arne Blankerts and Contributors</span>
+      <span>Generated using phpDox 0.11.0 - Copyright (C) 2010 - 2018 by Arne Blankerts and Contributors</span>
     </footer>
   </body>
 </html>

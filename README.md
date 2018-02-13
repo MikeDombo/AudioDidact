@@ -1,7 +1,7 @@
 # AudioDidact
 
-[![build status](http://git.home.mikedombrowski.com/mdombrowski/AudioDidact/badges/master/build.svg)](http://git.home.mikedombrowski.com/mdombrowski/AudioDidact/commits/master)
-[![coverage report](http://git.home.mikedombrowski.com/mdombrowski/AudioDidact/badges/master/coverage.svg)](http://git.home.mikedombrowski.com/mdombrowski/AudioDidact/commits/master)
+[![pipeline status](http://git.home.mikedombrowski.com/michael/AudioDidact/badges/master/pipeline.svg)](http://git.home.mikedombrowski.com/michael/AudioDidact/commits/master)
+[![coverage report](http://git.home.mikedombrowski.com/michael/AudioDidact/badges/master/coverage.svg)](http://git.home.mikedombrowski.com/michael/AudioDidact/commits/master)
 
 ## Description
 
