@@ -3,8 +3,7 @@ LABEL maintainer="Michael Dombrowski -- http://mikedombrowski.com"
 
 RUN	apt-get update && apt-get install -yqq ffmpeg zip unzip curl gnupg2;
 RUN	curl -sL https://deb.nodesource.com/setup_9.x | bash -
-RUN	apt-get install -yqq nodejs
-RUN	apt-get install -yqq libcurl4-openssl-dev pkg-config libssl-dev libpcre3-dev zlib1g-dev libbson-dev libmongoc-dev; \
+RUN	apt-get install -yqq nodejs libcurl4-openssl-dev pkg-config libssl-dev libpcre3-dev zlib1g-dev libbson-dev libmongoc-dev; \
 	rm -rf /var/lib/apt/lists/*;
 
 RUN	docker-php-ext-install pdo_mysql opcache;
@@ -20,6 +19,17 @@ RUN { \
 		echo 'opcache.enable_cli=1'; \
 		echo 'max_execution_time=360'; \
 		echo 'variables_order="EGPCS"'; \
+		echo 'post_max_size=0'; \
+		echo 'file_uploads=On'; \
+		echo 'upload_max_filesize=0'; \
+		echo 'max_file_uploads=10'; \
+		echo 'allow_url_fopen=On'; \
+		echo 'session.use_cookies=1'; \
+		echo 'session.use_only_cookies=1'; \
+		echo 'session.name=PHPSESSID'; \
+		echo 'session.gc_probability=1'; \
+		echo 'session.gc_divisor=1000'; \
+		echo 'session.gc_maxlifetime=259200'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 RUN a2enmod rewrite expires headers && service apache2 restart
@@ -36,4 +46,3 @@ RUN	rm -f composer.lock; \
 	chown -R www-data:www-data /var/www/
 
 EXPOSE 80/TCP
-
