@@ -89,7 +89,7 @@ stage:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - scp -r src/* gitlab@$DEPLOY_IP:/var/www/html/ytpod-beta/
-    - ssh gitlab@$DEPLOY_IP -tt "chown -R gitlab:www-data /var/www/html/ytpod-beta/*"
+    - ssh gitlab@$DEPLOY_IP -tt "chown -R gitlab:www-data /var/www/html/ytpod-beta/* || true"
 
 deploy:
   stage: deploy
@@ -103,7 +103,7 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
   script: 
     - scp -r src/* gitlab@$DEPLOY_IP:/var/www/html/ytpod/
-    - ssh gitlab@$DEPLOY_IP -tt "chown -R gitlab:www-data /var/www/html/ytpod/*"
+    - ssh gitlab@$DEPLOY_IP -tt "chown -R gitlab:www-data /var/www/html/ytpod/* || true"
   environment:
     name: Production
   when: manual

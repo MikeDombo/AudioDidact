@@ -39,13 +39,13 @@ Subscribe to the generated feed using the URL shown on the Add a Video page to r
 ### Configuration
 
 Download this repository and then edit `config.yml` to add your [Google API server key.](https://console.developers.google.com/apis/credentials)
-Set hostname to your public ip or domain and subdirectory.
+Set "force-https" to true if you want to use SSL.
 
 - Set database configuration, also in `config.yml`.
 - Install pug-php, symfony/yaml, and mongodb/mongodb (optional) using composer
 - Set `batchProcess.php` to run as often as you like using the Windows Task Sheduler or cron on linux. This script is used to delete files once they are kicked out of every user's feed. If you have lots of disk space, then you may not want to run this script ever, so that the audio and thumbnails are always available.
 
-### Configuration With Evironment Variables
+### Configuration With Environment Variables
 
 Instead of editing `config.yml`, you can choose to set the options through environment variables. For this to work PHP 
 must have environment variables enabled (check php.ini).
@@ -54,7 +54,6 @@ Set variables in the following format `AD_<NAME OR GROUP NAME>_<NAME IF WITHIN G
 
 Examples:
 
-- subdirectory = AD_SUBDIRECTORY
 - download-directory = AD_DOWNLOAD_DIRECTORY
 - api-keys: google = AD_API_KEYS_GOOGLE
 - database: connection-string = AD_DATABASE_CONNECTION_STRING
@@ -63,8 +62,7 @@ Examples:
 
 To update to the latest release on GitHub download or clone the repository to your computer.
 
-1. Move all files in the src directory to your current install location, overwrite all existing files **except** for `config.yml`
-1. Using the command line, run `php config-update.php` from your web root
+1. Move all files in the src directory to your current install location, overwrite all existing files
 1. Edit `config.yml` to make sure that the settings are correct
 1. Load the site in your browser to force the database check/update and then you're done
 
