@@ -78,6 +78,7 @@ All Available Environment Variables:
 
 ## Docker
 Docker can be used to run AudioDidact with the automatically built [AudioDidact image](https://hub.docker.com/r/mikedombo/audiodidact/). An example docker-compose that uses MySQL is included in this repository.
+When using the docker container and peristent volumes, you must chown them to 1000:1000. From the example docker-compose that process would look like this: `sudo chown -R 1000:1000 ~/Desktop/tmp/`.
 
 ## Updating
 

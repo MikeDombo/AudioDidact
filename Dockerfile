@@ -1,13 +1,14 @@
 FROM php:7.2-apache
 LABEL maintainer="Michael Dombrowski -- http://mikedombrowski.com"
 
-RUN	apt-get update && apt-get install -yqq ffmpeg zip unzip curl gnupg2;
-RUN	curl -sL https://deb.nodesource.com/setup_9.x | bash -
-RUN	apt-get install -yqq nodejs libcurl4-openssl-dev pkg-config libssl-dev libpcre3-dev zlib1g-dev libbson-dev libmongoc-dev; \
-	rm -rf /var/lib/apt/lists/*;
 
-RUN	docker-php-ext-install pdo_mysql opcache;
-RUN	pecl update-channels && pecl install mongodb && docker-php-ext-enable mongodb;
+RUN	apt-get update && apt-get install -yqq ffmpeg zip unzip curl gnupg2; \ 
+	curl -sL https://deb.nodesource.com/setup_9.x | bash -
+
+RUN	apt-get install -yqq nodejs libcurl4-openssl-dev pkg-config libssl-dev libpcre3-dev zlib1g-dev libbson-dev libmongoc-dev; \
+	rm -rf /var/lib/apt/lists/*; \
+	docker-php-ext-install pdo_mysql opcache > /dev/null; \
+	pecl update-channels && pecl install mongodb > /dev/null && docker-php-ext-enable mongodb;
 
 # set recommended PHP.ini settings
 RUN { \
@@ -46,3 +47,4 @@ RUN	rm -f composer.lock; \
 	chown -R www-data:www-data /var/www/
 
 EXPOSE 80/TCP
+
