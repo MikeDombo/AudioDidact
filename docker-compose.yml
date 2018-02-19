@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+  audiodidact:
+    container_name: audiodidact
+    image: 'audiodidact'
+    restart: unless-stopped
+    build: ./
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    environment:
+      AD_DATABASE_CONNECTION_STRING: 'mysql:host=mysql;dbname=audiodidact;charset=utf8'
+      AD_DATABASE_PASSWORD: 'password'
+      AD_API_KEYS_GOOGLE: '****' # CHANGE ME
+      AD_LOCAL_URL: 'http://localhost/'
+      AD_SUBDIRECTORY: ''
+      AD_EMAIL_ENABLED: 'false'
+      AD_SESSION_COOKIE_SECURE: 'false'
+
+    volumes:
+      - /home/michael/Desktop/tmp:/var/www/html/temp
+
+  mysql:
+    image: 'mysql:5.7'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: audiodidact
+    volumes:
+      - ad_mysql_vol:/var/lib/mysql
+
+volumes:
+  ad_mysql_vol:

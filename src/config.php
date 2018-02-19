@@ -59,7 +59,7 @@ foreach($configVariableNames as $k => $v){
 	$k = $environmentVariablePrefix . $k;
 	$kk = explode("_", $v["name"]);
 	$e = getenv($k);
-	if($e != false){
+	if($e !== false){
 		if($v["type"] == "boolean"){
 			$e = mb_strtolower($e) == "true" ? true : false;
 		}

@@ -1,8 +1,9 @@
 FROM php:7.2-apache
+LABEL maintainer="Michael Dombrowski -- http://mikedombrowski.com"
 
 RUN	apt-get update && apt-get install -yqq ffmpeg nodejs zip unzip curl;
 RUN	apt-get install -yqq libcurl4-openssl-dev pkg-config libssl-dev libpcre3-dev zlib1g-dev libbson-dev libmongoc-dev; \
-	apt-get clean;
+	rm -rf /var/lib/apt/lists/*;
 
 RUN	docker-php-ext-install pdo_mysql opcache;
 RUN	pecl update-channels && pecl install mongodb && docker-php-ext-enable mongodb;
@@ -24,9 +25,13 @@ RUN a2enmod rewrite expires headers ssl && service apache2 restart
 COPY src /var/www/html
 COPY config.yml /var/www/config.yml
 
-RUN	cd /var/www/; \
-	curl -sS https://getcomposer.org/installer | php; \
-	cd /var/www/html; \
-	rm -f composer.lock; \
+WORKDIR /var/www/
+RUN	curl -sS https://getcomposer.org/installer | php; 
+
+WORKDIR /var/www/html
+RUN	rm -f composer.lock; \
 	php /var/www/composer.phar install; \
 	chown -R www-data:www-data /var/www/
+
+EXPOSE 80/TCP
+EXPOSE 443/TCP
