@@ -9,7 +9,6 @@ services:
     build: ./
     ports:
       - '80:80'
-      - '443:443'
     links:
       - mysql
     depends_on:

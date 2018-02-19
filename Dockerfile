@@ -1,7 +1,9 @@
 FROM php:7.2-apache
 LABEL maintainer="Michael Dombrowski -- http://mikedombrowski.com"
 
-RUN	apt-get update && apt-get install -yqq ffmpeg nodejs zip unzip curl;
+RUN	apt-get update && apt-get install -yqq ffmpeg zip unzip curl gnupg2;
+RUN	curl -sL https://deb.nodesource.com/setup_9.x | bash -
+RUN	apt-get install -yqq nodejs
 RUN	apt-get install -yqq libcurl4-openssl-dev pkg-config libssl-dev libpcre3-dev zlib1g-dev libbson-dev libmongoc-dev; \
 	rm -rf /var/lib/apt/lists/*;
 
@@ -20,7 +22,7 @@ RUN { \
 		echo 'variables_order="EGPCS"'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-RUN a2enmod rewrite expires headers ssl && service apache2 restart
+RUN a2enmod rewrite expires headers && service apache2 restart
 
 COPY src /var/www/html
 COPY config.yml /var/www/config.yml
@@ -34,4 +36,4 @@ RUN	rm -f composer.lock; \
 	chown -R www-data:www-data /var/www/
 
 EXPOSE 80/TCP
-EXPOSE 443/TCP
+
