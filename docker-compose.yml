@@ -17,11 +17,8 @@ services:
       AD_DATABASE_CONNECTION_STRING: 'mysql:host=mysql;dbname=audiodidact;charset=utf8'
       AD_DATABASE_PASSWORD: 'password'
       AD_API_KEYS_GOOGLE: '****' # CHANGE ME
-      AD_LOCAL_URL: 'http://localhost/'
-      AD_SUBDIRECTORY: ''
       AD_EMAIL_ENABLED: 'false'
-      AD_SESSION_COOKIE_SECURE: 'false'
-
+      AD_FORCE_HTTPS: 'false'
     volumes:
       - /home/michael/Desktop/tmp:/var/www/html/temp
 
