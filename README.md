@@ -16,6 +16,7 @@ or video, setting the metadata, and uploading album art.
 - [Running Your Own Server](#running-your-own-server)
   - [Configuration](#configuration)
   - [Configuration With Evironment Variables](#configuration-with-evironment-variables)
+- [Docker](#docker)
 - [Updating](#updating)
 - [Documentation](#documentation)
 - [Future Tasks](#future-tasks)
