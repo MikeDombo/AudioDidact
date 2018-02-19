@@ -15,7 +15,7 @@ supported-sites:
   crtv: ""
 
 # Set to true if your server is setup for HTTPS (highly recommended)
-force-https: true
+force-https: false
 
 # Set the from and reply-to field of all emails sent from AudioDidact.
 # EX: "\"AudioDidact Administrator\"<michael@mikedombrowski.com>"
