@@ -4,9 +4,8 @@ services:
 
   audiodidact:
     container_name: audiodidact
-    image: 'audiodidact'
+    image: 'mikedombo/audiodidact'
     restart: unless-stopped
-    build: ./
     ports:
       - '80:80'
     links:
