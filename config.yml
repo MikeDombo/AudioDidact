@@ -3,12 +3,6 @@
 ####################################################
 
 
-# Change to your hostname. End with trailing slash
-local-url: "https://localhost/podtube/src/"
-
-# Change to subdirectory if any. End with trailing slash. If no subdirectory, enter ""
-subdirectory: "podtube/src/"
-
 # Set the directory where you want to download the thumbnails, videos, and audio. This must be publicly accessible
 download-directory: "temp"
 
@@ -18,10 +12,10 @@ api-keys:
 
 supported-sites:
   # Set this to the value of the CRTV nllinktoken cookie which is set after logging in
-  crtv: "****"
+  crtv: ""
 
 # Set to true if your server is setup for HTTPS (highly recommended)
-session-cookie-secure: true
+force-https: true
 
 # Set the from and reply-to field of all emails sent from AudioDidact.
 # EX: "\"AudioDidact Administrator\"<michael@mikedombrowski.com>"

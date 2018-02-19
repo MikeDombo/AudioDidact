@@ -8,6 +8,13 @@ if(ob_get_level()){
 	ob_end_clean();
 }
 
+// Check if we should be forcing HTTPS
+if(FORCE_HTTPS && !is_ssl()){
+    header('HTTP/1.1 301 Moved Permanently');
+    header('Location: ' . 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    exit();
+}
+
 if(session_status() == PHP_SESSION_NONE){
 	session_set_cookie_params(
 		2678400,
@@ -19,9 +26,11 @@ if(session_status() == PHP_SESSION_NONE){
 	);
 	session_start();
 }
-// Update session cookie and push expiration into the future
-setcookie(session_name(), session_id(), time() + 2678400, "/", session_get_cookie_params()["domain"],
-	session_get_cookie_params()["secure"], session_get_cookie_params()["httponly"]);
+else{
+	// Update session cookie and push expiration into the future
+	setcookie(session_name(), session_id(), time() + 2678400, "/", session_get_cookie_params()["domain"],
+		SESSION_COOKIE_SECURE, true);
+}
 
 // Make download folder if it does not exist and write htaccess file to cache content
 if(!file_exists(__DIR__ . "/" . DOWNLOAD_PATH)){

@@ -39,11 +39,10 @@ date_default_timezone_set('UTC');
 mb_internal_encoding("UTF-8");
 
 $environmentVariablePrefix = "AD_";
-$configVariableNames = ["LOCAL_URL" => ["name" => "local-url", "type" => "string"],
-	"SUBDIRECTORY" => ["name" => "subdirectory", "type" => "string"],
+$configVariableNames = [
 	"API_KEYS_GOOGLE" => ["name" => "api-keys_google", "type" => "string"],
 	"DOWNLOAD_DIRECTORY" => ["name" => "download-directory", "type" => "string"],
-	"SESSION_COOKIE_SECURE" => ["name" => "session-cookie-secure", "type" => "boolean"],
+	"FORCE_HTTPS" => ["name" => "force-https", "type" => "boolean"],
 	"EMAIL_FROM" => ["name" => "email_from", "type" => "string"],
 	"EMAIL_ENABLED" => ["name" => "email_enabled", "type" => "boolean"],
 	"DATABASE_DRIVER" => ["name" => "database_driver", "type" => "string"],
@@ -67,14 +66,37 @@ foreach($configVariableNames as $k => $v){
 	}
 }
 
-define("LOCAL_URL", $ymlConfig["local-url"]);
-define("SUBDIR", $ymlConfig["subdirectory"]);
+function is_ssl(){
+	return !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
+}
+
+define("FORCE_HTTPS", $ymlConfig["force-https"]);
+define("SESSION_COOKIE_SECURE", is_ssl());
 define("GOOGLE_API_KEY", $ymlConfig["api-keys"]["google"]);
 define("DOWNLOAD_PATH", $ymlConfig["download-directory"]);
-define("SESSION_COOKIE_SECURE", $ymlConfig["session-cookie-secure"]);
 define("EMAIL_FROM", $ymlConfig["email"]["from"]);
 define("EMAIL_ENABLED", $ymlConfig["email"]["enabled"]);
 define("SUPPORTED_SITES_CRTV", $ymlConfig["supported-sites"]["crtv"]);
+
+// Figure out what subdirectory we are in
+$path = explode("/", $_SERVER["PHP_SELF"]);
+array_pop($path); // Remove PHP file from path
+array_shift($path); // Removing beginning slash
+$subdir =  implode("/", $path);
+// If we're in a subdirectory, end with a trailing slash
+if(!empty($subdir)){
+	$subdir .= "/";
+}
+define("SUBDIR", $subdir);
+
+// Use the subdir to set the full LOCAL_URL
+$protocol = is_ssl() ? "https://" : "http://";
+$localURL = $protocol . $_SERVER["HTTP_HOST"] . "/" . SUBDIR;
+// Always end with a trailing slash
+if(mb_substr($localURL, -1, 1) != "/"){
+	$localURL .= "/";
+}
+define("LOCAL_URL", $localURL);
 
 $dbData = $ymlConfig["database"];
 switch(strtolower($dbData["driver"])){
