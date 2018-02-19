@@ -1,7 +1,9 @@
 # AudioDidact
 
 [![pipeline status](http://git.home.mikedombrowski.com/michael/AudioDidact/badges/master/pipeline.svg)](http://git.home.mikedombrowski.com/michael/AudioDidact/commits/master)
+[![Docker Build Status](https://img.shields.io/docker/build/mikedombo/audiodidact.svg)]()
 [![coverage report](http://git.home.mikedombrowski.com/michael/AudioDidact/badges/master/coverage.svg)](http://git.home.mikedombrowski.com/michael/AudioDidact/commits/master)
+[![Docker Pulls](https://img.shields.io/docker/pulls/mikedombo/audiodidact.svg)]()
 
 ## Description
 
