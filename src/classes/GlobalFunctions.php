@@ -265,7 +265,7 @@ class GlobalFunctions {
 			$url = parse_url($_SERVER["HTTP_REFERER"]);
 		}
 
-		$url = $url["host"] . $url["port"] ?? "";
+		$url = $url["host"] . isset($url["port"]) ? $url["port"]: "";
 		return mb_strpos(mb_strtolower($url), LOCAL_URL) >= 0;
 	}
 
