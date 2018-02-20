@@ -121,7 +121,7 @@ class GlobalFunctions {
 			'loggedIn' => "false",
 			'localurl' => LOCAL_URL,
 			'emailEnabled' => EMAIL_ENABLED,
-			'csrf' => $_COOKIE["AD_CSRF"] ?? ""
+			'csrf' => isset($_COOKIE["AD_CSRF"]) ? $_COOKIE["AD_CSRF"] : ""
 		];
 
 		if(self::userIsLoggedIn()){
@@ -292,10 +292,10 @@ class GlobalFunctions {
 
 		$token = "";
 		if($_SERVER["REQUEST_METHOD"] === "POST"){
-			$token = $_POST["CSRF_TOKEN"] ?? "";
+			$token = isset($_POST["CSRF_TOKEN"]) ? $_POST["CSRF_TOKEN"] : "";
 		}
 		else if($_SERVER["REQUEST_METHOD"] === "GET"){
-			$token = $_GET["CSRF_TOKEN"] ?? "";
+			$token = isset($_GET["CSRF_TOKEN"]) ? $_GET["CSRF_TOKEN"] : "";
 		}
 
 		return $token === $_COOKIE["AD_CSRF"];
