@@ -33,7 +33,7 @@ session_write_close();
 $dal = GlobalFunctions::getDAL();
 
 // If a video is being requested, then add the video, otherwise just show the current feed
-if(isset($_GET["yt"])){
+if(GlobalFunctions::fullVerifyCSRF() && isset($_GET["yt"])){
 	$url = $_GET["yt"];
 	$isVideo = false;
 

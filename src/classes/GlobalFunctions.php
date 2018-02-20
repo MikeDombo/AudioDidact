@@ -120,7 +120,8 @@ class GlobalFunctions {
 			'subdir' => SUBDIR,
 			'loggedIn' => "false",
 			'localurl' => LOCAL_URL,
-			'emailEnabled' => EMAIL_ENABLED
+			'emailEnabled' => EMAIL_ENABLED,
+			'csrf' => $_COOKIE["AD_CSRF"] ?? ""
 		];
 
 		if(self::userIsLoggedIn()){
@@ -248,5 +249,59 @@ class GlobalFunctions {
 		$o[$keyHierarchy[count($keyHierarchy) - 1]] = $value;
 
 		return $dict;
+	}
+
+	public static function verifySameOriginHeader(){
+		// One of HTTP_ORIGIN or HTTP_REFERER must exist to be a proper request
+		if(!isset($_SERVER["HTTP_ORIGIN"]) && !isset($_SERVER["HTTP_REFERER"])){
+			return false;
+		}
+
+		$url = null;
+		if(isset($_SERVER["HTTP_ORIGIN"])){
+			$url = parse_url($_SERVER["HTTP_ORIGIN"]);
+		}
+		else{
+			$url = parse_url($_SERVER["HTTP_REFERER"]);
+		}
+
+		$url = $url["host"] . $url["port"] ?? "";
+		return mb_strpos(mb_strtolower($url), LOCAL_URL) >= 0;
+	}
+
+	public static function randomToken($length = 32){
+		if(!isset($length) || intval($length) <= 8 ){
+			$length = 64;
+		}
+
+		if (function_exists('random_bytes')) {
+			return bin2hex(random_bytes($length));
+		}
+		if (function_exists('openssl_random_pseudo_bytes')) {
+			return bin2hex(openssl_random_pseudo_bytes($length));
+		}
+		else{
+			die("No Random function exists!");
+		}
+	}
+
+	public static function verifyCSRFToken(){
+		if(!isset($_COOKIE["AD_CSRF"])){
+			return false;
+		}
+
+		$token = "";
+		if($_SERVER["REQUEST_METHOD"] === "POST"){
+			$token = $_POST["CSRF_TOKEN"] ?? "";
+		}
+		else if($_SERVER["REQUEST_METHOD"] === "GET"){
+			$token = $_GET["CSRF_TOKEN"] ?? "";
+		}
+
+		return $token === $_COOKIE["AD_CSRF"];
+	}
+
+	public static function fullVerifyCSRF(){
+		return self::verifySameOriginHeader() && self::verifyCSRFToken();
 	}
 }

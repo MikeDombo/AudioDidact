@@ -299,8 +299,7 @@ class User {
 	 * Sets hashed password using plaintext password and username
 	 *
 	 * @param string $passwd
-	 * @throws \Exception Username must be set before setting the password because the password is stored as a hash of
-	 *     the plaintext password and the username
+	 *
 	 */
 	public function setPasswd($passwd){
 		$options = ['cost' => 12];

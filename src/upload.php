@@ -28,7 +28,7 @@ session_write_close();
 $dal = GlobalFunctions::getDAL();
 
 // If a video is being requested, then add the video, otherwise just show the current feed
-if(isset($_FILES["yt"])){
+if(GlobalFunctions::fullVerifyCSRF() && isset($_FILES["yt"])){
 	if($_FILES["yt"]["error"] > 0){
 		echo json_encode(['error' => 'File Upload Error Code:' . $_FILES["yt"]["error"]]);
 		exit(1);

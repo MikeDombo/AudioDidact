@@ -54,18 +54,18 @@ else if(count($url) == 1){
 		}
 	}
 	else if($u == "resetpassword" && EMAIL_ENABLED){
-		if(isset($_GET["uname"]) && isset($_GET["code"]) && isset($_GET["passwd"])){
+		if(GlobalFunctions::fullVerifyCSRF() && isset($_GET["uname"]) && isset($_GET["code"]) && isset($_GET["passwd"])){
 			resetPassword($_GET["uname"], $_GET["passwd"], $_GET["code"]);
 			exit(0);
 		}
-		else if(isset($_GET["uname"]) && EMAIL_ENABLED){
+		else if(GlobalFunctions::fullVerifyCSRF() && isset($_GET["uname"]) && EMAIL_ENABLED){
 			makePasswordResetRequest($_GET["uname"]);
 			exit(0);
 		}
 	}
 	else if($u == "signup" || $u == "signup.php"){
 		// Check if a user is signing up or needs the sign up webpage
-		if($_SERVER['REQUEST_METHOD'] == "POST"){
+		if($_SERVER['REQUEST_METHOD'] == "POST" && GlobalFunctions::fullVerifyCSRF()){
 			// Check that required variables are present and are not empty.
 			if(isset($_POST["uname"]) && isset($_POST["passwd"]) && isset($_POST["email"])){
 				$dal = GlobalFunctions::getDAL();
@@ -87,14 +87,15 @@ else if(count($url) == 1){
 	}
 	else if($u == "login" || $u == "login.php" || $u == "logout"){
 		// Check if the user is requesting a logout
-		if((isset($_POST["action"]) && $_POST["action"] == "logout") || $u == "logout"){
+		if(GlobalFunctions::fullVerifyCSRF()
+			&& ((isset($_POST["action"]) && $_POST["action"] == "logout") || $u == "logout")){
 			GlobalFunctions::userLogOut();
 			echo "Logout Success!";
 			exit(0);
 		}
 
 		// Make sure necessary variables are given
-		if(isset($_POST["uname"]) && isset($_POST["passwd"])){
+		if(GlobalFunctions::fullVerifyCSRF() && isset($_POST["uname"]) && isset($_POST["passwd"])){
 			// Check login info, set loggedIn to true if the information is correct
 			$dal = GlobalFunctions::getDAL();
 			$possibleUser = $dal->getUserByUsername($_POST["uname"]);
@@ -131,11 +132,9 @@ else{
 				exit(0);
 			}
 			else if(!isset($url[$k + 2]) || $url[$k + 2] == ""){
+				$edit = false;
 				if(GlobalFunctions::userIsLoggedIn() && $_SESSION["user"]->getWebID() == $webID){
 					$edit = true;
-				}
-				else{
-					$edit = false;
 				}
 				require_once "userPageGenerator.php";
 				if(isset($_GET["verifyEmail"])){

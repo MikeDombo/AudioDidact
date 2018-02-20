@@ -32,6 +32,15 @@ else{
 		SESSION_COOKIE_SECURE, true);
 }
 
+// Generate a cookie for CSRF prevention
+if(!isset($_COOKIE["AD_CSRF"])){
+	$csrfRandom = GlobalFunctions::randomToken();
+	setcookie("AD_CSRF", $csrfRandom, 0, "/", parse_url(LOCAL_URL)["host"],
+		SESSION_COOKIE_SECURE, true);
+
+	$_COOKIE["AD_CSRF"] = $csrfRandom; // Set it locally so that it is immediately usable
+}
+
 // Make download folder if it does not exist and write htaccess file to cache content
 if(!file_exists(__DIR__ . "/" . DOWNLOAD_PATH)){
 	mkdir(__DIR__ . "/" . DOWNLOAD_PATH);

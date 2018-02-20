@@ -16,7 +16,8 @@ script.
 		});
 	});
 	function login(){
-		$.post("/#{subdir}login", {uname: $("#uname").val(), passwd: $("#passwd").val(), action: "login"},
+		$.post("/#{subdir}login", {uname: $("#uname").val(), passwd: $("#passwd").val(), CSRF_TOKEN: "#{csrf}",
+				action: "login"},
 			function (data){
 				if(data.indexOf("Success") > -1){
 					location.reload();
@@ -27,7 +28,7 @@ script.
 			});
 	}
 	function logout(){
-		$.get("/#{subdir}logout", function (data){
+		$.get("/#{subdir}logout?CSRF_TOKEN=#{csrf}", function (data){
 			if(data.indexOf("Success") > -1){
 				location.reload();
 			}

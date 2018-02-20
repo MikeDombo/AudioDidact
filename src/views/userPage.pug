@@ -45,6 +45,7 @@ block afterJqueryLoad
 				});
 			});
 			$.fn.editable.defaults.mode = 'inline';
+			$.fn.editable.defaults.params = {CSRF_TOKEN: "#{csrf}"}
 			$(document).ready(function (){
 				$("#feedIcoImg").attr("src", $("#feedIco").text());
 				var basicOptions = {

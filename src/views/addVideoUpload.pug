@@ -5,6 +5,7 @@ block content
 		+responsiveAudioDidact
 		hr
 		form(action="/"+subdir+"upload.php" method="post" enctype="multipart/form-data" name="myForm").navbar-form.navbar-left.col-xl-8#myForm
+			input(name="CSRF_TOKEN" type="hidden" value=csrf)
 			div.form-group.row
 				label(for="yt").col-form-label.col-lg-2 File:
 				div.col-lg-10

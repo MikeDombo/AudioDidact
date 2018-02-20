@@ -76,7 +76,7 @@ function ajaxStream(){
 			catch(e){
 			}
 		};
-		xhr.open("GET", "yt.php?yt=" + encodeURIComponent($("#yt").val()) + "&videoOnly=" + encodeURIComponent($('input[name=audio-vid]:checked').val()), true);
+		xhr.open("GET", "yt.php?yt=" + encodeURIComponent($("#yt").val()) + "&videoOnly=" + encodeURIComponent($('input[name=audio-vid]:checked').val()) + "&CSRF_TOKEN=" + csrfToken, true);
 		xhr.send();
 	}
 	catch(e){

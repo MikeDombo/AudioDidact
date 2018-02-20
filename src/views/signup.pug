@@ -34,8 +34,10 @@ block afterJqueryLoad
 			}
 			signingUp = true;
 			$.post("/#{subdir}signup.php", {
-				uname: $("#unameSignup").val(), passwd: $("#passwdSignup").val(),
-				email: $("#email").val()
+				uname: $("#unameSignup").val(),
+				passwd: $("#passwdSignup").val(),
+				email: $("#email").val(),
+				CSRF_TOKEN: "#{csrf}"
 			}, function (data){
 				if(data.indexOf("success") > -1){
 					window.location = "/#{subdir}faq";
