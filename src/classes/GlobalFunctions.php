@@ -115,13 +115,14 @@ class GlobalFunctions {
 	public static function generatePug($view, $title, $options = [], $prettyPrint = false){
 		$verified = true;
 
+		$csrfToken = isset($_COOKIE["AD_CSRF"]) ? $_COOKIE["AD_CSRF"] : "";
 		$initialOptions = [
 			'title' => $title,
 			'subdir' => SUBDIR,
 			'loggedIn' => "false",
 			'localurl' => LOCAL_URL,
 			'emailEnabled' => EMAIL_ENABLED,
-			'csrf' => isset($_COOKIE["AD_CSRF"]) ? $_COOKIE["AD_CSRF"] : ""
+			'csrf' => $csrfToken
 		];
 
 		if(self::userIsLoggedIn()){
@@ -265,7 +266,8 @@ class GlobalFunctions {
 			$url = parse_url($_SERVER["HTTP_REFERER"]);
 		}
 
-		$url = $url["host"] . isset($url["port"]) ? $url["port"]: "";
+		$port = isset($url["port"]) ? $url["port"] : "";
+		$url = $url["host"] . $port;
 		return mb_strpos(mb_strtolower($url), LOCAL_URL) >= 0;
 	}
 
