@@ -60,7 +60,7 @@ foreach($configVariableNames as $k => $v){
 	$e = getenv($k);
 	if($e !== false){
 		if($v["type"] == "boolean"){
-			$e = mb_strtolower($e) == "true" ? true : false;
+			$e = mb_strtolower($e) == "true";
 		}
 		$ymlConfig = \AudioDidact\GlobalFunctions::deepSetDictionaryValues($ymlConfig, $kk, $e);
 	}
@@ -101,17 +101,17 @@ define("LOCAL_URL", $localURL);
 $dbData = $ymlConfig["database"];
 switch(strtolower($dbData["driver"])){
 	case("mysql"):
-		define("ChosenDAL", "\\AudioDidact\\DB\\MySQLDAL");
+		define("CHOSEN_DAL", "\\AudioDidact\\DB\\MySQLDAL");
 		define("DB_USER", $dbData["user"]);
 		define("DB_PASSWORD", $dbData["password"]);
 		define("PDO_STR", $dbData["connection-string"]);
 		break;
 	case("sqlite"):
-		define("ChosenDAL", "\\AudioDidact\\DB\\SQLite");
+		define("CHOSEN_DAL", "\\AudioDidact\\DB\\SQLite");
 		define("PDO_STR", $dbData["connection-string"]);
 		break;
 	case("mongodb"):
-		define("ChosenDAL", "\\AudioDidact\\DB\\MongoDBDAL");
+		define("CHOSEN_DAL", "\\AudioDidact\\DB\\MongoDBDAL");
 		define("DB_DATABASE", $dbData["database-name"]);
 		define("PDO_STR", $dbData["connection-string"]);
 		break;

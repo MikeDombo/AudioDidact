@@ -220,7 +220,7 @@ class GlobalFunctions {
 	 * @return \AudioDidact\DB\DAL
 	 */
 	public static function getDAL(){
-		$myDalClass = ChosenDAL;
+		$myDalClass = CHOSEN_DAL;
 
 		return new $myDalClass(PDO_STR);
 	}
