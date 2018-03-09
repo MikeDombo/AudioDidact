@@ -73,9 +73,9 @@ class GlobalFunctions {
 	 * @param bool $checkRequired
 	 */
 	public static function setCheckRequired($checkRequired){
-		$currentConfig = file_get_contents(CONFIG_FILE);
+		$currentConfig = file_get_contents(__DIR__ . '/../config.php');
 		$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+(true|false)\)/", "define(\"CHECK_REQUIRED\", $checkRequired)", $currentConfig);
-		file_put_contents(CONFIG_FILE, $newConfig);
+		file_put_contents(__DIR__ . '/../config.php', $newConfig);
 	}
 
 	public static function SRIChecksum($input){
