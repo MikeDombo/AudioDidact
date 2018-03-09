@@ -6,6 +6,7 @@
  * Time: 8:20 PM
  */
 
+use AudioDidact\User;
 use PHPUnit\Framework\TestCase;
 use AudioDidact\GlobalFunctions;
 
@@ -84,6 +85,72 @@ class UtilitiesTest extends TestCase {
 
 		$output = GlobalFunctions::secondsToTime(31536000);
 		$this->assertEquals(["year" => 1], $output);
+	}
+
+	public function testUserLoginLogout(){
+		$this->assertFalse(GlobalFunctions::userIsLoggedIn());
+		$u = new User();
+		GlobalFunctions::userLogIn($u);
+		$this->assertTrue(GlobalFunctions::userIsLoggedIn());
+	}
+
+	public function test_mb_str_split(){
+		$this->assertEquals(["a", "b", "c"], GlobalFunctions::mb_str_split("abc"));
+		$this->assertEquals(["a", "ㅃ", "ㅎ", "汉", "字", "漢", "字"], GlobalFunctions::mb_str_split("aㅃㅎ汉字漢字"));
+	}
+
+	public function testGetDAL(){
+		$this->assertInstanceOf(\AudioDidact\DB\DAL::class, GlobalFunctions::getDAL());
+	}
+
+	public function testDeepSetDictionaryValues(){
+		$dict = ["a" => ["b" => ["c" => 1]]];
+		$this->assertEquals(1, $dict["a"]["b"]["c"]);
+		$dict = GlobalFunctions::deepSetDictionaryValues($dict, ["a", "b", "c"], 2);
+		$this->assertEquals(2, $dict["a"]["b"]["c"]);
+		$dict = GlobalFunctions::deepSetDictionaryValues($dict, ["a", "b", "d"], 3);
+		$this->assertEquals(3, $dict["a"]["b"]["d"]);
+		$dict = GlobalFunctions::deepSetDictionaryValues($dict, ["a", "b", "e", "f"], 4);
+		$this->assertEquals(4, $dict["a"]["b"]["e"]["f"]);
+	}
+
+	public function testRandomToken(){
+		$this->assertEquals(64, strlen(GlobalFunctions::randomToken()));
+		$this->assertNotEquals(GlobalFunctions::randomToken(), GlobalFunctions::randomToken());
+	}
+
+	public function testVerifySameOriginHeader(){
+		$this->assertFalse(GlobalFunctions::verifySameOriginHeader());
+		$_SERVER["HTTP_ORIGIN"] = "https://localhost:29/somegarbage/sdfu9w";
+		$this->assertTrue(GlobalFunctions::verifySameOriginHeader());
+		$_SERVER["HTTP_ORIGIN"] = "https://localhost/somegarbage/sdfu9w";
+		$this->assertTrue(GlobalFunctions::verifySameOriginHeader());
+		unset($_SERVER["HTTP_ORIGIN"]);
+		$_SERVER["HTTP_REFERER"] = "https://localhost:29/somegarbage/sdfu9w";
+		$this->assertTrue(GlobalFunctions::verifySameOriginHeader());
+		$_SERVER["HTTP_REFERER"] = "https://localhost/somegarbage/sdfu9w";
+		$this->assertTrue(GlobalFunctions::verifySameOriginHeader());
+		unset($_SERVER["HTTP_REFERER"]);
+	}
+
+	public function fullVerifyCSRF(){
+		$this->assertFalse(GlobalFunctions::fullVerifyCSRF());
+		$_COOKIE["AD_CSRF"] = "123456789";
+		$this->assertFalse(GlobalFunctions::fullVerifyCSRF());
+		$_SERVER["HTTP_ORIGIN"] = "https://localhost/somegarbage/sdfu9w";
+		$this->assertFalse(GlobalFunctions::fullVerifyCSRF());
+		$_SERVER["REQUEST_METHOD"] = "GET";
+		$this->assertFalse(GlobalFunctions::fullVerifyCSRF());
+		$_GET["CSRF_TOKEN"] = "123456789";
+		$this->assertTrue(GlobalFunctions::fullVerifyCSRF());
+		$_GET["CSRF_TOKEN"] = "1234";
+		$this->assertFalse(GlobalFunctions::fullVerifyCSRF());
+		$_SERVER["REQUEST_METHOD"] = "POST";
+		$this->assertFalse(GlobalFunctions::fullVerifyCSRF());
+		$_POST["CSRF_TOKEN"] = "123456789";
+		$this->assertTrue(GlobalFunctions::fullVerifyCSRF());
+		$_POST["CSRF_TOKEN"] = "1234";
+		$this->assertFalse(GlobalFunctions::fullVerifyCSRF());
 	}
 
 	private function pluralizeTestHelper($wordSingular, $wordPlural){

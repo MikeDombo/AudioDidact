@@ -52,6 +52,10 @@ class Vimeo extends SupportedSite {
 		if($config == false){
 			throw new \Exception("Unable to parse vimeo JSON");
 		}
+		if(!isset($config["request"]["files"])){
+			throw new \Exception("Private video or some other parse error");
+		}
+
 		$downloadURLs = $config["request"]["files"]["progressive"];
 		$this->downloadURL = $downloadURLs[count($downloadURLs) - 1]["url"];
 		$this->thumbnailURL = $config["video"]["thumbs"]["640"];

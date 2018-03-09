@@ -73,7 +73,7 @@ class GlobalFunctions {
 	 * @param bool $checkRequired
 	 */
 	public static function setCheckRequired($checkRequired){
-		$currentConfig = file_get_contents(__DIR__ . '/../config.php');
+		$currentConfig = file_get_contents(CONFIG_FILE);
 		$newConfig = preg_replace("/define\(\"CHECK_REQUIRED\",\s+(true|false)\)/", "define(\"CHECK_REQUIRED\", $checkRequired)", $currentConfig);
 		file_put_contents(__DIR__ . '/../config.php', $newConfig);
 	}
@@ -101,6 +101,18 @@ class GlobalFunctions {
 			&& $_SESSION["loggedIn"]
 			&& isset($_SESSION["user"])
 			&& $_SESSION["user"] != null);
+	}
+
+	public static function is_ssl(){
+		return !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off';
+	}
+
+	public static function file_get_contents_no_verify($url){
+		$options = ["ssl" => [
+				"verify_peer" => false,
+				"verify_peer_name" => false,
+			]];
+		return file_get_contents($url, false, stream_context_create($options));
 	}
 
 	/**
@@ -152,7 +164,7 @@ class GlobalFunctions {
 		$options = array_merge($initialOptions, $options);
 
 		$pug = new \Pug\Pug(['pretty' => $prettyPrint, 'strict' => true, "expressionLanguage" => "js",
-			"cache" => getcwd()."/pug-cache", "upToDateCheck" => true,
+			"cache" => getcwd() . "/pug-cache", "upToDateCheck" => true,
 		]);
 
 		/*
@@ -268,18 +280,19 @@ class GlobalFunctions {
 
 		$port = isset($url["port"]) ? $url["port"] : "";
 		$url = $url["host"] . $port;
+
 		return mb_strpos(mb_strtolower($url), LOCAL_URL) >= 0;
 	}
 
 	public static function randomToken($length = 32){
-		if(!isset($length) || intval($length) <= 8 ){
+		if(!isset($length) || intval($length) <= 8){
 			$length = 64;
 		}
 
-		if (function_exists('random_bytes')) {
+		if(function_exists('random_bytes')){
 			return bin2hex(random_bytes($length));
 		}
-		if (function_exists('openssl_random_pseudo_bytes')) {
+		if(function_exists('openssl_random_pseudo_bytes')){
 			return bin2hex(openssl_random_pseudo_bytes($length));
 		}
 		else{
@@ -293,10 +306,10 @@ class GlobalFunctions {
 		}
 
 		$token = "";
-		if($_SERVER["REQUEST_METHOD"] === "POST"){
+		if(isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] === "POST"){
 			$token = isset($_POST["CSRF_TOKEN"]) ? $_POST["CSRF_TOKEN"] : "";
 		}
-		else if($_SERVER["REQUEST_METHOD"] === "GET"){
+		else if(isset($_SERVER["REQUEST_METHOD"]) && $_SERVER["REQUEST_METHOD"] === "GET"){
 			$token = isset($_GET["CSRF_TOKEN"]) ? $_GET["CSRF_TOKEN"] : "";
 		}
 

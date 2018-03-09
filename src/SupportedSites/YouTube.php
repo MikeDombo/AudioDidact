@@ -37,7 +37,7 @@ class YouTube extends SupportedSite {
 			$key = GOOGLE_API_KEY;
 
 			// Get video author, title, and description from YouTube API
-			$info = json_decode(file_get_contents("https://www.googleapis.com/youtube/v3/videos?part=snippet&id="
+			$info = json_decode(GlobalFunctions::file_get_contents_no_verify("https://www.googleapis.com/youtube/v3/videos?part=snippet&id="
 				. $this->video->getId() .
 				"&fields=items/snippet/description,items/snippet/title,items/snippet/channelTitle&key=" .
 				$key), true);
@@ -97,6 +97,8 @@ class YouTube extends SupportedSite {
 	/**
 	 * Download video using download URL from Python script and then call downloadWithPercentage to actually download
 	 * the video
+	 *
+	 * @throws \Exception
 	 */
 	public function downloadVideo(){
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
@@ -108,18 +110,14 @@ class YouTube extends SupportedSite {
 			error_log("$url");
 			throw new \Exception($url);
 		}
-		try{
-			/* Actually download the video from the url and print the
-			 * percentage to the screen with JSON
-			 */
-			$this->downloadWithPercentage($url, $videoPath);
-			// Set the video file as publicly accessible
-			@chmod($videoPath, 0775);
-			$this->video->setDuration(SupportedSite::getDurationSeconds($videoPath));
-		}
-		catch(\Exception $e){
-			throw $e;
-		}
+
+		/* Actually download the video from the url and print the
+		 * percentage to the screen with JSON
+		 */
+		$this->downloadWithPercentage($url, $videoPath);
+		// Set the video file as publicly accessible
+		@chmod($videoPath, 0775);
+		$this->video->setDuration(SupportedSite::getDurationSeconds($videoPath));
 	}
 
 	/**
@@ -178,6 +176,7 @@ class YouTube extends SupportedSite {
 			error_log(json_encode($youtubeJSONData));
 			throw new \Exception("<h3>Download Failed</h3><h4>Try again later</h4>");
 		}
+
 		$encodedStreamMap = $youtubeJSONData["args"]["url_encoded_fmt_stream_map"];
 		$dct = [];
 		$videos = explode(",", $encodedStreamMap);
