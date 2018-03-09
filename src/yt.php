@@ -52,13 +52,23 @@ if(GlobalFunctions::fullVerifyCSRF() && isset($_GET["yt"])){
 	}
 
 	// Before we make the feed, check that every file is downloaded
-	checkFilesExist($dal, $user);
+	try{
+		checkFilesExist($dal, $user);
+	}
+	catch(\Exception $e){
+		error_log($e);
+	}
 	PodTube::makeFullFeed($user, $dal);
 }
 // If there is no URL set, then just recreate a feed from the existing items in the CSV
 else{
 	// Before we make the feed, check that every file is downloaded
-	checkFilesExist($dal, $user);
+	try{
+		checkFilesExist($dal, $user);
+	}
+	catch(\Exception $e){
+		error_log($e);
+	}
 	PodTube::makeFullFeed($user, $dal)->printFeed();
 }
 
@@ -150,4 +160,3 @@ function getSupportedSiteClass($url, $isVideo){
 	// Error case or manually uploaded content case
 	return null;
 }
-

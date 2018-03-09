@@ -78,6 +78,9 @@ class SoundCloud extends SupportedSite {
 
 		// Find javascript URLs to get a client ID
 		preg_match_all("/<script.*src=\"(.*app-.*)\"\s*>/i", $webpage, $jsURLs);
+		if(!isset($jsURLs[1][0])){
+			return false;
+		}
 		$jsURL = $jsURLs[1][0];
 		// Grab the client ID from te javascript
 		$jsFile = file_get_contents($jsURL);
