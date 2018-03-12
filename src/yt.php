@@ -52,23 +52,13 @@ if(GlobalFunctions::fullVerifyCSRF() && isset($_GET["yt"])){
 	}
 
 	// Before we make the feed, check that every file is downloaded
-	try{
-		checkFilesExist($dal, $user);
-	}
-	catch(\Exception $e){
-		error_log($e);
-	}
+	checkFilesExist($dal, $user);
 	PodTube::makeFullFeed($user, $dal);
 }
 // If there is no URL set, then just recreate a feed from the existing items in the CSV
 else{
 	// Before we make the feed, check that every file is downloaded
-	try{
-		checkFilesExist($dal, $user);
-	}
-	catch(\Exception $e){
-		error_log($e);
-	}
+	checkFilesExist($dal, $user);
 	PodTube::makeFullFeed($user, $dal)->printFeed();
 }
 
@@ -82,9 +72,14 @@ function checkFilesExist(DAL $dal, User $user){
 	/** @var array|Video $items */
 	$items = $dal->getFeed($user);
 	foreach($items as $video){
-		if(!SupportedSite::allDownloadedVideo($video)){
-			$download = getSupportedSiteClass($video->getURL(), $video->isIsVideo());
-			downloadAllAndUpdateDB($download, $user, $dal);
+		try{
+			if(!SupportedSite::allDownloadedVideo($video)){
+				$download = getSupportedSiteClass($video->getURL(), $video->isIsVideo());
+				downloadAllAndUpdateDB($download, $user, $dal);
+			}
+		}
+		catch(\Exception $e){
+			error_log($e);
 		}
 	}
 }

@@ -417,7 +417,7 @@ class User {
 	 * @param int $gender
 	 */
 	public function setGender($gender){
-		$this->gender = $gender;
+		$this->gender = intval($gender);
 	}
 
 	/**

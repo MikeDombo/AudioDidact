@@ -28,6 +28,9 @@
         <testsuite name="Internet">
             <directory suffix="Test.php">test/Internet/</directory>
         </testsuite>
+        <testsuite name="Database">
+            <directory suffix="Test.php">test/Database/</directory>
+        </testsuite>
     </testsuites>
 
 	<logging>

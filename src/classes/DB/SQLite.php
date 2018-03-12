@@ -57,13 +57,18 @@ class SQLite extends MySQLDAL {
 	 * SQLite constructor.
 	 *
 	 * @param $pdoStr
+	 * @param \PDO|null $p
 	 */
-	public function __construct($pdoStr){
+	public function __construct($pdoStr, \PDO $p = null){
 		$this->myDBTables = [$this->userTable, $this->feedTable];
 		$this->correctSchemas = [$this->userTable => $this->userCorrect, $this->feedTable => $this->feedCorrect];
-
 		try{
-			parent::$PDO = new \PDO($pdoStr, null, null);
+			if($p === null){
+				parent::$PDO = new \PDO($pdoStr, null, null);
+			}
+			else{
+				parent::$PDO = $p;
+			}
 			parent::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		}
 		catch(\PDOException $e){

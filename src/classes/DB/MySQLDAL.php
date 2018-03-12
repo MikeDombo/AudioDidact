@@ -66,14 +66,20 @@ class MySQLDAL extends DAL {
 	 * Sets up parent's PDO object using the parameters that are passed in.
 	 *
 	 * @param $pdoStr
+	 * @param \PDO|null $p
 	 * @internal param \PDO $pdo
 	 */
-	public function __construct($pdoStr){
+	public function __construct($pdoStr, \PDO $p = null){
 		$this->myDBTables = [$this->userTable, $this->feedTable];
 		$this->correctSchemas = [$this->userTable => $this->userCorrect, $this->feedTable => $this->feedCorrect];
 
 		try{
-			parent::$PDO = new \PDO($pdoStr, DB_USER, DB_PASSWORD);
+			if($p === null){
+				parent::$PDO = new \PDO($pdoStr, DB_USER, DB_PASSWORD);
+			}
+			else{
+				parent::$PDO = $p;
+			}
 			parent::$PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 			parent::$PDO->query("SET time_zone = \"+00:00\";");
 		}
@@ -126,10 +132,10 @@ class MySQLDAL extends DAL {
 		$user->setEmail($row["email"]);
 		$user->setFname($row["firstname"]);
 		$user->setLname($row["lastname"]);
-		$user->setGender($row["gender"]);
+		$user->setGender(intval($row["gender"]));
 		$user->setWebID($row["webID"]);
 		$user->setFeedText($row["feedText"]);
-		$user->setFeedLength($row["feedLength"]);
+		$user->setFeedLength(intval($row["feedLength"]));
 		if($row["feedDetails"] != ""){
 			$user->setFeedDetails(json_decode($row["feedDetails"], true));
 		}
@@ -397,9 +403,9 @@ class MySQLDAL extends DAL {
 		$vid->setTime(strtotime($row["timeAdded"]));
 		$vid->setDuration(intval($row["duration"]));
 		$vid->setTitle($row["videoTitle"]);
-		$vid->setOrder($row["orderID"]);
+		$vid->setOrder(intval($row["orderID"]));
 		$vid->setURL($row["URL"]);
-		$vid->setIsVideo($row["isVideo"]);
+		$vid->setIsVideo(boolval($row["isVideo"]));
 		$vid->setFilename($row["filename"]);
 		$vid->setThumbnailFilename($row["thumbnailFilename"]);
 
