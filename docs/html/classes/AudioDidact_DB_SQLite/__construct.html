@@ -56,7 +56,10 @@
             <a href="#parameter">Parameter</a>
           </li>
           <li>
-            <a href="../../source/classes/DB/SQLite.php.html#line61">Source</a>
+            <a href="#tests">Tests</a>
+          </li>
+          <li>
+            <a href="../../source/classes/DB/SQLite.php.html#line62">Source</a>
           </li>
         </ul>
       </nav>
@@ -68,7 +71,9 @@
         <h2 id="signature">Signature</h2>
         <div class="styled synopsis">
           <code>public function __construct(
-        $pdoStr )
+        $pdoStr,
+            [<a title="PDO" href="../../classes/PDO.html">PDO</a>
+        $p = NULL] )
             </code>
         </div>
         <h2 id="parameterlist">Parameters</h2>
@@ -77,7 +82,34 @@
                 —
                 </dt>
           <dd/>
+          <dt><code>$p</code>
+                —
+                <a title="\PDO|null" href="../../classes/_PDO|null.html">\PDO|null</a></dt>
+          <dd><br/><br/><br/>      </dd>
         </dl>
+        <h2 id="tests">Test Coverage</h2>
+        <div class="styled">
+          <h3>Information</h3>
+          <ul class="styled">
+            <li>Coverage: 6/10 Lines (60%)</li>
+            <li>Tests: 11</li>
+            <li>Passed: 11 (100%)</li>
+          </ul>
+          <h3>Tests</h3>
+          <ul class="styled">
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testMakeDB</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testAddUser</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testUpdatePassword</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testUpdateUser</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testAddVideo</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testUpdateVideo</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testGetFeed</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testGetFeedHistory</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testGetPrunableVideos</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testSetFeedText</li>
+            <li>[ <span class="testresult-PASSED">PASSED</span> ] — SQLiteTest::testUpdateUserEmailPasswordCodes</li>
+          </ul>
+        </div>
       </section>
     </div>
     <footer>

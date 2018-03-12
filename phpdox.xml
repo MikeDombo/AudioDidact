@@ -54,7 +54,7 @@
 
                 <!-- git vcs information -->
                 <source type="git">
-                    <git binary="C:\Users\Mike\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd\git.exe" />
+                    <git binary="C:\Program Files\Git\bin\git.exe" />
                     <history enabled="true" limit="15" cache="${phpDox.project.workdir}/gitlog.xml" />
                 </source>
 
