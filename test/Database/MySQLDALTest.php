@@ -22,7 +22,11 @@ class MySQLDALTest extends TestCase {
 		if($dbUser === false){
 			$dbUser = DB_USER;
 		}
-		self::$pdo = new \PDO("mysql:host=localhost", $dbUser, $dbPass);
+		$dbHost = getenv("AD_MYSQL_TEST_HOST");
+		if($dbHost === false){
+			$dbHost = mb_split(";", PDO_STR)[0];
+		}
+		self::$pdo = new \PDO($dbHost, $dbUser, $dbPass);
 		self::$pdo->exec("CREATE SCHEMA phpunit_audiodidact_test; USE phpunit_audiodidact_test");
 	}
 

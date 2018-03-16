@@ -25,7 +25,7 @@ class Vimeo extends SupportedSite {
 	 * @param boolean $isVideo
 	 * @throws \Exception
 	 */
-	public function __construct($str, $isVideo){
+	public function __construct($str, $isVideo = false){
 		$this->video = new Video();
 
 		// If there is a URL/ID, continue

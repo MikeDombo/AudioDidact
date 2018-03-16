@@ -726,7 +726,7 @@ abstract class Feed {
 		if($attributes != null){
 			foreach($attributes as $key => $value){
 				$value = self::filterInvalidXMLChars($value);
-				$value = htmlspecialchars($value);
+				$value = htmlspecialchars($value, ENT_QUOTES);
 				$attrText .= " $key=\"$value\"";
 			}
 		}
@@ -757,7 +757,8 @@ abstract class Feed {
 		}
 		else{
 			$tagContent = self::filterInvalidXMLChars($tagContent);
-			$nodeText .= (in_array($tagName, $this->CDATAEncoding)) ? $this->sanitizeCDATA($tagContent) : htmlspecialchars($tagContent);
+			$nodeText .= (in_array($tagName, $this->CDATAEncoding)) ? $this->sanitizeCDATA($tagContent) :
+				htmlspecialchars($tagContent, ENT_QUOTES);
 		}
 
 		$nodeText .= (in_array($tagName, $this->CDATAEncoding)) ? ']]>' : '';
