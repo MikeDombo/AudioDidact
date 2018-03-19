@@ -102,7 +102,7 @@ abstract class SupportedSite {
 		$ffmpegOutFile = $path . $this->video->getFilename() . $this->video->getFileExtension();
 		$ffmpegTempFile = $path . $this->video->getFilename() . "-art.mp3";
 
-		exec("ffmpeg -i \"$ffmpegOutFile\" -i \"$ffmpegAlbumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpegTempFile\"");
+		exec("ffmpeg -i \"$ffmpegOutFile\" -i \"$ffmpegAlbumArt\" -y -c copy -map 0 -map 1 -id3v2_version 3 -metadata:s:v title=\"Album cover\" -metadata:s:v comment=\"Cover (Front)\"  \"$ffmpegTempFile\" 2>&1");
 		rename($ffmpegTempFile, $ffmpegOutFile);
 
 		$this->video->setDuration(SupportedSite::getDurationSeconds($ffmpegOutFile));
