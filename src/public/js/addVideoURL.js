@@ -1,7 +1,7 @@
-var currentlyDownloading = false;
+let currentlyDownloading = false;
 $("#yt").focus();
 
-function ajaxStream(){
+function ajaxStream(csrfToken){
 	if(!$("#yt").val()){
 		return;
 	}
@@ -17,40 +17,43 @@ function ajaxStream(){
 		currentlyDownloading = true;
 	}
 
-	try{
-		$('#progress-total').removeClass("bg-success").removeClass("bg-danger").addClass("progress-bar-striped").text("Working");
-		$('#progress-stage').removeClass("bg-success").removeClass("bg-danger").addClass("progress-bar-striped").text("Working");
-		var stages = {0: "Downloading", 1: "Converting to MP3"};
-		var numberOfStages = Object.keys(stages).length;
+	const progressTotalBar = $('#progress-total');
+	const progressStageBar = $('#progress-stage');
 
-		var xhr = new XMLHttpRequest();
-		var error = null;
+	try{
+		progressTotalBar.removeClass("bg-success").removeClass("bg-danger").addClass("progress-bar-striped").text("Working");
+		progressStageBar.removeClass("bg-success").removeClass("bg-danger").addClass("progress-bar-striped").text("Working");
+		const stages = {0: "Downloading", 1: "Converting to MP3"};
+		const numberOfStages = Object.keys(stages).length;
+
+		const xhr = new XMLHttpRequest();
+		let error = null;
 		xhr.previous_text = '';
-		xhr.onerror = function (){
+		xhr.onerror = () => {
 			alert("[XHR] Fatal Error.");
 		};
-		xhr.onreadystatechange = function (){
+		xhr.onreadystatechange = () => {
 			try{
 				if(error !== null){
-					$('#progress-total').attr('aria-valuenow', 100).removeClass("progress-bar-striped").addClass("bg-danger")
+					progressTotalBar.attr('aria-valuenow', 100).removeClass("progress-bar-striped").addClass("bg-danger")
 						.width("100%").text("Error");
-					$('#progress-stage').attr('aria-valuenow', 100).removeClass("progress-bar-striped").addClass("bg-danger")
+					progressStageBar.attr('aria-valuenow', 100).removeClass("progress-bar-striped").addClass("bg-danger")
 						.width("100%").text("Error");
 					currentlyDownloading = false;
 				}
 				else
 					if(xhr.readyState === 4){
-						$('#progress-total').attr('aria-valuenow', 100).removeClass("progress-bar-striped")
+						progressTotalBar.attr('aria-valuenow', 100).removeClass("progress-bar-striped")
 							.addClass("bg-success").width("100%").text("Completed");
-						$('#progress-stage').attr('aria-valuenow', 100).removeClass("progress-bar-striped")
+						progressStageBar.attr('aria-valuenow', 100).removeClass("progress-bar-striped")
 							.addClass("bg-success").width("100%").text("Completed");
 						currentlyDownloading = false;
 					}
 					else
 						if(xhr.readyState === 3){
-							var newResponse = xhr.responseText.substring(xhr.previous_text.length);
+							let newResponse = xhr.responseText.substring(xhr.previous_text.length);
 							newResponse = newResponse.substring(newResponse.lastIndexOf('{'), newResponse.lastIndexOf('}') + 1);
-							var result = JSON.parse(newResponse);
+							const result = JSON.parse(newResponse);
 
 							if(result.stage === -1){
 								error = result.error;
@@ -62,13 +65,13 @@ function ajaxStream(){
 							}
 
 							// Calculate Percent Done
-							var totalProg = ((100 / (numberOfStages)) * result.stage) + (result.progress / numberOfStages);
+							let totalProg = ((100 / (numberOfStages)) * result.stage) + (result.progress / numberOfStages);
 							totalProg = Math.round(totalProg);
 							result.progress = Math.round(result.progress);
 							// Move bar forward
-							$('#progress-total').attr('aria-valuenow', totalProg).width(totalProg + "%")
+							progressTotalBar.attr('aria-valuenow', totalProg).width(totalProg + "%")
 								.text(stages[result.stage] + " " + totalProg + "%");
-							$('#progress-stage').attr('aria-valuenow', result.progress).width(result.progress + "%")
+							progressStageBar.attr('aria-valuenow', result.progress).width(result.progress + "%")
 								.text(stages[result.stage] + " " + result.progress + "%");
 							xhr.previous_text = xhr.responseText;
 						}
@@ -76,7 +79,9 @@ function ajaxStream(){
 			catch(e){
 			}
 		};
-		xhr.open("GET", "yt.php?yt=" + encodeURIComponent($("#yt").val()) + "&videoOnly=" + encodeURIComponent($('input[name=audio-vid]:checked').val()) + "&CSRF_TOKEN=" + csrfToken, true);
+		xhr.open("GET", "yt.php?yt=" + encodeURIComponent($("#yt").val()) + "&videoOnly="
+			+ encodeURIComponent($('input[name=audio-vid]:checked').val())
+			+ "&CSRF_TOKEN=" + csrfToken, true);
 		xhr.send();
 	}
 	catch(e){
@@ -87,7 +92,7 @@ $(function (){
 	$('.input-group').each(function (){
 		$(this).find('input').keypress(function (e){
 			if(e.which === 10 || e.which === 13){
-				ajaxStream();
+				$("#submitContentButton").click();
 			}
 		});
 	});

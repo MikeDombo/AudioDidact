@@ -735,40 +735,35 @@ class MySQLDAL extends DAL {
 	public function getPrunableVideos(){
 		$feedTable = $this->feedTable;
 		$userTable = $this->userTable;
-		try{
-			$pruneSQL = "SELECT `videoID`,
-							MIN((MaxOrderID-orderID)>=feedLength) AS `isUnNeeded`
-							FROM
-								(SELECT
-								`" . $feedTable . "`.`userID`,
-								`" . $userTable . "`.`feedLength`,
-								videoID,
-								orderID
-							  FROM
-								`" . $feedTable . "`
-							  INNER JOIN
-								`" . $userTable . "` ON `" . $feedTable . "`.`userID` = `" . $userTable . "`.`ID`) Y
-						    INNER JOIN (SELECT `userID`, MAX(`orderID`) AS MaxOrderID FROM `" . $feedTable . "` GROUP BY `userID`) AS X
-						        ON X.userID=Y.`userID`
-						    GROUP BY `videoID`
-						    ORDER BY `isUnNeeded` DESC";
-			$p = parent::$PDO->prepare($pruneSQL);
-			$p->execute();
-			$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
-			$pruneArray = [];
+		$pruneSQL = "SELECT `videoID`,
+						MIN((MaxOrderID-orderID)>=feedLength) AS `isUnNeeded`
+						FROM
+							(SELECT
+							`" . $feedTable . "`.`userID`,
+							`" . $userTable . "`.`feedLength`,
+							videoID,
+							orderID
+						  FROM
+							`" . $feedTable . "`
+						  INNER JOIN
+							`" . $userTable . "` ON `" . $feedTable . "`.`userID` = `" . $userTable . "`.`ID`) Y
+					    INNER JOIN (SELECT `userID`, MAX(`orderID`) AS MaxOrderID FROM `" . $feedTable . "` GROUP BY `userID`) AS X
+					        ON X.userID=Y.`userID`
+					    GROUP BY `videoID`
+					    ORDER BY `isUnNeeded` DESC";
+		$p = parent::$PDO->prepare($pruneSQL);
+		$p->execute();
+		$rows = $p->fetchAll(\PDO::FETCH_ASSOC);
+		$pruneArray = [];
 
-			foreach($rows as $r){
-				if($r["isUnNeeded"] == 0){
-					continue;
-				}
-				$pruneArray[] = $r["videoID"];
+		foreach($rows as $r){
+			if($r["isUnNeeded"] == 0){
+				continue;
 			}
+			$pruneArray[] = $r["videoID"];
+		}
 
-			return $pruneArray;
-		}
-		catch(\PDOException $e){
-			throw $e;
-		}
+		return $pruneArray;
 	}
 
 }

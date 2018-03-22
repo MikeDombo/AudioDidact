@@ -89,7 +89,7 @@ abstract class SupportedSite {
 		if(!file_exists(DOWNLOAD_PATH . DIRECTORY_SEPARATOR . $this->video->getThumbnailFilename())){
 			$this->downloadThumbnail();
 		}
-		return self::allDownloadedVideo($this->video);
+		return static::allDownloadedVideo($this->video);
 	}
 
 	abstract public function downloadThumbnail();
@@ -198,7 +198,7 @@ abstract class SupportedSite {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		$data = curl_exec($ch);
 		if($data === false){
-			throw new \Exception("Download failed, URL tried was " . $url . "\n" . 'cURL error (' . curl_errno($ch) . '): '
+			throw new \Exception("Download failed, URL tried was " . $url . "\ncURL error (" . curl_errno($ch) . "): "
 				. curl_error($ch));
 		}
 		curl_close($ch);

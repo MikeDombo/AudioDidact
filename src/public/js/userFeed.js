@@ -1,13 +1,13 @@
 $(document).ready(function (){
 	$(".playspeed").each(function (){
-		var pb = $(this).parent().find(".playback").get(0).playbackRate;
+		const pb = $(this).parent().find(".playback").get(0).playbackRate;
 		$(this).text("Playback Speed: " + pb + "x");
 	});
 });
 $(".playspeed").on("click", function (){
-	var mediaElement = $(this).parent().find(".playback").get(0);
-	var originalSpeed = mediaElement.playbackRate;
-	var newSpeed = 0;
+	const mediaElement = $(this).parent().find(".playback").get(0);
+	const originalSpeed = mediaElement.playbackRate;
+	let newSpeed = 0;
 	if(originalSpeed < 3){
 		newSpeed = originalSpeed + .5;
 	}
@@ -18,7 +18,7 @@ $(".playspeed").on("click", function (){
 	$(this).text("Playback Speed: " + newSpeed + "x");
 });
 $(".playback").on("play", function (){
-	var $me = $(this);
+	const $me = $(this);
 	$(".playback").each(function (){
 		if(!$(this).is($me)){
 			$(this).get(0).pause();

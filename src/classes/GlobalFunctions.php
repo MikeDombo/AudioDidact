@@ -22,7 +22,7 @@ class GlobalFunctions {
 			"month" => ["week" => 4],
 			"year" => ["day" => 365]];
 
-		return self::modularUnitExpansion($inputSeconds, $conversion);
+		return static::modularUnitExpansion($inputSeconds, $conversion);
 	}
 
 	public static function modularUnitExpansion($value, $conversionTable){
@@ -93,7 +93,7 @@ class GlobalFunctions {
 	public static function userLogOut(){
 		$_SESSION["loggedIn"] = false;
 		unset($_SESSION["user"]);
-		self::clearSession();
+		static::clearSession();
 	}
 
 	public static function userIsLoggedIn(){
@@ -137,7 +137,7 @@ class GlobalFunctions {
 			'csrf' => $csrfToken
 		];
 
-		if(self::userIsLoggedIn()){
+		if(static::userIsLoggedIn()){
 			$initialOptions["loggedIn"] = "true";
 			/** @var User $user */
 			$user = $_SESSION["user"];
@@ -317,6 +317,6 @@ class GlobalFunctions {
 	}
 
 	public static function fullVerifyCSRF(){
-		return self::verifySameOriginHeader() && self::verifyCSRFToken();
+		return static::verifySameOriginHeader() && static::verifyCSRFToken();
 	}
 }

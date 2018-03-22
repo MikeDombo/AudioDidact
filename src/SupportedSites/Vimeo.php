@@ -46,6 +46,10 @@ class Vimeo extends SupportedSite {
 		}
 	}
 
+	/**
+	 * @return array
+	 * @throws \Exception
+	 */
 	private function getInfo(){
 		$configJSON = file_get_contents($this->vimeoConfigBaseURL . $this->video->getId() . "/config");
 		$config = json_decode($configJSON, true);
@@ -111,6 +115,8 @@ class Vimeo extends SupportedSite {
 	/**
 	 * Download video using download URL from Python script and then call downloadWithPercentage to actually download
 	 * the video
+	 *
+	 * @throws \Exception
 	 */
 	public function downloadVideo(){
 		$path = getcwd() . DIRECTORY_SEPARATOR . DOWNLOAD_PATH . DIRECTORY_SEPARATOR;
@@ -122,18 +128,14 @@ class Vimeo extends SupportedSite {
 			error_log("$url");
 			throw new \Exception($url);
 		}
-		try{
-			/* Actually download the video from the url and print the
-			 * percentage to the screen with JSON
-			 */
-			$this->downloadWithPercentage($url, $videoPath);
-			// Set the video file as publicly accessible
-			@chmod($videoPath, 0775);
-			$this->video->setDuration(SupportedSite::getDurationSeconds($videoPath));
-		}
-		catch(\Exception $e){
-			throw $e;
-		}
+
+		/* Actually download the video from the url and print the
+		 * percentage to the screen with JSON
+		 */
+		$this->downloadWithPercentage($url, $videoPath);
+		// Set the video file as publicly accessible
+		@chmod($videoPath, 0775);
+		$this->video->setDuration(SupportedSite::getDurationSeconds($videoPath));
 	}
 
 	public static function supportsURL($url){

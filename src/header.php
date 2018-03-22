@@ -11,7 +11,7 @@ if(ob_get_level()){
 // Check if we should be forcing HTTPS
 if(FORCE_HTTPS && !GlobalFunctions::is_ssl()){
     header('HTTP/1.1 301 Moved Permanently');
-    header('Location: ' . 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
     exit();
 }
 
