@@ -916,16 +916,16 @@
         },
         {
             "name": "pug-php/pug",
-            "version": "3.1.6",
+            "version": "3.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pug-php/pug.git",
-                "reference": "7c86ad6384682371381da85dbb9c5efd48c37ed4"
+                "reference": "f6231754e97e14e9d01323c8f331ed35c59121fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pug-php/pug/zipball/7c86ad6384682371381da85dbb9c5efd48c37ed4",
-                "reference": "7c86ad6384682371381da85dbb9c5efd48c37ed4",
+                "url": "https://api.github.com/repos/pug-php/pug/zipball/f6231754e97e14e9d01323c8f331ed35c59121fc",
+                "reference": "f6231754e97e14e9d01323c8f331ed35c59121fc",
                 "shasum": ""
             },
             "require": {
@@ -954,6 +954,9 @@
                 }
             },
             "autoload": {
+                "psr-4": {
+                    "": "./src"
+                },
                 "psr-0": {
                     "Pug\\": "src/",
                     "Jade\\": "src/"
@@ -1083,7 +1086,7 @@
                 "pug",
                 "template"
             ],
-            "time": "2018-02-09T17:14:38+00:00"
+            "time": "2018-03-21T17:57:17+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
