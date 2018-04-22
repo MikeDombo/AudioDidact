@@ -226,7 +226,7 @@ function makePasswordReset($username, $code){
 		echo GlobalFunctions::generatePug("views/passwordResetPage.pug", "Reset Your Password", $options);
 	}
 	else{
-		echo '<script>location.assign("/' . SUBDIR . '");</script>';
+		echo '<script type="text/javascript">location.assign("/' . SUBDIR . '");</script>';
 	}
 }
 

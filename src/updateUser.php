@@ -115,7 +115,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 	}
 }
 else if(isset($_GET["resend"]) && GlobalFunctions::verifySameOriginHeader()){
-	echo "<script>";
+	echo "<script type=\"text/javascript\">";
 	if(GlobalFunctions::userIsLoggedIn() && !$_SESSION["user"]->isEmailVerified() && EMAIL_ENABLED){
 		$_SESSION["user"]->addEmailVerificationCode();
 		$dal = GlobalFunctions::getDAL();

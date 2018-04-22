@@ -14,7 +14,7 @@ function makeUserPage($webID, $edit, $verifyEmail = null){
 	$dal = GlobalFunctions::getDAL();
 	$user = $dal->getUserByWebID($webID);
 	if($user == null){
-		echo "<script>alert(\"Invalid User!\");window.location = \"/" . SUBDIR . "\";</script>";
+		echo "<script type=\"text/javascript\">alert(\"Invalid User!\");window.location = \"/" . SUBDIR . "\";</script>";
 		exit();
 	}
 	if($edit){
