@@ -18,7 +18,7 @@ block content
 				a(class="btn btn-success form-control" style="color:#FFFFFF" href="#" onclick="signup();") Sign Up
 
 block afterJqueryLoad
-	script.
+	script(type="text/javascript").
 		var signingUp = false;
 		$(function (){
 			$("#passwdSignup, #unameSignup, #email").keypress(function (e){

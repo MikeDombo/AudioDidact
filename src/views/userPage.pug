@@ -20,7 +20,7 @@ block afterJqueryLoad
 		script(src="/"+subdir+"public/js/bootstrap-editable.min.js" type="text/javascript")
 		link(href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet")
 		script(src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js" type="text/javascript")
-		script.
+		script(type="text/javascript").
 			function processSuccess(response){
 				var message = JSON.parse(response);
 				if(!message.success){
