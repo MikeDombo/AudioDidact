@@ -508,16 +508,16 @@
         },
         {
             "name": "phug/lexer",
-            "version": "0.5.21",
+            "version": "0.5.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phug-php/lexer.git",
-                "reference": "fa25ce51d9229965267f29ec73ed0f726d46f65b"
+                "reference": "d9002490242eef01c9d7bc482506cf9dd8d7bcf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/lexer/zipball/fa25ce51d9229965267f29ec73ed0f726d46f65b",
-                "reference": "fa25ce51d9229965267f29ec73ed0f726d46f65b",
+                "url": "https://api.github.com/repos/phug-php/lexer/zipball/d9002490242eef01c9d7bc482506cf9dd8d7bcf9",
+                "reference": "d9002490242eef01c9d7bc482506cf9dd8d7bcf9",
                 "shasum": ""
             },
             "require": {
@@ -549,6 +549,7 @@
                     "homepage": "http://github.com/kylekatarnls"
                 }
             ],
+            "description": "Pug (ex-Jade) lexer for PHP, HTML template engine structured by indentation",
             "homepage": "http://phug-lang.com",
             "keywords": [
                 "dialect",
@@ -564,7 +565,7 @@
                 "template",
                 "views"
             ],
-            "time": "2018-02-14T14:49:13+00:00"
+            "time": "2018-06-21T07:09:55+00:00"
         },
         {
             "name": "phug/parser",
@@ -1261,16 +1262,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.1.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "bc88ad53e825ebacc7b190bbd360781fce381c64"
+                "reference": "b2eebaec085d1f2cafbad7644733d494a3bbbc9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/bc88ad53e825ebacc7b190bbd360781fce381c64",
-                "reference": "bc88ad53e825ebacc7b190bbd360781fce381c64",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/b2eebaec085d1f2cafbad7644733d494a3bbbc9b",
+                "reference": "b2eebaec085d1f2cafbad7644733d494a3bbbc9b",
                 "shasum": ""
             },
             "require": {
@@ -1332,11 +1333,11 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-04-29T07:56:09+00:00"
+            "time": "2018-06-23T12:23:56+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.1.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
