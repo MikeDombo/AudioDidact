@@ -355,16 +355,16 @@
         },
         {
             "name": "phug/event",
-            "version": "0.1.1",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phug-php/event.git",
-                "reference": "8d78b07913d4aeffc6480dfd534fc5fed7adaf4e"
+                "reference": "dd4eab5b385428ddae45aa980359911fcec3d9d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/event/zipball/8d78b07913d4aeffc6480dfd534fc5fed7adaf4e",
-                "reference": "8d78b07913d4aeffc6480dfd534fc5fed7adaf4e",
+                "url": "https://api.github.com/repos/phug-php/event/zipball/dd4eab5b385428ddae45aa980359911fcec3d9d4",
+                "reference": "dd4eab5b385428ddae45aa980359911fcec3d9d4",
                 "shasum": ""
             },
             "require": {
@@ -394,12 +394,13 @@
                     "homepage": "http://github.com/kylekatarnls"
                 }
             ],
+            "description": "Phug events manager (compatible with PSR-14)",
             "homepage": "http://phug-lang.com",
             "keywords": [
                 "event",
                 "phug"
             ],
-            "time": "2018-02-19T14:06:44+00:00"
+            "time": "2018-07-03T15:20:30+00:00"
         },
         {
             "name": "phug/formatter",
@@ -508,16 +509,16 @@
         },
         {
             "name": "phug/lexer",
-            "version": "0.5.22",
+            "version": "0.5.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phug-php/lexer.git",
-                "reference": "d9002490242eef01c9d7bc482506cf9dd8d7bcf9"
+                "reference": "137a2c2406df215036f8c805050c3b387e4a3f86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/lexer/zipball/d9002490242eef01c9d7bc482506cf9dd8d7bcf9",
-                "reference": "d9002490242eef01c9d7bc482506cf9dd8d7bcf9",
+                "url": "https://api.github.com/repos/phug-php/lexer/zipball/137a2c2406df215036f8c805050c3b387e4a3f86",
+                "reference": "137a2c2406df215036f8c805050c3b387e4a3f86",
                 "shasum": ""
             },
             "require": {
@@ -565,7 +566,7 @@
                 "template",
                 "views"
             ],
-            "time": "2018-06-21T07:09:55+00:00"
+            "time": "2018-07-06T13:49:56+00:00"
         },
         {
             "name": "phug/parser",
@@ -747,16 +748,16 @@
         },
         {
             "name": "phug/renderer",
-            "version": "0.4.3",
+            "version": "0.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phug-php/renderer.git",
-                "reference": "f33b7d0deadfe7f3e7e208f6c2ca5f2390d26388"
+                "reference": "e8fbc1890d4dfc92770807f25fcb0e75188fe33a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/renderer/zipball/f33b7d0deadfe7f3e7e208f6c2ca5f2390d26388",
-                "reference": "f33b7d0deadfe7f3e7e208f6c2ca5f2390d26388",
+                "url": "https://api.github.com/repos/phug-php/renderer/zipball/e8fbc1890d4dfc92770807f25fcb0e75188fe33a",
+                "reference": "e8fbc1890d4dfc92770807f25fcb0e75188fe33a",
                 "shasum": ""
             },
             "require": {
@@ -791,6 +792,7 @@
                     "homepage": "http://github.com/kylekatarnls"
                 }
             ],
+            "description": "Pug (ex-Jade) renderer for PHP, HTML template engine structured by indentation",
             "homepage": "http://phug-lang.com",
             "keywords": [
                 "compiler",
@@ -806,7 +808,7 @@
                 "template",
                 "views"
             ],
-            "time": "2018-04-06T12:51:48+00:00"
+            "time": "2018-07-05T13:44:16+00:00"
         },
         {
             "name": "phug/util",
