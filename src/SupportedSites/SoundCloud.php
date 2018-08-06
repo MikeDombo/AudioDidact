@@ -87,7 +87,7 @@ class SoundCloud extends SupportedSite {
 		preg_match_all("/\Wclient_id:\"(.*)\"/iU", $jsFile, $clientIDs);
 		$this->clientID = $clientIDs[1][0];
 
-		preg_match("/var c=([^;]*)/i", $webpage, $matches);
+		preg_match("/var\s+c\s*=\s*(\[.*\]),/i", $webpage, $matches);
 		$brackets = 0;
 		$firstRun = true;
 		$strlen = mb_strlen($matches[1]);
