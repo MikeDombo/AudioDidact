@@ -31,7 +31,7 @@ class VimeoTest extends TestCase{
 		$this->assertTrue($v2->getVideo()->isIsVideo());
 
 		$this->assertEquals("LAMAR+NIK", $v1->getVideo()->getAuthor());
-		$this->assertContains("*2018 SXSW Official Selection [Music Videos]\n*2017 UKMVA Nomination [Best Indie/Rock Newcomer]\n*2017 IMVF Nomination [Best Animation]", $v1->getVideo()->getDesc());
+		$this->assertContains("lamarnik", $v1->getVideo()->getDesc());
 		$this->assertEquals("THE SHINS “HALF A MILLION” [DIR. LAMAR+NIK]", $v1->getVideo()->getTitle());
 	}
 
