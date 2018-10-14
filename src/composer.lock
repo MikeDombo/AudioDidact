@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "js-phpize/js-phpize",
-            "version": "2.0.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pug-php/js-phpize.git",
-                "reference": "d4a255a665e2c0c112730909681397b0cfdc6790"
+                "reference": "3b1c99a946e524e43d0b8530818bd95c32b5b403"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pug-php/js-phpize/zipball/d4a255a665e2c0c112730909681397b0cfdc6790",
-                "reference": "d4a255a665e2c0c112730909681397b0cfdc6790",
+                "url": "https://api.github.com/repos/pug-php/js-phpize/zipball/3b1c99a946e524e43d0b8530818bd95c32b5b403",
+                "reference": "3b1c99a946e524e43d0b8530818bd95c32b5b403",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,7 @@
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "dev-master",
-                "phpunit/phpunit": ">=4.8.35 <6.0"
+                "phpunit/phpunit": "^6.0 || ^7.0"
             },
             "type": "library",
             "autoload": {
@@ -45,7 +45,7 @@
                 }
             ],
             "description": "Convert js-like syntax to standalone PHP code.",
-            "time": "2018-06-10T10:38:59+00:00"
+            "time": "2018-10-12T15:50:21+00:00"
         },
         {
             "name": "js-phpize/js-phpize-phug",
@@ -1267,16 +1267,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.1.5",
+            "version": "v4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "1509020968321c1d46408c11c142a2388b1c9b0c"
+                "reference": "60319b45653580b0cdacca499344577d87732f16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/1509020968321c1d46408c11c142a2388b1c9b0c",
-                "reference": "1509020968321c1d46408c11c142a2388b1c9b0c",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/60319b45653580b0cdacca499344577d87732f16",
+                "reference": "60319b45653580b0cdacca499344577d87732f16",
                 "shasum": ""
             },
             "require": {
@@ -1338,7 +1338,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-09-18T12:45:12+00:00"
+            "time": "2018-10-02T16:36:10+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -2813,7 +2813,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pug-php/pug": 0
+        "pug-php/pug": 0,
+        "symfony/yaml": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
