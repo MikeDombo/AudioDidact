@@ -1,7 +1,8 @@
 {
     "require": {
         "pug-php/pug": "@stable",
-        "symfony/yaml": "@stable"
+        "symfony/yaml": "@stable",
+        "ext-pdo": "*"
     },
 	"require-dev": {
         "phpunit/phpunit": "^8.0.1"

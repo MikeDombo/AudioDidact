@@ -30,7 +30,7 @@ database:
   driver: "mysql"
   user: "root"
   password: ""
-  connection-string: "mysql:host=localhost;dbname=podtube;charset=utf8"
+  connection-string: "mysql:host=localhost;dbname=podtube;charset=utf8mb4"
 
   ##### END MySQL #####
 
