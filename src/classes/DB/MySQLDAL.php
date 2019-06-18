@@ -58,7 +58,7 @@ class MySQLDAL extends DAL {
 		["Field" => "videoTitle", "Type" => "text", "Null" => "NO", "Key" => "", "Default" => null, "Extra" => ""],
 		["Field" => "duration", "Type" => "int(11)", "Null" => "YES", "Key" => "", "Default" => null, "Extra" => ""],
 		["Field" => "isVideo", "Type" => "tinyint(1)", "Null" => "NO", "Key" => "", "Default" => "0", "Extra" => ""],
-		["Field" => "timeAdded", "Type" => "timestamp", "Null" => "NO", "Key" => "", "Default" => "CURRENT_TIMESTAMP", "Extra" => ""]
+		["Field" => "timeAdded", "Type" => "timestamp", "Null" => "NO", "Key" => "", "Default" => "CURRENT_TIMESTAMP", "Extra" => "DEFAULT_GENERATED"]
 	];
 
 	/**
