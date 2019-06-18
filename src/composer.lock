@@ -237,16 +237,16 @@
         },
         {
             "name": "phug/compiler",
-            "version": "0.5.21",
+            "version": "0.5.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phug-php/compiler.git",
-                "reference": "15780600aba73e6309b249331194d6008e798350"
+                "reference": "b7a0b66ec06610deffefa00f10390c74a848fa93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/compiler/zipball/15780600aba73e6309b249331194d6008e798350",
-                "reference": "15780600aba73e6309b249331194d6008e798350",
+                "url": "https://api.github.com/repos/phug-php/compiler/zipball/b7a0b66ec06610deffefa00f10390c74a848fa93",
+                "reference": "b7a0b66ec06610deffefa00f10390c74a848fa93",
                 "shasum": ""
             },
             "require": {
@@ -294,7 +294,7 @@
                 "template",
                 "views"
             ],
-            "time": "2019-01-26T23:48:47+00:00"
+            "time": "2019-05-21T16:20:12+00:00"
         },
         {
             "name": "phug/dependency-injection",
@@ -510,16 +510,16 @@
         },
         {
             "name": "phug/lexer",
-            "version": "0.5.30",
+            "version": "0.5.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phug-php/lexer.git",
-                "reference": "f86f83e9504afb1087a3b0a71fd05491f6b944cd"
+                "reference": "a4878406a718e3603460d7e9013a556260116a63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/lexer/zipball/f86f83e9504afb1087a3b0a71fd05491f6b944cd",
-                "reference": "f86f83e9504afb1087a3b0a71fd05491f6b944cd",
+                "url": "https://api.github.com/repos/phug-php/lexer/zipball/a4878406a718e3603460d7e9013a556260116a63",
+                "reference": "a4878406a718e3603460d7e9013a556260116a63",
                 "shasum": ""
             },
             "require": {
@@ -528,6 +528,7 @@
                 "phug/util": "^0.4.0"
             },
             "require-dev": {
+                "kylekatarnls/multi-tester": "^1.1",
                 "phug/dev-tool": "^0.1.0"
             },
             "type": "library",
@@ -567,7 +568,7 @@
                 "template",
                 "views"
             ],
-            "time": "2018-11-08T16:52:58+00:00"
+            "time": "2019-03-19T13:14:18+00:00"
         },
         {
             "name": "phug/parser",
@@ -750,16 +751,16 @@
         },
         {
             "name": "phug/renderer",
-            "version": "0.4.7",
+            "version": "0.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phug-php/renderer.git",
-                "reference": "ae181549c677d8d47ffdac23cb5a93d2d59773f2"
+                "reference": "8f4ee5043850a07b9a778e5c746f3a497d0b23f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/renderer/zipball/ae181549c677d8d47ffdac23cb5a93d2d59773f2",
-                "reference": "ae181549c677d8d47ffdac23cb5a93d2d59773f2",
+                "url": "https://api.github.com/repos/phug-php/renderer/zipball/8f4ee5043850a07b9a778e5c746f3a497d0b23f9",
+                "reference": "8f4ee5043850a07b9a778e5c746f3a497d0b23f9",
                 "shasum": ""
             },
             "require": {
@@ -810,7 +811,7 @@
                 "template",
                 "views"
             ],
-            "time": "2019-01-21T07:47:31+00:00"
+            "time": "2019-02-08T09:45:01+00:00"
         },
         {
             "name": "phug/util",
@@ -1156,16 +1157,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494"
+                "reference": "fe5e94c604826c35a32fa832f35bd036b6799609"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/c79c051f5b3a46be09205c73b80b346e4153e494",
-                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/fe5e94c604826c35a32fa832f35bd036b6799609",
+                "reference": "fe5e94c604826c35a32fa832f35bd036b6799609",
                 "shasum": ""
             },
             "require": {
@@ -1177,7 +1178,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -1211,20 +1212,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21T13:07:52+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "9050816e2ca34a8e916c3a0ae8b9c2fccf68b631"
+                "reference": "ab50dcf166d5f577978419edd37aa2bb8eabce0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/9050816e2ca34a8e916c3a0ae8b9c2fccf68b631",
-                "reference": "9050816e2ca34a8e916c3a0ae8b9c2fccf68b631",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/ab50dcf166d5f577978419edd37aa2bb8eabce0c",
+                "reference": "ab50dcf166d5f577978419edd37aa2bb8eabce0c",
                 "shasum": ""
             },
             "require": {
@@ -1233,7 +1234,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -1266,20 +1267,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21T13:07:52+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.2.3",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "223bda89f9be41cf7033eeaf11bc61a280489c17"
+                "reference": "f974f448154928d2b5fb7c412bd23b81d063f34b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/223bda89f9be41cf7033eeaf11bc61a280489c17",
-                "reference": "223bda89f9be41cf7033eeaf11bc61a280489c17",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f974f448154928d2b5fb7c412bd23b81d063f34b",
+                "reference": "f974f448154928d2b5fb7c412bd23b81d063f34b",
                 "shasum": ""
             },
             "require": {
@@ -1308,7 +1309,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
             "autoload": {
@@ -1342,7 +1343,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2019-01-30T11:44:30+00:00"
+            "time": "2019-06-05T02:08:12+00:00"
         },
         {
             "name": "symfony/yaml",
