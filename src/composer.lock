@@ -1347,7 +1347,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.3.1",
+            "version": "v4.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -2872,8 +2872,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pug-php/pug": 0,
-        "symfony/yaml": 0
+        "pug-php/pug": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
