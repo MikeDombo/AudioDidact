@@ -75,3 +75,4 @@ Temporary Items
 *.phar
 src/composer.lock
 *.sqlite
+.phpunit.result.cache
