@@ -13,7 +13,7 @@ class MySQLDALTest extends TestCase {
 	/** @var \PDO $pdo */
 	private static $pdo;
 
-	public static function setUpBeforeClass(){
+	public static function setUpBeforeClass(): void {
 		$dbPass = getenv("AD_MYSQL_TEST_PASSWORD");
 		if($dbPass === false){
 			$dbPass = DB_PASSWORD;
@@ -30,7 +30,7 @@ class MySQLDALTest extends TestCase {
 		self::$pdo->exec("CREATE SCHEMA phpunit_audiodidact_test; USE phpunit_audiodidact_test");
 	}
 
-	public static function tearDownAfterClass(){
+	public static function tearDownAfterClass(): void {
 		self::$pdo->exec("DROP SCHEMA phpunit_audiodidact_test");
 	}
 

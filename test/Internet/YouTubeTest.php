@@ -52,71 +52,47 @@ class YouTubeTest extends TestCase{
 		$this->assertFalse($yt7->getVideo()->isIsVideo());
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage ID Inaccessible
-	 */
 	public function testBadID1(){
+	    $this->expectExceptionMessage("ID Inaccessible");
 		$yt1 = new YouTube("aaaaaaaaaaa" ,true);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage ID Inaccessible
-	 */
 	public function testBadID2(){
+        $this->expectExceptionMessage("ID Inaccessible");
 		$yt1 = new YouTube("aaaaaaa" ,true);
 		$yt1 = new YouTube("aaaaaaaaaaa" ,false);
 		$yt1 = new YouTube("aaaaaaa" ,false);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage ID Inaccessible
-	 */
 	public function testBadID3(){
+        $this->expectExceptionMessage("ID Inaccessible");
 		$yt1 = new YouTube("aaaaaaaaaaa" ,false);
 		$yt1 = new YouTube("aaaaaaa" ,false);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage ID Inaccessible
-	 */
 	public function testBadID4(){
+        $this->expectExceptionMessage("ID Inaccessible");
 		$yt1 = new YouTube("aaaaaaa" ,false);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage URL is a playlist. AudioDidact does not currently support playlists
-	 */
 	public function testPlaylist(){
+        $this->expectExceptionMessage("URL is a playlist. AudioDidact does not currently support playlists");
 		new YouTube("https://www.youtube.com/playlist?list=PL96C35uN7xGK_y459BdHCtGeftqs5_nff" ,false);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage URL is a channel
-	 */
 	public function testChannel1(){
+        $this->expectExceptionMessage("URL is a channel");
 		new YouTube("https://www.youtube.com/user/enyay" ,false);
 		new YouTube("https://www.youtube.com/c/ted" ,false);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage URL is a channel
-	 */
 	public function testChannel2(){
+        $this->expectExceptionMessage("URL is a channel");
 		new YouTube("https://www.youtube.com/channel/UCCBVCTuk6uJrN3iFV_3vurg" ,false);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage URL is a channel
-	 */
 	public function testChannel3(){
+        $this->expectExceptionMessage("URL is a channel");
 		new YouTube("https://www.youtube.com/c/ted" ,false);
 	}
 

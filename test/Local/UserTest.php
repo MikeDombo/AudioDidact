@@ -33,8 +33,8 @@ class UserTest extends TestCase{
 		$this->assertTrue($em == $gotEmail[0]);
 		$this->assertArrayHasKey("code", $em);
 		$this->assertArrayHasKey("expiration", $em);
-		$this->assertInternalType('string', $em["code"]);
-		$this->assertInternalType('int', $em["expiration"]);
+		$this->assertIsString($em["code"]);
+		$this->assertIsInt($em["expiration"]);
 		$this->assertTrue($u->verifyEmailVerificationCode($em["code"]));
 		$this->assertFalse($u->verifyEmailVerificationCode(""));
 
@@ -44,8 +44,8 @@ class UserTest extends TestCase{
 		$this->assertTrue($em == $gotEmail[0]);
 		$this->assertArrayHasKey("code", $em);
 		$this->assertArrayHasKey("expiration", $em);
-		$this->assertInternalType('string', $em["code"]);
-		$this->assertInternalType('int', $em["expiration"]);
+		$this->assertIsString($em["code"]);
+		$this->assertIsInt($em["expiration"]);
 		$this->assertTrue($u->verifyPasswordRecoveryCode($em["code"]));
 		$this->assertFalse($u->verifyPasswordRecoveryCode(""));
 	}

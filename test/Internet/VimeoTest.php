@@ -31,32 +31,23 @@ class VimeoTest extends TestCase{
 		$this->assertTrue($v2->getVideo()->isIsVideo());
 
 		$this->assertEquals("LAMAR+NIK", $v1->getVideo()->getAuthor());
-		$this->assertContains("lamarnik", $v1->getVideo()->getDesc());
-		$this->assertEquals("THE SHINS “HALF A MILLION” [DIR. LAMAR+NIK]", $v1->getVideo()->getTitle());
+		$this->assertStringContainsString("lamarnik", $v1->getVideo()->getDesc());
+		$this->assertEquals("THE SHINS | HALF A MILLION", $v1->getVideo()->getTitle());
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Could not parse that vimeo URL
-	 */
 	public function testBadURL(){
-		$download = new Vimeo("https://vimeo.com/", false);
+	    $this->expectExceptionMessage("Could not parse that vimeo URL");
+		new Vimeo("https://vimeo.com/", false);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Could not parse that vimeo URL
-	 */
 	public function testBadID(){
-		$download = new Vimeo("https://vimeo.com/12sd5gd", false);
+        $this->expectExceptionMessage("Could not parse that vimeo URL");
+		new Vimeo("https://vimeo.com/12sd5gd", false);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Private video or some other parse error
-	 */
 	public function testPrivateVideo(){
-		$download = new Vimeo("https://vimeo.com/228614943", false);
+        $this->expectExceptionMessage("Private video or some other parse error");
+		new Vimeo("https://vimeo.com/228614943", false);
 	}
 
 	public function testDownload(){

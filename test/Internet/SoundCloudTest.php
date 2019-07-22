@@ -29,20 +29,14 @@ class SoundCloudTest extends TestCase {
 		$this->assertFalse($sc->getVideo()->isIsVideo());
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Invalid SoundCloud URL Entered.
-	 */
 	public function testNonSoundCloudURL(){
-		$sc = new SoundCloud("http://youtube.com/watch?v=12345678911", false);
+        $this->expectExceptionMessage("Invalid SoundCloud URL Entered.");
+		new SoundCloud("http://youtube.com/watch?v=12345678911", false);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Invalid SoundCloud URL Entered.
-	 */
 	public function testBadURL(){
-		$sc = new SoundCloud("http://soundcloud.com/ravishouse/", false);
+        $this->expectExceptionMessage("Invalid SoundCloud URL Entered.");
+		new SoundCloud("http://soundcloud.com/ravishouse/", false);
 	}
 
 	public function testDownload(){
