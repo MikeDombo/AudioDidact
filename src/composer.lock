@@ -405,16 +405,16 @@
         },
         {
             "name": "phug/formatter",
-            "version": "0.5.48",
+            "version": "0.5.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phug-php/formatter.git",
-                "reference": "3f9286a169a0d45b8b8acc1fae64e880ebdb567e"
+                "reference": "b73c2b0e1692e4244d64f8ed359a8b675970b44a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/formatter/zipball/3f9286a169a0d45b8b8acc1fae64e880ebdb567e",
-                "reference": "3f9286a169a0d45b8b8acc1fae64e880ebdb567e",
+                "url": "https://api.github.com/repos/phug-php/formatter/zipball/b73c2b0e1692e4244d64f8ed359a8b675970b44a",
+                "reference": "b73c2b0e1692e4244d64f8ed359a8b675970b44a",
                 "shasum": ""
             },
             "require": {
@@ -438,13 +438,13 @@
             ],
             "authors": [
                 {
-                    "name": "Torben Koehn",
-                    "email": "torben@talesoft.codes"
-                },
-                {
                     "name": "KyleKatarn",
                     "email": "jade-php@selfbuild.fr",
                     "homepage": "http://github.com/kylekatarnls"
+                },
+                {
+                    "name": "Torben Koehn",
+                    "email": "torben@talesoft.codes"
                 }
             ],
             "description": "Pug (ex-Jade) formatter for PHP, HTML template engine structured by indentation",
@@ -463,7 +463,7 @@
                 "template",
                 "views"
             ],
-            "time": "2019-01-26T23:41:41+00:00"
+            "time": "2019-07-29T11:01:49+00:00"
         },
         {
             "name": "phug/js-transformer-filter",
