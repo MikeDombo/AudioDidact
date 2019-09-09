@@ -751,16 +751,16 @@
         },
         {
             "name": "phug/renderer",
-            "version": "0.4.8",
+            "version": "0.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phug-php/renderer.git",
-                "reference": "8f4ee5043850a07b9a778e5c746f3a497d0b23f9"
+                "reference": "a5b336f01655ef941d20b1b8f329aa3cc14afd7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phug-php/renderer/zipball/8f4ee5043850a07b9a778e5c746f3a497d0b23f9",
-                "reference": "8f4ee5043850a07b9a778e5c746f3a497d0b23f9",
+                "url": "https://api.github.com/repos/phug-php/renderer/zipball/a5b336f01655ef941d20b1b8f329aa3cc14afd7d",
+                "reference": "a5b336f01655ef941d20b1b8f329aa3cc14afd7d",
                 "shasum": ""
             },
             "require": {
@@ -772,6 +772,7 @@
             "require-dev": {
                 "cebe/markdown": "^1.1",
                 "js-phpize/js-phpize-phug": "^1.1.2",
+                "kylekatarnls/multi-tester": "^1.1",
                 "nodejs-php-fallback/coffeescript": "^1.0",
                 "nodejs-php-fallback/less": "^1.0",
                 "nodejs-php-fallback/stylus": "^1.0",
@@ -811,7 +812,7 @@
                 "template",
                 "views"
             ],
-            "time": "2019-02-08T09:45:01+00:00"
+            "time": "2019-09-08T10:49:49+00:00"
         },
         {
             "name": "phug/util",
