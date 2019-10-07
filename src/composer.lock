@@ -979,113 +979,113 @@
             "authors": [
                 {
                     "name": "Janez Troha",
-                    "role": "Maintainer",
                     "email": "janez.troha@gmail.com",
-                    "homepage": "http://flavors.me/dz0ny"
+                    "homepage": "http://flavors.me/dz0ny",
+                    "role": "Maintainer"
                 },
                 {
                     "name": "Luke GB",
-                    "role": "Maintainer",
                     "email": "git@lukegb.com",
-                    "homepage": "http://twitter.com/lukegb"
+                    "homepage": "http://twitter.com/lukegb",
+                    "role": "Maintainer"
                 },
                 {
                     "name": "Ronan Tessier",
-                    "role": "Maintainer",
                     "email": "ronan.tessier@vaconsulting.lu",
-                    "homepage": "http://github.com/ronan-gloo"
+                    "homepage": "http://github.com/ronan-gloo",
+                    "role": "Maintainer"
                 },
                 {
                     "name": "volter9",
-                    "role": "Developer",
-                    "homepage": "https://github.com/volter9"
+                    "homepage": "https://github.com/volter9",
+                    "role": "Developer"
                 },
                 {
                     "name": "sisoftrg",
-                    "role": "Developer",
-                    "homepage": "https://github.com/sisoftrg"
+                    "homepage": "https://github.com/sisoftrg",
+                    "role": "Developer"
                 },
                 {
                     "name": "hackaugusto",
-                    "role": "Developer",
-                    "homepage": "https://github.com/hackaugusto"
+                    "homepage": "https://github.com/hackaugusto",
+                    "role": "Developer"
                 },
                 {
                     "name": "peniar",
-                    "role": "Developer",
-                    "homepage": "https://github.com/peniar"
+                    "homepage": "https://github.com/peniar",
+                    "role": "Developer"
                 },
                 {
                     "name": "NSinopoli",
-                    "role": "Developer",
-                    "homepage": "https://github.com/NSinopoli"
+                    "homepage": "https://github.com/NSinopoli",
+                    "role": "Developer"
                 },
                 {
                     "name": "DJRanger",
-                    "role": "Contributor",
-                    "homepage": "https://github.com/DJRanger"
+                    "homepage": "https://github.com/DJRanger",
+                    "role": "Contributor"
                 },
                 {
                     "name": "fcrosfly",
-                    "role": "Contributor",
-                    "homepage": "https://github.com/fcrosfly"
+                    "homepage": "https://github.com/fcrosfly",
+                    "role": "Contributor"
                 },
                 {
                     "name": "Soviut",
-                    "role": "Contributor",
-                    "homepage": "http://github.com/Soviut"
+                    "homepage": "http://github.com/Soviut",
+                    "role": "Contributor"
                 },
                 {
                     "name": "just-paja",
-                    "role": "Contributor",
-                    "homepage": "http://github.com/just-paja"
+                    "homepage": "http://github.com/just-paja",
+                    "role": "Contributor"
                 },
                 {
                     "name": "cjonasw",
-                    "role": "Contributor",
-                    "homepage": "http://github.com/cjonasw"
+                    "homepage": "http://github.com/cjonasw",
+                    "role": "Contributor"
                 },
                 {
                     "name": "s4msung",
-                    "role": "Contributor",
-                    "homepage": "http://github.com/s4msung"
+                    "homepage": "http://github.com/s4msung",
+                    "role": "Contributor"
                 },
                 {
                     "name": "sadjow",
-                    "role": "Contributor",
-                    "homepage": "http://github.com/sadjow"
+                    "homepage": "http://github.com/sadjow",
+                    "role": "Contributor"
                 },
                 {
                     "name": "hkjels",
-                    "role": "Contributor",
-                    "homepage": "http://github.com/hkjels"
+                    "homepage": "http://github.com/hkjels",
+                    "role": "Contributor"
                 },
                 {
                     "name": "krizalys",
-                    "role": "Contributor",
-                    "homepage": "http://github.com/krizalys"
+                    "homepage": "http://github.com/krizalys",
+                    "role": "Contributor"
                 },
                 {
                     "name": "sszigeti",
-                    "role": "Contributor",
-                    "homepage": "http://github.com/sszigeti"
+                    "homepage": "http://github.com/sszigeti",
+                    "role": "Contributor"
                 },
                 {
                     "name": "Konstantin Kudryashov",
-                    "role": "Developer",
                     "email": "konstantin.kudryashov@knplabs.com",
-                    "homepage": "http://about.me/everzet"
+                    "homepage": "http://about.me/everzet",
+                    "role": "Developer"
                 },
                 {
                     "name": "Marco \"Debo\" De Bortoli",
-                    "role": "contributor",
-                    "homepage": "https://github.com/debo"
+                    "homepage": "https://github.com/debo",
+                    "role": "contributor"
                 },
                 {
                     "name": "kylekatarnls",
-                    "role": "Developer",
                     "email": "pug@selfbuild.fr",
-                    "homepage": "http://github.com/kylekatarnls"
+                    "homepage": "http://github.com/kylekatarnls",
+                    "role": "Developer"
                 }
             ],
             "description": "HAML-like template engine for PHP",
@@ -1348,16 +1348,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.3.4",
+            "version": "v4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "5a0b7c32dc3ec56fd4abae8a4a71b0cf05013686"
+                "reference": "41e16350a2a1c7383c4735aa2f9fce74cf3d1178"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/5a0b7c32dc3ec56fd4abae8a4a71b0cf05013686",
-                "reference": "5a0b7c32dc3ec56fd4abae8a4a71b0cf05013686",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/41e16350a2a1c7383c4735aa2f9fce74cf3d1178",
+                "reference": "41e16350a2a1c7383c4735aa2f9fce74cf3d1178",
                 "shasum": ""
             },
             "require": {
@@ -1403,7 +1403,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2019-08-20T14:27:59+00:00"
+            "time": "2019-09-11T15:41:19+00:00"
         }
     ],
     "packages-dev": [
@@ -2870,8 +2870,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pug-php/pug": 0,
-        "symfony/yaml": 0
+        "pug-php/pug": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
