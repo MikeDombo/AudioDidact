@@ -595,7 +595,7 @@ class MySQLDAL extends DAL {
 		if($c["Key"] == "PRI"){
 			$columnText .= " PRIMARY KEY";
 		}
-		if($c["Extra"] != ""){
+		if($c["Extra"] == "auto_increment"){
 			$columnText .= " " . $c["Extra"];
 		}
 
