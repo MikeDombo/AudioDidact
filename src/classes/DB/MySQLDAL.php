@@ -721,6 +721,8 @@ class MySQLDAL extends DAL {
 	 * @return bool
 	 */
 	private function verifySchema($correct, $existing){
+	    unset($correct["Extra"]);
+	    unset($existing["Extra"]);
 		sort($correct);
 		sort($existing);
 
